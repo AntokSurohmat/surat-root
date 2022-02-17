@@ -7,12 +7,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
+                <h1 class="m-0"><?= $title ?></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
+                    <li class="breadcrumb-item"><a href="<?= site_url() ?>">Admin</a></li>
+                    <li class="breadcrumb-item active"><?= $title?></li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -90,9 +90,9 @@
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
+            <section class="col-lg-12 connectedSortable">
                 <!-- Custom tabs (Charts with tabs)-->
-                <div class="card">
+                <div class="card" style="min-height: 60vh;">
                     <div class="card-header">
                         <h3 class="card-title">Title</h3>
                         <div class="card-tools">
@@ -104,8 +104,8 @@
                             </button>
                         </div>
                     </div>
-                    <div class="card-body">
-                        Start creating your amazing application!
+                    <div class="card-body text-center">
+                      <h2 style="margin-top: 7%;">Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
                     </div>
 
                     <div class="card-footer">
@@ -117,35 +117,6 @@
 
             </section>
             <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
-
-                <!-- Map card -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Title</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        Start creating your amazing application!
-                    </div>
-
-                    <div class="card-footer">
-                        Footer
-                    </div>
-
-                </div>
-                <!-- /.card -->
-
-            </section>
-            <!-- right col -->
         </div>
         <!-- /.row (main row) -->
     </div><!-- /.container-fluid -->

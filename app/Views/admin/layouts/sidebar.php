@@ -14,15 +14,15 @@
     with font-awesome or any other icon font library -->
             <li class="nav-header">NAVIGATIONS</li>
             <li class="nav-item">
-                <a href="pages/widgets.html" class="nav-link">
+                <a href="<?= site_url() ?>admin" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
                     </p>
                 </a>
             </li>
-            <li class="nav-item menu-open">
-                <a href="#" class="nav-link active">
+            <li class="nav-item <?= $parent=='2' ? 'menu-open' : ''; ?>">
+                <a href="#" class="nav-link <?= $parent=='2' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-book"></i>
                     <p>
                         Data Master
@@ -31,7 +31,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="./index.html" class="nav-link active">
+                        <a href="<?= site_url()?>admin/pegawai" class="nav-link <?= $pmenu=='2.1' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Data Pegawai</p>
                         </a>

@@ -31,8 +31,12 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('/admin', 'Admin\AdminController::index');
+$routes->add('/', 'Home::index');
+$routes->add('login', 'Auth\LoginController::index');
+$routes->group('admin', function ($routes) {
+    $routes->add('', 'Admin\DashboardController::index');
+    $routes->add('pegawai', 'Admin\PegawaiController::index');
+});
 
 /*
  * --------------------------------------------------------------------
