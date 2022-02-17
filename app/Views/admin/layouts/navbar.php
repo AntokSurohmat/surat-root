@@ -3,6 +3,12 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        <li>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?= site_url() ?>">Home</a></li>
+                <li class="breadcrumb-item active"><?= $title ?></li>
+            </ol>
+        </li>
     </ul>
 
     <!-- Right navbar links -->

@@ -6,11 +6,8 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-        <div class="col-sm-1">
-            <button class="btn btn-info">Tambah</button>
-            </div><!-- /.col -->
-            <div class="col-sm-11">
-                <h1 style="padding-left: 26vw;">Data <?= $title ?></h1>
+            <div class="col-sm-12">
+                <h1 class="m-0"><?= $title ?></h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -24,13 +21,18 @@
         <div class="row">
             <div class="col-12">
 
-                <div class="card">
-
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h3 class="card-title pt-1">DataTable with minimal features & hover style</h3>
+                        <a class="btn btn-sm btn-outline-info float-right" href="#">
+                            <i class="fas fa-plus"></i> Add Data
+                        </a>
+                    </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachPgw" id="seachPgw" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachRkning" id="seachRkning" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -38,7 +40,7 @@
                             </div>
                         </div>
 
-                        <table id="pgw_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="rkning_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>NIP</th>
@@ -83,6 +85,7 @@
 
             </div>
         </div>
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -90,7 +93,7 @@
 <script type="text/javascript">
     window.onload = function() {
         /*-- DataTable To Load Data Mahasiswa --*/
-        var pgw = $('#pgw_data').DataTable({
+        var rkning = $('#rkning_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -98,8 +101,8 @@
             "responsive": true
 
         });
-        $('#seachPgw').keyup(function() {
-            pgw.search($(this).val()).draw();
+        $('#seachRkning').keyup(function() {
+            rkning.search($(this).val()).draw();
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
 

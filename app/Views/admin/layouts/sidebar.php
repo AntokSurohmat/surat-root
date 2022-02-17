@@ -37,37 +37,37 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index2.html" class="nav-link">
+                        <a href="<?= site_url()?>admin/pangol" class="nav-link <?= $pmenu=='2.2' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Pangkat & Golongan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index3.html" class="nav-link">
+                        <a href="<?= site_url()?>admin/jabatan" class="nav-link <?= $pmenu=='2.3' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Jabatan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index3.html" class="nav-link">
+                    <a href="<?= site_url()?>admin/wilayah" class="nav-link <?= $pmenu=='2.4' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Wilayah</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index3.html" class="nav-link">
+                    <a href="<?= site_url()?>admin/instansi" class="nav-link <?= $pmenu=='2.5' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Instansi</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index3.html" class="nav-link">
+                    <a href="<?= site_url()?>admin/sbuh" class="nav-link <?= $pmenu=='2.6' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>SBUH</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./index3.html" class="nav-link">
+                    <a href="<?= site_url()?>admin/rekening" class="nav-link <?= $pmenu=='2.7' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kode Rekening</p>
                         </a>

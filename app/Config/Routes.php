@@ -36,6 +36,12 @@ $routes->add('login', 'Auth\LoginController::index');
 $routes->group('admin', function ($routes) {
     $routes->add('', 'Admin\DashboardController::index');
     $routes->add('pegawai', 'Admin\PegawaiController::index');
+    $routes->add('pangol', 'Admin\PangolController::index');
+    $routes->add('jabatan', 'Admin\JabatanController::index');
+    $routes->add('wilayah', 'Admin\WilayahController::index');
+    $routes->add('instansi', 'Admin\InstansiController::index');
+    $routes->add('sbuh', 'Admin\SbuhController::index');
+    $routes->add('rekening', 'Admin\RekeningController::index');
 });
 
 /*
