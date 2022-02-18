@@ -34,14 +34,18 @@ $routes->setAutoRoute(true);
 $routes->add('/', 'Home::index');
 $routes->add('login', 'Auth\LoginController::index');
 $routes->group('admin', function ($routes) {
-    $routes->add('', 'Admin\DashboardController::index');
-    $routes->add('pegawai', 'Admin\PegawaiController::index');
-    $routes->add('pangol', 'Admin\PangolController::index');
-    $routes->add('jabatan', 'Admin\JabatanController::index');
-    $routes->add('wilayah', 'Admin\WilayahController::index');
-    $routes->add('instansi', 'Admin\InstansiController::index');
-    $routes->add('sbuh', 'Admin\SbuhController::index');
-    $routes->add('rekening', 'Admin\RekeningController::index');
+    $routes->add('', 'Admin\DashboardController::index', ['as' => 'admin.index']);
+    $routes->add('pegawai', 'Admin\PegawaiController::index', ['as' => 'admin.pegawai']);
+    $routes->add('pangol', 'Admin\PangolController::index', ['as' => 'admin.pangol']);
+    $routes->add('jabatan', 'Admin\JabatanController::index', ['as' => 'admin.jabatan']);
+    $routes->add('wilayah', 'Admin\WilayahController::index', ['as' => 'admin.wilayah']);
+    $routes->add('instansi', 'Admin\InstansiController::index', ['as' => 'admin.instansi']);
+    $routes->add('sbuh', 'Admin\SbuhController::index', ['as' => 'admin.sbuh']);
+    $routes->add('rekening', 'Admin\RekeningController::index', ['as' => 'admin.rekening']);
+    $routes->add('spt', 'Admin\SptController::index', ['as' => 'admin.spt']);
+    $routes->add('spd', 'Admin\SpdController::index', ['as' => 'admin.spd']);
+    $routes->add('lapspt', 'Admin\LapsptController::index', ['as' => 'admin.lapspt']);
+    $routes->add('lapspd', 'Admin\LapspdController::index', ['as' => 'admin.lapspd']);
 });
 
 /*

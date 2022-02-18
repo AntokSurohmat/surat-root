@@ -9,10 +9,10 @@ class RekeningController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Kode Rekening',
+            'title' => 'KODE REKENING',
             'parent' => 2,
-            'pmenu' => 2.4
+            'pmenu' => 2.7
         );
-        return view('admin/rekening/rekening', $data);
+        return view('admin/rekening/v-rekening', $data);
     }
 }

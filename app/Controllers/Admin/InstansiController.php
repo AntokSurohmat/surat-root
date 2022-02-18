@@ -9,10 +9,10 @@ class InstansiController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Instansi',
+            'title' => 'INSTANSI',
             'parent' => 2,
             'pmenu' => 2.5
         );
-        return view('admin/instansi/instansi', $data);
+        return view('admin/instansi/v-instansi', $data);
     }
 }

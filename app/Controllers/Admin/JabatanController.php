@@ -9,10 +9,10 @@ class JabatanController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Jabatan',
+            'title' => 'JABATAN',
             'parent' => 2,
             'pmenu' => 2.3
         );
-        return view('admin/pangol/pangol', $data);
+        return view('admin/jabatan/v-jabatan', $data);
     }
 }

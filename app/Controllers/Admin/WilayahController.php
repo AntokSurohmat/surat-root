@@ -9,10 +9,10 @@ class WilayahController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Wilayah',
+            'title' => 'WILAYAH',
             'parent' => 2,
             'pmenu' => 2.4
         );
-        return view('admin/wilayah/wilayah', $data);
+        return view('admin/wilayah/v-wilayah', $data);
     }
 }

@@ -9,10 +9,10 @@ class PangolController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Pangkat & Golongan',
+            'title' => 'PANGKAT & GOLONGAN',
             'parent' => 2,
             'pmenu' => 2.2
         );
-        return view('admin/pangol/pangol', $data);
+        return view('admin/pangol/v-pangol', $data);
     }
 }

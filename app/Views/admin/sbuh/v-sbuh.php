@@ -6,11 +6,8 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-        <div class="col-sm-1">
-            <button class="btn btn-info">Tambah</button>
-            </div><!-- /.col -->
-            <div class="col-sm-11">
-                <h1 style="padding-left: 26vw;">Data <?= $title ?></h1>
+            <div class="col-sm-12">
+                <h1 class="m-0"><?= $title ?></h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -24,13 +21,18 @@
         <div class="row">
             <div class="col-12">
 
-                <div class="card">
-
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                        <a class="btn btn-sm btn-outline-info float-right" href="#" data-toggle="tooltip" data-placement="left" title="Tambah Data Baru">
+                            Add Data <i class="fas fa-plus"></i> 
+                        </a>
+                    </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachPgw" id="seachPgw" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachSbuh" id="seachSbuh" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -38,19 +40,17 @@
                             </div>
                         </div>
 
-                        <table id="pgw_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="sbuh_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>NIP</th>
-                                    <th>Nama</th>
+                                    <th>Kode</th>
+                                    <th>Provinsi</th>
+                                    <th>Kota/Kabupaten</th>
+                                    <th>Kecamatam</th>
+                                    <th>Jenis Wilayah</th>
+                                    <th>Zonasi</th>
                                     <th>Pangkat</th>
-                                    <th>jabatan</th>
-                                    <th>Tanggal Lahir</th>
-                                    <th>Foto</th>
-                                    <th>Pelaksana Teknik Kegiatan</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Level Akses</th>
+                                    <th>Uang Harian</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -66,12 +66,10 @@
                                     <td>X</td>
                                     <td>X</td>
                                     <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
                                     <td>
-                                        <a style="margin-right:10px" href="#" title="Detail"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:10px" href="#" title="Edit"><i class="fa-solid fa-user-pen text-warning"></i></a>
-                                        <a style="margin-right:10px" href="#" id="" title="Delete"><i class="fas fa-trash text-danger"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -83,14 +81,17 @@
 
             </div>
         </div>
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
 
+<?= $this->endSection() ?>
+<?= $this->section('scripts') ?>
 <script type="text/javascript">
-    window.onload = function() {
-        /*-- DataTable To Load Data Mahasiswa --*/
-        var pgw = $('#pgw_data').DataTable({
+    $(function() {
+        /*-- DataTable To Load Data SBUH --*/
+        var sbuh = $('#sbuh_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -98,12 +99,10 @@
             "responsive": true
 
         });
-        $('#seachPgw').keyup(function() {
-            pgw.search($(this).val()).draw();
+        $('#seachSbuh').keyup(function() {
+            sbuh.search($(this).val()).draw();
         });
-        /*-- /. DataTable To Load Data Mahasiswa --*/
-
-    }
+        /*-- /. DataTable To Load Data SBUH --*/
+    })
 </script>
-
 <?= $this->endSection() ?>

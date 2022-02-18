@@ -5,8 +5,8 @@
         </li>
         <li>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= site_url() ?>">Home</a></li>
-                <li class="breadcrumb-item active"><?= $title ?></li>
+                <li class="breadcrumb-item"><a href="<?= route_to('admin.index') ?>">Home</a></li>
+                <li class="breadcrumb-item active"><?= ucwords(strtolower($title)) ?></li>
             </ol>
         </li>
     </ul>
@@ -44,6 +44,11 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                 <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link" onclick="logout()">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
             </a>
         </li>
     </ul>

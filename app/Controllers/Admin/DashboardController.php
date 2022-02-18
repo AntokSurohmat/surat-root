@@ -9,7 +9,7 @@ class DashboardController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Dashboard',
+            'title' => 'DASHBOARD',
             'parent' => 1,
             'pmenu' => 1.1
         );

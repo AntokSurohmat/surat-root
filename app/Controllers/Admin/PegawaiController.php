@@ -9,10 +9,10 @@ class PegawaiController extends BaseController
     public function index()
     {
         $data = array(
-            'title' => 'Pegawai',
+            'title' => 'PEGAWAI',
             'parent' => 2,
             'pmenu' => 2.1
         );
-        return view('admin/pegawai/pegawai', $data);
+        return view('admin/pegawai/v-pegawai', $data);
     }
 }

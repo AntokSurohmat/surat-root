@@ -23,16 +23,16 @@
 
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title pt-1">DataTable with minimal features & hover style</h3>
-                        <a class="btn btn-sm btn-outline-info float-right" href="#">
-                            <i class="fas fa-plus"></i> Add Data
+                        <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                        <a class="btn btn-sm btn-outline-info float-right" href="#" data-toggle="tooltip" data-placement="left" title="Tambah Data Baru">
+                            Add Data <i class="fas fa-plus"></i> 
                         </a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachJbt" id="seachJbt" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachPgw" id="seachPgw" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <table id="jbt_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="pgw_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>NIP</th>
@@ -71,9 +71,9 @@
                                     <td>X</td>
                                     <td>X</td>
                                     <td>
-                                        <a style="margin-right:10px" href="#" title="Detail"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:10px" href="#" title="Edit"><i class="fa-solid fa-user-pen text-warning"></i></a>
-                                        <a style="margin-right:10px" href="#" id="" title="Delete"><i class="fas fa-trash text-danger"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -85,15 +85,16 @@
 
             </div>
         </div>
-
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
 
+<?= $this->endSection() ?>
+<?= $this->section('scripts') ?>
 <script type="text/javascript">
-    window.onload = function() {
-        /*-- DataTable To Load Data Mahasiswa --*/
-        var jbt = $('#jbt_data').DataTable({
+    $(function() {
+        /*-- DataTable To Load Data Pegawai --*/
+        var pgw = $('#pgw_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -101,12 +102,11 @@
             "responsive": true
 
         });
-        $('#seachJbt').keyup(function() {
-            jbt.search($(this).val()).draw();
+        $('#seachPgw').keyup(function() {
+            pgw.search($(this).val()).draw();
         });
-        /*-- /. DataTable To Load Data Mahasiswa --*/
+        /*-- /. DataTable To Load Data Pegawai --*/
 
-    }
+    })
 </script>
-
 <?= $this->endSection() ?>
