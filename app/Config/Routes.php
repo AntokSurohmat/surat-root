@@ -47,6 +47,16 @@ $routes->group('admin', function ($routes) {
     $routes->add('lapspt', 'Admin\LapsptController::index', ['as' => 'admin.lapspt']);
     $routes->add('lapspd', 'Admin\LapspdController::index', ['as' => 'admin.lapspd']);
 });
+$routes->group('pegawai', function ($routes) {
+    $routes->add('', 'Pegawai\DashboardController::index', ['as' => 'pegawai.index']);
+    $routes->add('spt', 'Pegawai\SptController::index', ['as' => 'pegawai.spt']);
+    $routes->add('spd', 'Pegawai\SpdController::index', ['as' => 'pegawai.spd']);
+});
+$routes->group('bendahara', function ($routes) {
+    $routes->add('', 'Bendahara\DashboardController::index', ['as' => 'bendahara.index']);
+    $routes->add('kuitansi', 'Bendahara\KuitansiController::index', ['as' => 'bendahara.kuitansi']);
+    $routes->add('rincian', 'Bendahara\RincianController::index', ['as' => 'bendahara.rincian']);
+});
 
 /*
  * --------------------------------------------------------------------

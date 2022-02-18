@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layouts/default') ?>
+<?= $this->extend('pegawai/layouts/default') ?>
 
 <?= $this->section('content') ?>
 

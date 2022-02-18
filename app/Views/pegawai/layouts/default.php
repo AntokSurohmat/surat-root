@@ -46,13 +46,13 @@
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <?= $this->include('admin/layouts/navbar') ?>
+            <?= $this->include('pegawai/layouts/navbar') ?>
         </nav>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <?= $this->include('admin/layouts/sidebar') ?>
+            <?= $this->include('pegawai/layouts/sidebar') ?>
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
@@ -75,14 +75,14 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> Close&ensp;<i class="fas fa-times"></i></button>
-                        <a class="btn btn-sm btn-danger" tabindex="1" href="#">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
+                        <a class="btn btn-sm btn-danger" href="#">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
                     </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
         </div>
         <footer class="main-footer">
-            <?= $this->include('admin/layouts/footer') ?>
+            <?= $this->include('pegawai/layouts/footer') ?>
         </footer>
 
         <!-- Control Sidebar -->

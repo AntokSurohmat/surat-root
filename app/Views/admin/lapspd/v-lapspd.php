@@ -94,8 +94,8 @@
                         </div>
 
                         <div class="card-footer justify-content-between">
-                            <button type="submit" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="top" title="Reset Form">Reset</button>
-                            <button type="submit" class="btn btn-outline-info" data-toggle="tooltip" data-placement="top" title="Cari Data Berdasarkan Kategori Yang Dimasukkan">Cari</button>
+                            <button type="submit" class="btn btn-outline-danger" data-rel="tooltip" data-placement="top" title="Reset Form">Reset</button>
+                            <button type="submit" class="btn btn-outline-info" tabindex="1" data-rel="tooltip" data-placement="top" title="Cari Data Berdasarkan Kategori Yang Dimasukkan">Cari</button>
                         </div>
 
                     </form>
@@ -145,9 +145,9 @@
                                     <td>X</td>
                                     <td>X</td>
                                     <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-eye text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Print Data ]"><i class="fas fa-print text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Print Data ]"><i class="fas fa-download text-danger"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-eye text-info"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Print Data ]"><i class="fas fa-print text-warning"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Print Data ]"><i class="fas fa-download text-danger"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -176,13 +176,13 @@
                                         <div class="form-group row">
                                             <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="cetakSeSurat" data-toggle="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button>
+                                                <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="CetakReSurat" data-toggle="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button>
+                                                <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -190,13 +190,13 @@
                                         <div class="form-group row">
                                             <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="downSeSurat" data-toggle="tooltip" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></button>
+                                                <button class="btn btn-default" id="downSeSurat" data-rel="tooltip" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></button>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="downReSurat" data-toggle="tooltip" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></button>
+                                                <button class="btn btn-default" id="downReSurat" data-rel="tooltip" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></button>
                                             </div>
                                         </div>
                                     </div>

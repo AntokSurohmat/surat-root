@@ -24,7 +24,7 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                     <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" href="javascript:void(0)" data-toggle="tooltip" data-placement="left" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="javascript:void(0)" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
                             Add Data  <i class="fas fa-plus"></i> 
                         </a>
                     </div>
@@ -71,9 +71,9 @@
                                     <td>X</td>
                                     <td>X</td>
                                     <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-toggle="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
+                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
                                     <td>X</td>      
                                     <td>X</td>      

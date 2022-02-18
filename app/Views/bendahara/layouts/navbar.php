@@ -42,7 +42,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a role="button" class="nav-link" data-widget="fullscreen" href="#" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Zoom">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Zoom">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
         </li>
