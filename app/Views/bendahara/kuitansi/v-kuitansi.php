@@ -32,7 +32,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachInst" id="seachInst" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachKuit" id="seachKuit" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <table id="spd_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr class="text-center">
                                     <th>No SPD</th>
@@ -101,7 +101,7 @@
 <script type="text/javascript">
     $(function() {
         /*-- DataTable To Load Data Mahasiswa --*/
-        var spd = $('#spd_data').DataTable({
+        var kui = $('#kui_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -109,8 +109,8 @@
             "responsive": true
 
         });
-        $('#seachInst').keyup(function() {
-            spd.search($(this).val()).draw();
+        $('#seachKuit').keyup(function() {
+            kui.search($(this).val()).draw();
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
     })

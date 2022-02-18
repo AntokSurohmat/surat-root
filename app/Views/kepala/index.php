@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layouts/default') ?>
+<?= $this->extend('kepala/layouts/default') ?>
 
 <?= $this->section('content') ?>
 
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="card-body text-center">
-                      <h2 style="margin-top: 7%;"><?= $isi->blog_id?> Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
+                      <h2 style="margin-top: 7%;">Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
                     </div>
 
 

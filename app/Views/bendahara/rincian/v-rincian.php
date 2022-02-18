@@ -32,7 +32,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachSPT" id="seachSPT" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachRcn" id="seachRcn" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <table id="spt_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="rcn_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr class="text-center">
                                     <th>No SPT</th>
@@ -97,7 +97,7 @@
 <script type="text/javascript">
     $(function() {
         /*-- DataTable To Load Data Mahasiswa --*/
-        var spt = $('#spt_data').DataTable({
+        var rcn = $('#rcn_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -105,8 +105,8 @@
             "responsive": true
 
         });
-        $('#seachSPT').keyup(function() {
-            spt.search($(this).val()).draw();
+        $('#seachRcn').keyup(function() {
+            rcn.search($(this).val()).draw();
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
     })

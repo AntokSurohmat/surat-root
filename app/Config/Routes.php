@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 $routes->add('/', 'Home::index');
 $routes->add('login', 'Auth\LoginController::index');
 $routes->group('admin', function ($routes) {
-    $routes->add('', 'Admin\DashboardController::index', ['as' => 'admin.index']);
+    $routes->get('', 'Admin\DashboardController::index', ['as' => 'admin.index']);
     $routes->add('pegawai', 'Admin\PegawaiController::index', ['as' => 'admin.pegawai']);
     $routes->add('pangol', 'Admin\PangolController::index', ['as' => 'admin.pangol']);
     $routes->add('jabatan', 'Admin\JabatanController::index', ['as' => 'admin.jabatan']);
@@ -56,6 +56,10 @@ $routes->group('bendahara', function ($routes) {
     $routes->add('', 'Bendahara\DashboardController::index', ['as' => 'bendahara.index']);
     $routes->add('kuitansi', 'Bendahara\KuitansiController::index', ['as' => 'bendahara.kuitansi']);
     $routes->add('rincian', 'Bendahara\RincianController::index', ['as' => 'bendahara.rincian']);
+});
+$routes->group('kepala', function ($routes) {
+    $routes->add('', 'Kepala\DashboardController::index', ['as' => 'kepala.index']);
+    $routes->add('verifikasi', 'Kepala\VerifikasiController::index', ['as' => 'kepala.verifikasi']);
 });
 
 /*

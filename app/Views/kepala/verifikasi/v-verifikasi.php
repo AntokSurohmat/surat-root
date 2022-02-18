@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layouts/default') ?>
+<?= $this->extend('kepala/layouts/default') ?>
 
 <?= $this->section('content') ?>
 
@@ -18,21 +18,21 @@
 <section class="content">
     <div class="container-fluid">
 
-        <div class="row">
+    <div class="row">
             <div class="col-12">
 
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
-                            Add Data <i class="fas fa-plus"></i>
+                    <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                        <a class="btn btn-sm btn-outline-info float-right" href="javascript:void(0)" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
+                            Add Data  <i class="fas fa-plus"></i> 
                         </a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachPgw" id="seachPgw" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachVrf" id="seachVrf" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -40,15 +40,23 @@
                             </div>
                         </div>
 
-                        <table id="pgw_data" class="table table-bordered table-hover display wrap" style="width:100%">
+                        <table id="vrf_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
-                                <tr>
-                                    <th>NIP</th>
-                                    <th>Nama</th>
-                                    <th>Pangkat</th>
-                                    <th>jabatan</th>
-                                    <th>Username</th>
+                                <tr class="text-center">
+                                    <th>No SPD</th>
+                                    <th>Pejabat Yang Memberikan Perintah</th>
+                                    <th>Pegawai Yang Diperintah</th>
+                                    <th>Tingkat Biaya Perjalanan Dinas</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Jenis Transportasi</th>
+                                    <th>Nama Instansi</th>
+                                    <th>Tanggal Pergi</th>
+                                    <th>Tanggal Kembali</th>
+                                    <th>Lama</th>
+                                    <th>Pengikut</th>
+                                    <th>Kode Rekening</th>
                                     <th>Aksi</th>
+                                    <th>Keterangn</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,25 +68,19 @@
                                     <td>Win 95+</td>
                                     <td> 4</td>
                                     <td>X</td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>dsfsdf</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td> 4</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
                                     <td>X</td>
                                     <td>
                                         <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
                                         <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
                                         <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
                                     </td>
+                                    <td>X</td>      
                                 </tr>
                             </tbody>
                         </table>
@@ -89,6 +91,7 @@
 
             </div>
         </div>
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -96,36 +99,20 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(document).ready(function() {
-        /*-- DataTable To Load Data Pegawai --*/
-        var pgw = $('#pgw_data').DataTable({
+    $(function() {
+        /*-- DataTable To Load Data Mahasiswa --*/
+        var vrf = $('#vrf_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
             "processing": true,
-            "responsive": true,
-            "select": true,
+            "responsive": true
 
         });
-        $('#seachPgw').keyup(function() {
-            pgw.search($(this).val()).draw();
+        $('#seachVrf').keyup(function() {
+            vrf.search($(this).val()).draw();
         });
-        // $('#pgw_data tbody').on('click', 'tr', function() {
-        //     if ($(this).hasClass('selected')) {
-        //         $(this).removeClass('selected');
-        //     } else {
-        //         pgw.$('tr.selected').removeClass('selected');
-        //         $(this).addClass('selected');
-        //     }
-        // });
-        /*-- /. DataTable To Load Data Pegawai --*/
-        // var row = $('#pgw_data').DataTable({});
-        // pgw
-        //   .on('select', function (e, dt, type, indexes) {
-        //            var bla = dt.row({selected: true}).data();
-        //            console.log(bla);
-        //     })
-        
+        /*-- /. DataTable To Load Data Mahasiswa --*/
     })
 </script>
 <?= $this->endSection() ?>
