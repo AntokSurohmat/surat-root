@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="form-control" />
+                        <!-- <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="form-control" /> -->
                         <table id="pangol_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
@@ -88,19 +88,19 @@
                             <input type="hidden" id="method" name="action" />
                             <?= csrf_field() ?>
                             <div class="form-group row">
-                                <label for="kode" class="col-sm-4 col-form-label">Kode</label>
+                                <label for="kdPangol" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
-                                    <span id="kode_error" class="text-danger"></span>
+                                    <input type="number" name="kd_pangol" class="form-control" id="kdPangol" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
+                                    <span id="kd_pangol_error" class="text-danger"></span>
                                 </div>
                                 <span>
                                     <button type="button" class="btn btn-default" data-rel="tooltip" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
                                 </span>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_pangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
+                                <label for="namaPangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="nama_pangol" id="nama_pangol" placeholder="Nama Pangkat & Golongan" />
+                                    <input type="text" class="form-control" name="nama_pangol" id="namaPangol" placeholder="Nama Pangkat & Golongan" />
                                     <span id="nama_pangol_error" class="text-danger"></span>
                                 </div>
                             </div>
@@ -122,6 +122,18 @@
 <script type="text/javascript">
     $(function() {
 
+        // var meta = document.getElementsByTagName("meta")[2];
+        // var tokenHash = meta.content;
+        // $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+        //     jqXHR.setRequestHeader('X-CSRF-Token', tokenHash);
+        // });
+
+        /*$.ajaxSetup({
+            headers: {
+                'X-CSRF-Token' : tokenHash
+            }
+        });*/
+
         /*-- DataTable To Load Data Pangol --*/
         var pangol = $('#pangol_data').DataTable({
 
@@ -134,41 +146,28 @@
             "ajax": {
                 "url": "<?= base_url('Admin/PangolController/load_data') ?>",
                 "type": 'POST',
-                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
-                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
-                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
-                "timeout": 15000,
-                "error": handleAjaxError
+                "data": {
+                    'csrf_token_name':$('meta[name=csrf_token_name]').attr("content")
+                },
+                dataSrc: function ( response ) {
+                        if(response.csrf_token_name !== undefined) $('meta[name=csrf_token_name]').attr("content", response.csrf_token_name);
+                        return response.data;
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                }
             },
-            "columnDefs": [
-                {"targets": [0], "orderable": false},
-                {"targets": [3], "orderable": false},
-                {class: "text-center",targets: [3]},
+            "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false
+                },
+                {
+                    class: "text-center",
+                    targets: [3]
+                },
             ]
         });
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
-                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {location.reload();}
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
-                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {location.reload();}
-                });
-            }
-        }
         $('#seachPangol').keyup(function() {
             pangol.search($(this).val()).draw();
         });
@@ -201,7 +200,6 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
 
-            console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Admin/PangolController/Create') ?>",
                 type: "POST",
@@ -211,36 +209,22 @@
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
                     $('#submit-btn').prop('disabled', true);
                 },
-                complete:function() {
-                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
-                    $('#submit-btn').prop('disabled', false);
-                },
                 success: function(data) {
-                   if(data.success==true){
-                    //    $('#pangol_data').DataTable().ajax.reload();
-                    //    $("#modal-newitem").modal('hide');
-                    //    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                   }else{
-                        $.each(data.msg, function(index, value){
-                            // alert('#' + index + "_error : " + value );
-                            var element = $('#' + index);
-                            // $('#' + index + "_error").text( "Mine is " + value + "." );
-                            // element.html(value.length);
+                    $('submit-btn').val('Add');
+                    $('#submit-btn').attr('disabled', false);
+                    if (data.error == true) {
+                        $.each(data.messages, function(key, value) {
+                            var element = $('#' + key);
                             element.closest('.form-control')
-                            .removeClass('is-valid')
-                            .addClass(value.length > 0 ? ' is-invalid' : ' is-valid');
-                            element.closest('div.form-group').find('text-danger')
-                            .remove();
-                            var spaner = $('#' + index + "_error");
-                            spaner.append(value);
-                            // console.log(spaner);
+                                .removeClass('is-invalid')
+                                .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
+                            element.closest('div.form-group').find('.text-danger')
+                                .remove();
+                            element.after(value);
                         });
-                        // alert(data.msg[0].kode);
-                   }
+                    } else {
 
-                },
-                error:function(xhr, ajaxOptions, thrownError){
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
                 }
             })
         })

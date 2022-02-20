@@ -11,7 +11,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="<?= site_url() ?>">Admin</a></li>
+                    <li class="breadcrumb-item"><a href="<?= route_to('admin.index') ?>">Admin</a></li>
                     <li class="breadcrumb-item active"><?= $title?></li>
                 </ol>
             </div><!-- /.col -->
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="card-body text-center">
-                      <h2 style="margin-top: 7%;"><?= $isi->blog_id?> Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
+                      <h2 style="margin-top: 7%;">Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
                     </div>
 
 

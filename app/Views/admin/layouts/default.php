@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | <?= $title ?></title>
 
+    <!-- <meta name="<?= csrf_token() ?>" content="<?= csrf_hash()?>" class="csrf"> -->
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -83,14 +85,9 @@
             </div>
         </div>
         <footer class="main-footer">
-            <?= $this->include('admin/layouts/footer') ?>
+        <?= $this->include('admin/layouts/footer') ?>
         </footer>
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 

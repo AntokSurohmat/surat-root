@@ -38,3 +38,22 @@ function logout() {
   $('#modal-logout').modal(option);
   $('#modal-logout').modal('show');
 }
+function gen_pangol(base_url){
+	var randomnumber=Math.floor(000001 + Math.random() * 9999999);
+	var temp_kode = randomnumber;
+	var url_destination = base_url;
+
+	var dup = $.ajax({
+		type: "POST",
+		url: url_destination,
+		data:{kode:temp_kode},
+		cache: false,
+		async: false
+	}).responseText;
+	var result = eval('('+dup+')');
+	if (result.success){
+		return temp_kode;
+	}else{
+		gen_pangol(url_destination);
+	}
+} // Generate Kode Kas
