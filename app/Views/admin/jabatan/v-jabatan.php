@@ -24,15 +24,16 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
-                            Add Data <i class="fas fa-plus"></i> 
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="top" title="Tambah Data Baru">
+                            Add Data <i class="fas fa-plus"></i>
                         </a>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" title="Reload Table"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
-                        <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachJbt" id="seachJbt" type="text" placeholder="Search By Kode / Nama Jabatan" aria-label="Search">
+                        <div class="input-group mb-2">
+                            <input class="form-control col-sm-12" name="searchJbtan" id="searchJbtan" type="text" placeholder="Search By Kode / Nama Jabatan" aria-label="Search" autocomplete="off">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -40,27 +41,17 @@
                             </div>
                         </div>
 
-                        <table id="jbt_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                        <table id="jbtan_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Kode</th>
                                     <th>Nama Jabatan</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -77,20 +68,83 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
         /*-- DataTable To Load Data --*/
-        var jbt = $('#jbt_data').DataTable({
+        var jbtan = $('#jbtan_data').DataTable({
 
             "sDom": 'lrtip',
             "lengthChange": false,
+            "order": [],
             "processing": true,
-            "responsive": true
+            "responsive": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "<?= base_url('Admin/JabatanController/load_data') ?>",
+                "type": 'POST',
+                "data": {
+                    "csrf_token_name": $('input[name=csrf_token_name]').val()
+                },
+                "data": function(data) {
+                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
+                "timeout": 15000,
+                "error": handleAjaxError
+            },
+            "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false
+                },
+                {
+                    "targets": [3],
+                    "orderable": false,
+                    "class": "text-center",
+                },
+            ],
+        });
 
+        function handleAjaxError(xhr, textStatus, error) {
+            if (textStatus === 'timeout') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The server took too long to send the data.',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("searchJbtan").value = "";
+                        jbtan.search("").draw();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("searchJbtan").value = "";
+                        jbtan.search("").draw();
+                    }
+                });
+            }
+        }
+        $('#searchJbtan').keyup(function() {
+            jbtan.search($(this).val()).draw();
         });
-        $('#seachJbt').keyup(function() {
-            jbt.search($(this).val()).draw();
+        /*-- /. DataTable To Load Data Pangol --*/
+
+        $("#refresh").on('click', function() {
+            document.getElementById("searchJbtan").value = "";
+            jbtan.search("").draw();
         });
-        /*-- /. DataTable To Load Data --*/
+        /*-- DataTable To Load Data Pangol --*/
     })
 </script>
 <?= $this->endSection() ?>

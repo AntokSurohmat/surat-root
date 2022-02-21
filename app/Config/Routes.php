@@ -37,7 +37,6 @@ $routes->group('admin', function ($routes) {
     $routes->get('', 'Admin\DashboardController::index', ['as' => 'admin.index']);
     $routes->get('pegawai', 'Admin\PegawaiController::index', ['as' => 'admin.pegawai']);
     $routes->get('pangol', 'Admin\PangolController::index', ['as' => 'admin.pangol']);
-    $routes->get('pangol/create', 'Admin\PangolController::create', ['as' => 'admin.pangol.create']);
     $routes->get('jabatan', 'Admin\JabatanController::index', ['as' => 'admin.jabatan']);
     $routes->get('wilayah', 'Admin\WilayahController::index', ['as' => 'admin.wilayah']);
     $routes->get('instansi', 'Admin\InstansiController::index', ['as' => 'admin.instansi']);

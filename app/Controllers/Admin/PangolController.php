@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Controllers\Admin;
-// date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set('Asia/Jakarta');
+use App\Controllers\BaseController;
 use App\Models\Admin\PangolModel;
 
-use App\Controllers\BaseController;
-use CodeIgniter\I18n\Time;
 
 class PangolController extends BaseController
 {
@@ -13,6 +12,8 @@ class PangolController extends BaseController
     public function __construct()
     {
         $this->group = new PangolModel();
+        $this->csrfToken = csrf_token();
+        $this->csrfHash = csrf_hash();
     }
     public function index()
     {
@@ -31,17 +32,13 @@ class PangolController extends BaseController
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-        // $model = new PangolModel();
-
-        $csrfToken = csrf_token();
-        $csrfHash = csrf_hash();
 
         $list = $this->group->get_datatables();
         $count_all = $this->group->count_all();
         $count_filter = $this->group->count_filter();
 
         $data = array();
-        $no = $_POST['start'];
+        $no = $this->request->getPost('start');
         foreach ($list as $key) {
             $no++;
             $row = array();
@@ -49,20 +46,20 @@ class PangolController extends BaseController
             $row[] = $key->kode;
             $row[] = $key->nama_pangol;
             $row[] = '
-            <a class="btn btn-xs btn-warning mr-1 mb-1 edit" style="margin-right:5px;" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" style="margin-right:5px;" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            <a class="btn btn-xs btn-warning mr-1 mb-1 edit" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
         }
 
         $output = array(
-            "draw" => $_POST['draw'],
+            "draw" => $this->request->getPost('draw'),
             "recordsTotal" => $count_all->total,
             "recordsFiltered" => $count_filter->total,
             "data" => $data
         );
 
-        $output[$csrfToken] = $csrfHash;
+        $output[$this->csrfToken] = $this->csrfHash;
         echo json_encode($output);
     }
 
@@ -72,13 +69,10 @@ class PangolController extends BaseController
             exit('No direct script is allowed');
         }
 
-        $csrfToken = csrf_token();
-        $csrfHash = csrf_hash();
-
         if ($this->request->getVar('id')) {
             $data = $this->group->where('id', $this->request->getVar('id'))->first();
 
-            $data[$csrfToken] = $csrfHash;
+            $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
     }
@@ -88,9 +82,6 @@ class PangolController extends BaseController
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-
-        $csrfToken = csrf_token();
-        $csrfHash = csrf_hash();
 
         $validation = \Config\Services::validation();
 
@@ -178,7 +169,7 @@ class PangolController extends BaseController
             }
         }
 
-        $data[$csrfToken] = $csrfHash;
+        $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
 
@@ -186,9 +177,6 @@ class PangolController extends BaseController
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-
-        $csrfToken = csrf_token();
-        $csrfHash = csrf_hash();
 
         if ($this->request->getVar('id')){
             $id = $this->request->getVar('id');
@@ -200,7 +188,7 @@ class PangolController extends BaseController
             }
         }
 
-        $data[$csrfToken] = $csrfHash;
+        $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
 }

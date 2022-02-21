@@ -1,11 +1,18 @@
 <?php
 
 namespace App\Controllers\Admin;
-
+date_default_timezone_set('Asia/Jakarta');
 use App\Controllers\BaseController;
+use App\Models\Admin\JabatanModel;
 
 class JabatanController extends BaseController
 {
+    public function __construct()
+    {
+        $this->group = new JabatanModel();
+        $this->csrfToken = csrf_token();
+        $this->csrfHash = csrf_hash();
+    }
     public function index()
     {
         $data = array(
@@ -14,5 +21,41 @@ class JabatanController extends BaseController
             'pmenu' => 2.3
         );
         return view('admin/jabatan/v-jabatan', $data);
+    }
+
+    function load_data(){
+        if(!$this->request->isAJAX()){
+            exit('No direct script is allowed');
+        }
+
+        $list = $this->group->get_datatables();
+        $count_all = $this->group->count_all();
+        $count_filter = $this->group->count_filter();
+
+        $data = array();
+        $no = $this->request->getPost('start');
+        foreach ($list as $key) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $key->kode;
+            $row[] = $key->nama_jabatan;
+            $row[] = '
+            <a class="btn btn-xs btn-warning mr-1 mb-1 edit" href="javascript:void(0)" name="edit" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            ';
+            $data[] = $row;
+        }
+
+        $output = array(
+            "draw" => $this->request->getPost('draw'),
+            // "draw" => $_POST['draw'],
+            "recordsTotal" => $count_all->total,
+            "recordsFiltered" => $count_filter->total,
+            "data" => $data
+        );
+
+        $output[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($output);
     }
 }

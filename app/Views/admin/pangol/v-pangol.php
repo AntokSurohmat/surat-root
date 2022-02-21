@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="form-control" />
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="pangol_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
@@ -111,7 +111,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-
         /*-- DataTable To Load Data Pangol --*/
         var pangol = $('#pangol_data').DataTable({
 
@@ -156,7 +155,7 @@
                     title: 'Oops...',
                     text: 'The server took too long to send the data.',
                     showConfirmButton: true,
-                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
                         document.getElementById("seachPangol").value = "";
@@ -169,7 +168,7 @@
                     title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',
                     showConfirmButton: true,
-                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
                         document.getElementById("seachPangol").value = "";
@@ -183,7 +182,7 @@
         });
         /*-- /. DataTable To Load Data Pangol --*/
 
-        $("#refresh").on("click", function() {
+        $("#refresh").on('click', function() {
             document.getElementById("seachPangol").value = "";
             pangol.search("").draw();
         });
