@@ -27,11 +27,29 @@
                         <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i>&ensp;Add Data
                         </a>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
-                        <div class="input-group ">
+                        <!-- <h2 class="text-center display-4">Search</h2>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                    <div class="input-group">
+                                        <input type="search" name="seachPangol" id="seachPangol" class="form-control form-control-lg" placeholder="Type your keywords here">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-lg btn-default">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div> -->
+
+
+                        <div class="input-group mb-2">
                             <input class="form-control col-sm-12" name="seachPangol" id="seachPangol" type="text" placeholder="Search By Kode / Nama Pangkat & Golongan" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
@@ -40,7 +58,7 @@
                             </div>
                         </div>
 
-                        <!-- <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="form-control" /> -->
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="form-control" />
                         <table id="pangol_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
@@ -50,19 +68,7 @@
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody> -->
+                            <tbody></tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -86,22 +92,22 @@
                         <div class="modal-body">
                             <input type="hidden" id="hidden_id" name="hidden_id" />
                             <input type="hidden" id="method" name="action" />
-                            <?= csrf_field() ?>
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="form-group row">
-                                <label for="kdPangol" class="col-sm-4 col-form-label">Kode</label>
+                                <label for="kode" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kd_pangol" class="form-control" id="kdPangol" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
-                                    <span id="kd_pangol_error" class="text-danger"></span>
+                                    <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
+                                    <div class="invalid-feedback kodeError"></div>
                                 </div>
                                 <span>
                                     <button type="button" class="btn btn-default" data-rel="tooltip" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
                                 </span>
                             </div>
                             <div class="form-group row">
-                                <label for="namaPangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
+                                <label for="nama_pangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="nama_pangol" id="namaPangol" placeholder="Nama Pangkat & Golongan" />
-                                    <span id="nama_pangol_error" class="text-danger"></span>
+                                    <input type="text" class="form-control" name="nama_pangol" id="nama_pangol" placeholder="Nama Pangkat & Golongan" />
+                                    <div class="invalid-feedback nama_pangolError"></div>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +126,7 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
 
         /*-- DataTable To Load Data Pangol --*/
         var pangol = $('#pangol_data').DataTable({
@@ -134,10 +140,6 @@
             "ajax": {
                 "url": "<?= base_url('Admin/PangolController/load_data') ?>",
                 "type": 'POST',
-                "contentType": "application/json",
-                "headers": {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
                 "data": {
                     "csrf_token_name": $('input[name=csrf_token_name]').val()
                 },
@@ -151,6 +153,9 @@
                 "timeout": 15000,
                 "error": handleAjaxError
             },
+            // "drawCallback": function(settings) {
+            //     $('<li><a role="button" class="btn btn-outline-primary" data-rel="tooltip" data-placement="top" title="Reload Table" onclick="refresh_tab()" ><i class="fa fa-retweet"></i></a></li>').prependTo('div.dataTables_paginate ul.pagination');
+            // },
             "columnDefs": [{
                     "targets": [0],
                     "orderable": false
@@ -160,50 +165,58 @@
                     "orderable": false
                 },
                 {
-                    class: "text-center",
-                    targets: [3]
+                    "class": "text-center",
+                    "targets": [3]
                 },
-            ]
+            ],
         });
 
-        /*-- DataTable To Load Data Pangol --*/
-        var pangol = $('#pangol_data').DataTable({
-
-            "sDom": 'lrtip',
-            "lengthChange": false,
-            "order": [],
-            "processing": true,
-            "responsive": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "<?= base_url('Admin/PangolController/load_data') ?>",
-                "type": 'POST',
-                "data": {
-                    'csrf_token_name': $('meta[name=csrf_token_name]').attr("content")
-                },
-                dataSrc: function(response) {
-                    if (response.csrf_token_name !== undefined) $('meta[name=csrf_token_name]').attr("content", response.csrf_token_name);
-                    return response.data;
-                },
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
-                }
-            },
-            "columnDefs": [{
-                    "targets": [0],
-                    "orderable": false
-                },
-                {
-                    class: "text-center",
-                    targets: [3]
-                },
-            ]
-        });
+        function handleAjaxError(xhr, textStatus, error) {
+            if (textStatus === 'timeout') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The server took too long to send the data.',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachPangol").value = "";
+                        pangol.search("").draw();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachPangol").value = "";
+                        pangol.search("").draw();
+                    }
+                });
+            }
+        }
         $('#seachPangol').keyup(function() {
             pangol.search($(this).val()).draw();
+            // console.log($(this).val());
+            // var value = $(this).val();
+            // if(value.length == ''){
+            //     console.log("OK");
+            // }else{
+            //     console.log("NOt null")
+            // }
+
         });
         /*-- /. DataTable To Load Data Pangol --*/
+
+        $("#refresh").on("click", function() {
+            document.getElementById("seachPangol").value = "";
+            pangol.search("").draw();
+        });
 
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
@@ -228,10 +241,10 @@
             $('#modal-newitem').modal('show');
         });
 
-
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
 
+            // console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Admin/PangolController/Create') ?>",
                 type: "POST",
@@ -241,33 +254,59 @@
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
                     $('#submit-btn').prop('disabled', true);
                 },
+                complete: function() {
+                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn').prop('disabled', false);
+                },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    if(data.success==true){
-                    //    $('#pangol_data').DataTable().ajax.reload();
-                    //    $("#modal-newitem").modal('hide');
-                    //    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    }else{
-                        $.each(data.msg, function(index, value){
-                            // alert('#' + index + "_error : " + value );
-                            var element = $('#' + index);
-                            // $('#' + index + "_error").text( "Mine is " + value + "." );
-                            // element.html(value.length);
-                            element.closest('.form-control')
-                            .removeClass('is-valid')
-                            .addClass(value.length > 0 ? ' is-invalid' : ' is-valid');
-                            element.closest('div.form-group').find('text-danger')
-                            .remove();
-                            var spaner = $('#' + index + "_error");
-                            spaner.append(value);
-                            // console.log(spaner);
-                        });
-                        // alert(data.msg[0].kode);
-                    }
+                    // console.log(data.error);
+                    if (data.error) {
+                        // if (data.error.kode) {
+                        // $('#kode').addClass('is-invalid');
+                        // $('.kodeError').html(data.error.kode);
+                        // } else {
+                        //     $('#kode').addClass('is-valid');
+                        //     $('.kodeError').html();
+                        // }
 
+                        // const keys = Object.keys(data.error);
+                        // console.log(keys);
+
+                        // [ 'java', 'javascript', 'nodejs', 'php' ]
+
+                        // iterate over object
+
+                        Object.keys(data.error).forEach((key, index) => {
+                            console.log(`${key}: ${data.error[key]} : ${key}Error`);
+                            var element = $('#' + key);
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            // console.log(key);
+                            var element = $('#' + key);
+                            element.closest('.form-control')
+                                .removeClass('is-invalid')
+                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // element.closest('div.form-group').find('.invalid-feedback')
+                            //     .remove();
+                            // element.after(value);
+                            console.log(element);
+                        });
+
+
+                    }
                 },
-            })
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
         })
     })
+
+    // function refresh_tab() {
+    //     document.getElementById("seachPangol").value = "";
+    //     pangol.search( "" ).draw();
+    // }
 </script>
 <?= $this->endSection() ?>

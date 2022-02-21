@@ -13,13 +13,13 @@ class PangolModel extends Model
     protected $useAutoIncrement = true;
 
     // protected $insertID         = 0;
-    // protected $returnType       = 'array';
+    protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'nama_pangol', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['kode', 'nama_pangol'];
 
     // Dates
-    // protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -27,13 +27,16 @@ class PangolModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_leght[10]|is_unique[etbl_pangol.kode]',
-        'nama_pangol' => 'required'
+        'kode' => 'required|numeric|max_length[10]',
+        'nama_pangol' => 'required|max_length[20]'
     ];
     protected $validationMessages   = [
         'kode'        => [
+			'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 10 Karakter',
-			'is_unique'	=> 'Kode sudah dipakai',
+        ],
+		'nama_pangol'        => [
+            'max_length' => 'Maksimal 20 Karakter',
         ],
     ];
     protected $skipValidation       = false;
@@ -50,12 +53,9 @@ class PangolModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-	public function __construct(){
-		parent::__construct();
-	}
 
     var $column_order = array(null, 'kode', 'nama_pangol', null);
-    var $order = array('id' => 'DESC');
+    var $order = array('created_at' => 'DESC');
 
     function get_datatables(){
 
@@ -83,6 +83,7 @@ class PangolModel extends Model
 		$builder = $this->db->table('pangol');
 		$query = $builder->select('*')
 				->where($attr_order)
+				->where('deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -92,7 +93,7 @@ class PangolModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -101,12 +102,16 @@ class PangolModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR nama_pangol LIKE '%$search%')";
+			$attr_order = " AND (kode LIKE '%$search%' OR nama_pangol LIKE '%$search%') AND deleted_at IS NULL";
 		} else {
-			$attr_order = "";
+			$attr_order = " AND deleted_at IS NULL";
 		}
 		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol WHERE id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
+
+	// function saveData($data){
+	// 	$this->db->insertID($data);
+	// }
 }

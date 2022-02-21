@@ -57,3 +57,12 @@ function gen_pangol(base_url){
 		gen_pangol(url_destination);
 	}
 } // Generate Kode Kas
+
+/*-- Costum Sweetalert2 --*/
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  }
+})
+/*-- /. Costum Sweetalert2 --*/

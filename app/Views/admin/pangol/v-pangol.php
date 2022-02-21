@@ -24,15 +24,16 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="#" data-rel="tooltip" data-placement="top" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i>&ensp;Add Data
                         </a>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
-                        <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachPangol" id="seachPangol" type="text" placeholder="Search By Kode / Nama Pangkat & Golongan" aria-label="Search">
+                        <div class="input-group mb-2">
+                            <input class="form-control col-sm-12" name="seachPangol" id="seachPangol" type="text" placeholder="Search By Kode / Nama Pangkat & Golongan" aria-label="Search" autocomplete="off">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -50,7 +51,7 @@
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
-
+                            <tbody></tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -65,7 +66,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add/Edit Modal</h4>
+                        <h5 class="modal-title">Add/Edit Modal</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -73,7 +74,7 @@
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off">
                         <div class="modal-body">
                             <input type="hidden" id="hidden_id" name="hidden_id" />
-                            <input type="hidden" id="method" name="action" />
+                            <input type="hidden" id="method" name="method" />
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="form-group row">
                                 <label for="kode" class="col-sm-4 col-form-label">Kode</label>
@@ -89,7 +90,7 @@
                                 <label for="nama_pangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control" name="nama_pangol" id="nama_pangol" placeholder="Nama Pangkat & Golongan" />
-                                    <span id="nama_pangol_error" class="text-danger"></span>
+                                    <div class="invalid-feedback nama_pangolError"></div>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +109,8 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(function() {
+    $(document).ready(function() {
+
 
         /*-- DataTable To Load Data Pangol --*/
         var pangol = $('#pangol_data').DataTable({
@@ -122,18 +124,31 @@
             "ajax": {
                 "url": "<?= base_url('Admin/PangolController/load_data') ?>",
                 "type": 'POST',
-                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
-                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
-                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
+                "data": {
+                    "csrf_token_name": $('input[name=csrf_token_name]').val()
+                },
+                "data": function(data) {
+                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
                 "timeout": 15000,
                 "error": handleAjaxError
             },
-            "columnDefs": [
-                {"targets": [0], "orderable": false},
-                {"targets": [3], "orderable": false},
-                {class: "text-center",targets: [3]},
-            ]
+            "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false
+                },
+                {
+                    "targets": [3],
+                    "orderable": false,
+                    "class": "text-center",
+                },
+            ],
         });
+
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
@@ -143,7 +158,10 @@
                     showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
                 }).then((result) => {
-                    if (result.isConfirmed) {location.reload();}
+                    if (result.isConfirmed) {
+                        document.getElementById("seachPangol").value = "";
+                        pangol.search("").draw();
+                    }
                 });
             } else {
                 Swal.fire({
@@ -153,7 +171,10 @@
                     showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i> Refresh',
                 }).then((result) => {
-                    if (result.isConfirmed) {location.reload();}
+                    if (result.isConfirmed) {
+                        document.getElementById("seachPangol").value = "";
+                        pangol.search("").draw();
+                    }
                 });
             }
         }
@@ -162,13 +183,22 @@
         });
         /*-- /. DataTable To Load Data Pangol --*/
 
+        $("#refresh").on("click", function() {
+            document.getElementById("seachPangol").value = "";
+            pangol.search("").draw();
+        });
+
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kdPangol").empty();
-            $("#namaPangol").empty();
+            $("#kode").empty();
+            $("#nama_pangol").empty();
+            $("#kode").removeClass('is-valid');
+            $("#kode").removeClass('is-invalid');
+            $("#nama_pangol").removeClass('is-valid');
+            $("#nama_pangol").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
-            $('#kdPangol').focus();
+            $('#kode').focus();
         });
 
         $('#add-data').click(function() {
@@ -178,20 +208,99 @@
             };
             $('#modal-newitem').modal(option);
             $('#form-addedit')[0].reset();
-            $('#action').val('Add');
+            $('#method').val('New');
             $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');
-            $('#kd_pangol_error').text('');
-            $('#nama_pangol_error').text('');
             $('#modal-newitem').modal('show');
         });
 
+        $(document).on('click', '.edit', function() {
+
+            var id = $(this).data('id');
+            // console.log(id);
+            $.ajax({
+                url: "<?= base_url('Admin/PangolController/single_data') ?>",
+                type: "POST",
+                data: {
+                    id: id,
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    $('#kode').val(data.kode);
+                    $('#nama_pangol').val(data.nama_pangol);
+                    $('.modal-title').text('Edit Data ' + data.nama_pangol);
+                    $('.modal-title').css("font-weight:", "900");
+                    $('#method').val('Edit');
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
+                    $('#modal-newitem').modal('show');
+                    $('#hidden_id').val(id);
+                }
+            })
+        })
+
+        $(document).on('click', '.delete', function() {
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var id = $(this).data('id');
+
+                    $.ajax({
+                        url: "<?= base_url('Admin/PangolController/Delete') ?>",
+                        method: "POST",
+                        data: {
+                            id: id,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                            if (data.success) {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+                                })
+                                $('#pangol_data').DataTable().ajax.reload(null, false);
+                            } else {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'error',
+                                    title:'Not Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+
+                                }
+                                )
+                                $('#pangol_data').DataTable().ajax.reload(null, false);
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                        }
+                    });
+
+                }
+            })
+
+        })
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
 
             // console.log($(this).serialize());
             $.ajax({
-                url: "<?= base_url('Admin/PangolController/Create') ?>",
+                url: "<?= base_url('Admin/PangolController/Save') ?>",
                 type: "POST",
                 data: $(this).serialize(),
                 dataType: "JSON",
@@ -199,24 +308,48 @@
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
                     $('#submit-btn').prop('disabled', true);
                 },
-                complete:function() {
+                complete: function() {
                     $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
                     $('#submit-btn').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     // console.log(data.error);
-                    if(data.error){
-                        if(data.error.kode){
-                            $('#kode').addClass('is-invalid');
-                            $('.kodeError').html(data.error.kode);
-                        }else{
-                            $('#kode').addClass('is-valid');
-                            $('.kodeError').html();
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            console.log(`${key}: ${data.error[key]} : ${key}Error`);
+                            var element = $('#' + key);
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            var element = $('#' + key);
+                            element.closest('.form-control')
+                                .removeClass('is-invalid')
+                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                    } else {
+                        if (data.success) {
+                            $("#modal-newitem").modal('hide');
+                            $('#pangol_data').DataTable().ajax.reload(null, false);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil..',
+                                text: data.msg,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        } else {
+                            $("#modal-newitem").modal('hide');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.msg,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
                         }
                     }
                 },
-                error:function(xhr, ajaxOptions, thrownError){
+                error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
             });
