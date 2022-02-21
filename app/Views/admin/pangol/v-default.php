@@ -122,17 +122,49 @@
 <script type="text/javascript">
     $(function() {
 
-        // var meta = document.getElementsByTagName("meta")[2];
-        // var tokenHash = meta.content;
-        // $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-        //     jqXHR.setRequestHeader('X-CSRF-Token', tokenHash);
-        // });
+        /*-- DataTable To Load Data Pangol --*/
+        var pangol = $('#pangol_data').DataTable({
 
-        /*$.ajaxSetup({
-            headers: {
-                'X-CSRF-Token' : tokenHash
-            }
-        });*/
+            "sDom": 'lrtip',
+            "lengthChange": false,
+            "order": [],
+            "processing": true,
+            "responsive": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "<?= base_url('Admin/PangolController/load_data') ?>",
+                "type": 'POST',
+                "contentType": "application/json",
+                "headers": {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                "data": {
+                    "csrf_token_name": $('input[name=csrf_token_name]').val()
+                },
+                "data": function(data) {
+                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
+                "timeout": 15000,
+                "error": handleAjaxError
+            },
+            "columnDefs": [{
+                    "targets": [0],
+                    "orderable": false
+                },
+                {
+                    "targets": [3],
+                    "orderable": false
+                },
+                {
+                    class: "text-center",
+                    targets: [3]
+                },
+            ]
+        });
 
         /*-- DataTable To Load Data Pangol --*/
         var pangol = $('#pangol_data').DataTable({
@@ -147,11 +179,11 @@
                 "url": "<?= base_url('Admin/PangolController/load_data') ?>",
                 "type": 'POST',
                 "data": {
-                    'csrf_token_name':$('meta[name=csrf_token_name]').attr("content")
+                    'csrf_token_name': $('meta[name=csrf_token_name]').attr("content")
                 },
-                dataSrc: function ( response ) {
-                        if(response.csrf_token_name !== undefined) $('meta[name=csrf_token_name]').attr("content", response.csrf_token_name);
-                        return response.data;
+                dataSrc: function(response) {
+                    if (response.csrf_token_name !== undefined) $('meta[name=csrf_token_name]').attr("content", response.csrf_token_name);
+                    return response.data;
                 },
                 "dataSrc": function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
@@ -210,22 +242,30 @@
                     $('#submit-btn').prop('disabled', true);
                 },
                 success: function(data) {
-                    $('submit-btn').val('Add');
-                    $('#submit-btn').attr('disabled', false);
-                    if (data.error == true) {
-                        $.each(data.messages, function(key, value) {
-                            var element = $('#' + key);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if(data.success==true){
+                    //    $('#pangol_data').DataTable().ajax.reload();
+                    //    $("#modal-newitem").modal('hide');
+                    //    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    }else{
+                        $.each(data.msg, function(index, value){
+                            // alert('#' + index + "_error : " + value );
+                            var element = $('#' + index);
+                            // $('#' + index + "_error").text( "Mine is " + value + "." );
+                            // element.html(value.length);
                             element.closest('.form-control')
-                                .removeClass('is-invalid')
-                                .addClass(value.length > 0 ? 'is-invalid' : 'is-valid');
-                            element.closest('div.form-group').find('.text-danger')
-                                .remove();
-                            element.after(value);
+                            .removeClass('is-valid')
+                            .addClass(value.length > 0 ? ' is-invalid' : ' is-valid');
+                            element.closest('div.form-group').find('text-danger')
+                            .remove();
+                            var spaner = $('#' + index + "_error");
+                            spaner.append(value);
+                            // console.log(spaner);
                         });
-                    } else {
-
+                        // alert(data.msg[0].kode);
                     }
-                }
+
+                },
             })
         })
     })

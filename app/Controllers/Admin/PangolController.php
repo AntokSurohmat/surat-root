@@ -64,12 +64,15 @@ class PangolController extends BaseController
 			exit('No direct script is allowed');
 		}
 
+        $csrfToken = csrf_token();
+        $csrfHash = csrf_hash();
+
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
             'kode' => [
                 'label'     => 'Kode Pangkat & Golongan',
-                'rules'     => 'required|is_unique[etbl_pangol.kode]',
+                'rules'     => 'required|numeric|is_unique[etbl_pangol.kode]',
                 'errors'    => [
                     'required'  => '{field} tidak boleh Kosong',
                     'is_unique' => '{field} Telah Digunakan'
@@ -82,10 +85,15 @@ class PangolController extends BaseController
         ]);
 
         if(!$valid){
-            $data['msg'] = $validation->getErrors();
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kode')
+                ]
+                ];
         }
         // print_r($validation->getErrors());die();
-        $data['success'] = false;
+        // $data['success'] = false;
+        $data[$csrfToken] = $csrfHash;
         echo json_encode($data);
 
     }

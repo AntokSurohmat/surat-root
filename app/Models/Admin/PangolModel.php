@@ -50,6 +50,10 @@ class PangolModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
+	public function __construct(){
+		parent::__construct();
+	}
+
     var $column_order = array(null, 'kode', 'nama_pangol', null);
     var $order = array('id' => 'DESC');
 
@@ -89,8 +93,7 @@ class PangolModel extends Model
 
 	function count_all(){
 		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol";
-		$db = db_connect();
-		$query = $db->query($sQuery)->getRow();
+		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
 
@@ -103,8 +106,7 @@ class PangolModel extends Model
 			$attr_order = "";
 		}
 		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol WHERE id != '' $attr_order";
-		$db = db_connect();
-		$query = $db->query($sQuery)->getRow();
+		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
 }

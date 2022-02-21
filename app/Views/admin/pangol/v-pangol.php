@@ -50,19 +50,7 @@
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody> -->
+
                         </table>
                     </div>
                     <!-- /.card-body -->
@@ -86,12 +74,12 @@
                         <div class="modal-body">
                             <input type="hidden" id="hidden_id" name="hidden_id" />
                             <input type="hidden" id="method" name="action" />
-                            <?= csrf_field() ?>
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="form-group row">
                                 <label for="kode" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
                                     <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
-                                    <span id="kode_error" class="text-danger"></span>
+                                    <div class="invalid-feedback kodeError"></div>
                                 </div>
                                 <span>
                                     <button type="button" class="btn btn-default" data-rel="tooltip" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
@@ -201,7 +189,7 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
 
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Admin/PangolController/Create') ?>",
                 type: "POST",
@@ -216,33 +204,23 @@
                     $('#submit-btn').prop('disabled', false);
                 },
                 success: function(data) {
-                   if(data.success==true){
-                    //    $('#pangol_data').DataTable().ajax.reload();
-                    //    $("#modal-newitem").modal('hide');
-                    //    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                   }else{
-                        $.each(data.msg, function(index, value){
-                            // alert('#' + index + "_error : " + value );
-                            var element = $('#' + index);
-                            // $('#' + index + "_error").text( "Mine is " + value + "." );
-                            // element.html(value.length);
-                            element.closest('.form-control')
-                            .removeClass('is-valid')
-                            .addClass(value.length > 0 ? ' is-invalid' : ' is-valid');
-                            element.closest('div.form-group').find('text-danger')
-                            .remove();
-                            var spaner = $('#' + index + "_error");
-                            spaner.append(value);
-                            // console.log(spaner);
-                        });
-                        // alert(data.msg[0].kode);
-                   }
-
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    // console.log(data.error);
+                    if(data.error){
+                        if(data.error.kode){
+                            $('#kode').addClass('is-invalid');
+                            $('.kodeError').html(data.error.kode);
+                        }else{
+                            $('#kode').addClass('is-valid');
+                            $('.kodeError').html();
+                        }
+                    }
                 },
                 error:function(xhr, ajaxOptions, thrownError){
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
                 }
-            })
+            });
+            return false;
         })
     })
 </script>
