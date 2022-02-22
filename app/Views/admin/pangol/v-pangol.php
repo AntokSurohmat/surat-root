@@ -62,7 +62,7 @@
         </div>
 
         <!--add/edit-->
-        <div id="modal-newitem" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditPangol" aria-hidden="true">
+        <div id="modal-newitem" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -77,19 +77,19 @@
                             <input type="hidden" id="method" name="method" />
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="form-group row">
-                                <label for="kode" class="col-sm-4 col-form-label">Kode</label>
+                                <label for="kodeForm" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode Pangkat& Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" />
+                                    <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
                                     <div class="invalid-feedback kodeError"></div>
                                 </div>
                                 <span>
-                                    <button type="button" class="btn btn-default" data-rel="tooltip" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
                                 </span>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_pangol" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
+                                <label for="nama_pangolForm" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="nama_pangol" id="nama_pangol" placeholder="Nama Pangkat & Golongan" />
+                                    <input type="text" class="form-control" name="nama_pangolAddEdit" id="nama_pangolForm" placeholder="Nama Pangkat & Golongan" />
                                     <div class="invalid-feedback nama_pangolError"></div>
                                 </div>
                             </div>
@@ -101,8 +101,9 @@
                     </form>
                 </div>
             </div>
+        </div><!-- /.modal -->
 
-        </div><!-- /.container-fluid -->
+    </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
 
@@ -111,7 +112,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        /*-- DataTable To Load Data Pangol --*/
+        /*-- DataTable To Load Data --*/
         var pangol = $('#pangol_data').DataTable({
 
             "sDom": 'lrtip',
@@ -180,21 +181,21 @@
         $('#seachPangol').keyup(function() {
             pangol.search($(this).val()).draw();
         });
-        /*-- /. DataTable To Load Data Pangol --*/
 
         $("#refresh").on('click', function() {
             document.getElementById("seachPangol").value = "";
             pangol.search("").draw();
         });
+        /*-- /. DataTable To Load Data  --*/
 
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kode").empty();
-            $("#nama_pangol").empty();
-            $("#kode").removeClass('is-valid');
-            $("#kode").removeClass('is-invalid');
-            $("#nama_pangol").removeClass('is-valid');
-            $("#nama_pangol").removeClass('is-invalid');
+            $("#kodeForm").empty();
+            $("#nama_pangolForm").empty();
+            $("#kodeForm").removeClass('is-valid');
+            $("#kodeForm").removeClass('is-invalid');
+            $("#nama_pangolForm").removeClass('is-valid');
+            $("#nama_pangolForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $('#kode').focus();
@@ -225,15 +226,15 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    $('#kode').val(data.kode);
-                    $('#nama_pangol').val(data.nama_pangol);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                    $('#nama_pangolForm').val(data.nama_pangol);
                     $('.modal-title').text('Edit Data ' + data.nama_pangol);
                     $('.modal-title').css("font-weight:", "900");
                     $('#method').val('Edit');
+                    $('#hidden_id').val(id);
                     $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
                     $('#modal-newitem').modal('show');
-                    $('#hidden_id').val(id);
                 }
             })
         })
@@ -251,7 +252,6 @@
                 if (result.isConfirmed) {
 
                     var id = $(this).data('id');
-
                     $.ajax({
                         url: "<?= base_url('Admin/PangolController/Delete') ?>",
                         method: "POST",
@@ -274,13 +274,11 @@
                             } else {
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',
-                                    title:'Not Deleted!',
+                                    title: 'Not Deleted!',
                                     text: data.msg,
                                     showConfirmButton: true,
                                     timer: 4000
-
-                                }
-                                )
+                                })
                                 $('#pangol_data').DataTable().ajax.reload(null, false);
                             }
                         },
@@ -316,11 +314,11 @@
                     // console.log(data.error);
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            console.log(`${key}: ${data.error[key]} : ${key}Error`);
-                            var element = $('#' + key);
+                            // console.log(`${key}: ${data.error[key]} : ${key}Error`);
                             $("#" + key).addClass('is-invalid');
                             $("." + key + "Error").html(data.error[key]);
-                            var element = $('#' + key);
+                            // var element = $('#' + key);
+                            var element = $('#' + key + 'Form');
                             element.closest('.form-control')
                                 .removeClass('is-invalid')
                                 .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -328,14 +326,14 @@
                     } else {
                         if (data.success) {
                             $("#modal-newitem").modal('hide');
-                            $('#pangol_data').DataTable().ajax.reload(null, false);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil..',
                                 text: data.msg,
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
+                            $('#pangol_data').DataTable().ajax.reload(null, false);
                         } else {
                             $("#modal-newitem").modal('hide');
                             Swal.fire({
@@ -343,8 +341,9 @@
                                 title: 'Oops...',
                                 text: data.msg,
                                 showConfirmButton: false,
-                                timer: 2000
+                                timer: 3000
                             });
+                            $('#pangol_data').DataTable().ajax.reload(null, false);
                         }
                     }
                 },

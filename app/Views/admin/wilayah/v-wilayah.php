@@ -24,7 +24,7 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('')?>/admin/wilayah/new" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i> Add Data
                         </a>
                     </div>
@@ -70,6 +70,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        
                     </div>
                     <!-- /.card-body -->
                 </div>

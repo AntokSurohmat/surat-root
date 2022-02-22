@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Jabatan extends Migration
+class Kecamatan extends Migration
 {
     public function up()
     {
@@ -15,14 +15,19 @@ class Jabatan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'kode'          => [
-                'type'          => 'BIGINT',
-                'constraint'    => 10,
-                'unsigned'      => true,
+            'id_provinsi'          => [
+                'type'           => 'INT',
+                'constraint'     => 10,
+                'unsigned'       => true,
             ],
-            'nama_jabatan'   => [
+            'id_kabupaten'          => [
+                'type'           => 'INT',
+                'constraint'     => 10,
+                'unsigned'       => true,
+            ],
+            'nama_kecamatan'   => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '20',
+                'constraint'    => '40',
             ],
             'created_at'    => [
                 'type'          => 'DATETIME',
@@ -39,12 +44,15 @@ class Jabatan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('kode');
-        $this->forge->createTable('jabatan');
+        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('kecamatan');
     }
 
     public function down()
     {
-        $this->forge->dropTable('jabatan');
+        $this->forge->dropForeignKey('provinsi', 'etbl_kecamatan_id_provinsi_foreign');
+        $this->forge->dropForeignKey('kabupaten', 'etbl_kecamatan_id_kabupaten_foreign');
+        $this->forge->dropTable('kecamatan');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Jabatan extends Migration
+class Provinsi extends Migration
 {
     public function up()
     {
@@ -15,14 +15,9 @@ class Jabatan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'kode'          => [
-                'type'          => 'BIGINT',
-                'constraint'    => 10,
-                'unsigned'      => true,
-            ],
-            'nama_jabatan'   => [
+            'nama_provinsi'   => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '20',
+                'constraint'    => '40',
             ],
             'created_at'    => [
                 'type'          => 'DATETIME',
@@ -39,12 +34,11 @@ class Jabatan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('kode');
-        $this->forge->createTable('jabatan');
+        $this->forge->createTable('provinsi');
     }
 
     public function down()
     {
-        $this->forge->dropTable('jabatan');
+        $this->forge->dropTable('provinsi');
     }
 }

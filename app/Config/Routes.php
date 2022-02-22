@@ -34,32 +34,32 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth\LoginController::index');
 $routes->group('admin', function ($routes) {
-    $routes->get('', 'Admin\DashboardController::index', ['as' => 'admin.index']);
-    $routes->get('pegawai', 'Admin\PegawaiController::index', ['as' => 'admin.pegawai']);
-    $routes->get('pangol', 'Admin\PangolController::index', ['as' => 'admin.pangol']);
-    $routes->get('jabatan', 'Admin\JabatanController::index', ['as' => 'admin.jabatan']);
-    $routes->get('wilayah', 'Admin\WilayahController::index', ['as' => 'admin.wilayah']);
-    $routes->get('instansi', 'Admin\InstansiController::index', ['as' => 'admin.instansi']);
-    $routes->get('sbuh', 'Admin\SbuhController::index', ['as' => 'admin.sbuh']);
-    $routes->get('rekening', 'Admin\RekeningController::index', ['as' => 'admin.rekening']);
-    $routes->get('spt', 'Admin\SptController::index', ['as' => 'admin.spt']);
-    $routes->get('spd', 'Admin\SpdController::index', ['as' => 'admin.spd']);
-    $routes->get('lapspt', 'Admin\LapsptController::index', ['as' => 'admin.lapspt']);
-    $routes->get('lapspd', 'Admin\LapspdController::index', ['as' => 'admin.lapspd']);
+    $routes->get('', 'Admin\DashboardController::index');
+    $routes->get('pegawai', 'Admin\PegawaiController::index');
+    $routes->get('pangol', 'Admin\PangolController::index');
+    $routes->get('jabatan', 'Admin\JabatanController::index');
+    $routes->presenter('Wilayah');
+    $routes->get('instansi', 'Admin\InstansiController::index',);
+    $routes->get('sbuh', 'Admin\SbuhController::index');
+    $routes->get('rekening', 'Admin\RekeningController::index');
+    $routes->get('spt', 'Admin\SptController::index');
+    $routes->get('spd', 'Admin\SpdController::index');
+    $routes->get('lapspt', 'Admin\LapsptController::index');
+    $routes->get('lapspd', 'Admin\LapspdController::index');
 });
 $routes->group('pegawai', function ($routes) {
-    $routes->get('', 'Pegawai\DashboardController::index', ['as' => 'pegawai.index']);
-    $routes->get('spt', 'Pegawai\SptController::index', ['as' => 'pegawai.spt']);
-    $routes->get('spd', 'Pegawai\SpdController::index', ['as' => 'pegawai.spd']);
+    $routes->get('', 'Pegawai\DashboardController::index');
+    $routes->get('spt', 'Pegawai\SptController::index');
+    $routes->get('spd', 'Pegawai\SpdController::index');
 });
 $routes->group('bendahara', function ($routes) {
-    $routes->get('', 'Bendahara\DashboardController::index', ['as' => 'bendahara.index']);
-    $routes->get('kuitansi', 'Bendahara\KuitansiController::index', ['as' => 'bendahara.kuitansi']);
-    $routes->get('rincian', 'Bendahara\RincianController::index', ['as' => 'bendahara.rincian']);
+    $routes->get('', 'Bendahara\DashboardController::index',);
+    $routes->get('kuitansi', 'Bendahara\KuitansiController::index');
+    $routes->get('rincian', 'Bendahara\RincianController::index');
 });
 $routes->group('kepala', function ($routes) {
-    $routes->get('', 'Kepala\DashboardController::index', ['as' => 'kepala.index']);
-    $routes->get('verifikasi', 'Kepala\VerifikasiController::index', ['as' => 'kepala.verifikasi']);
+    $routes->get('', 'Kepala\DashboardController::index');
+    $routes->get('verifikasi', 'Kepala\VerifikasiController::index');
 });
 
 /*

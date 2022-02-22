@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Jabatan extends Migration
+class Kabupaten extends Migration
 {
     public function up()
     {
@@ -15,14 +15,14 @@ class Jabatan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'kode'          => [
-                'type'          => 'BIGINT',
-                'constraint'    => 10,
-                'unsigned'      => true,
+            'id_provinsi'          => [
+                'type'           => 'INT',
+                'constraint'     => 10,
+                'unsigned'       => true,
             ],
-            'nama_jabatan'   => [
+            'nama_kabupaten'   => [
                 'type'          => 'VARCHAR',
-                'constraint'    => '20',
+                'constraint'    => '40',
             ],
             'created_at'    => [
                 'type'          => 'DATETIME',
@@ -39,12 +39,13 @@ class Jabatan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('kode');
-        $this->forge->createTable('jabatan');
+        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('kabupaten');
     }
 
     public function down()
     {
-        $this->forge->dropTable('jabatan');
+        $this->forge->dropForeignKey('provinsi', 'etbl_kabupaten_id_provinsi_foreign');
+        $this->forge->dropTable('kabupaten');
     }
 }

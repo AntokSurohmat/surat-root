@@ -138,13 +138,9 @@
         // Jquery
         jQuery(function($) {
             $('[data-rel="popover"]').popover()
-            $("body").tooltip({
-                selector: '[data-rel=tooltip]',
-                trigger: 'hover',
-            });
-            $('[data-rel="tooltip"]').hover(function() {
-                $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
-            });
+            $('[data-rel="tooltip"]').tooltip({ trigger:'hover focus' })
+            $("body").tooltip({ selector: '[data-rel="tooltip"]',trigger:'hover' });
+            $('[data-rel="tooltip"]').hover(function() { $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px') });
         });
     </script>
     <?= $this->renderSection('scripts') ?>

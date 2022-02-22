@@ -88,7 +88,7 @@ class PangolController extends BaseController
         if ($this->request->getVar('method') == 'New') {
 
             $valid = $this->validate([
-                'kode' => [
+                'kodeAddEdit' => [
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_pangol.kode]',
                     'errors' => [
@@ -97,7 +97,7 @@ class PangolController extends BaseController
                         'is_unique' => 'Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
-                'nama_pangol' => [
+                'nama_pangolAddEdit' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
@@ -109,15 +109,15 @@ class PangolController extends BaseController
             if (!$valid) {
                 $data = [
                     'error' => [
-                        'kode' => $validation->getError('kode'),
-                        'nama_pangol' => $validation->getError('nama_pangol'),
+                        'kode' => $validation->getError('kodeAddEdit'),
+                        'nama_pangol' => $validation->getError('nama_pangolAddEdit'),
                     ]
                 ];
             } else {
 
                 $data = [
-                    'kode' => $this->request->getVar('kode'),
-                    'nama_pangol' => $this->request->getVar('nama_pangol')
+                    'kode' => $this->request->getVar('kodeAddEdit'),
+                    'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
 
                 if ($this->group->insert($data)) {
@@ -130,7 +130,7 @@ class PangolController extends BaseController
 
         if ($this->request->getVar('method') == 'Edit') {
             $valid = $this->validate([
-                'kode' => [
+                'kodeAddEdit' => [
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[10]',
                     'errors' => [
@@ -138,7 +138,7 @@ class PangolController extends BaseController
                         'max_length' => 'Maksimal 10 Karakter',
                     ],
                 ],
-                'nama_pangol' => [
+                'nama_pangolAddEdit' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
@@ -150,15 +150,15 @@ class PangolController extends BaseController
             if (!$valid) {
                 $data = [
                     'error' => [
-                        'kode' => $validation->getError('kode'),
-                        'nama_pangol' => $validation->getError('nama_pangol'),
+                        'kode' => $validation->getError('kodeAddEdit'),
+                        'nama_pangol' => $validation->getError('AddEdit'),
                     ]
                 ];
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
-                    'kode' => $this->request->getVar('kode'),
-                    'nama_pangol' => $this->request->getVar('nama_pangol')
+                    'kode' => $this->request->getVar('kodeAddEdit'),
+                    'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
 
                 if ($this->group->update($id, $data)) {

@@ -11,9 +11,7 @@ class PangolSeeder extends Seeder
     {
 
         $faker = \Faker\Factory::create();
-        // $values = array();
         for ($i = 0; $i < 10; $i++) {
-            // $values[] = $faker->unique()->randomDigit;
             $data = [
                 'kode' => $faker->unique()->randomNumber($nbDigits = NULL, $strict = false) ,
                 'nama_pangol' => $faker->name,
