@@ -4,15 +4,15 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class SptController extends BaseController
+class Spd extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'SURAT PERINTAH TUGAS',
+            'title' => 'SURAT PERJALAN DINAS',
             'parent' => 3,
-            'pmenu' => 3.1
+            'pmenu' => 3.2
         );
-        return view('admin/spt/v-spt', $data);
+        return view('admin/spd/v-spd', $data);
     }
 }

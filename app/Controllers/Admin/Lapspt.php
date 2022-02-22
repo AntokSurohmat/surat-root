@@ -4,7 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class LapsptController extends BaseController
+class Lapspt extends BaseController
 {
     public function index()
     {

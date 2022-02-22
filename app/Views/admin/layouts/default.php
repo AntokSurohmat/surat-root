@@ -8,6 +8,7 @@
 
     <!-- <meta name="<?= csrf_token() ?>" content="<?= csrf_hash() ?>" class="csrf"> -->
 
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -34,9 +35,14 @@
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Costum CSS -->
     <link rel="stylesheet" href="<?= base_url() ?>/custom/css/style.css">
 
+    <!-- jQuery -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/jquery/jquery.min.js"></script>
 
 </head>
 
@@ -92,8 +98,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="<?= base_url() ?>/AdminLTE/plugins/jquery/jquery.min.js"></script>
+
     <!-- jQuery UI 1.11.4 -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -131,16 +136,27 @@
     <script src="<?= base_url() ?>/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.js"></script>
-
+    <!-- Select2 -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/custom/js/custom.js"></script>
     <script language="javascript">
         // Jquery
         jQuery(function($) {
             $('[data-rel="popover"]').popover()
-            $('[data-rel="tooltip"]').tooltip({ trigger:'hover focus' })
-            $("body").tooltip({ selector: '[data-rel="tooltip"]',trigger:'hover' });
-            $('[data-rel="tooltip"]').hover(function() { $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px') });
+            $('[data-rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            })
+            $("body").tooltip({
+                selector: '[data-rel="tooltip"]',
+                trigger: 'hover'
+            });
+            $('[data-rel="tooltip"]').hover(function() {
+                $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
+            });
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
         });
     </script>
     <?= $this->renderSection('scripts') ?>

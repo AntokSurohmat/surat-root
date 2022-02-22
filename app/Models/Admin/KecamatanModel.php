@@ -15,7 +15,7 @@ class KecamatanModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_provinsi', 'id_kabupaten', 'nama_kecamatan'];
+    protected $allowedFields    = ['id_kabupaten', 'nama_kecamatan'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,15 +26,10 @@ class KecamatanModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id_provinsi' => 'required|numeric|max_lenght[10]',
         'id_kabupaten' => 'required|numeric|max_lenght[10]',
         'nama_kecamatan' => 'required|max_lenght[40]'
     ];
     protected $validationMessages   = [
-        'id_provinsi' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_lenght' => 'Maksimal 10 Karakter'
-        ],
         'id_kabupaten' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_lenght' => 'Maksimal 10 Karakter'

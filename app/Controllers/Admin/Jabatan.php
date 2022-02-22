@@ -5,11 +5,11 @@ date_default_timezone_set('Asia/Jakarta');
 use App\Controllers\BaseController;
 use App\Models\Admin\JabatanModel;
 
-class JabatanController extends BaseController
+class Jabatan extends BaseController
 {
     public function __construct()
     {
-        $this->group = new JabatanModel();
+        $this->jabatan = new JabatanModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
     }
@@ -28,9 +28,9 @@ class JabatanController extends BaseController
             exit('No direct script is allowed');
         }
 
-        $list = $this->group->get_datatables();
-        $count_all = $this->group->count_all();
-        $count_filter = $this->group->count_filter();
+        $list = $this->jabatan->get_datatables();
+        $count_all = $this->jabatan->count_all();
+        $count_filter = $this->jabatan->count_filter();
 
         $data = array();
         $no = $this->request->getPost('start');
@@ -63,7 +63,7 @@ class JabatanController extends BaseController
             exit('No direct script is allowed');
         }
         if($this->request->getVar('id')) {
-            $data = $this->group->where('id', $this->request->getVar('id'))->first();
+            $data = $this->jabatan->where('id', $this->request->getVar('id'))->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -113,7 +113,7 @@ class JabatanController extends BaseController
                     'nama_jabatan' => $this->request->getVar('nama_jabatanAddEdit')
                 ];
 
-                if ($this->group->insert($data)) {
+                if ($this->jabatan->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
@@ -154,7 +154,7 @@ class JabatanController extends BaseController
                     'nama_jabatan' => $this->request->getVar('nama_jabatanAddEdit')
                 ];
 
-                if ($this->group->update($id, $data)) {
+                if ($this->jabatan->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
@@ -174,7 +174,7 @@ class JabatanController extends BaseController
         if ($this->request->getVar('id')){
             $id = $this->request->getVar('id');
 
-            if ($this->group->where('id', $id)->delete($id)) {
+            if ($this->jabatan->where('id', $id)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
             } else {
                 $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');

@@ -10,14 +10,14 @@ class Kabupaten extends Migration
     {
         $this->forge->addField([
             'id'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
             'id_provinsi'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
             ],
             'nama_kabupaten'   => [
@@ -39,7 +39,7 @@ class Kabupaten extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id');
         $this->forge->createTable('kabupaten');
     }
 

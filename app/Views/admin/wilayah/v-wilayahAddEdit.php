@@ -29,9 +29,9 @@
                         </a> -->
                     </div>
                     <!-- /.card-header -->
-                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off">
+                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="card-body">
-
+                            <input type="hidden" class="txt_csrfname" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -43,10 +43,10 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="provinsi" class="col-sm-3 col-form-label">Provinsi</label>
+                                            <label for="provinsiSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                             <div class="col-sm-7">
-                                                <select name="" id="provinsi" class="form-control select2" style="width: 100%;">
-                                                    <option value="">Silahkan Pilih Provinsi</option>
+                                                <select name="provinsi" id="provinsiSelect" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Cari Provinsi ---</option>
                                                 </select>
                                             </div>
                                             <span>
@@ -54,10 +54,10 @@
                                             </span>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="provinsi" class="col-sm-3 col-form-label">Kabupaten</label>
+                                            <label for="kabupatenSelect" class="col-sm-3 col-form-label">Kabupaten</label>
                                             <div class="col-sm-7">
-                                                <select name="" id="provinsi" class="form-control">
-                                                    <option value="">Silahkan Pilih Kabupaten</option>
+                                                <select name="kabupaten" id="kabupatenSelect" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Cari Kabupaten ---</option>
                                                 </select>
                                             </div>
                                             <span>
@@ -65,10 +65,10 @@
                                             </span>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="provinsi" class="col-sm-3 col-form-label">Provinsi</label>
+                                            <label for="kecamatanSelect" class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-7">
-                                                <select name="" id="provinsi" class="form-control">
-                                                    <option value="">Silahkan Pilih Kecamatan</option>
+                                                <select name="" id="kecamatanSelect" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Cari Kecamatan ---</option>
                                                 </select>
                                             </div>
                                             <span>
@@ -78,30 +78,29 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="lapspdPejabat" class="col-sm-6 col-form-label">Jenis Wilayah</label>
-                                            <div class="col-sm-6">
+                                            <label for="lapspdPejabat" class="col-sm-3 col-form-label">Jenis Wilayah</label>
+                                            <div class="col-sm-7">
                                                 <select name="nama_pej" id="lapspdPejabat" class="form-control">
                                                     <option value="">Pilih Nama Pejabat</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="lapsptdPegawai" class="col-sm-6 col-form-label">Zonasi</label>
-                                            <div class="col-sm-6">
+                                            <label for="lapsptdPegawai" class="col-sm-3 col-form-label">Zonasi</label>
+                                            <div class="col-sm-7">
                                                 <select name="nama_peg" id="lapsptdPegawai" class="form-control">
                                                     <option value="">Pilih Nama Pegawai</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
 
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
                         </div>
                     </form>
                 </div>
@@ -118,6 +117,101 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(function() {
+
+        // Initialize select2
+        $("#provinsiSelect").select2({
+            theme: 'bootstrap4',
+            allowClear: true,
+            placeholder: '--- Cari Provinsi ---',
+            ajax: {
+                url: "<?= base_url('Admin/Wilayah/getProvinsi') ?>",
+                type: "POST",
+                dataType: "JSON",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        searchTerm: params.term, // search term
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    };
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name); // Update CSRF Token
+                    return {
+                        results: response.data
+                    }; // result Data
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                },
+                cache: true
+            }
+        });
+
+        $("#provinsiSelect").change(function() {
+            var provinsiID = $(this).val();
+            // Initialize select2
+            $("#kabupatenSelect").select2({
+                theme: 'bootstrap4',
+                allowClear: true,
+                placeholder: '--- Cari Kabupaten ---',
+                ajax: {
+                    url: "<?= base_url('Admin/Wilayah/getKabupaten') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term, // search term
+                            provinsi: provinsiID,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        };
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name); // Update CSRF Token
+                        return {
+                            results: response.data
+                        }; // result Data
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    },
+                    cache: true
+                }
+            })
+        });
+
+        $("#kabupatenSelect").change(function() {
+            var kabupatenID = $(this).val();
+            // Initialize select2
+            $("#kecamatanSelect").select2({
+                theme: 'bootstrap4',
+                allowClear: true,
+                placeholder: '--- Cari Kecamatan ---',
+                ajax: {
+                    url: "<?= base_url('Admin/Wilayah/getKecamatan') ?>",
+                    type: "POST",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term, // search term
+                            kabupaten: kabupatenID,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        };
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name); // Update CSRF Token
+                        return {
+                            results: response.data
+                        }; // result Data
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    },
+                    cache: true
+                }
+            })
+        });
 
     })
 </script>

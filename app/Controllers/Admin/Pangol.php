@@ -6,12 +6,12 @@ use App\Controllers\BaseController;
 use App\Models\Admin\PangolModel;
 
 
-class PangolController extends BaseController
+class Pangol extends BaseController
 {
 
     public function __construct()
     {
-        $this->group = new PangolModel();
+        $this->pangol = new PangolModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
     }
@@ -33,9 +33,9 @@ class PangolController extends BaseController
             exit('No direct script is allowed');
         }
 
-        $list = $this->group->get_datatables();
-        $count_all = $this->group->count_all();
-        $count_filter = $this->group->count_filter();
+        $list = $this->pangol->get_datatables();
+        $count_all = $this->pangol->count_all();
+        $count_filter = $this->pangol->count_filter();
 
         $data = array();
         $no = $this->request->getPost('start');
@@ -70,7 +70,7 @@ class PangolController extends BaseController
         }
 
         if ($this->request->getVar('id')) {
-            $data = $this->group->where('id', $this->request->getVar('id'))->first();
+            $data = $this->pangol->where('id', $this->request->getVar('id'))->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -120,7 +120,7 @@ class PangolController extends BaseController
                     'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
 
-                if ($this->group->insert($data)) {
+                if ($this->pangol->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
@@ -161,7 +161,7 @@ class PangolController extends BaseController
                     'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
 
-                if ($this->group->update($id, $data)) {
+                if ($this->pangol->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
@@ -181,7 +181,7 @@ class PangolController extends BaseController
         if ($this->request->getVar('id')){
             $id = $this->request->getVar('id');
 
-            if ($this->group->where('id', $id)->delete($id)) {
+            if ($this->pangol->where('id', $id)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
             } else {
                 $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');

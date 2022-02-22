@@ -3,9 +3,29 @@
 namespace App\Controllers\Admin;
 
 use CodeIgniter\RESTful\ResourcePresenter;
+use App\Models\Admin\ProvinsiModel;
+use App\Models\Admin\KabupatenModel;
+use App\Models\Admin\KecamatanModel;
+use App\Models\Admin\WilayahModel;
+
+use CodeIgniter\HTTP\IncomingRequest;
+
+/**
+ * @property IncomingRequest $request
+ */
 
 class Wilayah extends ResourcePresenter
 {
+
+    public function __construct()
+    {
+        $this->provinsi = new ProvinsiModel();
+        $this->kabupaten = new KabupatenModel();
+        $this->kecamatan = new KecamatanModel();
+        $this->wilayah = new WilayahModel();
+        $this->csrfToken = csrf_token();
+        $this->csrfHash = csrf_hash();
+    }
     /**
      * Present a view of resource objects
      *
@@ -19,6 +39,102 @@ class Wilayah extends ResourcePresenter
             'pmenu' => 2.4
         );
         return view('admin/wilayah/v-wilayah', $data);
+    }
+
+    public function getProvinsi()
+    {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+                ->orderBy('nama_provinsi')
+                ->findAll(10);
+        } else {
+            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+                ->like('nama_provinsi', $this->request->getPost('searchTerm'))
+                ->orderBy('nama_provinsi')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($provinsilist as $provinsi) {
+            $data[] = array(
+                "id" => $provinsi['id'],
+                "text" => $provinsi['nama_provinsi'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+
+    public function getKabupaten()
+    {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        if ($this->request->getPost('searchTerm') == NULL) {            
+            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
+                ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->orderBy('nama_kabupaten')
+                ->findAll(10);
+        } else {
+            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
+                ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
+                ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->orderBy('nama_kabupaten')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($kabupatenlist as $kabupaten) {
+            $data[] = array(
+                "id" => $kabupaten['id'],
+                "text" => $kabupaten['nama_kabupaten'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getKecamatan()
+    {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        if ($this->request->getPost('searchTerm') == NULL) {            
+            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
+                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->orderBy('nama_kecamatan')
+                ->findAll(10);
+        } else {
+            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
+                ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
+                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->orderBy('nama_kecamatan')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($kabupatenlist as $kabupaten) {
+            $data[] = array(
+                "id" => $kabupaten['id'],
+                "text" => $kabupaten['nama_kecamatan'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
     }
 
     /**

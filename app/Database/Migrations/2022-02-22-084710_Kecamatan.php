@@ -10,19 +10,14 @@ class Kecamatan extends Migration
     {
         $this->forge->addField([
             'id'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_provinsi'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
-                'unsigned'       => true,
-            ],
             'id_kabupaten'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
             ],
             'nama_kecamatan'   => [
@@ -44,14 +39,12 @@ class Kecamatan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id');
         $this->forge->createTable('kecamatan');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('provinsi', 'etbl_kecamatan_id_provinsi_foreign');
         $this->forge->dropForeignKey('kabupaten', 'etbl_kecamatan_id_kabupaten_foreign');
         $this->forge->dropTable('kecamatan');
     }

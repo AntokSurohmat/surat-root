@@ -71,7 +71,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off">
+                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
                             <input type="hidden" id="hidden_id" name="hidden_id" />
                             <input type="hidden" id="method" name="method" />
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
                             <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
@@ -122,7 +122,7 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": "<?= base_url('Admin/PangolController/load_data') ?>",
+                "url": "<?= base_url('Admin/Pangol/load_data') ?>",
                 "type": 'POST',
                 "data": {
                     "csrf_token_name": $('input[name=csrf_token_name]').val()
@@ -198,7 +198,8 @@
             $("#nama_pangolForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
-            $('#kode').focus();
+            $('#kodeForm').focus();
+            $('#kodeForm').keydown(function(event){if(event.keyCode == 13) {$('#nama_pangolForm').focus();}});
         });
 
         $('#add-data').click(function() {
@@ -218,7 +219,7 @@
             var id = $(this).data('id');
             // console.log(id);
             $.ajax({
-                url: "<?= base_url('Admin/PangolController/single_data') ?>",
+                url: "<?= base_url('Admin/Pangol/single_data') ?>",
                 type: "POST",
                 data: {
                     id: id,
@@ -253,7 +254,7 @@
 
                     var id = $(this).data('id');
                     $.ajax({
-                        url: "<?= base_url('Admin/PangolController/Delete') ?>",
+                        url: "<?= base_url('Admin/Pangol/Delete') ?>",
                         method: "POST",
                         data: {
                             id: id,
@@ -297,7 +298,7 @@
 
             // console.log($(this).serialize());
             $.ajax({
-                url: "<?= base_url('Admin/PangolController/Save') ?>",
+                url: "<?= base_url('Admin/Pangol/Save') ?>",
                 type: "POST",
                 data: $(this).serialize(),
                 dataType: "JSON",

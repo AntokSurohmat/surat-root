@@ -4,15 +4,15 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class PegawaiController extends BaseController
+class Sbuh extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'PEGAWAI',
+            'title' => 'STANDAR BIAYA UANG HARIAN',
             'parent' => 2,
-            'pmenu' => 2.1
+            'pmenu' => 2.6
         );
-        return view('admin/pegawai/v-pegawai', $data);
+        return view('admin/sbuh/v-sbuh', $data);
     }
 }

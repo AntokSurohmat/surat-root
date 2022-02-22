@@ -4,15 +4,15 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class SbuhController extends BaseController
+class Rekening extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'STANDAR BIAYA UANG HARIAN',
+            'title' => 'KODE REKENING',
             'parent' => 2,
-            'pmenu' => 2.6
+            'pmenu' => 2.7
         );
-        return view('admin/sbuh/v-sbuh', $data);
+        return view('admin/rekening/v-rekening', $data);
     }
 }

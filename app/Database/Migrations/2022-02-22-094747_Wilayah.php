@@ -10,30 +10,30 @@ class Wilayah extends Migration
     {
         $this->forge->addField([
             'id'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'kode'          => [
-                'type'          => 'BIGINT',
-                'constraint'    => 10,
-                'unsigned'      => true,
-            ],
             'id_provinsi'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
             ],
             'id_kabupaten'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
             ],
             'id_kecamatan'          => [
-                'type'           => 'INT',
-                'constraint'     => 10,
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
                 'unsigned'       => true,
+            ],
+            'kode'          => [
+                'type'          => 'BIGINT',
+                'constraint'    => 20,
+                'unsigned'      => true,
             ],
             'jenis_wilayah'   => [
                 'type'          => 'VARCHAR',
@@ -60,9 +60,9 @@ class Wilayah extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_kecamatan', 'kecamatan', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id');
+        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id');
+        $this->forge->addForeignKey('id_kecamatan', 'kecamatan', 'id');
         $this->forge->createTable('wilayah');
     }
 

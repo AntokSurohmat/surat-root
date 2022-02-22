@@ -26,7 +26,8 @@
     forcePlaceholderSize: true,
     zIndex: 999999
   })
-  $('.connectedSortable .card-header').css('cursor', 'move')
+  $('.connectedSortable .card-header').css('cursor', 'move');
+
 
 })(jQuery)
 

@@ -71,7 +71,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off">
+                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
                             <input type="hidden" name="hidden_id" id="hidden_id" />
                             <input type="hidden" name="method" id="method" />
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="modal-footer hustify-content-between">
-                            <button class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fas-times"></i>&ensp;Close</button>
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fas-times"></i>&ensp;Close</button>
                             <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
@@ -110,6 +110,7 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
+    
     $(document).ready(function() {
         /*-- DataTable To Load Data --*/
         var jbtan = $('#jbtan_data').DataTable({
@@ -121,7 +122,7 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": "<?= base_url('Admin/JabatanController/load_data') ?>",
+                "url": "<?= base_url('Admin/Jabatan/load_data') ?>",
                 "type": 'POST',
                 "data": {
                     "csrf_token_name": $('input[name=csrf_token_name]').val()
@@ -188,6 +189,7 @@
         });
         /*-- DataTable To Load Data --*/
 
+
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
             $("#kodeForm").empty();
@@ -198,13 +200,14 @@
             $("#nama_jabatanForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
-            $("#kode").focus();
+            $("#kodeForm").focus();
+            $('#kodeForm').keydown(function(event){if(event.keyCode == 13) {$('#nama_jabatanForm').focus();}});
         });
 
         $('#add-data').click(function() {
             var option = {
                 backdrop: 'static',
-                keyboard: true
+                keyboard: true,
             }
             $('#modal-newitem').modal(option);
             $('#form-addedit')[0].reset();
@@ -217,7 +220,7 @@
             var id = $(this).data('id');
             // console.log(id);
             $.ajax({
-                url: "<?= base_url('Admin/JabatanController/single_data') ?>",
+                url: "<?= base_url('Admin/Jabatan/single_data') ?>",
                 type: "POST",
                 data: {
                     id: id,
@@ -252,7 +255,7 @@
                 if (result.isConfirmed) {
                     var id = $(this).data('id');
                     $.ajax({
-                        url: "<?= base_url('Admin/JabatanController/Delete') ?>",
+                        url: "<?= base_url('Admin/Jabatan/Delete') ?>",
                         method: "POST",
                         data: {
                             id: id,
@@ -292,9 +295,14 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
 
+            // var grnd_ttl = $('#kodeForm').val() ? $('#kodeForm').val() : 0;
+            // // if( KodeForm == null || KodeForm == "" || KodeForm.length < 5){
+            // //     alert("Kosong");
+            // // }
+
             // console.log($(this).serialize());
             $.ajax({
-                url: "<?= base_url('Admin/JabatanController/Save') ?>",
+                url: "<?= base_url('Admin/Jabatan/Save') ?>",
                 type: "POST",
                 data: $(this).serialize(),
                 dataType: "JSON",
