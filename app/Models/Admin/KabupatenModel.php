@@ -26,16 +26,16 @@ class KabupatenModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id_provinsi' => 'required|numeric|max_lenght[10]',
-        'nama_kabupaten' => 'required|max_lenght[40]',
+        'id_provinsi' => 'required|numeric|max_length[20]',
+        'nama_kabupaten' => 'required|max_length[40]',
     ];
     protected $validationMessages   = [
         'id_provinsi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_lenght' => 'Maksimal 10 Karakter',
+            'max_length' => 'Maksimal 20 Karakter',
         ],
         'nama_kabupate' => [
-            'max_lenght' => 'Maksimal 40 Karakter'
+            'max_length' => 'Maksimal 40 Karakter'
         ]
     ];
     protected $skipValidation       = false;

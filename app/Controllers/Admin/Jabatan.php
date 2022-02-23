@@ -85,16 +85,16 @@ class Jabatan extends BaseController
                     'label'     => 'Kode Jabatan',
                     'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_jabatan.kode]',
                     'errors' => [
-                        'numeric' => 'Hanya Bisa Memasukkan Angka',
-                        'max_length' => 'Maksimal 10 Karakter',
-                        'is_unique' => 'Kode Yang Anda masukkan sudah dipakai',
+                        'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
                 'nama_jabatanAddEdit' => [
                     'label' => 'Nama Jabatan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
-                        'max_length' => 'Maksimal 20 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ]
             ]);
@@ -127,15 +127,15 @@ class Jabatan extends BaseController
                     'label'     => 'Kode Jabatan',
                     'rules'     => 'required|numeric|max_length[10]',
                     'errors' => [
-                        'numeric' => 'Hanya Boleh Memasukkan Angka',
-                        'max_length' => 'Maksimal 10 Karakter',
+                        'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                        'max_length' => '{field} Maksimal 10 Karakter',
                     ],
                 ],
                 'nama_jabatanAddEdit' => [
                     'label' => 'Nama Jabatan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
-                        'max_length' => 'Maksimal 20 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ]
             ]);

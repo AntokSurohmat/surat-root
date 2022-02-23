@@ -110,12 +110,17 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    
     $(document).ready(function() {
-        $('form input').keydown(function(event){if(event.keyCode == 13) {event.preventDefault();return false;}});
-        /*-- DataTable To Load Data --*/
-        var jbtan = $('#jbtan_data').DataTable({
 
+        $('form input').keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+        /*-- DataTable To Load Data --*/
+        var url_destination = "<?= base_url('Admin/Jabatan/load_data') ?>";
+        var jbtan = $('#jbtan_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
             "order": [],
@@ -123,7 +128,7 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": "<?= base_url('Admin/Jabatan/load_data') ?>",
+                "url": url_destination,
                 "type": 'POST',
                 "data": {
                     "csrf_token_name": $('input[name=csrf_token_name]').val()
@@ -139,22 +144,20 @@
                 "error": handleAjaxError
             },
             "columnDefs": [{
-                    "targets": [0],
-                    "orderable": false
-                },
-                {
-                    "targets": [3],
-                    "orderable": false,
-                    "class": "text-center",
-                },
-            ],
+                "targets": [0],
+                "orderable": false
+            }, {
+                "targets": [3],
+                "orderable": false,
+                "class": "text-center",
+            }, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
+                    itle: 'Oops...',
                     text: 'The server took too long to send the data.',
                     showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
@@ -170,7 +173,7 @@
                     title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',
                     showConfirmButton: true,
-                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                    onfirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
                         document.getElementById("searchJbtan").value = "";
@@ -182,14 +185,11 @@
         $('#searchJbtan').keyup(function() {
             jbtan.search($(this).val()).draw();
         });
-
-
         $("#refresh").on('click', function() {
             document.getElementById("searchJbtan").value = "";
             jbtan.search("").draw();
         });
         /*-- DataTable To Load Data --*/
-
 
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
@@ -202,7 +202,16 @@
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $("#kodeForm").focus();
-            $('#kodeForm').keydown(function(event){if(event.keyCode == 13) {$('#nama_jabatanForm').focus();}});
+            $('#kodeForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#nama_jabatanForm').focus();
+                }
+            });
+            $('#nama_jabatanForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#submit-btn').focus();
+                }
+            });
         });
 
         $('#add-data').click(function() {
@@ -219,9 +228,9 @@
 
         $(document).on('click', '.edit', function() {
             var id = $(this).data('id');
-            // console.log(id);
+            var url_destination = "<?= base_url('Admin/Jabatan/single_data') ?>";
             $.ajax({
-                url: "<?= base_url('Admin/Jabatan/single_data') ?>",
+                url: url_destination,
                 type: "POST",
                 data: {
                     id: id,
@@ -229,16 +238,15 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#kodeForm').val(data.kode);
                     $('#nama_jabatanForm').val(data.nama_jabatan);
                     $('.modal-title').text('Edit Data ' + data.nama_jabatan);
                     $('.modal-title').css("font-weight", "900");
                     $('#method').val('Edit');
-                    $('#hidden_id').val(id);
+                    ('#hidden_id').val(id);
                     $('#submit-btn').html('<i class=""fas fa-save></i>&ensp;Update');
-                    $('#modal-newitem').modal('show');
+                    ('#modal-newitem').modal('show');
                 }
             })
         })
@@ -340,7 +348,6 @@
                             });
                             $('#jbtan_data').DataTable().ajax.reload(null, false);
                         } else {
-                            $("#modal-newitem").modal('hide');
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -348,7 +355,6 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            $('#jbtan_data').DataTable().ajax.reload(null, false);
                         }
                     }
                 },

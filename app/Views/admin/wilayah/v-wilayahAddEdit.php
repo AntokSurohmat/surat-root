@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-12">
 
-                <div class="card card-outline card-info">
+                <div class="card card-outline card-primary">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
                         <!-- <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
@@ -31,34 +31,38 @@
                     <!-- /.card-header -->
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="card-body">
-                            <input type="hidden" class="txt_csrfname" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="text" id="methodPage" value="<?= $method ?>" />
+                            <input type="text" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="kode" class="col-sm-3 col-form-label">Kode</label>
+                                            <label for="kodeForm" class="col-sm-3 col-form-label">Kode</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kode" class="form-control" id="kode" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
+                                                <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
                                                 <div class="invalid-feedback kodeError"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="provinsiSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                             <div class="col-sm-7">
-                                                <select name="provinsi" id="provinsiSelect" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="provinsiAddEdit" id="provinsiSelect" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Cari Provinsi ---</option>
                                                 </select>
+                                                <div class="invalid-feedback id_provinsiError"></div>
                                             </div>
                                             <span>
                                                 <button type="button" class="btn btn-outline-info" data-rel="tooltip" data-placement="top" title="Tambah Provinsi" id="add-prov"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
                                             </span>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="kabupatenSelect" class="col-sm-3 col-form-label">Kabupaten</label>
+                                            <label for="kabupatenSelect" class="col-sm-3 col-form-label">Kabupaten/Kota</label>
                                             <div class="col-sm-7">
-                                                <select name="kabupaten" id="kabupatenSelect" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="kabupatenAddEdit" id="kabupatenSelect" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Cari Kabupaten ---</option>
                                                 </select>
+                                                <div class="invalid-feedback id_kabupatenError"></div>
                                             </div>
                                             <span>
                                                 <button type="button" class="btn btn-outline-primary" data-rel="tooltip" data-placement="top" title="Tambah Kabupaten" id="add-kab"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
@@ -67,9 +71,10 @@
                                         <div class="form-group row">
                                             <label for="kecamatanSelect" class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-7">
-                                                <select name="kecamatan" id="kecamatanSelect" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="kecamatanAddEdit" id="kecamatanSelect" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Cari Kecamatan ---</option>
                                                 </select>
+                                                <div class="invalid-feedback id_kecamatanError"></div>
                                             </div>
                                             <span>
                                                 <button type="button" class="btn btn-outline-success" data-rel="tooltip" data-placement="top" title="Tambah Kecamatan" id="add-kec"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
@@ -80,15 +85,15 @@
                                         <div class="form-group row">
                                             <label for="jenis_wilayahForm" class="col-sm-3 col-form-label">Jenis Wilayah</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="jenis_wilayah" class="form-control" id="jenis_wilayahForm" placeholder="Masukkan Jenis Wilayah">
-                                                <div class="invalid-feedback nama_pangolError"></div>
+                                                <input type="text" name="jenis_wilayahAddEdit" class="form-control" id="jenis_wilayahForm" placeholder="Masukkan Jenis Wilayah">
+                                                <div class="invalid-feedback jenis_wilayahError"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="zonasiForm" class="col-sm-3 col-form-label">Zonasi</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="zonasi" class="form-control" id="zonasiForm" placeholder="Masukkan Jenis Wilayah">
-                                                <div class="invalid-feedback nama_pangolError"></div>
+                                                <input type="text" name="zonasiAddEdit" class="form-control" id="zonasiForm" placeholder="Masukkan Jenis Wilayah">
+                                                <div class="invalid-feedback zonasiError"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -97,8 +102,9 @@
                         </div>
 
                         <!-- /.card-body -->
-                        <div class="card-footer clearfix">
-                            <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i> Add item</button>
+                        <div class="card-footer" style="text-align:center;">
+                            <a type="button" href="<?= base_url('') ?>/Admin/Wilayah" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
+                            <button type="submit" id="submit-wilayah" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
@@ -120,18 +126,18 @@
                     <form class="form-horizontal" role="form" id="form-prov" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="text" id="method" name="method" value="Prov" />
+                            <input type="hidden" id="method" name="method" value="Prov" />
                             <div class="form-group row">
-                                <label for="nama_provForm" class="col-sm-3 col-form-label">Provinsi</label>
+                                <label for="nama_provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nama_provAdd" id="nama_provForm" placeholder="Nama Provinsi Baru" />
-                                    <div class="invalid-feedback nama_provError"></div>
+                                    <input type="text" class="form-control" name="nama_provinsiAddEdit" id="nama_provinsiForm" placeholder="Nama Provinsi Baru" />
+                                    <div class="invalid-feedback nama_provinsiError"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="button" id="submit-btn_prov" onclick="saveprov()" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                            <button type="submit" id="submit-btn-prov" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
@@ -139,7 +145,7 @@
         </div><!-- /.modal prov -->
 
         <!--add Kab-->
-        <div id="modal-kab" class="modal fade" tabindex="-1"  role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
+        <div id="modal-kab" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -151,27 +157,27 @@
                     <form class="form-horizontal" role="form" id="form-kab" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="text" id="methodKab" name="methodKab" value="Kab"/>
+                            <input type="hidden" id="method" name="method" value="Kab" />
                             <div class="form-group row">
-                                <label for="provinsiAddSelect" class="col-sm-3 col-form-label">Provinsi</label>
+                                <label for="id_provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
                                 <div class="col-sm-9">
-                                    <select name="provinsiAdd" id="provinsiAddSelect" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="id_provinsiAddEdit" id="id_provinsiForm" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
-                                    <div class="invalid-feedback provinsiError"></div>
+                                    <div class="invalid-feedback id_provinsiError"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_kabForm" class="col-sm-3 col-form-label">Kota/Kab.</label>
+                                <label for="nama_kabupatenForm" class="col-sm-3 col-form-label">Kota/Kab.</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nama_kabAdd" id="nama_kabForm" placeholder="Nama Kabupaten Baru" />
-                                    <div class="invalid-feedback nama_kabError"></div>
+                                    <input type="text" class="form-control" name="nama_kabupatenAddEdit" id="nama_kabupatenForm" placeholder="Nama Kabupaten Baru" />
+                                    <div class="invalid-feedback nama_kabupatenError"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="button" id="submit-btn" onclick="savekab()" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                            <button type="submit" id="submit-btn-kab" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
@@ -179,7 +185,7 @@
         </div><!-- /.modal Kab -->
 
         <!--add Kec-->
-        <div id="modal-kec" class="modal fade" tabindex="-1"  role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
+        <div id="modal-kec" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -191,36 +197,36 @@
                     <form class="form-horizontal" role="form" id="form-kec" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="text" id="methodKec" name="methodKec"/>
+                            <input type="hidden" id="method" name="method" value="Kec" />
                             <div class="form-group row">
-                                <label for="provinsiAddSelect" class="col-sm-3 col-form-label">Provinsi</label>
+                                <label for="provinsiKecamatanSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                 <div class="col-sm-9">
-                                    <select name="provinsiAdd" id="provinsiAddKecSelect" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="provinsiAdd" id="provinsiKecamatanSelect" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
-                                    <div class="invalid-feedback provinsiError"></div>
+                                    <div class="invalid-feedback provinsiAddError"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="kabupatenAddSelect" class="col-sm-3 col-form-label">Kabupaten</label>
+                                <label for="id_kabupatenForm" class="col-sm-3 col-form-label">Kabupaten</label>
                                 <div class="col-sm-9">
-                                    <select name="provinsiAdd" id="kabupatenAddSelect" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="id_kabupatenAddEdit" id="id_kabupatenForm" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kabupaten ---</option>
                                     </select>
-                                    <div class="invalid-feedback provinsiError"></div>
+                                    <div class="invalid-feedback id_kabupatenError"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_kecForm" class="col-sm-3 col-form-label">Kec.</label>
+                                <label for="nama_kecamatanForm" class="col-sm-3 col-form-label">Kec.</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nama_kabAdd" id="nama_kecForm" placeholder="Nama Kabupaten Baru" />
-                                    <div class="invalid-feedback nama_kabError"></div>
+                                    <input type="text" class="form-control" name="nama_kecamatanAddEdit" id="nama_kecamatanForm" placeholder="Nama Kecamatan Baru" />
+                                    <div class="invalid-feedback nama_kecamatanError"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="button" id="submit-btn" onclick="savekec()" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                            <button type="submit" id="submit-btn-kec" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
@@ -236,50 +242,183 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        // preventDefault to stay in modal when keycode 13
+        $('form input').keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $('#kodeForm').keydown(function(event) {
+            if (event.keyCode == 13) {
+                $('#provinsiSelect').select2('open');
+            }
+        });
+        // Bind an event
+        $('#provinsiSelect').on('select2:select', function(e) {
+            $('#kabupatenSelect').select2('open');
+        });
+        $('#kabupatenSelect').on('select2:select', function(e) {
+            $('#kecamatanSelect').select2('open');
+        });
+        $('#kecamatanSelect').on('select2:select', function(e) {
+            $('#jenis_wilayahForm').focus();
+        });
+        $('#jenis_wilayahForm').keydown(function(event) {
+            if (event.keyCode == 13) {
+                $('#zonasiForm').focus();
+            }
+        });
+        $('#zonasiForm').keydown(function(event) {
+            if (event.keyCode == 13) {
+                $('#submit-wilayah').focus();
+            }
+        });
+        update();
+
+        function clearform() {
+            $('#form-addedit')[0].reset();
+            $("#kodeForm").empty();
+            $("#kodeForm").removeClass('is-valid');
+            $("#kodeForm").removeClass('is-invalid');
+            $("#provinsiSelect").empty();
+            $("#provinsiSelect").removeClass('is-valid');
+            $("#provinsiSelect").removeClass('is-invalid');
+            $("#kabupatenSelect").empty();
+            $("#kabupatenSelect").removeClass('is-valid');
+            $("#kabupatenSelect").removeClass('is-invalid');
+            $("#kecamatanSelect").empty();
+            $("#kecamatanSelect").removeClass('is-valid');
+            $("#kecamatanSelect").removeClass('is-invalid');
+            $("#jenis_wilayahForm").empty();
+            $("#jenis_wilayahForm").removeClass('is-valid');
+            $("#jenis_wilayahForm").removeClass('is-invalid');
+            $("#zonasiForm").empty();
+            $("#zonasiForm").removeClass('is-valid');
+            $("#zonasiForm").removeClass('is-invalid');
+        }
+
         $('#add-prov').click(function() {
-            var option = {backdrop: 'static',keyboard: true};
-            $('#modal-prov').modal(option);$('#form-prov')[0].reset();$('#modal-prov').modal('show');
+            var option = {
+                backdrop: 'static',
+                keyboard: true
+            };
+            $('#modal-prov').modal(option);
+            $('#form-prov')[0].reset();
+            $('#modal-prov').modal('show');
         });
         $('#modal-prov').on('hidden.bs.modal', function() {
-            $(this).find('form')[0].reset();$("#nama_provForm").empty();
-            $("#nama_provForm").removeClass('is-valid');$("#nama_provForm").removeClass('is-invalid');
+            $(this).find('form')[0].reset();
+            $("#nama_provinsiForm").empty();
+            $("#nama_provinsiForm").removeClass('is-valid');
+            $("#nama_provinsiForm").removeClass('is-invalid');
 
         });
-        $('#modal-prov').on('shown.bs.modal', function() {$('#nama_provForm').focus();});
+        $('#modal-prov').on('shown.bs.modal', function() {
+            $('#nama_provinsiForm').focus();
+            $('#nama_provinsiForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#submit-btn-prov').focus();
+                }
+            });
+        });
 
         $('#add-kab').click(function() {
-            var option = {backdrop: 'static',keyboard: true};
-            $('#modal-kab').modal(option);$('#form-kab')[0].reset();$('#modal-kab').modal('show');
+            var option = {
+                backdrop: 'static',
+                keyboard: true
+            };
+            $('#modal-kab').modal(option);
+            $('#form-kab')[0].reset();
+            $('#modal-kab').modal('show');
         });
         $('#modal-kab').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#provinsiSelect").empty();$("#nama_kabForm").empty();
-            $("#provinsiSelect").removeClass('is-valid');$("#nama_kabForm").removeClass('is-valid');
-            $("#provinsiSelect").removeClass('is-invalid');$("#nama_kabForm").removeClass('is-invalid');
+            $("#id_provinsiForm").empty();
+            $("#nama_kabupatenForm").empty();
+            $("#id_provinsiForm").removeClass('is-valid');
+            $("#nama_kabupatenForm").removeClass('is-valid');
+            $("#id_provinsiForm").removeClass('is-invalid');
+            $("#nama_kabupatenForm").removeClass('is-invalid');
         });
-        $('#modal-prov').on('shown.bs.modal', function() {$('#provinsiAdd').focus();$('#provinsiAdd').keydown(function(event){if(event.keyCode == 13) {$('#nama_kabForm').focus();}});});
+        $('#modal-kab').on('shown.bs.modal', function() {
+            $('#id_provinsiForm').select2('open');
+            $('#id_provinsiForm').on('select2:select', function(e) {
+                $('#nama_kabupatenForm').focus();
+            });
+            $('#nama_kabupatenForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#submit-btn-kab').focus();
+                }
+            });
+
+        });
 
         $('#add-kec').click(function() {
-            var option = {backdrop: 'static',keyboard: true};
-            $('#modal-kec').modal(option);$('#form-kec')[0].reset();$('#modal-kec').modal('show');
+            var option = {
+                backdrop: 'static',
+                keyboard: true
+            };
+            $('#modal-kec').modal(option);
+            $('#form-kec')[0].reset();
+            $('#modal-kec').modal('show');
         });
-        $('#modal-kab').on('hidden.bs.modal', function() {
+        $('#modal-kec').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#provinsiAddKecSelect").empty();$("#kabupatenAddSelect").empty();$("#nama_kecForm").empty();
-            $("#provinsiAddKecSelect").removeClass('is-valid');$("#kabupatenAddSelect").removeClass('is-valid');$("#nama_kecForm").removeClass('is-valid');
-            $("#provinsiAddKecSelect").removeClass('is-invalid');$("#kabupatenAddSelect").removeClass('is-valid');$("#nama_kecForm").removeClass('is-invalid');
+            $("#provinsiAddKecSelect").empty();
+            $("#kabupatenAddSelect").empty();
+            $("#nama_kecForm").empty();
+            $("#provinsiAddKecSelect").removeClass('is-valid');
+            $("#kabupatenAddSelect").removeClass('is-valid');
+            $("#nama_kecForm").removeClass('is-valid');
+            $("#provinsiAddKecSelect").removeClass('is-invalid');
+            $("#kabupatenAddSelect").removeClass('is-valid');
+            $("#nama_kecForm").removeClass('is-invalid');
         });
-        $('#modal-prov').on('shown.bs.modal', function() {$('#provinsiAdd').focus();$('#provinsiAdd').keydown(function(event){if(event.keyCode == 13) {$('#nama_kabForm').focus();}});});
+        $('#modal-kec').on('shown.bs.modal', function() {
+            $('#provinsiKecamatanSelect').select2('open');
+            $('#provinsiKecamatanSelect').on('select2:select', function(e) {
+                $('#id_kabupatenForm').select2('open');
+            });
+            $('#id_kabupatenForm').on('select2:select', function(e) {
+                $('#nama_kecatanForm').focus();
+            });
+            $('#nama_kecatanForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#submit-btn-kec').focus();
+                }
+            });
+        });
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiSelect").select2({
-            theme: 'bootstrap4',allowClear: true,
+            theme: 'bootstrap4',
+            allowClear: true,
+            tags: true,
             placeholder: '--- Cari Provinsi ---',
-            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name); return {results: response.data}; },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: true
+            ajax: {
+                url: url_destination,
+                type: "POST",
+                dataType: "JSON",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        searchTerm: params.term,
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    };
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {
+                        results: response.data
+                    };
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                },
+                cache: true
             }
         });
 
@@ -288,12 +427,32 @@
             // Initialize select2
             var url_destination = '<?= base_url('Admin/Wilayah/getKabupaten') ?>';
             $("#kabupatenSelect").select2({
-                theme: 'bootstrap4',allowClear: true,
+                theme: 'bootstrap4',
+                allowClear: true,
+                tags: true,
                 placeholder: '--- Cari Kabupaten ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                    processResults: function(response) { $('input[name=csrf_token_name]').val(response.csrf_token_name); return {results: response.data};},
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: false
+                ajax: {
+                    url: url_destination,
+                    type: "POST",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term,
+                            provinsi: provinsiID,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        };
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                        return {
+                            results: response.data
+                        };
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    },
+                    cache: false
                 }
             })
         });
@@ -303,152 +462,411 @@
             // Initialize select2
             var url_destination = '<?= base_url('Admin/Wilayah/getKecamatan') ?>';
             $("#kecamatanSelect").select2({
-                theme: 'bootstrap4', allowClear: true,
+                theme: 'bootstrap4',
+                allowClear: true,
+                tags: true,
                 placeholder: '--- Cari Kecamatan ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                    processResults: function(response) { $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};},
-                    error: function(xhr, ajaxOptions, thrownError) { alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: true
+                ajax: {
+                    url: url_destination,
+                    type: "POST",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term,
+                            kabupaten: kabupatenID,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        };
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                        return {
+                            results: response.data
+                        };
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    },
+                    cache: true
                 }
             })
         });
 
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
-        $("#provinsiAddSelect").select2({
+        $("#id_provinsiForm").select2({
             dropdownParent: $('#modal-kab'),
-            theme: 'bootstrap4',allowClear: true,
+            theme: 'bootstrap4',
+            allowClear: true,
+            tags: true,
             placeholder: '--- Cari Provinsi ---',
-            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                processResults: function(response) { $('input[name=csrf_token_name]').val(response.csrf_token_name);return { results: response.data};},
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: true
+            ajax: {
+                url: url_destination,
+                type: "POST",
+                dataType: "JSON",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        searchTerm: params.term,
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    };
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {
+                        results: response.data
+                    };
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                },
+                cache: true
             }
         });
 
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
-        $("#provinsiAddKecSelect").select2({
+        $("#provinsiKecamatanSelect").select2({
             dropdownParent: $('#modal-kec'),
-            theme: 'bootstrap4',allowClear: true,
+            theme: 'bootstrap4',
+            allowClear: true,
+            tags: true,
             placeholder: '--- Cari Provinsi ---',
-            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                processResults: function(response) { $('input[name=csrf_token_name]').val(response.csrf_token_name);return { results: response.data};},
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: true
+            ajax: {
+                url: url_destination,
+                type: "POST",
+                dataType: "JSON",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        searchTerm: params.term,
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    };
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {
+                        results: response.data
+                    };
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                },
+                cache: true
             }
         });
 
 
-        $("#provinsiAddKecSelect").change(function() {
+        $("#provinsiKecamatanSelect").change(function() {
             var provinsiID = $(this).val();
             // Initialize select2
             var url_destination = '<?= base_url('Admin/Wilayah/getKabupaten') ?>';
-            $("#kabupatenAddSelect").select2({
-                theme: 'bootstrap4',allowClear: true,
+            $("#id_kabupatenForm").select2({
+                dropdownParent: $('#modal-kec'),
+                theme: 'bootstrap4',
+                allowClear: true,
+                tags: true,
                 placeholder: '--- Cari Kabupaten ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};},
-                    processResults: function(response) { $('input[name=csrf_token_name]').val(response.csrf_token_name); return {results: response.data};},
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},cache: false
+                ajax: {
+                    url: url_destination,
+                    type: "POST",
+                    dataType: "JSON",
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            searchTerm: params.term,
+                            provinsi: provinsiID,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        };
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                        return {
+                            results: response.data
+                        };
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    },
+                    cache: false
                 }
             })
         });
-    
+
+        $('#form-prov').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Wilayah/savemodal') ?>";
+            $.ajax({
+                url: url_destination,
+                method: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn-prov').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-btn-prov').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn-prov').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn-prov').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    // console.log(data.error);
+                    if (data.error) {
+                        // console.log(data);
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                                .removeClass('is-invalid')
+                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                        });
+                    } else {
+                        if (data.success) {
+                            $("#modal-prov").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["success"](data.msg, "Informasi");
+                        } else {
+                            $("#modal-prov").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["warning"](data.msg, "Informasi");
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
+        })
+
+        $('#form-kab').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Wilayah/savemodal') ?>";
+            $.ajax({
+                url: url_destination,
+                method: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn-kab').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-btn-kab').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn-kab').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn-kab').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    // console.log(data.error);
+                    if (data.error) {
+                        // console.log(data);
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                                .removeClass('is-invalid')
+                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                        });
+                    } else {
+                        if (data.success) {
+                            $("#modal-kab").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["success"](data.msg, "Informasi");
+                        } else {
+                            $("#modal-kab").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["warning"](data.msg, "Informasi");
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
+        })
+
+        $('#form-kec').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Wilayah/savemodal') ?>";
+            $.ajax({
+                url: url_destination,
+                method: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn-kec').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-btn-kec').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn-kec').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn-kec').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    // console.log(data.error);
+                    if (data.error) {
+                        // console.log(data);
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                                .removeClass('is-invalid')
+                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                        });
+                    } else {
+                        if (data.success) {
+                            $("#modal-kec").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["success"](data.msg, "Informasi");
+                        } else {
+                            $("#modal-kec").modal('hide');
+                            toastr.options = {
+                                "positionClass": "toast-top-right",
+                                "closeButton": true
+                            };
+                            toastr["warning"](data.msg, "Informasi");
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
+        })
+
+        $('#form-addedit').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Wilayah/Create') ?>";
+            // console.log($(this).serialize());
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-btn').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            var ret = ("#" + key).replace('id_', '');
+                            // console.log(ret); //prints: 123
+                            var select = $(ret + "Select").addClass('is-invalid');
+                            // select.addClass('is-invalid');
+                            // console.log(select);
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "Error").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            // console.log(element);
+                            element.closest('.form-control').removeClass('is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            select.closest('.form-control').removeClass('is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                    } else {
+                        if (data.success) {
+                            clearform();
+                            // console.log(data.redirect);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil..',
+                                text: data.msg,
+                                showConfirmButton: true,
+                                timer: 3000
+                            }).then((result) => {
+                                window.location.href = data.redirect;
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.msg,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
+        })
+
+        function update() {
+            if ($('#methodPage').val() === "update" && $('#hiddenIDPage').val() != "") {
+
+                var id = $('#hiddenIDPage').val();
+                var url_destination = "<?= base_url('Admin/Wilayah/single_data') ?>";
+                $.ajax({
+                    url: url_destination,
+                    type: "POST",
+                    data: {
+                        id: id,
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    },
+                    dataType: "JSON",
+                    success: function(data) {
+                        console.log(data.provinsi.nama_provinsi);
+                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                        $('#kodeForm').val(data.kode);
+                        var statusSelect = $('#provinsiSelect');
+                        $('#provinsiSelect').val(data.provinsi);
+                        statusSelect.append(data.provinsi).trigger('change'); // Add this line
+
+                        // console.log($('#provinsiSelect').val(data.provinsi.nama_provinsi));
+                        //     $('#provinsiSelect').trigger({
+                        //     type: 'select2:select',
+                        //     params: {
+                        //         data: data.provinsi
+                        //     }
+                        // });
+                        // $('#provinsiSelect').select2('data.provinsi.nama_provinsi');
+                        //get selected value
+                        // $('#provinsiSelect').find(':selected');
+                        // $("#mySelect2").select2('data', {id: data.provinsi.id, text: data.provinsi.nama_provinsi});      
+                        // $('#provinsiSelect').val(data.provinsi.nama_provinsi);
+                        // // $('#provinsiSelect').select2().trigger('change');
+                        // console.log( $('#provinsiSelect').val(data.provinsi.nama_provinsi));
+                        // console.log( $('#provinsiSelect').select2().trigger('change'));
+                        $('#jenis_wilayahForm').val(data.jenis_wilayah);
+                        $('#zonasiForm').val(data.zonasi);
+                        $('#submit-wilayah').html('<i class="fas fa-save"></i>&ensp;Update');
+                    }
+                })
+
+
+
+            }
+        }
+
     })
-
-    function saveprov(){
-
-        var url_destination = '<?= base_url('Admin/Wilayah/savemodal')?>';
-        var method = $('#method').val();
-        var nama_provAdd = $('#nama_provForm').val();
-        var form = $('#form-prov').serialize();
-        // console.log(method);
-        // console.log(nama_provForm);
-        var form = document.getElementById('form-prov');
-		var formData = new FormData(form);
-        console.log(formData);
-
-
-        // $.ajax({url: url_destination,method: "POST",data: form,dataType: "JSON",
-        //     beforeSend: function() {
-        //             $('#submit-btn-prov').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn-prov').prop('disabled', true);
-        //     },
-        //     complete: function() {
-        //             $('#submit-btn-prov').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-prov').prop('disabled', false);
-        //     },
-        //     success: function(data) {
-        //             $('input[name=csrf_token_name]').val(data.csrf_token_name)
-        //             // console.log(data.error);
-        //             if (data.error) {
-        //                 console.log(data);
-        //                 Object.keys(data.error).forEach((key, index) => {
-        //                     $("#" + key).addClass('is-invalid');
-        //                     $("." + key + "Error").html(data.error[key]);
-        //                     var element = $('#' + key + 'Form');
-        //                     element.closest('.form-control')
-        //                         .removeClass('is-invalid')
-        //                         .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-        //                 });
-        //             } else {
-        //                 if (data.success) {
-        //                     $("#modal-prov").modal('hide');
-        //                     toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-        //                     toastr["success"](data.msg, "Informasi");
-        //                 } else {
-        //                     // $("#modal-prov").modal('hide');
-        //                     toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-        //                     toastr["warning"](data.msg, "Informasi");
-        //                 }
-        //             }
-        //         },
-        //         error: function(xhr, ajaxOptions, thrownError) {
-        //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-        //         }
-        // });return false;
-    }
-
-    function savekab(){
-
-    var url_destination = '<?= base_url('Admin/Wilayah/savemodal')?>';
-    var method = $('#methodProv').val();
-    var form = $('#form-kab');
-    console.log(method);
-    console.log(form.serialize());
-
-    // $.ajax({url: url_destination,type: "POST",data: form.serialize(),dataType: "JSON",
-    //     beforeSend: function() {
-    //             $('#submit-btn-prov').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn-prov').prop('disabled', true);
-    //     },
-    //     complete: function() {
-    //             $('#submit-btn-prov').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-prov').prop('disabled', false);
-    //     },
-    //     success: function(data) {
-    //             $('input[name=csrf_token_name]').val(data.csrf_token_name)
-    //             // console.log(data.error);
-    //             if (data.error) {
-    //                 Object.keys(data.error).forEach((key, index) => {
-    //                     $("#" + key).addClass('is-invalid');
-    //                     $("." + key + "Error").html(data.error[key]);
-    //                     var element = $('#' + key + 'Form');
-    //                     element.closest('.form-control')
-    //                         .removeClass('is-invalid')
-    //                         .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-    //                 });
-    //             } else {
-    //                 if (data.success) {
-    //                     $("#modal-prov").modal('hide');
-    //                     toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-    //                     toastr["success"](data.msg, "Informasi");
-    //                 } else {
-    //                     $("#modal-prov").modal('hide');
-    //                     toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-    //                     toastr["warning"](data.msg, "Informasi");
-    //                 }
-    //             }
-    //         },
-    //         error: function(xhr, ajaxOptions, thrownError) {
-    //             alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-    //         }
-    // })
-}
 </script>
 <?= $this->endSection() ?>

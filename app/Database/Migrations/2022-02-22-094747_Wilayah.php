@@ -11,7 +11,7 @@ class Wilayah extends Migration
         $this->forge->addField([
             'id'          => [
                 'type'           => 'BIGINT',
-                'constraint'     => 20,
+                'constraint'     => 10,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],

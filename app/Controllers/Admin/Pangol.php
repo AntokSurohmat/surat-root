@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Controllers\Admin;
-date_default_timezone_set('Asia/Jakarta');
+// date_default_timezone_set('Asia/Jakarta');
 use App\Controllers\BaseController;
 use App\Models\Admin\PangolModel;
 
+use CodeIgniter\HTTP\IncomingRequest;
+
+/**
+ * @property IncomingRequest $request
+ */
 
 class Pangol extends BaseController
 {
@@ -47,7 +52,7 @@ class Pangol extends BaseController
             $row[] = $key->nama_pangol;
             $row[] = '
             <a class="btn btn-xs btn-warning mr-1 mb-1 edit" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="edit" data-id="' . $key->id . '" data-id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
         }
@@ -94,16 +99,16 @@ class Pangol extends BaseController
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_pangol.kode]',
                     'errors' => [
-                        'numeric' => 'Hanya Bisa Memasukkan Angka',
-                        'max_length' => 'Maksimal 10 Karakter',
-                        'is_unique' => 'Kode Yang Anda masukkan sudah dipakai',
+                        'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
                 'nama_pangolAddEdit' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
-                        'max_length' => 'Maksimal 20 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ]
             ]);
@@ -118,10 +123,10 @@ class Pangol extends BaseController
             } else {
 
                 $data = [
-                    'kode' => $this->request->getVar('kodeAddEdit'),
-                    'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
+                    'nama_pangol' => $this->db->escapeString($this->request->getVar('nama_pangolAddEdit')),
                 ];
-                dd(print_r($data));
+
                 if ($this->pangol->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
@@ -136,15 +141,15 @@ class Pangol extends BaseController
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[10]',
                     'errors' => [
-                        'numeric' => 'Hanya Boleh Memasukkan Angka',
-                        'max_length' => 'Maksimal 10 Karakter',
+                        'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                        'max_length' => '{field} Maksimal 10 Karakter',
                     ],
                 ],
                 'nama_pangolAddEdit' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
-                        'max_length' => 'Maksimal 20 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ]
             ]);
@@ -162,9 +167,8 @@ class Pangol extends BaseController
                     'kode' => $this->request->getVar('kodeAddEdit'),
                     'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
-
                 if ($this->pangol->update($id, $data)) {
-                    $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
+                    $data = array('success' => true, 'msg' => 'Data Berhasil diupdate');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
                 }
