@@ -85,6 +85,8 @@ class Pangol extends BaseController
 
         $validation = \Config\Services::validation();
 
+
+
         if ($this->request->getVar('method') == 'New') {
 
             $valid = $this->validate([
@@ -119,7 +121,7 @@ class Pangol extends BaseController
                     'kode' => $this->request->getVar('kodeAddEdit'),
                     'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
                 ];
-
+                dd(print_r($data));
                 if ($this->pangol->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
@@ -151,7 +153,7 @@ class Pangol extends BaseController
                 $data = [
                     'error' => [
                         'kode' => $validation->getError('kodeAddEdit'),
-                        'nama_pangol' => $validation->getError('AddEdit'),
+                        'nama_pangol' => $validation->getError('nama_pangolAddEdit'),
                     ]
                 ];
             } else {

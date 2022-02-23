@@ -112,6 +112,7 @@
 <script type="text/javascript">
     
     $(document).ready(function() {
+        $('form input').keydown(function(event){if(event.keyCode == 13) {event.preventDefault();return false;}});
         /*-- DataTable To Load Data --*/
         var jbtan = $('#jbtan_data').DataTable({
 

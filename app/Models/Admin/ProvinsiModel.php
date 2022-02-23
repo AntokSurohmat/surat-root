@@ -26,11 +26,11 @@ class ProvinsiModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'nama_provinsi' => 'required|max_lenght[40]'
+        'nama_provinsi' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
         'nama_provinsi' => [
-            'max_lenght' => 'Maksimal 40 Karakter'
+            'max_length' => 'Maksimal 40 Karakter'
         ]
     ];
     protected $skipValidation       = false;

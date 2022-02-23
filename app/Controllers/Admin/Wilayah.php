@@ -17,6 +17,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 class Wilayah extends ResourcePresenter
 {
 
+    protected $helpers = ['form', 'url'];
     public function __construct()
     {
         $this->provinsi = new ProvinsiModel();
@@ -135,6 +136,52 @@ class Wilayah extends ResourcePresenter
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
+    }
+
+    function savemodal(){
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        helper(['form', 'url']);
+
+        $validation = \Config\Services::validation();
+        // d($this->request->getVar('nama_provAdd'));
+        // dd($this->request->getVar('method'));
+        if ($this->request->getVar('method') == 'Prov') {
+            $valid = $this->validate([
+                'nama_provAdd' => [
+                    'label' => 'Nama Provinsi',
+                    'rules' => 'required|max_length[40]',
+                    'errors' => [
+                        'required' =>  '{field} harus diisi',
+                        'max_length' => 'Maksimal 40 Karakter'
+                    ]
+                ]
+            ]);
+
+            if(!$valid){
+                $data = [
+                    'error' => [
+                        'nama_provinsi' => $validation->getError('nama_provAdd')
+                        ]
+                    ];
+            }else{ 
+                $data = [
+                    'nama_provinsi' => $this->request->getVar('nama_provAdd')
+                ];
+            }
+
+            if($this->provinsi->insert($data)){
+                $data = array('success'=> true, 'msg'=> 'Data berhasil disimpan');
+            }else{
+                $data = array('success'=> false, 'msg'=> 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 
     /**
