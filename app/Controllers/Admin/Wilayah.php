@@ -26,6 +26,8 @@ class Wilayah extends ResourcePresenter
         $this->wilayah = new WilayahModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
+            $this->session = \Config\Services::session();
+            $this->session->start();
     }
     /**
      * Present a view of resource objects
@@ -79,7 +81,7 @@ class Wilayah extends ResourcePresenter
             $row[] = $key->jenis_wilayah;
             $row[] = $key->zonasi;
             $row[] = '
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="/Admin/Wilayah/edit/'.$key->id.'"  data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Wilayah/edit/'.$key->id.'"  data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
@@ -342,10 +344,10 @@ class Wilayah extends ResourcePresenter
     public function new()
     {
         $data = array(
-            'title' => 'WILAYAH',
+            'title' => 'Tambah Wilayah',
             'parent' => 2,
             'pmenu' => 2.4,
-            'method' => 'new',
+            'method' => 'New',
             'hiddenID' => '',
         );
         return view('admin/wilayah/v-wilayahAddEdit', $data);
@@ -457,6 +459,8 @@ class Wilayah extends ResourcePresenter
             $data = $this->wilayah->where('id', $this->request->getVar('id'))->first();
 
             $data['provinsi'] = $this->provinsi->where('id', $data['id_provinsi'])->first();
+            $data['kabupaten'] = $this->kabupaten->where('id', $data['id_kabupaten'])->first();
+            $data['kecamatan'] = $this->kecamatan->where('id', $data['id_kecamatan'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -472,19 +476,16 @@ class Wilayah extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        // if (!isset($id)) {
-		// 	return redirect()->to('/admin/wilayah/')->with('error', 'Data yang Anda Inginkan Tidak Mempunyai ID');
-		// }
-        // if (!$this->request->isAJAX()) {
-        //     exit('No direct script is allowed');
-        // }
+        if (!$id) {
+            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
-        // $query = $this->wilayah->where('id', $this->request->getVar('id'))->first();
         $data = array(
-            'title' => 'WILAYAH Edit',
+            'title' => 'Edit Wilayah',
             'parent' => 2,
             'pmenu' => 2.4,
-            'method' => 'update',
+            'method' => 'Update',
             'hiddenID' => $id,
         );
         return view('admin/wilayah/v-wilayahAddEdit', $data);
@@ -500,7 +501,96 @@ class Wilayah extends ResourcePresenter
      */
     public function update($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'kodeAddEdit' => [
+                'label'     => 'Kode Wilayah',
+                'rules'     => 'required|numeric|max_length[10]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 10 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'provinsiAddEdit' => [
+                'label'     => 'Provinsi',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kabupatenAddEdit' => [
+                'label'     => 'Kabupaten',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kecamatanAddEdit' => [
+                'label'     => 'Kecamatan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'jenis_wilayahAddEdit' => [
+                'label' => 'Nama Pangkat & Golongan',
+                'rules' => 'required|max_length[40]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 40 Karakter',
+                ],
+            ],
+            'zonasiAddEdit' => [
+                'label' => 'Nama Pangkat & Golongan',
+                'rules' => 'required|max_length[40]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 40 Karakter',
+                ],
+            ]
+        ]);
+
+        if (!$valid) {
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kodeAddEdit'),
+                    'id_provinsi' => $validation->getError('provinsiAddEdit'),
+                    'id_kabupaten' => $validation->getError('kabupatenAddEdit'),
+                    'id_kecamatan' => $validation->getError('kecamatanAddEdit'),
+                    'jenis_wilayah' => $validation->getError('jenis_wilayahAddEdit'),
+                    'zonasi' => $validation->getError('zonasiAddEdit'),
+                ]
+            ];
+        } else {
+
+            $id = $this->request->getVar('hiddenID');
+            $data = [
+                'kode' => $this->request->getVar('kodeAddEdit'),
+                'id_provinsi' => $this->request->getVar('provinsiAddEdit'),
+                'id_kabupaten' => $this->request->getVar('kabupatenAddEdit'),
+                'id_kecamatan' => $this->request->getVar('kecamatanAddEdit'),
+                'jenis_wilayah' => $this->request->getVar('jenis_wilayahAddEdit'),
+                'zonasi' => $this->request->getVar('zonasiAddEdit'),
+            ];
+            if ($this->wilayah->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil di update!', 'redirect' => base_url('admin/wilayah'));
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 
     /**
@@ -524,6 +614,21 @@ class Wilayah extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')){
+            $id = $this->request->getVar('id');
+
+            if ($this->wilayah->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }

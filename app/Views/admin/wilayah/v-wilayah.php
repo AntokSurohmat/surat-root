@@ -21,10 +21,18 @@
         <div class="row">
             <div class="col-12">
 
+                <?php if (session()->getFlashdata('error')) : ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('')?>/admin/wilayah/new" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('') ?>/admin/wilayah/new" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i> Add Data
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
@@ -57,7 +65,7 @@
                             <tbody>
                             </tbody>
                         </table>
-                        
+
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -108,6 +116,7 @@
                 "class": "text-center",
             }, ],
         });
+
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
@@ -146,33 +155,57 @@
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
-        $(document).on('click', '.edit', function() {
-            var id = $(this).data('id');
-            console.log(id);
-            var url_destination = "<?= base_url('Admin/Wilayah/single_data') ?>";
-            $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    id: id,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
-                dataType: "JSON",
-                success: function(data) {
-                    window.location.href = data.redirect;
-                    // console.log(data.redirect);
-                    // $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    // $('#kodeForm').val(data.kode);
-                    // $('#nama_pangolForm').val(data.nama_pangol);
-                    // $('.modal-title').text('Edit Data ' + data.nama_pangol);
-                    // $('.modal-title').css("font-weight:", "900");
-                    // $('#method').val('Edit');
-                    // $('#hidden_id').val(id);
-                    // $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
-                    // $('#modal-newitem').modal('show');
+        $(document).on('click', '.delete', function() {
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var id = $(this).data('id');
+                    var url_destination = "<?= base_url('Admin/Wilayah/Delete') ?>";
+                    $.ajax({
+                        url: url_destination,
+                        method: "POST",
+                        data: {
+                            id: id,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                            if (data.success) {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+                                });
+                                $('#wlyah_data').DataTable().ajax.reload(null, false);
+                            } else {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'error',
+                                    title: 'Not Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+                                });
+                                $('#wlyah_data').DataTable().ajax.reload(null, false);
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                        }
+                    });
                 }
             })
         })
+
     })
 </script>
 <?= $this->endSection() ?>

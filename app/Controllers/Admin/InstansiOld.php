@@ -4,15 +4,15 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-class WilayahController extends BaseController
+class Instansi extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'WILAYAH',
+            'title' => 'INSTANSI',
             'parent' => 2,
-            'pmenu' => 2.4
+            'pmenu' => 2.5
         );
-        return view('admin/wilayah/v-wilayah', $data);
+        return view('admin/instansi/v-instansi', $data);
     }
 }

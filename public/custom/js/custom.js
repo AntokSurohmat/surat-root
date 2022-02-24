@@ -27,10 +27,12 @@
     zIndex: 999999
   })
   $('.connectedSortable .card-header').css('cursor', 'move');
-
-
+  /*-- Timeout Alert Error form_validation 5sec --*/
+  
 })(jQuery)
 
+var timeout = 5000; 
+$('.alert').delay(timeout).fadeOut(500);
 function logout() {
   var option = {
     backdrop: 'static',

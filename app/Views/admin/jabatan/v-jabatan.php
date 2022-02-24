@@ -94,8 +94,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer hustify-content-between">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fas-times"></i>&ensp;Close</button>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
                             <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
@@ -244,9 +244,11 @@
                     $('.modal-title').text('Edit Data ' + data.nama_jabatan);
                     $('.modal-title').css("font-weight", "900");
                     $('#method').val('Edit');
-                    ('#hidden_id').val(id);
-                    $('#submit-btn').html('<i class=""fas fa-save></i>&ensp;Update');
-                    ('#modal-newitem').modal('show');
+                    $('#hidden_id').val(id);
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
+                    $('#submit-btn').removeClass("btn-success");
+                    $('#submit-btn').addClass("btn-warning text-white");
+                    $('#modal-newitem').modal('show');
                 }
             })
         })

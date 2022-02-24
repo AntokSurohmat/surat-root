@@ -245,6 +245,8 @@
                     $('.modal-title').css("font-weight:", "900");
                     $('#method').val('Edit');
                     $('#hidden_id').val(id);
+                    $('#submit-btn').removeClass("btn-success");
+                    $('#submit-btn').addClass("btn-warning text-white");
                     $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
                     $('#modal-newitem').modal('show');
                 }

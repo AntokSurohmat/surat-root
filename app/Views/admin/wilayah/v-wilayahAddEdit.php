@@ -32,23 +32,23 @@
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="card-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="text" id="methodPage" value="<?= $method ?>" />
-                            <input type="text" id="hiddenIDPage" value="<?= $hiddenID ?>" />
+                            <input type="hidden" id="methodPage" value="<?= $method ?>" />
+                            <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
                                             <label for="kodeForm" class="col-sm-3 col-form-label">Kode</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
+                                                <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
                                                 <div class="invalid-feedback kodeError"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="provinsiSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                             <div class="col-sm-7">
-                                                <select name="provinsiAddEdit" id="provinsiSelect" class="form-control select2bs4" style="width: 100%;">
-                                                    <!-- <option value="">--- Cari Provinsi ---</option> -->
+                                                <select name="provinsiAddEdit" id="provinsiSelect" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Provinsi ---</option>
                                                 </select>
                                                 <div class="invalid-feedback id_provinsiError"></div>
                                             </div>
@@ -202,7 +202,7 @@
                                 <label for="provinsiKecamatanSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                 <div class="col-sm-9">
                                     <select name="provinsiAdd" id="provinsiKecamatanSelect" class="form-control select2bs4" style="width: 100%;">
-                                        <option value="">--- Cari Provinsi ---</option>
+                                        <!-- <option value="">--- Cari Provinsi ---</option> -->
                                     </select>
                                     <div class="invalid-feedback provinsiAddError"></div>
                                 </div>
@@ -405,6 +405,7 @@
                 delay: 250,
                 data: function(params) {
                     return {
+
                         searchTerm: params.term,
                         csrf_token_name: $('input[name=csrf_token_name]').val()
                     };
@@ -757,7 +758,12 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            var url_destination = "<?= base_url('Admin/Wilayah/Create') ?>";
+            if ($('#methodPage').val() === 'New') {
+                var url_destination = "<?= base_url('Admin/Wilayah/Create') ?>";
+
+            } else {
+                var url_destination = "<?= base_url('Admin/Wilayah/Update') ?>";
+            }
             // console.log($(this).serialize());
             $.ajax({
                 url: url_destination,
@@ -765,12 +771,12 @@
                 data: $(this).serialize(),
                 dataType: "JSON",
                 beforeSend: function() {
-                    $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
-                    $('#submit-btn').prop('disabled', true);
+                    $('#submit-wilayah').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-wilayah').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
-                    $('#submit-btn').prop('disabled', false);
+                    $('#submit-wilayah').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-wilayah').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
@@ -791,16 +797,27 @@
                     } else {
                         if (data.success) {
                             clearform();
-                            // console.log(data.redirect);
-                            Swal.fire({
+                            let timerInterval
+                            swalWithBootstrapButtons.fire({
                                 icon: 'success',
-                                title: 'Berhasil..',
-                                text: data.msg,
-                                showConfirmButton: true,
-                                timer: 3000
+                                title: 'Berhasil Memasukkan Data',
+                                html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
+                                    'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                                timer: 3500,
+                                timerProgressBar: true,
+                                showCancelButton: true,
+                                confirmButtonText: 'Ya, Kembali!',
+                                cancelButtonText: 'No, cancel!',
+                                reverseButtons: true,
                             }).then((result) => {
-                                window.location.href = data.redirect;
-                            });
+                                if (result.isConfirmed) {
+                                    window.location.href = data.redirect;
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    location.reload();
+                                } else if (result.dismiss === Swal.DismissReason.timer) {
+                                    window.location.href = data.redirect;
+                                }
+                            })
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -820,7 +837,7 @@
         })
 
         function update() {
-            if ($('#methodPage').val() === "update" && $('#hiddenIDPage').val() != "") {
+            if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
 
                 var id = $('#hiddenIDPage').val();
                 var url_destination = "<?= base_url('Admin/Wilayah/single_data') ?>";
@@ -833,39 +850,13 @@
                     },
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data.provinsi.nama_provinsi);
+                        $('#submit-wilayah').removeClass("btn-success");
+                        $('#submit-wilayah').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
-                        $('#provinsiSelect').val('ok'); // Select the option with a value of '1'
-                        $('#provinsiSelect').trigger('change'); // Notify any JS components that the value changed
-                        // $('#provinsiSelect :selected').text(data.provinsi.nama_provinsi);
-                        // if ($('#provinsiSelect2').find("option[value='" + data.provinsi.id + "']").length) {
-                        //     $('#provinsiSelect2').val(data.provinsi.id).trigger('change');
-                        // } else { 
-                        //     // Create a DOM Option and pre-select by default
-                        //     var newOption = new Option(data.provinsi.nama_provinsi, data.provinsi.id, true, true);
-                        //     // Append it to the select
-                        //     $('#provinsiSelect2').append(newOption).trigger('change');
-                        // }                       // $('#provinsiSelect'+data.provinsi.id).select2();
-                        // var statusSelect = $('#provinsiSelect');
-                        // $('#provinsiSelect').val(data.provinsi);
-                        // statusSelect.append(data.provinsi).trigger('change'); // Add this line
-
-                        // console.log($('#provinsiSelect').val(data.provinsi.nama_provinsi));
-                        //     $('#provinsiSelect').trigger({
-                        //     type: 'select2:select',
-                        //     params: {
-                        //         data: data.provinsi
-                        //     }
-                        // });
-                        // $('#provinsiSelect').select2('data.provinsi.nama_provinsi');
-                        //get selected value
-                        // $('#provinsiSelect').find(':selected');
-                        // $("#provinsiSelect").select2('data', {id: data.provinsi.id, text: data.provinsi.nama_provinsi});      
-                        // $('#provinsiSelect').val(data.provinsi.nama_provinsi);
-                        // // $('#provinsiSelect').select2().trigger('change');
-                        // console.log( $('#provinsiSelect').val(data.provinsi.nama_provinsi));
-                        // console.log( $('#provinsiSelect').select2().trigger('change'));
+                        $("#provinsiSelect").append($("<option selected='selected'></option>").val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
+                        $("#kabupatenSelect").append($("<option selected='selected'></option>").val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
+                        $("#kecamatanSelect").append($("<option selected='selected'></option>").val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
                         $('#jenis_wilayahForm').val(data.jenis_wilayah);
                         $('#zonasiForm').val(data.zonasi);
                         $('#submit-wilayah').html('<i class="fas fa-save"></i>&ensp;Update');
