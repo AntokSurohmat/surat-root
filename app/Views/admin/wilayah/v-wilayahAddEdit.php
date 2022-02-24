@@ -48,7 +48,7 @@
                                             <label for="provinsiSelect" class="col-sm-3 col-form-label">Provinsi</label>
                                             <div class="col-sm-7">
                                                 <select name="provinsiAddEdit" id="provinsiSelect" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Cari Provinsi ---</option>
+                                                    <!-- <option value="">--- Cari Provinsi ---</option> -->
                                                 </select>
                                                 <div class="invalid-feedback id_provinsiError"></div>
                                             </div>
@@ -554,7 +554,6 @@
             }
         });
 
-
         $("#provinsiKecamatanSelect").change(function() {
             var provinsiID = $(this).val();
             // Initialize select2
@@ -837,9 +836,20 @@
                         console.log(data.provinsi.nama_provinsi);
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
-                        var statusSelect = $('#provinsiSelect');
-                        $('#provinsiSelect').val(data.provinsi);
-                        statusSelect.append(data.provinsi).trigger('change'); // Add this line
+                        $('#provinsiSelect').val('ok'); // Select the option with a value of '1'
+                        $('#provinsiSelect').trigger('change'); // Notify any JS components that the value changed
+                        // $('#provinsiSelect :selected').text(data.provinsi.nama_provinsi);
+                        // if ($('#provinsiSelect2').find("option[value='" + data.provinsi.id + "']").length) {
+                        //     $('#provinsiSelect2').val(data.provinsi.id).trigger('change');
+                        // } else { 
+                        //     // Create a DOM Option and pre-select by default
+                        //     var newOption = new Option(data.provinsi.nama_provinsi, data.provinsi.id, true, true);
+                        //     // Append it to the select
+                        //     $('#provinsiSelect2').append(newOption).trigger('change');
+                        // }                       // $('#provinsiSelect'+data.provinsi.id).select2();
+                        // var statusSelect = $('#provinsiSelect');
+                        // $('#provinsiSelect').val(data.provinsi);
+                        // statusSelect.append(data.provinsi).trigger('change'); // Add this line
 
                         // console.log($('#provinsiSelect').val(data.provinsi.nama_provinsi));
                         //     $('#provinsiSelect').trigger({
@@ -851,7 +861,7 @@
                         // $('#provinsiSelect').select2('data.provinsi.nama_provinsi');
                         //get selected value
                         // $('#provinsiSelect').find(':selected');
-                        // $("#mySelect2").select2('data', {id: data.provinsi.id, text: data.provinsi.nama_provinsi});      
+                        // $("#provinsiSelect").select2('data', {id: data.provinsi.id, text: data.provinsi.nama_provinsi});      
                         // $('#provinsiSelect').val(data.provinsi.nama_provinsi);
                         // // $('#provinsiSelect').select2().trigger('change');
                         // console.log( $('#provinsiSelect').val(data.provinsi.nama_provinsi));
