@@ -15,7 +15,7 @@ class WilayahModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'jenis_wilayah', 'zonasi'];
+    protected $allowedFields    = ['kode', 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'id_jenis_wilayah', 'id_zonasi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -30,8 +30,8 @@ class WilayahModel extends Model
         'id_provinsi' => 'required|numeric|max_length[20]',
         'id_kabupaten' => 'required|numeric|max_length[20]',
         'id_kecamatan' => 'required|numeric|max_length[20]',
-        'jenis_wilayah' => 'required|max_length[40]',
-        'zonasi' => 'required|max_length[40]'
+        'id_jenis_wilayah' => 'required|max_length[40]',
+        'id_zonasi' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
         'kode' => [
@@ -50,10 +50,10 @@ class WilayahModel extends Model
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'jenis_wilayah' => [
+        'id_jenis_wilayah' => [
             'max_length' => 'Maksimal 40 Karakter'
         ],
-        'zonasi' => [
+        'id_zonasi' => [
             'max_length' => 'Maksimal 40 Karakter'
         ],
     ];
@@ -71,7 +71,7 @@ class WilayahModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'kode', 'jenis_wilayah', 'zonasi', null);
+    var $column_order = array(null, 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'kode', 'id_jenis_wilayah', 'id_zonasi', null);
     var $order = array('created_at' => 'DESC');
 
     function get_datatables(){
@@ -79,7 +79,7 @@ class WilayahModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "kode LIKE '%$search%' OR jenis_wilayah LIKE '%$search%' OR zonasi LIKE '%$search%'";
+			$attr_order = "kode LIKE '%$search%' OR id_jenis_wilayah LIKE '%$search%' OR id_zonasi LIKE '%$search%'";
 		} else {
 			$attr_order = "id != ''";
 		}
@@ -119,7 +119,7 @@ class WilayahModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR jenis_wilayah LIKE '%$search%' OR zonasi LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (kode LIKE '%$search%' OR id_jenis_wilayah LIKE '%$search%' OR id_zonasi LIKE '%$search%') AND deleted_at IS NULL";
 		} else {
 			$attr_order = " AND deleted_at IS NULL";
 		}

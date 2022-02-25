@@ -47,8 +47,8 @@
                                         <div class="form-group row">
                                             <label for="nama_instansiForm" class="col-sm-3 col-form-label">Nama Instansi</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="zonasiAddEdit" class="form-control" id="nama_instansiForm" placeholder="Masukkan Nama Wilayah">
-                                                <div class="invalid-feedback zonasiError"></div>
+                                                <input type="text" name="instansiAddEdit" class="form-control" id="nama_instansiForm" placeholder="Masukkan Nama Wilayah">
+                                                <div class="invalid-feedback nama_instansiError"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -158,7 +158,7 @@
         }
 
         // Initialize select2
-        var url_destination = '<?= base_url('Admin/Provinsi/getProvinsi') ?>';
+        var url_destination = '<?= base_url('Admin/Instansi/getProvinsi') ?>';
         $("#provinsiSelect").select2({
             theme: 'bootstrap4',
             allowClear: true,
@@ -285,17 +285,15 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            var ret = ("#" + key).replace('id_', '');
-                            // console.log(ret); //prints: 123
-                            var select = $(ret + "Select").addClass('is-invalid');
-                            // select.addClass('is-invalid');
-                            // console.log(select);
-                            $("#" + key).addClass('is-invalid');
+                            console.log(data.error); //prints: 123
                             $("." + key + "Error").html(data.error[key]);
+                            var ret = ("#" + key).replace('id_', '');
+                            var select = $(ret + "Select");
+                            select.closest('.form-control').removeClass('is-valid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // select.addClass('is-invalid');
                             var element = $('#' + key + 'Form');
-                            // console.log(element);
-                            element.closest('.form-control').removeClass('is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            select.closest('.form-control').removeClass('is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            element.closest('.form-control').removeClass('is-valid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            console.log(element);
                         });
                     } else {
                         if (data.success) {

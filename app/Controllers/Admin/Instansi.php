@@ -230,7 +230,101 @@ class Instansi extends ResourcePresenter
      */
     public function create()
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'provinsiAddEdit' => [
+                'label'     => 'Provinsi',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kabupatenAddEdit' => [
+                'label'     => 'Kabupaten',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kecamatanAddEdit' => [
+                'label'     => 'Kecamatan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kodeAddEdit' => [
+                'label'     => 'Kode Wilayah',
+                'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_instansi.kode]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 10 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'instansiAddEdit' => [
+                'label' => 'Nama Instansi',
+                'rules' => 'required|max_length[40]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 40 Karakter',
+                ],
+            ],
+        ]);
+
+        if (!$valid) {
+            $data = [
+                'error' => [
+                    'id_provinsi' => $validation->getError('provinsiAddEdit'),
+                    'id_kabupaten' => $validation->getError('kabupatenAddEdit'),
+                    'id_kecamatan' => $validation->getError('kecamatanAddEdit'),
+                    'kode' => $validation->getError('kodeAddEdit'),
+                    'nama_instansi' => $validation->getError('instansiAddEdit'),
+                ]
+            ];
+        } else {
+
+            $data = [
+                'id_provinsi' => $this->request->getVar('provinsiAddEdit'),
+                'id_kabupaten' => $this->request->getVar('kabupatenAddEdit'),
+                'id_kecamatan' => $this->request->getVar('kecamatanAddEdit'),
+                'kode' => $this->request->getVar('kodeAddEdit'),
+                'nama_instansi' => $this->request->getVar('instansiAddEdit'),
+            ];
+            if ($this->instansi->insert($data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/wilayah'));
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
+    function single_data()
+    {
+
+        if ($this->request->getVar('id')) {
+            $data = $this->wilayah->where('id', $this->request->getVar('id'))->first();
+
+            $data['provinsi'] = $this->provinsi->where('id', $data['id_provinsi'])->first();
+            $data['kabupaten'] = $this->kabupaten->where('id', $data['id_kabupaten'])->first();
+            $data['kecamatan'] = $this->kecamatan->where('id', $data['id_kecamatan'])->first();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
     }
 
     /**
