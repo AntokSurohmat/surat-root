@@ -4,18 +4,18 @@ namespace App\Models\Admin;
 
 use CodeIgniter\Model;
 
-class ProvinsiModel extends Model
+class ZonasiModel extends Model
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'provinsi';
+    protected $table            = 'zonasi';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_provinsi'];
+    protected $allowedFields    = ['id_jenis_wilayah', 'nama_zonasi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -25,11 +25,13 @@ class ProvinsiModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'nama_provinsi' => 'required|max_length[40]'
-    ];
+    protected $validationRules      = [];
     protected $validationMessages   = [
-        'nama_provinsi' => [
+        'id_jenis_wilayah' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter',
+        ],
+        'nama_zonasi' => [
             'max_length' => 'Maksimal 40 Karakter'
         ]
     ];
@@ -46,14 +48,4 @@ class ProvinsiModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
-
-    public function getDataAjaxRemote($search)
-    {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('provinsi');
-        $builder->select('id, nama_provinsi');
-        $builder->where('deleted_at', NULL);
-        $builder->like('nama_provinsi', $search);
-        $query = $builder->get()->getResult('array');
-    }
 }

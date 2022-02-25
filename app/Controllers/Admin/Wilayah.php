@@ -6,6 +6,8 @@ use CodeIgniter\RESTful\ResourcePresenter;
 use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
+use App\Models\Admin\JenisWilayahModel;
+use App\Models\Admin\ZonasiModel;
 use App\Models\Admin\WilayahModel;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -105,12 +107,17 @@ class Wilayah extends ResourcePresenter
         }
 
         $response = array();
+        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+                ->where('deleted_at', NULL)    
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
+            $count = $provinsilist->countAllResults();
+
         } else {
             $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+                ->where('deleted_at', NULL)      
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
@@ -124,6 +131,7 @@ class Wilayah extends ResourcePresenter
             );
         }
 
+        $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -139,12 +147,14 @@ class Wilayah extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
                 ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('deleted_at', NULL)    
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
                 ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('deleted_at', NULL)    
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         }
@@ -171,12 +181,14 @@ class Wilayah extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
                 ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('deleted_at', NULL)    
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
                 ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('deleted_at', NULL)    
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         }
@@ -186,6 +198,39 @@ class Wilayah extends ResourcePresenter
             $data[] = array(
                 "id" => $kabupaten['id'],
                 "text" => $kabupaten['nama_kecamatan'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+
+    public function getJenis()
+    {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $provinsilist = $this->provinsi->select('id,jenis_wilayah') // Fetch record
+            ->where('deleted_at', NULL)    
+                ->orderBy('jenis_wilayah')
+                ->findAll(10);
+        } else {
+            $provinsilist = $this->provinsi->select('id,jenis_wilayah') // Fetch record
+                ->like('jenis_wilayah', $this->request->getPost('searchTerm'))
+                ->where('deleted_at', NULL)    
+                ->orderBy('jenis_wilayah')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($provinsilist as $provinsi) {
+            $data[] = array(
+                "id" => $provinsi['id'],
+                "text" => $provinsi['jenis_wilayah'],
             );
         }
 

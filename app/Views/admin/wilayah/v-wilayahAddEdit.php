@@ -83,18 +83,30 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jenis_wilayahForm" class="col-sm-3 col-form-label">Jenis Wilayah</label>
+                                            <label for="jenisSelect" class="col-sm-3 col-form-label">Jenis Wilayah</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="jenis_wilayahAddEdit" class="form-control" id="jenis_wilayahForm" placeholder="Masukkan Jenis Wilayah">
+                                                <select name="jenisAddEdit" id="jenisSelect" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Jenis Wilayah ---</option>
+                                                </select>
+                                                <!-- <input type="text" name="jenis_wilayahAddEdit" class="form-control" id="jenis_wilayahForm" placeholder="Masukkan Jenis Wilayah"> -->
                                                 <div class="invalid-feedback jenis_wilayahError"></div>
                                             </div>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-danger" data-rel="tooltip" data-placement="top" title="Tambah Jenis Wilayah" id="add-jenis"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                                            </span>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="zonasiForm" class="col-sm-3 col-form-label">Zonasi</label>
+                                            <label for="zonasiSelect" class="col-sm-3 col-form-label">Zonasi</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="zonasiAddEdit" class="form-control" id="zonasiForm" placeholder="Masukkan Jenis Wilayah">
+                                                <!-- <input type="text" name="zonasiAddEdit" class="form-control" id="zonasiForm" placeholder="Masukkan Zonasi"> -->
+                                                <select name="zonasiAddEdit" id="zonasiSelect" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Cari Zonasi ---</option>
+                                                </select>
                                                 <div class="invalid-feedback zonasiError"></div>
                                             </div>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-warning" data-rel="tooltip" data-placement="top" title="Tambah Zonasi" id="add-zonasi"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -412,8 +424,9 @@
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    console.log(data.count);
                     return {
-                        results: response.data
+                        results: response.data,
                     };
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
