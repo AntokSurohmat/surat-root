@@ -32,16 +32,16 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('') ?>/admin/instansi/new" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('') ?>/admin/instansi/new" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i> Add Data
                         </a>
-                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachInstan" id="seachInstan" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachWlyah" id="seachWlyah" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -49,15 +49,15 @@
                             </div>
                         </div>
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                        <table id="istan_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="wlyah_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Kode</th>
                                     <th>Nama Instansi</th>
                                     <th>Provinsi</th>
-                                    <th>Kecamatan</th>
                                     <th>Kota/Kabupaten</th>
+                                    <th>Kecamatan</th>
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
@@ -81,9 +81,17 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
+        $("[data-rel=\"tooltip\"]").tooltip();
+        // $('[data-rel=\"tooltip\"]').hover(function() {
+        //     $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 50 + 'px')
+        // });
+        // $("body").tooltip({
+        //     selector: '[data-rel=\"tooltip\"]',
+        //     trigger: 'hover'
+        // });
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Instansi/load_data') ?>";
-        var instan = $('#istan_data').DataTable({
+        var wlyah = $('#wlyah_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
             "order": [],
@@ -126,8 +134,8 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachInstan").value = "";
-                        instan.search("").draw();
+                        document.getElementById("seachWlyah").value = "";
+                        wlyah.search("").draw();
                     }
                 });
             } else {
@@ -139,18 +147,18 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachInstan").value = "";
-                        instan.search("").draw();
+                        document.getElementById("seachWlyah").value = "";
+                        wlyah.search("").draw();
                     }
                 });
             }
         }
-        $('#seachInstan').keyup(function() {
-            instan.search($(this).val()).draw();
+        $('#seachWlyah').keyup(function() {
+            wlyah.search($(this).val()).draw();
         });
         $("#refresh").on('click', function() {
-            document.getElementById("seachInstan").value = "";
-            instan.search("").draw();
+            document.getElementById("seachWlyah").value = "";
+            wlyah.search("").draw();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
@@ -185,7 +193,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#istan_data').DataTable().ajax.reload(null, false);
+                                $('#wlyah_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',
@@ -194,7 +202,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#istan_data').DataTable().ajax.reload(null, false);
+                                $('#wlyah_data').DataTable().ajax.reload(null, false);
                             }
                         },
                         error: function(xhr, ajaxOptions, thrownError) {

@@ -40,44 +40,44 @@
                                         <div class="form-group row">
                                             <label for="kodeForm" class="col-sm-3 col-form-label">Kode</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Instansi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
-                                                <div class="invalid-feedback kodeError"></div>
+                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Instansi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
+                                                <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="nama_instansiForm" class="col-sm-3 col-form-label">Nama Instansi</label>
+                                            <label for="instansiForm" class="col-sm-3 col-form-label">Nama Instansi</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="instansiAddEdit" class="form-control" id="nama_instansiForm" placeholder="Masukkan Nama Wilayah">
-                                                <div class="invalid-feedback nama_instansiError"></div>
+                                                <input type="text" name="instansiAddEditForm" class="form-control" id="instansiForm" placeholder="Masukkan Nama Wilayah">
+                                                <div class="invalid-feedback instansiErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                     <div class="form-group row">
-                                            <label for="provinsiSelect" class="col-sm-3 col-form-label">Provinsi</label>
+                                            <label for="provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
                                             <div class="col-sm-7">
-                                                <select name="provinsiAddEdit" id="provinsiSelect" class="form-control " style="width: 100%;">
+                                                <select name="provinsiAddEditForm" id="provinsiForm" class="form-control " style="width: 100%;">
                                                     <option value="">--- Cari Provinsi ---</option>
                                                 </select>
-                                                <div class="invalid-feedback id_provinsiError"></div>
+                                                <div class="invalid-feedback provinsiErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="kabupatenSelect" class="col-sm-3 col-form-label">Kabupaten/Kota</label>
+                                            <label for="kabupatenForm" class="col-sm-3 col-form-label">Kabupaten/Kota</label>
                                             <div class="col-sm-7">
-                                                <select name="kabupatenAddEdit" id="kabupatenSelect" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="kabupatenAddEditForm" id="kabupatenForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Cari Kabupaten ---</option>
                                                 </select>
-                                                <div class="invalid-feedback id_kabupatenError"></div>
+                                                <div class="invalid-feedback kabupatenErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="kecamatanSelect" class="col-sm-3 col-form-label">Kecamatan</label>
+                                            <label for="kecamatanForm" class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-7">
-                                                <select name="kecamatanAddEdit" id="kecamatanSelect" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="kecamatanAddEditForm" id="kecamatanForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Cari Kecamatan ---</option>
                                                 </select>
-                                                <div class="invalid-feedback id_kecamatanError"></div>
+                                                <div class="invalid-feedback kecamatanErrorForm"></div>
                                             </div>
 
                                         </div>
@@ -108,152 +108,80 @@
     $(document).ready(function() {
 
         // preventDefault to stay in modal when keycode 13
-        $('form input').keydown(function(event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                return false;
-            }
-        });
+        $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#nama_wilayahForm').focus();
-            }
-        });
-        $('#jenis_wilayahForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#provinsiSelect').select2('open');
-            }
-        });
-        // Bind an event
-        $('#provinsiSelect').on('select2:select', function(e) {
-            $('#kabupatenSelect').select2('open');
-        });
-        $('#kabupatenSelect').on('select2:select', function(e) {
-            $('#kecamatanSelect').select2('open');
-        });
-        $('#kecamatanSelect').on('select2:select', function(e) {
-            $('#submit-instansi').focus();
-        });
-
+        $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#instansiForm').focus();}});
+        $('#instansiForm').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiForm').select2('open');}});
+        $('#provinsiForm').on('select2:select', function(e) {$('#kabupatenForm').select2('open');});
+        $('#kabupatenForm').on('select2:select', function(e) {$('#kecamatanForm').select2('open');});
+        $('#kecamatanForm').on('select2:select', function(e) {$('#submit-instansi').focus();});
         update();
 
         function clearform() {
             $('#form-addedit')[0].reset();
-            $("#kodeForm").empty();
-            $("#kodeForm").removeClass('is-valid');
-            $("#kodeForm").removeClass('is-invalid');
-            $("#nama_instansiForm").empty();
-            $("#nama_instansiForm").removeClass('is-valid');
-            $("#nama_instansiForm").removeClass('is-invalid');
-            $("#provinsiSelect").empty();
-            $("#provinsiSelect").removeClass('is-valid');
-            $("#provinsiSelect").removeClass('is-invalid');
-            $("#kabupatenSelect").empty();
-            $("#kabupatenSelect").removeClass('is-valid');
-            $("#kabupatenSelect").removeClass('is-invalid');
-            $("#kecamatanSelect").empty();
-            $("#kecamatanSelect").removeClass('is-valid');
-            $("#kecamatanSelect").removeClass('is-invalid');
+            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
+            $("#instansiForm").empty();$("#instansiForm").removeClass('is-valid');$("#instansiForm").removeClass('is-invalid');
+            $("#provinsiForm").empty();$("#provinsiForm").removeClass('is-valid');$("#provinsiForm").removeClass('is-invalid');
+            $("#kabupatenForm").empty();$("#kabupatenForm").removeClass('is-valid');$("#kabupatenForm").removeClass('is-invalid');
+            $("#kecamatanForm").empty();$("#kecamatanForm").removeClass('is-valid');$("#kecamatanForm").removeClass('is-invalid');
         }
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Instansi/getProvinsi') ?>';
-        $("#provinsiSelect").select2({
+        $("#provinsiForm").select2({
             theme: 'bootstrap4',
-            allowClear: true,
-            tags: true,
+            allowClear: true,tags: true,
             placeholder: '--- Cari Provinsi ---',
-            ajax: {
-                url: url_destination,
-                type: "POST",
-                dataType: "JSON",
-                delay: 250,
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {
-
-                        searchTerm: params.term,
-                        csrf_token_name: $('input[name=csrf_token_name]').val()
-                    };
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {
-                        results: response.data
-                    };
+                    return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
 
-        $("#provinsiSelect").change(function() {
-            var provinsiID = $(this).val();
+        $("#provinsiForm").change(function() {
+            var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Instansi/getKabupaten') ?>';
             // Initialize select2
-            var url_destination = '<?= base_url('Admin/Instansi/getKabupaten') ?>';
-            $("#kabupatenSelect").select2({
+            $("#kabupatenForm").select2({
                 theme: 'bootstrap4',
-                allowClear: true,
-                tags: true,
+                allowClear: true,tags: true,
                 placeholder: '--- Cari Kabupaten ---',
-                ajax: {
-                    url: url_destination,
-                    type: "POST",
-                    dataType: "JSON",
-                    delay: 250,
+                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        return {
-                            searchTerm: params.term,
-                            provinsi: provinsiID,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        };
+                        return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {
-                            results: response.data
-                        };
+                        return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                    },
+                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
         });
 
-        $("#kabupatenSelect").change(function() {
-            var kabupatenID = $(this).val();
+        $("#kabupatenForm").change(function() {
+            var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Instansi/getKecamatan') ?>';
             // Initialize select2
-            var url_destination = '<?= base_url('Admin/Instansi/getKecamatan') ?>';
-            $("#kecamatanSelect").select2({
+            $("#kecamatanForm").select2({
                 theme: 'bootstrap4',
-                allowClear: true,
-                tags: true,
+                allowClear: true,tags: true,
                 placeholder: '--- Cari Kecamatan ---',
-                ajax: {
-                    url: url_destination,
-                    type: "POST",
-                    dataType: "JSON",
-                    delay: 250,
+                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        return {
-                            searchTerm: params.term,
-                            kabupaten: kabupatenID,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        };
+                        return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {
-                            results: response.data
-                        };
+                        return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                    },
+                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: true
                 }
             })
@@ -261,60 +189,44 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            if ($('#methodPage').val() === 'New') {
-                var url_destination = "<?= base_url('Admin/Instansi/Create') ?>";
-
-            } else {
-                var url_destination = "<?= base_url('Admin/Instansi/Update') ?>";
-            }
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Instansi/Create') ?>";
+            } else {var url_destination = "<?= base_url('Admin/Instansi/Update') ?>";}
             // console.log($(this).serialize());
-            $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "JSON",
+            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
-                    $('#submit-instansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
-                    $('#submit-instansi').prop('disabled', true);
+                    $('#submit-instansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-instansi').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-instansi').html("<i class='fa fa-save'></i>&ensp;Submit");
-                    $('#submit-instansi').prop('disabled', false);
+                    $('#submit-instansi').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-instansi').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            console.log(data.error); //prints: 123
-                            $("." + key + "Error").html(data.error[key]);
-                            var ret = ("#" + key).replace('id_', '');
-                            var select = $(ret + "Select");
-                            select.closest('.form-control').removeClass('is-valid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // select.addClass('is-invalid');
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
-                            element.closest('.form-control').removeClass('is-valid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            console.log(element);
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                            // console.log(data.error[key].length);
                         });
                     } else {
                         if (data.success) {
                             clearform();
                             let timerInterval
                             swalWithBootstrapButtons.fire({
-                                icon: 'success',
-                                title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
+                                icon: 'success',title: 'Berhasil Memasukkan Data',
+                                html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
                                     'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                                timer: 3500,
-                                timerProgressBar: true,
-                                showCancelButton: true,
-                                confirmButtonText: 'Ya, Kembali!',
-                                cancelButtonText: 'No, cancel!',
-                                reverseButtons: true,
+                                timer: 3500,timerProgressBar: true,
+                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                                cancelButtonText: 'No, cancel!',reverseButtons: true,
                             }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = data.redirect;
+                                if (result.isConfirmed) {window.location.href = data.redirect;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    location.reload();
+                                    if ($('#methodPage').val() === 'New') {location.reload();
+                                    }else{window.location.replace("<?= base_url('Admin/Instansi/new')?>");}
                                 } else if (result.dismiss === Swal.DismissReason.timer) {
                                     window.location.href = data.redirect;
                                 }
@@ -330,36 +242,29 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })
 
         function update() {
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
-
                 var id = $('#hiddenIDPage').val();
                 var url_destination = "<?= base_url('Admin/Instansi/single_data') ?>";
-                $.ajax({
-                    url: url_destination,
-                    type: "POST",
-                    data: {
-                        id: id,
-                        csrf_token_name: $('input[name=csrf_token_name]').val()
-                    },
-                    dataType: "JSON",
+                $.ajax({url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                     success: function(data) {
-                        $('#submit-wilayah').removeClass("btn-success");
-                        $('#submit-wilayah').addClass("btn-warning text-white");
+                        $('#submit-instansi').removeClass("btn-success");
+                        $('#submit-instansi').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
-                        $('#nama_instansiForm').val(data.nama_instansi);
-                        $("#provinsiSelect").append($("<option selected='selected'></option>").val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
-                        $("#kabupatenSelect").append($("<option selected='selected'></option>").val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
-                        $("#kecamatanSelect").append($("<option selected='selected'></option>").val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
-                        $('#submit-wilayah').html('<i class="fas fa-save"></i>&ensp;Update');
+                        $('#instansiForm').val(data.nama_instansi);
+                        $("#provinsiForm").append($("<option selected='selected'></option>")
+                        .val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
+                        $("#kabupatenForm").append($("<option selected='selected'></option>")
+                        .val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
+                        $("#kecamatanForm").append($("<option selected='selected'></option>")
+                        .val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
+                        $('#submit-instansi').html('<i class="fas fa-save"></i>&ensp;Update');
                     }
                 })
 

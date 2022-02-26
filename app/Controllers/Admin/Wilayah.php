@@ -96,8 +96,8 @@ class Wilayah extends ResourcePresenter
                 }
             };
             $row[] = '
-            <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Wilayah/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Wilayah/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
         }
@@ -408,7 +408,14 @@ class Wilayah extends ResourcePresenter
                 break;
             case 'Jenis':
                 $valid = $this->validate([
-                    'JenisWilayahAddEditModalJenis' => [
+                    'kabupatenAddEditModalJenis' => [
+                        'label' => 'Nama Kabupaten',
+                        'rules' => 'required|max_length[40]',
+                        'errors' => [
+                            'max_length' => '{field} Maksimal 40 Karakter'
+                        ]
+                        ],
+                    'jenisWilayahAddEditModalJenis' => [
                         'label' => 'Nama Jenis Wilayah',
                         'rules' => 'required|max_length[40]',
                         'errors' => [
@@ -420,12 +427,14 @@ class Wilayah extends ResourcePresenter
                 if (!$valid) {
                     $data = [
                         'error' => [
-                            'jenisWilayah' => $validation->getError('JenisWilayahAddEditModalJenis')
+                            'kabupaten' => $validation->getError('kabupatenAddEditModalJenis'),
+                            'jenisWilayah' => $validation->getError('jenisWilayahAddEditModalJenis')
                         ]
                     ];
                 } else {
                     $data = [
-                        'jenis_wilayah' => $this->request->getVar('JenisWilayahAddEditModalJenis')
+                        'id_kabupaten' => $this->request->getVar('kabupatenAddEditModalJenis'),
+                        'jenis_wilayah' => $this->request->getVar('jenisWilayahAddEditModalJenis')
                     ];
                     if ($this->jenis->insert($data)) {
                         $data = array('success' => true, 'msg' => 'Data berhasil disimpan');

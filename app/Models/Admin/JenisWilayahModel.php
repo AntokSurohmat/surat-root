@@ -15,7 +15,7 @@ class JenisWilayahModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['jenis_wilayah'];
+    protected $allowedFields    = ['id_provinsi', 'id_kabupaten','jenis_wilayah'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,9 +26,19 @@ class JenisWilayahModel extends Model
 
     // Validation
     protected $validationRules      = [
+        'id_provinsi' => 'required|numeric|max_length[20]',
+        'id_kabupaten' => 'required|numeric|max_length[20]',
         'jenis_wilayah' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
+        'id_provinsi' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'id_kabupaten' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
         'jenis_wilayah' => [
             'max_length' => 'Maksimal 40 Karakter'
         ]

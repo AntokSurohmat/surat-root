@@ -81,8 +81,8 @@ class Instansi extends ResourcePresenter
 				}
 			};
             $row[] = '
-            <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Instansi/edit/'.$key->id.'"  data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Instansi/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
         }
@@ -107,11 +107,13 @@ class Instansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         } else {
             $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         }
@@ -139,12 +141,14 @@ class Instansi extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
                 ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
                 ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         }
@@ -171,12 +175,14 @@ class Instansi extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
                 ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
                 ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         }
@@ -237,8 +243,8 @@ class Instansi extends ResourcePresenter
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
-            'provinsiAddEdit' => [
-                'label'     => 'Provinsi',
+            'provinsiAddEditForm' => [
+                'label'     => 'Nama Provinsi',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
@@ -246,8 +252,8 @@ class Instansi extends ResourcePresenter
                     'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
-            'kabupatenAddEdit' => [
-                'label'     => 'Kabupaten',
+            'kabupatenAddEditForm' => [
+                'label'     => 'Nama Kabupaten',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
@@ -255,7 +261,7 @@ class Instansi extends ResourcePresenter
                     'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
-            'kecamatanAddEdit' => [
+            'kecamatanAddEditForm' => [
                 'label'     => 'Kecamatan',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
@@ -264,7 +270,7 @@ class Instansi extends ResourcePresenter
                     'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
-            'kodeAddEdit' => [
+            'kodeAddEditForm' => [
                 'label'     => 'Kode Wilayah',
                 'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_instansi.kode]',
                 'errors' => [
@@ -273,7 +279,7 @@ class Instansi extends ResourcePresenter
                     'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
-            'instansiAddEdit' => [
+            'instansiAddEditForm' => [
                 'label' => 'Nama Instansi',
                 'rules' => 'required|max_length[40]',
                 'errors' => [
@@ -285,24 +291,24 @@ class Instansi extends ResourcePresenter
         if (!$valid) {
             $data = [
                 'error' => [
-                    'id_provinsi' => $validation->getError('provinsiAddEdit'),
-                    'id_kabupaten' => $validation->getError('kabupatenAddEdit'),
-                    'id_kecamatan' => $validation->getError('kecamatanAddEdit'),
-                    'kode' => $validation->getError('kodeAddEdit'),
-                    'nama_instansi' => $validation->getError('instansiAddEdit'),
+                    'provinsi' => $validation->getError('provinsiAddEditForm'),
+                    'kabupaten' => $validation->getError('kabupatenAddEditForm'),
+                    'kecamatan' => $validation->getError('kecamatanAddEditForm'),
+                    'kode' => $validation->getError('kodeAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
                 ]
             ];
         } else {
 
             $data = [
-                'id_provinsi' => $this->request->getVar('provinsiAddEdit'),
-                'id_kabupaten' => $this->request->getVar('kabupatenAddEdit'),
-                'id_kecamatan' => $this->request->getVar('kecamatanAddEdit'),
-                'kode' => $this->request->getVar('kodeAddEdit'),
-                'nama_instansi' => $this->request->getVar('instansiAddEdit'),
+                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
+                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
+                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
+                'kode' => $this->request->getVar('kodeAddEditForm'),
+                'nama_instansi' => $this->request->getVar('instansiAddEditForm'),
             ];
             if ($this->instansi->insert($data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/wilayah'));
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
             } else {
                 $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
             }
@@ -316,7 +322,7 @@ class Instansi extends ResourcePresenter
     {
 
         if ($this->request->getVar('id')) {
-            $data = $this->wilayah->where('id', $this->request->getVar('id'))->first();
+            $data = $this->instansi->where('id', $this->request->getVar('id'))->first();
 
             $data['provinsi'] = $this->provinsi->where('id', $data['id_provinsi'])->first();
             $data['kabupaten'] = $this->kabupaten->where('id', $data['id_kabupaten'])->first();
@@ -336,7 +342,19 @@ class Instansi extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        //
+        if (!$id) {
+            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
+        $data = array(
+            'title' => 'Edit Intansi',
+            'parent' => 2,
+            'pmenu' => 2.4,
+            'method' => 'Update',
+            'hiddenID' => $id,
+        );
+        return view('admin/instansi/v-instansiAddEdit', $data);
     }
 
     /**
@@ -349,7 +367,85 @@ class Instansi extends ResourcePresenter
      */
     public function update($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'provinsiAddEditForm' => [
+                'label'     => 'Nama Provinsi',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kabupatenAddEditForm' => [
+                'label'     => 'Nama Kabupaten',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kecamatanAddEditForm' => [
+                'label'     => 'Kecamatan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
+                ],
+            ],
+            'kodeAddEditForm' => [
+                'label'     => 'Kode Wilayah',
+                'rules'     => 'required|numeric|max_length[10]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 10 Karakter',
+                ],
+            ],
+            'instansiAddEditForm' => [
+                'label' => 'Nama Instansi',
+                'rules' => 'required|max_length[40]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 40 Karakter',
+                ],
+            ],
+        ]);
+
+        if (!$valid) {
+            $data = [
+                'error' => [
+                    'provinsi' => $validation->getError('provinsiAddEditForm'),
+                    'kabupaten' => $validation->getError('kabupatenAddEditForm'),
+                    'kecamatan' => $validation->getError('kecamatanAddEditForm'),
+                    'kode' => $validation->getError('kodeAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
+                ]
+            ];
+        } else {
+            $id = $this->request->getVar('hiddenID');
+            $data = [
+                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
+                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
+                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
+                'kode' => $this->request->getVar('kodeAddEditForm'),
+                'nama_instansi' => $this->request->getVar('instansiAddEditForm'),
+            ];
+            if ($this->instansi->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 
     /**
@@ -373,6 +469,21 @@ class Instansi extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')) {
+            $id = $this->request->getVar('id');
+
+            if ($this->instansi->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }

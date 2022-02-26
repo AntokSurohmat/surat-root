@@ -15,7 +15,7 @@ class ZonasiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_jenis_wilayah', 'nama_zonasi'];
+    protected $allowedFields    = ['id_provinsi', 'di_kabupaten', 'id_kecamatan', 'nama_zonasi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -25,11 +25,23 @@ class ZonasiModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'id_provinsi' => 'required|numeric|max_length[20]',
+        'id_kabupaten' => 'required|numeric|max_length[20]',
+        'nama_zonasi' => 'required|max_length[40]'
+    ];
     protected $validationMessages   = [
-        'id_jenis_wilayah' => [
+        'id_provinsi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'id_kabupaten' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'id_kecamtan' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
         ],
         'nama_zonasi' => [
             'max_length' => 'Maksimal 40 Karakter'

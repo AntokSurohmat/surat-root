@@ -151,9 +151,9 @@
                 selector: '[data-rel="tooltip"]',
                 trigger: 'hover'
             });
-            $('[data-rel="tooltip"]').hover(function() {
-                $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
-            });
+            // $('[data-rel="tooltip"]').hover(function() {
+            //     $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
+            // });
             // $('.select2bs4').select2({
             //     theme: 'bootstrap4'
             // })
