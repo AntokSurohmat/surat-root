@@ -129,8 +129,7 @@
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Instansi/getProvinsi') ?>';
         $("#provinsiForm").select2({
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -140,7 +139,6 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
@@ -149,8 +147,7 @@
             var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Instansi/getKabupaten') ?>';
             // Initialize select2
             $("#kabupatenForm").select2({
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -160,7 +157,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
@@ -170,8 +166,7 @@
             var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Instansi/getKecamatan') ?>';
             // Initialize select2
             $("#kecamatanForm").select2({
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -181,7 +176,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: true
                 }
             })
@@ -265,11 +259,9 @@
                         $("#kecamatanForm").append($("<option selected='selected'></option>")
                         .val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
                         $('#submit-instansi').html('<i class="fas fa-save"></i>&ensp;Update');
-                    }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
-
-
-
             }
         }
 

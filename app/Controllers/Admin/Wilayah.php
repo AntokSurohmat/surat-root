@@ -151,7 +151,6 @@ class Wilayah extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-
     public function getKabupaten()
     {
         if (!$this->request->isAjax()) {
@@ -220,7 +219,6 @@ class Wilayah extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-
     public function getJenis()
     {
         if (!$this->request->isAjax()) {
@@ -230,12 +228,14 @@ class Wilayah extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $jenislist = $this->jenis->select('id,jenis_wilayah') // Fetch record
+                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
         } else {
             $jenislist = $this->jenis->select('id,jenis_wilayah') // Fetch record
                 ->like('jenis_wilayah', $this->request->getPost('searchTerm'))
+                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
@@ -263,14 +263,14 @@ class Wilayah extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $zonasilist = $this->zonasi->select('id,nama_zonasi') // Fetch record
-                ->where('id_jenis_wilayah', $this->request->getPost('jenis'))
+                ->where('id_kecamatan', $this->request->getPost('kecamatan'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_zonasi')
                 ->findAll(10);
         } else {
             $zonasilist = $this->zonasi->select('id,nama_zonasi') // Fetch record
                 ->like('nama_zonasi', $this->request->getPost('searchTerm'))
-                ->where('id_jenis_wilayah', $this->request->getPost('jenis'))
+                ->where('id_kecamatan', $this->request->getPost('kecamatan'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_zonasi')
                 ->findAll(10);
@@ -408,13 +408,21 @@ class Wilayah extends ResourcePresenter
                 break;
             case 'Jenis':
                 $valid = $this->validate([
+                    'provinsiAddEditModalJenis' => [
+                        'label' => 'Nama Provinsi',
+                        'rules' => 'required|numeric|max_length[20]',
+                        'errors' => [
+                            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                            'max_length' => '{field} Maksimal 20 Karakter'
+                        ]
+                    ],
                     'kabupatenAddEditModalJenis' => [
                         'label' => 'Nama Kabupaten',
                         'rules' => 'required|max_length[40]',
                         'errors' => [
                             'max_length' => '{field} Maksimal 40 Karakter'
                         ]
-                        ],
+                    ],
                     'jenisWilayahAddEditModalJenis' => [
                         'label' => 'Nama Jenis Wilayah',
                         'rules' => 'required|max_length[40]',
@@ -427,12 +435,14 @@ class Wilayah extends ResourcePresenter
                 if (!$valid) {
                     $data = [
                         'error' => [
+                            'provinsi' => $validation->getError('provinsiAddEditModalJenis'),
                             'kabupaten' => $validation->getError('kabupatenAddEditModalJenis'),
                             'jenisWilayah' => $validation->getError('jenisWilayahAddEditModalJenis')
                         ]
                     ];
                 } else {
                     $data = [
+                        'id_provinsi' => $this->request->getVar('provinsiAddEditModalJenis'),
                         'id_kabupaten' => $this->request->getVar('kabupatenAddEditModalJenis'),
                         'jenis_wilayah' => $this->request->getVar('jenisWilayahAddEditModalJenis')
                     ];
@@ -445,12 +455,27 @@ class Wilayah extends ResourcePresenter
                 break;
             case 'Zona':
                 $valid = $this->validate([
-                    'jenisWilayahAddEditModalZona' => [
-                        'label' => 'Jenis Wilayah',
+                    'provinsiAddEditModalZona' => [
+                        'label' => 'Nama Provinsi',
                         'rules' => 'required|numeric|max_length[20]',
                         'errors' => [
                             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter'
+                        ]
+                    ],
+                    'kabupatenAddEditModalZona' => [
+                        'label' => 'Nama Kabupaten',
+                        'rules' => 'required|max_length[40]',
+                        'errors' => [
+                            'max_length' => '{field} Maksimal 40 Karakter'
+                        ]
+                    ],
+                    'kecamatanAddEditModalZona' => [
+                        'label' => 'Nama Kecamatan',
+                        'rules' => 'required|max_length[40]|is_unique[etbl_zonasi.id_kecamatan]',
+                        'errors' => [
+                            'max_length' => '{field} Maksimal 40 Karakter',
+                            'is_unique' => '{field} yang Anda Masukkan Telah Mempunyai Zonasi'
                         ]
                     ],
                     'zonasiAddEditModalZona' => [
@@ -465,13 +490,17 @@ class Wilayah extends ResourcePresenter
                 if (!$valid) {
                     $data = [
                         'error' => [
-                            'jenisWilayah' => $validation->getError('jenisWilayahAddEditModalZona'),
+                            'provinsi' => $validation->getError('provinsiAddEditModalZona'),
+                            'kabupaten' => $validation->getError('kabupatenAddEditModalZona'),
+                            'kecamatan' => $validation->getError('kecamatanAddEditModalZona'),
                             'zonasi' => $validation->getError('zonasiAddEditModalZona')
                         ]
                     ];
                 } else {
                     $data = [
-                        'id_jenis_wilayah' => $this->request->getVar('jenisWilayahAddEditModalZona'),
+                        'id_provinsi' => $this->request->getVar('provinsiAddEditModalZona'),
+                        'id_kabupaten' => $this->request->getVar('kabupatenAddEditModalZona'),
+                        'id_kecamatan' => $this->request->getVar('kecamatanAddEditModalZona'),
                         'nama_zonasi' => $this->request->getVar('zonasiAddEditModalZona')
                     ];
                     if ($this->zonasi->insert($data)) {
@@ -568,21 +597,22 @@ class Wilayah extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'jenisWilayahAddEditForm' => [
                 'label' => 'Nama Jenis Wilayah',
-                'rules' => 'required|max_length[40]',
+                'rules' => 'required|numeric||max_length[20]',
                 'errors' => [
-                    'max_length' => '{field} Maksimal 40 Karakter',
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'zonasiAddEditForm' => [
                 'label' => 'Nama Zonasi',
-                'rules' => 'required|max_length[40]',
+                'rules' => 'required|max_length[20]',
                 'errors' => [
-                    'max_length' => '{field} Maksimal 40 Karakter',
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ]
         ]);
@@ -688,7 +718,6 @@ class Wilayah extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 10 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'provinsiAddEditForm' => [
@@ -697,7 +726,6 @@ class Wilayah extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kabupatenAddEditForm' => [
@@ -706,7 +734,6 @@ class Wilayah extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kecamatanAddEditForm' => [
@@ -715,20 +742,21 @@ class Wilayah extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'jenisWilayahAddEditForm' => [
                 'label' => 'Nama Jenis Wilayah',
-                'rules' => 'required|max_length[40]',
+                'rules' => 'required|numeric|max_length[40]',
                 'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 40 Karakter',
                 ],
             ],
             'zonasiAddEditForm' => [
                 'label' => 'Nama Zonasi',
-                'rules' => 'required|max_length[40]',
+                'rules' => 'required|numeric|max_length[40]',
                 'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 40 Karakter',
                 ],
             ]

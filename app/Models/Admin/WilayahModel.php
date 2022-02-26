@@ -30,8 +30,8 @@ class WilayahModel extends Model
         'id_provinsi' => 'required|numeric|max_length[20]',
         'id_kabupaten' => 'required|numeric|max_length[20]',
         'id_kecamatan' => 'required|numeric|max_length[20]',
-        'id_jenis_wilayah' => 'required|max_length[40]',
-        'id_zonasi' => 'required|max_length[40]'
+        'id_jenis_wilayah' => 'required|numeric|max_length[20]',
+        'id_zonasi' => 'required|numeric|max_length[20]'
     ];
     protected $validationMessages   = [
         'kode' => [
@@ -51,10 +51,12 @@ class WilayahModel extends Model
             'max_length' => 'Maksimal 20 Karakter'
         ],
         'id_jenis_wilayah' => [
-            'max_length' => 'Maksimal 40 Karakter'
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
         ],
         'id_zonasi' => [
-            'max_length' => 'Maksimal 40 Karakter'
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
         ],
     ];
     protected $skipValidation       = false;

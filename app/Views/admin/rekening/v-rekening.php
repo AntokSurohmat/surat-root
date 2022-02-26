@@ -21,12 +21,22 @@
         <div class="row">
             <div class="col-12">
 
+                <?php if (session()->getFlashdata('error')) : ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
+
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="#" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
-                            Add Data <i class="fas fa-plus"></i> 
+                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="javascript:void(0)" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
+                            <i class="fas fa-plus"></i>&ensp;Add Data
                         </a>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -39,29 +49,18 @@
                                 </button>
                             </div>
                         </div>
-
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="rkning_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Kode</th>
                                     <th>Jenis Wilayah</th>
-                                    <th>Kode Rekening</th>
+                                    <th>Nomer Rekening</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -72,6 +71,57 @@
             </div>
         </div>
 
+        <!--add/edit-->
+        <div id="modal-newitem" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add/Edit Modal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
+                        <div class="modal-body">
+                            <input type="hidden" id="hidden_id" name="hidden_id" />
+                            <input type="hidden" id="method" name="method" />
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <div class="form-group row">
+                                <label for="kodeForm" class="col-sm-4 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
+                                    <div class="invalid-feedback kodeErrorForm"></div>
+                                </div>
+                                <!-- <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span> -->
+                            </div>
+                            <div class="form-group row">
+                                <label for="jenisWilayahForm" class="col-sm-4 col-form-label">Jenis Wilayah</label>
+                                <div class="col-sm-7">
+                                    <select name="jenisWilayahAddEditForm" id="jenisWilayahForm" class="form-control select2bs4" style="width: 100%;">
+                                        <option value="">--- Cari Jenis Wilayah ---</option>
+                                    </select>
+                                    <div class="invalid-feedback jenisWilayahErrorForm"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="rekeningForm" class="col-sm-4 col-form-label">Nomer Rekening</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="rekeningAddEditForm" class="form-control" id="rekeningForm" placeholder="Nomer Rekening" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" />
+                                    <div class="invalid-feedback rekeningErrorForm"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
+                            <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -79,21 +129,256 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(function() {
-        /*-- DataTable To Load Data Rekening --*/
-        ;
-        var rkning = $('#rkning_data').DataTable({
+    $(document).ready(function() {
 
+        $('form input').keydown(function(event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+        /*-- DataTable To Load Data Rekening --*/
+        var url_destination = "<?= base_url('Admin/Rekening/load_data') ?>";
+        var rkning = $('#rkning_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
+            "order": [],
             "processing": true,
-            "responsive": true
-
+            "responsive": true,
+            "serverSide": true,
+            "ajax": {
+                "url": url_destination,
+                "type": 'POST',
+                "data": {
+                    "csrf_token_name": $('input[name=csrf_token_name]').val()
+                },
+                "data": function(data) {
+                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
+                "timeout": 15000,
+                "error": handleAjaxError
+            },
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": false
+            }, {
+                "targets": [4],
+                "orderable": false,
+                "class": "text-center",
+            }, ],
         });
+
+        function handleAjaxError(xhr, textStatus, error) {
+            if (textStatus === 'timeout') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The server took too long to send the data.',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachRkning").value = "";
+                        sbuh.search("").draw();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachRkning").value = "";
+                        sbuh.search("").draw();
+                    }
+                });
+            }
+        }
         $('#seachRkning').keyup(function() {
             rkning.search($(this).val()).draw();
         });
         /*-- /. DataTable To Load Data Rekening --*/
+
+        $('#modal-newitem').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
+            $("#kodeForm").empty();
+            $("#kodeForm").removeClass('is-valid');
+            $("#kodeForm").removeClass('is-invalid');
+            $("#jenisWilayahForm").empty();
+            $("#jenisWilayahForm").removeClass('is-valid');
+            $("#jenisWilayahForm").removeClass('is-invalid');
+            $("#jenisWilayahForm").empty();
+            $("#jenisWilayahForm").removeClass('is-valid');
+            $("#jenisWilayahForm").removeClass('is-invalid');
+        });
+        $('#modal-newitem').on('shown.bs.modal', function() {
+            $('#kodeForm').focus();
+            $('#kodeForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#jenisWilayahForm').select2('open');
+                }
+            });
+            $('#jenisWilayahForm').on('select2:select', function(e) {
+                $('#rekeningForm').focus();
+            });
+            $('#rekeningForm').keydown(function(event) {
+                if (event.keyCode == 13) {
+                    $('#submit-btn').focus();
+                }
+            });
+        });
+        $('#add-data').click(function() {
+            var option = {
+                backdrop: 'static',
+                keyboard: true
+            };
+            $('#modal-newitem').modal(option);
+            $('#form-addedit')[0].reset();
+            $('#method').val('New');
+            $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');
+            $('#modal-newitem').modal('show');
+        });
+
+        // Initialize select2
+        var url_destination = '<?= base_url('Admin/Rekening/getJenis') ?>';
+        $("#jenisWilayahForm").select2({
+            theme: 'bootstrap4',
+            tags: true,
+            placeholder: '--- Cari Jenis Wilayah ---',
+            ajax: {
+                url: url_destination,
+                type: "POST",
+                dataType: "JSON",
+                delay: 250,
+                data: function(params) {
+                    return {
+                        searchTerm: params.term,
+                        csrf_token_name: $('input[name=csrf_token_name]').val()
+                    };
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {
+                        results: response.data,
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $(document).on('click', '.delete', function() {
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var id = $(this).data('id');
+                    var url_destination = "<?= base_url('Admin/Rekening/Delete') ?>";
+                    $.ajax({
+                        url: url_destination,
+                        method: "POST",
+                        data: {
+                            id: id,
+                            csrf_token_name: $('input[name=csrf_token_name]').val()
+                        },
+                        dataType: "JSON",
+                        success: function(data) {
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                            if (data.success) {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'success',
+                                    title: 'Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+                                });
+                                $('#sbuh_data').DataTable().ajax.reload(null, false);
+                            } else {
+                                swalWithBootstrapButtons.fire({
+                                    icon: 'error',
+                                    title: 'Not Deleted!',
+                                    text: data.msg,
+                                    showConfirmButton: true,
+                                    timer: 4000
+                                });
+                                $('#sbuh_data').DataTable().ajax.reload(null, false);
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                        }
+                    });
+                }
+            })
+        })
+
+        $('#form-addedit').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Rekening/Save') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
+                    $('#submit-btn').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
+                    $('#submit-btn').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key).addClass('is-invalid');
+                            $("." + key + "ErrorForm").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                    } else {
+                        if (data.success) {
+                            $("#modal-newitem").modal('hide');
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil..',
+                                text: data.msg,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                            $('#pangol_data').DataTable().ajax.reload(null, false);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.msg,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
+        })
+
     })
 </script>
 <?= $this->endSection() ?>

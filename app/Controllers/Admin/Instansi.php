@@ -249,7 +249,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kabupatenAddEditForm' => [
@@ -258,7 +257,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kecamatanAddEditForm' => [
@@ -267,7 +265,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kodeAddEditForm' => [
@@ -380,7 +377,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kabupatenAddEditForm' => [
@@ -389,7 +385,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kecamatanAddEditForm' => [
@@ -398,7 +393,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                    'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'kodeAddEditForm' => [

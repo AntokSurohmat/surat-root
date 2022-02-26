@@ -15,7 +15,7 @@ class ZonasiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_provinsi', 'di_kabupaten', 'id_kecamatan', 'nama_zonasi'];
+    protected $allowedFields    = ['id_provinsi', 'id_kabupaten', 'id_kecamatan', 'nama_zonasi'];
 
     // Dates
     protected $useTimestamps = true;

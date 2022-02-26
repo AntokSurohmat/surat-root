@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Wilayah extends Migration
+class Rekening extends Migration
 {
     public function up()
     {
@@ -15,34 +15,19 @@ class Wilayah extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_provinsi'          => [
-                'type'           => 'BIGINT',
-                'constraint'     => 20,
-                'unsigned'       => true,
-            ],
-            'id_kabupaten'          => [
-                'type'           => 'BIGINT',
-                'constraint'     => 20,
-                'unsigned'       => true,
-            ],
-            'id_kecamatan'          => [
-                'type'           => 'BIGINT',
-                'constraint'     => 20,
-                'unsigned'       => true,
-            ],
             'kode'          => [
                 'type'          => 'BIGINT',
                 'constraint'    => 20,
                 'unsigned'      => true,
             ],
-            'jenis_wilayah'   => [
+            'id_jenis_wilayah'   => [
                 'type'          => 'BIGINT',
                 'constraint'    => 20,
                 'unsigned'      => true,
             ],
-            'zonasi'   => [
+            'nomer_rekening'   => [
                 'type'          => 'BIGINT',
-                'constraint'    => 20,
+                'constraint'    => 12,
                 'unsigned'      => true,
             ],
             'created_at'    => [
@@ -60,17 +45,13 @@ class Wilayah extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id');
-        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id');
-        $this->forge->addForeignKey('id_kecamatan', 'kecamatan', 'id');
-        $this->forge->createTable('wilayah');
+        $this->forge->addForeignKey('id_jenis_wilayah', 'jenis_wilayah', 'id');
+        $this->forge->createTable('rekening');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('provinsi', 'etbl_wilayah_id_provinsi_foreign');
-        $this->forge->dropForeignKey('kabupaten', 'etbl_wilayah_id_kabupaten_foreign');
-        $this->forge->dropForeignKey('kabupaten', 'etbl_wilayah_id_kecamatan_foreign');
-        $this->forge->dropTable('wilayah');
+        $this->forge->dropForeignKey('jenis_wilayah', 'etbl_rekening_id_jenis_wilayah_foreign');
+        $this->forge->dropTable('rekening');
     }
 }

@@ -82,9 +82,9 @@
                                     <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
                                     <div class="invalid-feedback kodeError"></div>
                                 </div>
-                                <span>
+                                <!-- <span>
                                     <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
-                                </span>
+                                </span> -->
                             </div>
                             <div class="form-group row">
                                 <label for="nama_pangolForm" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
@@ -112,12 +112,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('form input').keydown(function(event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                return false;
-            }
-        });
+        $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
         /*-- DataTable To Load Data --*/
         var url_destination = "<?= base_url('Admin/Pangol/load_data') ?>";
         var pangol = $('#pangol_data').DataTable({
@@ -146,11 +141,11 @@
             "columnDefs": [{
                 "targets": [0],
                 "orderable": false
-            }, {
-                "targets": [3],
-                "orderable": false,
-                "class": "text-center",
-            }, ],
+                }, {
+                    "targets": [3],
+                    "orderable": false,
+                    "class": "text-center",
+                },],
         });
 
         function handleAjaxError(xhr, textStatus, error) {

@@ -60,7 +60,7 @@
                                             <label for="kabupatenForm" class="col-sm-3 col-form-label">Kabupaten/Kota</label>
                                             <div class="col-sm-7">
                                                 <select name="kabupatenAddEditForm" id="kabupatenForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Cari Kabupaten ---</option>
+                                                    <option value="">--- Pilih Provinsi Terlebih Dahulu ---</option>
                                                 </select>
                                                 <div class="invalid-feedback kabupatenErrorForm"></div>
                                             </div>
@@ -72,7 +72,7 @@
                                             <label for="kecamatanForm" class="col-sm-3 col-form-label">Kecamatan</label>
                                             <div class="col-sm-7">
                                                 <select name="kecamatanAddEditForm" id="kecamatanForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Cari Kecamatan ---</option>
+                                                    <option value="">--- Pilih Kabupaten Terlebih Dahulu ---</option>
                                                 </select>
                                                 <div class="invalid-feedback kecamatanErrorForm"></div>
                                             </div>
@@ -86,7 +86,7 @@
                                             <label for="jenisWilayahForm" class="col-sm-3 col-form-label">Jenis Wilayah</label>
                                             <div class="col-sm-7">
                                                 <select name="jenisWilayahAddEditForm" id="jenisWilayahForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Jenis Wilayah ---</option>
+                                                    <option value="">--- Pilih Kabupaten Terlebih Dahulu ---</option>
                                                 </select>
                                                 <div class="invalid-feedback jenisWilayahErrorForm"></div>
                                             </div>
@@ -98,7 +98,7 @@
                                             <label for="zonasiForm" class="col-sm-3 col-form-label">Zonasi</label>
                                             <div class="col-sm-7">
                                                 <select name="zonasiAddEditForm" id="zonasiForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Cari Zonasi ---</option>
+                                                    <option value="">--- Pilih Kecamatan Terlebih Dahulu ---</option>
                                                 </select>
                                                 <div class="invalid-feedback zonasiErrorForm"></div>
                                             </div>
@@ -260,7 +260,7 @@
                             <div class="form-group row">
                                 <label for="provinsiModalJenis" class="col-sm-3 col-form-label">Provinsi</label>
                                 <div class="col-sm-9">
-                                    <select name="provinsiAddEditModalKec" id="provinsiModalJenis" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="provinsiAddEditModalJenis" id="provinsiModalJenis" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
                                     <div class="invalid-feedback provinsiErrorModalJenis"></div>
@@ -312,25 +312,25 @@
                                     <select name="provinsiAddEditModalZona" id="provinsiModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
-                                    <div class="invalid-feedback provinsiErrorModalJenis"></div>
+                                    <div class="invalid-feedback provinsiErrorModalZona"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="kabupatenModalJenis" class="col-sm-3 col-form-label">Kabupaten</label>
+                                <label for="kabupatenModalZona" class="col-sm-3 col-form-label">Kabupaten</label>
                                 <div class="col-sm-9">
-                                    <select name="kabupatenAddEditModalJenis" id="kabupatenModalJenis" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="kabupatenAddEditModalZona" id="kabupatenModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kabupaten ---</option>
                                     </select>
-                                    <div class="invalid-feedback kabupatenErrorModalJenis"></div>
+                                    <div class="invalid-feedback kabupatenErrorModalZona"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="jenisWilayahModalZona" class="col-sm-3 col-form-label">Kecamatan</label>
+                                <label for="kecamatanModalZona" class="col-sm-3 col-form-label">Kecamatan</label>
                                 <div class="col-sm-9">
-                                    <select name="jenisWilayahAddEditModalZona" id="jenisWilayahModalZona" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="kecamatanAddEditModalZona" id="kecamatanModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kecamatan ---</option>
                                     </select>
-                                    <div class="invalid-feedback jenisWilayahErrorModalZona"></div>
+                                    <div class="invalid-feedback kecamatanErrorModalZona"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -446,19 +446,22 @@
         });
         $('#modal-zona').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#jenisWilayahModalZona").empty();$("#jenisWilayahModalZona").removeClass('is-valid');$("#jenisWilayahModalZona").removeClass('is-invalid');
+            $("#provinsiModalZona").empty();$("#provinsiModalZona").removeClass('is-valid');$("#provinsiModalZona").removeClass('is-invalid');
+            $("#kabupatenModalZona").empty();$("#kabupatenModalZona").removeClass('is-invalid');$("#kabupatenModalZona").removeClass('is-valid');
+            $("#kecamatanModalZona").empty();$("#kecamatanModalZona").removeClass('is-invalid');$("#kecamatanModalZona").removeClass('is-valid');
             $("#zonasiModalZona").empty();$("#zonasiModalZona").removeClass('is-valid');$("#zonasiModalZona").removeClass('is-invalid');
         });
         $('#modal-zona').on('shown.bs.modal', function() {
-            $('#jenisWilayahModalZona').select2('open');$('#jenisWilayahModalZona').on('select2:select', function(e) {$('#zonasiModalZona').focus();});
+            $('#provinsiModalZona').select2('open');$('#provinsiModalZona').on('select2:select', function(e) {$('#kabupatenModalZona').select2('open');});
+            $('#kabupatenModalZona').on('select2:select', function(e) {$('#kecamatanModalZona').select2('open');});
+            $('#kecamatanModalZona').on('select2:select', function(e) {$('#zonasiModalZona').focus();});
             $('#zonasiModalZona').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-zona').focus();}});
         });
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiForm").select2({
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -468,17 +471,14 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data,};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
-
         $("#provinsiForm").change(function() {
             var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getKabupaten') ?>';
             // Initialize select2
             $("#kabupatenForm").select2({
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -488,18 +488,15 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
         });
-
         $("#kabupatenForm").change(function() {
             var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getKecamatan') ?>';
             // Initialize select2
             $("#kecamatanForm").select2({
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -509,47 +506,42 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: true
                 }
             })
         });
-
-        // Initialize select2
-        var url_destination = '<?= base_url('Admin/Wilayah/getJenis') ?>';
-        $("#jenisWilayahForm").select2({
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
-            placeholder: '--- Cari Jenis Wilayah ---',
-            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {
-                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
-                },
-                processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
-                },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
-                cache: true
-            }
-        })
-
-        $("#jenisWilayahForm").change(function() {
-            var jenisID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getZonasi') ?>';
+        $("#kabupatenForm").change(function() {
+            var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getJenis') ?>';
             // Initialize select2
-            $("#zonasiForm").select2({
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
-                placeholder: '--- Cari Zonasi ---',
+            $("#jenisWilayahForm").select2({
+                theme: 'bootstrap4',tags: true,
+                placeholder: '--- Cari Jenis Wilayah ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        return {searchTerm: params.term,jenis: jenisID,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                        return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
+                    cache: true
+                }
+            })
+        });
+        $("#kecamatanForm").change(function() {
+            var kecamatanID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getZonasi') ?>';
+            // Initialize select2
+            $("#zonasiForm").select2({
+                theme: 'bootstrap4',tags: true,
+                placeholder: '--- Cari Zonasi ---',
+                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                    data: function(params) {
+                        return {searchTerm: params.term,kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                        return {results: response.data};
+                    },
                     cache: true
                 }
             })
@@ -558,8 +550,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalKab").select2({
             dropdownParent: $('#modal-kab'),
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -569,7 +560,6 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
@@ -577,8 +567,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalKec").select2({
             dropdownParent: $('#modal-kec'),
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -588,7 +577,6 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
@@ -598,8 +586,7 @@
             // Initialize select2
             $("#kabupatenModalKec").select2({
                 dropdownParent: $('#modal-kec'),
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -609,7 +596,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
@@ -618,8 +604,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalJenis").select2({
             dropdownParent: $('#modal-jenis'),
-            theme: 'bootstrap4',
-            allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -629,7 +614,6 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
@@ -639,8 +623,7 @@
             // Initialize select2
             $("#kabupatenModalJenis").select2({
                 dropdownParent: $('#modal-jenis'),
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -650,7 +633,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
@@ -659,7 +641,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalZona").select2({
             dropdownParent: $('#modal-zona'),
-            theme: 'bootstrap4',allowClear: true,tags: true,
+            theme: 'bootstrap4',tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -669,7 +651,6 @@
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {results: response.data};
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                 cache: true
             }
         });
@@ -678,8 +659,7 @@
             // Initialize select2
             $("#kabupatenModalZona").select2({
                 dropdownParent: $('#modal-zona'),
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -689,7 +669,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
@@ -699,8 +678,7 @@
             // Initialize select2
             $("#kecamatanModalZona").select2({
                 dropdownParent: $('#modal-zona'),
-                theme: 'bootstrap4',
-                allowClear: true,tags: true,
+                theme: 'bootstrap4',tags: true,
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -710,7 +688,6 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
                     cache: false
                 }
             })
@@ -944,8 +921,7 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })
@@ -972,11 +948,9 @@
                         $("#zonasiForm").append($("<option selected='selected'></option>")
                         .val(data.zonasi.id).text(data.zonasi.nama_zonasi)).trigger('change');
                         $('#submit-wilayah').html('<i class="fas fa-save"></i>&ensp;Update');
-                    }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
-
-
-
             }
         }
 

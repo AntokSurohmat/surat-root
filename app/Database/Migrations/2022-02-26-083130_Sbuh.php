@@ -50,9 +50,10 @@ class Sbuh extends Migration
                 'constraint'    => 10,
                 'unsigned'      => true,
             ],
-            'nama_zonasi'   => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '40',
+            'jumlah_uang'   => [
+                'type'          => 'BIGINT',
+                'constraint'    => 6,
+                'unsigned'      => true,
             ],
             'created_at'    => [
                 'type'          => 'DATETIME',

@@ -4,18 +4,18 @@ namespace App\Models\Admin;
 
 use CodeIgniter\Model;
 
-class SbuhModel extends Model
+class RekeningModel extends Model
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'sbuh';
+    protected $table            = 'rekening';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
 
-    protected $insertID         = 0;
+    // protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [ 'kode','id_provinsi', 'id_kabupaten', 'id_jenis_wilayah', 'id_kecamatan', 'id_zonasi', 'id_pangol', 'jumlah_uang'];
+    protected $allowedFields    = ['kode', 'id_jenis_wilayah', 'nomer_rekening'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,42 +27,19 @@ class SbuhModel extends Model
     // Validation
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[10]',
-        'id_provinsi' => 'required|numeric|max_length[20]',
-        'id_kabupaten' => 'required|numeric|max_length[20]',
         'id_jenis_wilayah' => 'required|max_length[20]',
-        'id_kecamatan' => 'required|numeric|max_length[20]',
-        'id_zonasi' => 'required|max_length[20]',
-        'id_pangol' => 'required|max_length[10]',
-        'jumlah_uang' => 'required|max_length[6]',
+        'jumlah_uang' => 'required|max_length[12]',
     ];
     protected $validationMessages   = [
         'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 10 Karakter' 
         ],        
-        'id_provinsi' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter' 
-        ],
-        'id_kabupaten' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
-        ],
         'id_jenis_wilayah' => [
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_kecamatan' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
-        ],
-        'id_zonasi' => [
-            'max_length' => 'Maksimal 20 Karakter'
-        ],
-        'id_pangol' => [
-            'max_length' => 'Maksimal 10 Karakter'
-        ],
-        'jumlah_uang' => [
-            'max_length' => 'Maksimal 6 Karakter'
+        'nomer_rekening' => [
+            'max_length' => 'Maksimal 12 Karakter'
         ],
     ];
     protected $skipValidation       = false;
@@ -79,7 +56,7 @@ class SbuhModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'kode','id_provinsi', 'id_kabupaten', 'id_jenis_wilayah', 'id_kecamatan', 'id_zonasi', 'id_pangol', 'jumlah_uang', null);
+    var $column_order = array(null, 'kode', 'id_jenis_wilayah', 'nomer_rekening', null);
     var $order = array('created_at' => 'DESC');
 
     function get_datatables(){
@@ -87,7 +64,7 @@ class SbuhModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "kode LIKE '%$search%' OR jumlah_uang LIKE '%$search%'";
+			$attr_order = "kode LIKE '%$search%' OR nomer_rekening LIKE '%$search%'";
 		} else {
 			$attr_order = "id != ''";
 		}
@@ -105,7 +82,7 @@ class SbuhModel extends Model
 
 		if(service('request')->getPost('length')!=-1);
 		// $db = db_connect();
-		$builder = $this->db->table('sbuh');
+		$builder = $this->db->table('rekening');
 		$query = $builder->select('*')
 				->where($attr_order)
 				->where('deleted_at', NULL)
@@ -118,7 +95,7 @@ class SbuhModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_sbuh WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -127,11 +104,11 @@ class SbuhModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR jumlah_uang LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (kode LIKE '%$search%' OR nomer_rekening LIKE '%$search%') AND deleted_at IS NULL";
 		} else {
 			$attr_order = " AND deleted_at IS NULL";
 		}
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_sbuh WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening WHERE id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
