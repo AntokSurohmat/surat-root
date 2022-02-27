@@ -26,14 +26,14 @@ class RekeningModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[10]',
+        'kode' => 'required|numeric|max_length[20]',
         'id_jenis_wilayah' => 'required|max_length[20]',
-        'jumlah_uang' => 'required|max_length[12]',
+        'nomer_rekening' => 'required|max_length[12]',
     ];
     protected $validationMessages   = [
         'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 10 Karakter' 
+            'max_length' => 'Maksimal 20 Karakter' 
         ],        
         'id_jenis_wilayah' => [
             'max_length' => 'Maksimal 20 Karakter'

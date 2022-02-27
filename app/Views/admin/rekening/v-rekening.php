@@ -57,7 +57,7 @@
                                     <th>Kode</th>
                                     <th>Jenis Wilayah</th>
                                     <th>Nomer Rekening</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -204,6 +204,10 @@
         $('#seachRkning').keyup(function() {
             rkning.search($(this).val()).draw();
         });
+        $("#refresh").on('click', function() {
+            document.getElementById("seachRkning").value = "";
+            rkning.search("").draw();
+        });
         /*-- /. DataTable To Load Data Rekening --*/
 
         $('#modal-newitem').on('hidden.bs.modal', function() {
@@ -214,9 +218,9 @@
             $("#jenisWilayahForm").empty();
             $("#jenisWilayahForm").removeClass('is-valid');
             $("#jenisWilayahForm").removeClass('is-invalid');
-            $("#jenisWilayahForm").empty();
-            $("#jenisWilayahForm").removeClass('is-valid');
-            $("#jenisWilayahForm").removeClass('is-invalid');
+            $("#rekeningForm").empty();
+            $("#rekeningForm").removeClass('is-valid');
+            $("#rekeningForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $('#kodeForm').focus();
@@ -245,6 +249,36 @@
             $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');
             $('#modal-newitem').modal('show');
         });
+
+        $(document).on('click', '.edit', function() {
+            var id = $(this).data('id');
+            var url_destination = "<?= base_url('Admin/Rekening/single_data') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    id: id,
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                    $("#jenisWilayahForm").append($("<option selected='selected'></option>")
+                    .val(data.jenis.id).text(data.jenis.jenis_wilayah)).trigger('change');
+                    $('#rekeningForm').val(data.nomer_rekening);
+                    $('.modal-title').text('Edit Data ' + data.nomer_rekening);
+                    $('.modal-title').css("font-weight:", "900");
+                    $('#method').val('Edit');
+                    $('#hidden_id').val(id);
+                    $('#submit-btn').removeClass("btn-success");
+                    $('#submit-btn').addClass("btn-warning text-white");
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
+                    $('#modal-newitem').modal('show');
+                }
+            })
+        })
+
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Rekening/getJenis') ?>';
@@ -304,7 +338,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#sbuh_data').DataTable().ajax.reload(null, false);
+                                $('#rkning_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',
@@ -313,7 +347,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#sbuh_data').DataTable().ajax.reload(null, false);
+                                $('#rkning_data').DataTable().ajax.reload(null, false);
                             }
                         },
                         error: function(xhr, ajaxOptions, thrownError) {
@@ -327,6 +361,7 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('Admin/Rekening/Save') ?>";
+            console.log($(this).serialize());
             $.ajax({
                 url: url_destination,
                 type: "POST",
@@ -360,7 +395,7 @@
                                 showConfirmButton: false,
                                 timer: 3000
                             });
-                            $('#pangol_data').DataTable().ajax.reload(null, false);
+                            $('#rkning_data').DataTable().ajax.reload(null, false);
                         } else {
                             Swal.fire({
                                 icon: 'error',

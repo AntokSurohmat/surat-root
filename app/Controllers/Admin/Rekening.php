@@ -53,7 +53,7 @@ class Rekening extends BaseController
             $row[] = $key->kode;
             foreach ($jenis->getResult() as $jen) {
                 if ($jen->id == $key->id_jenis_wilayah) {
-                    $row[] =  $jen->nama_provinsi;
+                    $row[] =  $jen->jenis_wilayah;
                 }
             };
             $row[] = $key->nomer_rekening;
@@ -121,8 +121,9 @@ class Rekening extends BaseController
         }
 
         if ($this->request->getVar('id')) {
-            $data = $this->jenis->where('id', $this->request->getVar('id'))->first();
+            $data = $this->rekening->where('id', $this->request->getVar('id'))->first();
 
+            $data['jenis'] = $this->jenis->where('id', $data['id_jenis_wilayah'])->first();
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -142,11 +143,11 @@ class Rekening extends BaseController
 
             $valid = $this->validate([
                 'kodeAddEditForm' => [
-                    'label'     => 'Kode Pangkat & Golongan',
-                    'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_rekening.kode]',
+                    'label'     => 'Kode',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_rekening.kode]',
                     'errors' => [
                         'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                         'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
@@ -179,15 +180,16 @@ class Rekening extends BaseController
             } else {
 
                 $data = [
-                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                    'id_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
-                    'nomer_rekening' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
+                    'kode' => $this->request->getVar('kodeAddEditForm'),
+                    'id_jenis_wilayah' => $this->request->getVar('jenisWilayahAddEditForm'),
+                    'nomer_rekening' => $this->request->getVar('rekeningAddEditForm'),
                 ];
+                // d($data);print_r($data);die();
 
                 if ($this->rekening->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');   
                 }
             }
         }
@@ -195,11 +197,11 @@ class Rekening extends BaseController
         if ($this->request->getVar('method') == 'Edit') {
             $valid = $this->validate([
                 'kodeAddEditForm' => [
-                    'label'     => 'Kode Pangkat & Golongan',
-                    'rules'     => 'required|numeric|max_length[10]',
+                    'label'     => 'Kode',
+                    'rules'     => 'required|numeric|max_length[20]',
                     'errors' => [
                         'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ],
                 'jenisWilayahAddEditForm' => [
@@ -233,13 +235,32 @@ class Rekening extends BaseController
                 $data = [
                     'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
                     'id_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
-                    'nomer_rekening' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
+                    'nomer_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
                 ];
                 if ($this->rekening->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil diupdate');
                 } else {
                     $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
                 }
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data); return false; 
+    }
+
+    function delete(){
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')){
+            $id = $this->request->getVar('id');
+
+            if ($this->rekening ->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
