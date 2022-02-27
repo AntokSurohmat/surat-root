@@ -38,28 +38,47 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="kodeForm" class="col-sm-3 col-form-label">Kode</label>
+                                            <label for="NipForm" class="col-sm-3 col-form-label">NIP</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
-                                                <div class="invalid-feedback kodeErrorForm"></div>
+                                                <input type="number" name="nipAddEditForm" class="form-control" id="NipForm" placeholder="Nomer NIP" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="25" autofocus />
+                                                <div class="invalid-feedback nipErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
+                                            <label for="namaForm" class="col-sm-3 col-form-label">Nama </label>
                                             <div class="col-sm-7">
-                                                <select name="provinsiAddEditForm" id="provinsiForm" class="form-control " style="width: 100%;">
-                                                    <option value="">--- Cari Provinsi ---</option>
+                                                <input type="text" name="namaAddEditForm" class="form-control" id="namaForm" placeholder="Nama Lengkap"/>
+                                                <div class="invalid-feedback namaErrorForm"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="lahirForm" class="col-sm-3 col-form-label">Tanggal Lahir </label>
+                                            <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="lahirAddEditForm" class="form-control" id="lahirForm" placeholder="Nama Lengkap"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <label for="jabatanForm" class="col-sm-3 col-form-label">Jabatan</label>
+                                            <div class="col-sm-7">
+                                                <select name="jabatanAddEditForm" id="jabatanForm" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Jabatan ---</option>
                                                 </select>
-                                                <div class="invalid-feedback provinsiErrorForm"></div>
+                                                <div class="invalid-feedback jabatanErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="kabupatenForm" class="col-sm-3 col-form-label">Kabupaten/Kota</label>
+                                            <label for="pangolForm" class="col-sm-3 col-form-label">Pangkat & Golongan</label>
                                             <div class="col-sm-7">
-                                                <select name="kabupatenAddEditForm" id="kabupatenForm" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="pangolAddEditForm" id="pangolForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Pilih Provinsi Terlebih Dahulu ---</option>
                                                 </select>
-                                                <div class="invalid-feedback kabupatenErrorForm"></div>
+                                                <div class="invalid-feedback pangolErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -132,30 +151,15 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-    // var rupiah = document.getElementById('jumlahUangForm');
-    //         rupiah.addEventListener('keyup', function(e){
-    //         // tambahkan 'Rp.' pada saat form di ketik
-    //         // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    //         rupiah.value = formatRupiah(this.value);
-    //     });
+        $('input[name="lahirAddEditForm"]').daterangepicker({
+            autoApply: true,
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1950,
+            maxYear: parseInt(moment().format('YYYY'),10),
+        });
+        // console.log(maxYear);
 
-    //   /* Fungsi formatRupiah */
-    // function formatRupiah(angka, prefix){
-    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-    //     split       = number_string.split(','),
-    //     sisa        = split[0].length % 3,
-    //     rupiah        = split[0].substr(0, sisa),
-    //     ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
-
-    //   // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    //     if(ribuan){
-    //         separator = sisa ? '.' : '';
-    //         rupiah += separator + ribuan.join('.');
-    //     }
-
-    //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    //     return prefix != undefined ? rupiah  : (rupiah ? 'Rp. ' + rupiah : '');
-    // }
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
@@ -182,11 +186,11 @@
         }
 
         // Initialize select2
-        var url_destination = '<?= base_url('Admin/Sbuh/getProvinsi') ?>';
-        $("#provinsiForm").select2({
+        var url_destination = '<?= base_url('Admin/Pegawai/getjabatan') ?>';
+        $("#jabatanForm").select2({
             theme: 'bootstrap4',
             tags: true,
-            placeholder: '--- Cari Provinsi ---',
+            placeholder: '--- Cari Jabatan ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -198,13 +202,13 @@
                 cache: true
             }
         });
-        $("#provinsiForm").change(function() {
-            var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Sbuh/getKabupaten') ?>';
+        $("#jabatanForm").change(function() {
+            var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Pegawai/getPangol') ?>';
             // Initialize select2
-            $("#kabupatenForm").select2({
+            $("#pangolForm").select2({
                 theme: 'bootstrap4',
                 tags: true,
-                placeholder: '--- Cari Kabupaten ---',
+                placeholder: '--- Cari Pangkat & Golongan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
