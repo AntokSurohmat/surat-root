@@ -35,7 +35,7 @@ $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth\LoginController::index');
 $routes->group('admin', function ($routes) {
     $routes->get('', 'Admin\Dashboard::index');
-    $routes->get('pegawai', 'Admin\Pegawai::index');
+    $routes->presenter('Pegawai', ['except' => 'show,remove']);
     $routes->get('pangol', 'Admin\Pangol::index');
     $routes->get('jabatan', 'Admin\Jabatan::index');
     $routes->presenter('Wilayah', ['except' => 'show,remove']);

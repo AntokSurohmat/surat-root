@@ -434,7 +434,7 @@ class Sbuh extends ResourcePresenter
             if ($this->sbuh->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/sbuh'));
             } else {
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->sbuh->errors());
             }
         }
 
