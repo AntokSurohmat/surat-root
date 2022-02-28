@@ -53,7 +53,7 @@ class JabatanModel extends Model
     // protected $afterDelete    = [];
 
     var $column_order = array(null, 'kode', 'nama_jabatan', null);
-    var $order = array('created_at' => 'DESC');
+    var $order = array('id' => 'DESC');
 
     function get_datatables(){
 

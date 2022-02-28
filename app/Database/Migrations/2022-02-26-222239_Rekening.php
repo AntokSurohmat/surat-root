@@ -16,14 +16,12 @@ class Rekening extends Migration
                 'auto_increment'    => true,
             ],
             'kode'              => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_jenis_wilayah'  => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'nomer_rekening'    => [
                 'type'              => 'VARCHAR',

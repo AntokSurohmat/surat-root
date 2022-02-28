@@ -24,7 +24,7 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="#" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="javascript:void(0)" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i>&ensp;Add Data
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
@@ -79,18 +79,18 @@
                             <div class="form-group row">
                                 <label for="kodeForm" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kodeAddEdit" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
-                                    <div class="invalid-feedback kodeError"></div>
+                                    <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
+                                    <div class="invalid-feedback kodeErrorForm"></div>
                                 </div>
-                                <!-- <span>
-                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
-                                </span> -->
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kode" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_pangolForm" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
+                                <label for="pangolForm" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="nama_pangolAddEdit" id="nama_pangolForm" placeholder="Nama Pangkat & Golongan" />
-                                    <div class="invalid-feedback nama_pangolError"></div>
+                                    <input type="text" class="form-control" name="pangolAddEditForm" id="pangolForm" placeholder="Nama Pangkat & Golongan" />
+                                    <div class="invalid-feedback pangolErrorForm"></div>
                                 </div>
                             </div>
                         </div>
@@ -189,20 +189,20 @@
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
             $("#kodeForm").empty();
-            $("#nama_pangolForm").empty();
+            $("#pangolForm").empty();
             $("#kodeForm").removeClass('is-valid');
             $("#kodeForm").removeClass('is-invalid');
-            $("#nama_pangolForm").removeClass('is-valid');
-            $("#nama_pangolForm").removeClass('is-invalid');
+            $("#pangolForm").removeClass('is-valid');
+            $("#pangolForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $('#kodeForm').focus();
             $('#kodeForm').keydown(function(event) {
                 if (event.keyCode == 13) {
-                    $('#nama_pangolForm').focus();
+                    $('#pangolForm').focus();
                 }
             });
-            $('#nama_pangolForm').keydown(function(event) {
+            $('#pangolForm').keydown(function(event) {
                 if (event.keyCode == 13) {
                     $('#submit-btn').focus();
                 }
@@ -235,7 +235,7 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#kodeForm').val(data.kode);
-                    $('#nama_pangolForm').val(data.nama_pangol);
+                    $('#pangolForm').val(data.nama_pangol);
                     $('.modal-title').text('Edit Data ' + data.nama_pangol);
                     $('.modal-title').css("font-weight:", "900");
                     $('#method').val('Edit');
@@ -319,10 +319,11 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            $("#" + key).addClass('is-invalid');
-                            $("." + key + "Error").html(data.error[key]);
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
-                            element.closest('.form-control').removeClass('is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } else {
                         if (data.success) {
@@ -336,13 +337,14 @@
                             });
                             $('#pangol_data').DataTable().ajax.reload(null, false);
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: data.msg,
-                                showConfirmButton: false,
-                                timer: 3000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -351,6 +353,22 @@
                 }
             });
             return false;
+        })
+
+        $('#generate-kode').click(function() {
+            var url_destination = "<?= base_url('Admin/Pangol/generator') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                }
+            })
         })
     })
 </script>

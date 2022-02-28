@@ -41,7 +41,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachWlyah" id="seachWlyah" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachWlyah" id="seachWlyah" type="text" placeholder="Cari Selain Aksi" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>

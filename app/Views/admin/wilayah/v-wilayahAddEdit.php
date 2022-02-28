@@ -43,6 +43,9 @@
                                                 <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
+                                            <span>
+                                                <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kode" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                            </span>
                                         </div>
                                         <div class="form-group row">
                                             <label for="provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
@@ -125,7 +128,7 @@
 
         <!--add Prov-->
         <div id="modal-prov" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Provinsi</h5>
@@ -138,8 +141,18 @@
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="method" name="method" value="Prov" />
                             <div class="form-group row">
-                                <label for="provinsiModalProv" class="col-sm-3 col-form-label">Provinsi</label>
-                                <div class="col-sm-9">
+                                <label for="kodeModalProv" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalProv" class="form-control" id="kodeModalProv" placeholder="Kode Provinsi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalProv"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeProv" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="provinsiModalProv" class="col-sm-3 col-form-label">Nama Provinsi</label>
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" name="provinsiAddEditModalProv" id="provinsiModalProv" placeholder="Nama Provinsi Baru" />
                                     <div class="invalid-feedback provinsiErrorModalProv"></div>
                                 </div>
@@ -156,7 +169,7 @@
 
         <!--add Kab-->
         <div id="modal-kab" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Kota/Kab </h5>
@@ -169,8 +182,18 @@
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="method" name="method" value="Kab" />
                             <div class="form-group row">
+                                <label for="kodeModalKab" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalKab" class="form-control" id="kodeModalKab" placeholder="Kode Kabupaten" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalKab"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeKab" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                            <div class="form-group row">
                                 <label for="provinsiModalKab" class="col-sm-3 col-form-label">Provinsi</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="provinsiAddEditModalKab" id="provinsiModalKab" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
@@ -178,8 +201,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="kabupatenModalKab" class="col-sm-3 col-form-label">Kota/Kab.</label>
-                                <div class="col-sm-9">
+                                <label for="kabupatenModalKab" class="col-sm-3 col-form-label">Nama Kota/Kab.</label>
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" name="kabupatenAddEditModalKab" id="kabupatenModalKab" placeholder="Nama Kabupaten Baru" />
                                     <div class="invalid-feedback kabupatenErrorModalKab"></div>
                                 </div>
@@ -196,7 +219,7 @@
 
         <!--add Kec-->
         <div id="modal-kec" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Kecamatan</h5>
@@ -209,8 +232,18 @@
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="method" name="method" value="Kec" />
                             <div class="form-group row">
+                                <label for="kodeModalKec" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalKec" class="form-control" id="kodeModalKec" placeholder="Kode Kecamatan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="7" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalKec"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeKec" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                            <div class="form-group row">
                                 <label for="provinsiModalKec" class="col-sm-3 col-form-label">Provinsi</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="provinsiAddEditModalKec" id="provinsiModalKec" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
@@ -219,7 +252,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="kabupatenModalKec" class="col-sm-3 col-form-label">Kabupaten</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="kabupatenAddEditModalKec" id="kabupatenModalKec" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kabupaten ---</option>
                                     </select>
@@ -227,8 +260,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="kecamatanModalKec" class="col-sm-3 col-form-label">Kec.</label>
-                                <div class="col-sm-9">
+                                <label for="kecamatanModalKec" class="col-sm-3 col-form-label">Nama kecamatan</label>
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" name="kecamatanAddEditModalKec" id="kecamatanModalKec" placeholder="Nama Kecamatan Baru" />
                                     <div class="invalid-feedback kecamatanErrorModalKec"></div>
                                 </div>
@@ -245,7 +278,7 @@
 
         <!--add Jenis-->
         <div id="modal-jenis" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Jenis Wilayah</h5>
@@ -258,8 +291,18 @@
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="method" name="method" value="Jenis" />
                             <div class="form-group row">
+                                <label for="kodeModalJenis" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalJenis" class="form-control" id="kodeModalJenis" placeholder="Kode Jenis Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalJenis"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeJenis" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                            <div class="form-group row">
                                 <label for="provinsiModalJenis" class="col-sm-3 col-form-label">Provinsi</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="provinsiAddEditModalJenis" id="provinsiModalJenis" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
@@ -268,7 +311,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="kabupatenModalJenis" class="col-sm-3 col-form-label">Kabupaten</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="kabupatenAddEditModalJenis" id="kabupatenModalJenis" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kabupaten ---</option>
                                     </select>
@@ -277,7 +320,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="jenisWilayahModalJenis" class="col-sm-3 col-form-label">Jenis Wilayah</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" name="jenisWilayahAddEditModalJenis" id="jenisWilayahModalJenis" placeholder="Nama Jenis Wilayah" />
                                     <div class="invalid-feedback jenisWilayahErrorModalJenis"></div>
                                 </div>
@@ -294,7 +337,7 @@
 
         <!--add Zonasi-->
         <div id="modal-zona" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Zonasi</h5>
@@ -307,8 +350,18 @@
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="method" name="method" value="Zona" />
                             <div class="form-group row">
+                                <label for="kodeModalZona" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalZona" class="form-control" id="kodeModalZona" placeholder="Kode Zonasi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalZona"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeZona" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div>
+                            <div class="form-group row">
                                 <label for="provinsiModalZona" class="col-sm-3 col-form-label">Provinsi</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="provinsiAddEditModalZona" id="provinsiModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Provinsi ---</option>
                                     </select>
@@ -317,7 +370,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="kabupatenModalZona" class="col-sm-3 col-form-label">Kabupaten</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="kabupatenAddEditModalZona" id="kabupatenModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kabupaten ---</option>
                                     </select>
@@ -326,7 +379,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="kecamatanModalZona" class="col-sm-3 col-form-label">Kecamatan</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <select name="kecamatanAddEditModalZona" id="kecamatanModalZona" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Kecamatan ---</option>
                                     </select>
@@ -335,7 +388,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="zonasiModalZona" class="col-sm-3 col-form-label">Zonasi</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-8">
                                     <input type="text" class="form-control" name="zonasiAddEditModalZona" id="zonasiModalZona" placeholder="Nama Zonasi" />
                                     <div class="invalid-feedback zonasiErrorModalZona"></div>
                                 </div>
@@ -387,11 +440,13 @@
         });
         $('#modal-prov').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
+            $("#kodeModalProv").empty();$("#kodeModalProv").removeClass('is-valid');$("#kodeModalProv").removeClass('is-invalid');
             $("#provinsiModalProv").empty();$("#provinsiModalProv").removeClass('is-valid');$("#provinsiModalProv").removeClass('is-invalid');
 
         });
         $('#modal-prov').on('shown.bs.modal', function() {
-            $('#provinsiModalProv').focus();
+            $('#kodeModalProv').focus();
+            $('#kodeModalProv').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiModalProv').focus();}});
             $('#provinsiModalProv').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-prov').focus();}});
         });
 
@@ -401,11 +456,14 @@
         });
         $('#modal-kab').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
+            $("#kodeModalKab").empty();$("#kodeModalKab").removeClass('is-valid');$("#kodeModalKab").removeClass('is-invalid');
             $("#provinsiModalKab").empty();$("#provinsiModalKab").removeClass('is-valid');$("#provinsiModalKab").removeClass('is-invalid');
             $("#kabupatenModalKab").empty();$("#kabupatenModalKab").removeClass('is-valid');$("#kabupatenModalKab").removeClass('is-invalid');
         });
         $('#modal-kab').on('shown.bs.modal', function() {
-            $('#provinsiModalKab').select2('open');$('#provinsiModalKab').on('select2:select', function(e) {$('#kabupatenModalKab').focus();});
+            $('#kodeModalKab').focus();
+            $('#kodeModalKab').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiModalKab').select2('open');}});
+            $('#provinsiModalKab').on('select2:select', function(e) {$('#kabupatenModalKab').focus();});
             $('#kabupatenModalKab').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-kab').focus();}});
         });
 
@@ -414,12 +472,14 @@
         });
         $('#modal-kec').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#provinsiModalKec").empty();$("#provinsiModalKec").removeClass('is-valid');$("#provinsiModalKec").removeClass('is-invalid');
+            $("#kodeModalkec").empty();$("#kodeModalkec").removeClass('is-valid');$("#kodeModalkec").removeClass('is-invalid');
             $("#kabupatenModalKec").empty();$("#kabupatenModalKec").removeClass('is-invalid');$("#kabupatenModalKec").removeClass('is-valid');
             $("#kecamatanModalKec").empty();$("#kecamatanModalKec").removeClass('is-valid');$("#kecamatanModalKec").removeClass('is-invalid');
         });
         $('#modal-kec').on('shown.bs.modal', function() {
-            $('#provinsiModalKec').select2('open');$('#provinsiModalKec').on('select2:select', function(e) {$('#kabupatenModalKec').select2('open');});
+            $('#kodeModalKec').focus();
+            $('#kodeModalKec').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiModalKec').select2('open');}});
+            $('#provinsiModalKec').on('select2:select', function(e) {$('#kabupatenModalKec').select2('open');});
             $('#kabupatenModalKec').on('select2:select', function(e) {$('#kecamatanModalKec').focus();});
             $('#kecamatanModalKec').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-kec').focus();}});
         });
@@ -430,14 +490,17 @@
         });
         $('#modal-jenis').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
+            $("#kodeModalJenis").empty();$("#kodeModalJenis").removeClass('is-valid');$("#kodeModalJenis").removeClass('is-invalid');
             $("#provinsiModalJenis").empty();$("#provinsiModalJenis").removeClass('is-valid');$("#provinsiModalJenis").removeClass('is-invalid');
             $("#kabupatenModalJenis").empty();$("#kabupatenModalJenis").removeClass('is-invalid');$("#kabupatenModalJenis").removeClass('is-valid');
             $("#jenisWilayahModalJenis").empty();$("#jenisWilayahModalJenis").removeClass('is-valid');$("#jenisWilayahModalJenis").removeClass('is-invalid');
         });
         $('#modal-jenis').on('shown.bs.modal', function() {
-            $('#provinsiModalJenis').select2('open');$('#provinsiModalJenis').on('select2:select', function(e) {$('#kabupatenModalJenis').select2('open');});
+            $('#kodeModalJenis').focus();
+            $('#kodeModalJenis').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiModalJenis').select2('open');}});
+            $('#provinsiModalJenis').on('select2:select', function(e) {$('#kabupatenModalJenis').select2('open');});
             $('#kabupatenModalJenis').on('select2:select', function(e) {$('#jenisWilayahModalJenis').focus();});
-            $('#jenisWilayahModalJenis').focus();$('#jenisWilayahModalJenis').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-jenis').focus();}});
+            $('#jenisWilayahModalJenis').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-jenis').focus();}});
         });
 
         $('#add-zona').click(function() {
@@ -446,13 +509,16 @@
         });
         $('#modal-zona').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
+            $("#kodeModalZona").empty();$("#kodeModalZona").removeClass('is-valid');$("#kodeModalZona").removeClass('is-invalid');
             $("#provinsiModalZona").empty();$("#provinsiModalZona").removeClass('is-valid');$("#provinsiModalZona").removeClass('is-invalid');
             $("#kabupatenModalZona").empty();$("#kabupatenModalZona").removeClass('is-invalid');$("#kabupatenModalZona").removeClass('is-valid');
             $("#kecamatanModalZona").empty();$("#kecamatanModalZona").removeClass('is-invalid');$("#kecamatanModalZona").removeClass('is-valid');
             $("#zonasiModalZona").empty();$("#zonasiModalZona").removeClass('is-valid');$("#zonasiModalZona").removeClass('is-invalid');
         });
         $('#modal-zona').on('shown.bs.modal', function() {
-            $('#provinsiModalZona').select2('open');$('#provinsiModalZona').on('select2:select', function(e) {$('#kabupatenModalZona').select2('open');});
+            $('#kodeModalZona').focus();
+            $('#kodeModalZona').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiModalZona').select2('open');}});
+            $('#provinsiModalZona').on('select2:select', function(e) {$('#kabupatenModalZona').select2('open');});
             $('#kabupatenModalZona').on('select2:select', function(e) {$('#kecamatanModalZona').select2('open');});
             $('#kecamatanModalZona').on('select2:select', function(e) {$('#zonasiModalZona').focus();});
             $('#zonasiModalZona').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn-zona').focus();}});
@@ -461,7 +527,7 @@
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiForm").select2({
-            theme: 'bootstrap4',tags: true,
+            theme: 'bootstrap4',
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -469,18 +535,18 @@
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    return {results: response.data};
                 },
                 cache: true
-            }
+            },
         });
         $("#provinsiForm").change(function() {
             var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getKabupaten') ?>';
             // Initialize select2
             $("#kabupatenForm").select2({
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kabupaten ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                ajax: {url: url_destination,provinsi: provinsiID,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
@@ -496,7 +562,7 @@
             var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getKecamatan') ?>';
             // Initialize select2
             $("#kecamatanForm").select2({
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -511,14 +577,15 @@
             })
         });
         $("#kabupatenForm").change(function() {
+            var provinsiID = $('#provinsiForm :selected').val();
             var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getJenis') ?>';
             // Initialize select2
             $("#jenisWilayahForm").select2({
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Jenis Wilayah ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                        return {searchTerm: params.term,provinsi: provinsiID,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
@@ -529,14 +596,15 @@
             })
         });
         $("#kecamatanForm").change(function() {
+            var provinsiID = $('#provinsiForm :selected').val();var kabupatenID = $('#kabupatenForm :selected').val();
             var kecamatanID = $(this).val();var url_destination = '<?= base_url('Admin/Wilayah/getZonasi') ?>';
             // Initialize select2
             $("#zonasiForm").select2({
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Zonasi ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        return {searchTerm: params.term,kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                        return {searchTerm: params.term,provinsi: provinsiID,kabupaten: kabupatenID,kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
@@ -550,7 +618,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalKab").select2({
             dropdownParent: $('#modal-kab'),
-            theme: 'bootstrap4',tags: true,
+            theme: 'bootstrap4',
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -567,7 +635,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalKec").select2({
             dropdownParent: $('#modal-kec'),
-            theme: 'bootstrap4',tags: true,
+            theme: 'bootstrap4',
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -586,9 +654,9 @@
             // Initialize select2
             $("#kabupatenModalKec").select2({
                 dropdownParent: $('#modal-kec'),
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kabupaten ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                ajax: {url: url_destination,provinsi: provinsiID,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
@@ -596,7 +664,7 @@
                         $('input[name=csrf_token_name]').val(response.csrf_token_name);
                         return {results: response.data};
                     },
-                    cache: false
+                    cache: true
                 }
             })
         });
@@ -604,7 +672,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalJenis").select2({
             dropdownParent: $('#modal-jenis'),
-            theme: 'bootstrap4',tags: true,
+            theme: 'bootstrap4',
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -623,7 +691,7 @@
             // Initialize select2
             $("#kabupatenModalJenis").select2({
                 dropdownParent: $('#modal-jenis'),
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -641,7 +709,7 @@
         var url_destination = '<?= base_url('Admin/Wilayah/getProvinsi') ?>';
         $("#provinsiModalZona").select2({
             dropdownParent: $('#modal-zona'),
-            theme: 'bootstrap4',tags: true,
+            theme: 'bootstrap4',
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -710,15 +778,23 @@
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.error[key]);
                             var element = $('#' + key + 'ModalProv');
-                            element.closest('.form-control').removeClass('is-valid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } else {
                         if (data.success) {
                             $("#modal-prov").modal('hide');
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                         } else {
-                            $("#modal-prov").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.msg[key]);
+                                var element = $('#' + key + 'ModalProv');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -740,23 +816,26 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
-                        // console.log(data);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'ModalKab').addClass('is-invalid');$("." + key + "ErrorModalKab").html(data.error[key]);
                             var element = $('#' + key + 'ModalKab');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
-                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');;
-                            // console.log(element);
-                            // console.log(data.error[key].length);
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } else {
                         if (data.success) {
                             $("#modal-kab").modal('hide');
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                         } else {
-                            $("#modal-kab").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'ModalKab').addClass('is-invalid');$("." + key + "ErrorModalKab").html(data.msg[key]);
+                                var element = $('#' + key + 'ModalKab');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -783,15 +862,21 @@
                             var element = $('#' + key + 'ModalKec');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
-                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');;
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } else {
                         if (data.success) {
                             $("#modal-kec").modal('hide');
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                         } else {
-                            $("#modal-kec").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'ModalKec').addClass('is-invalid');$("." + key + "ErrorModalKec").html(data.msg[key]);
+                                var element = $('#' + key + 'ModalKec');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -819,15 +904,21 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            console.log(element);
+                            // console.log(element);
                         });
                     } else {
                         if (data.success) {
                             $("#modal-jenis").modal('hide');
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                         } else {
-                            $("#modal-jenis").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.msg[key]);
+                                var element = $('#' + key + 'ModalJenis');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -862,8 +953,14 @@
                             $("#modal-zona").modal('hide');
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                         } else {
-                            $("#modal-zona").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'ModalZona').addClass('is-invalid');$("." + key + "ErrorModalZona").html(data.msg[key]);
+                                var element = $('#' + key + 'ModalZona');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -876,6 +973,7 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Wilayah/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Wilayah/Update') ?>";}
+            console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-wilayah').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-wilayah').prop('disabled', true);
@@ -914,10 +1012,14 @@
                                 }
                             })
                         } else {
-                            Swal.fire({
-                                icon: 'error',title: 'Oops...',text: data.msg,
-                                showConfirmButton: false,timer: 3000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -938,21 +1040,113 @@
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
                         $("#provinsiForm").append($("<option selected='selected'></option>")
-                        .val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
+                        .val(data.provinsi.kode).text(data.provinsi.nama_provinsi)).trigger('change');
                         $("#kabupatenForm").append($("<option selected='selected'></option>")
-                        .val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
+                        .val(data.kabupaten.kode).text(data.kabupaten.nama_kabupaten)).trigger('change');
                         $("#kecamatanForm").append($("<option selected='selected'></option>")
-                        .val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
+                        .val(data.kecamatan.kode).text(data.kecamatan.nama_kecamatan)).trigger('change');
                         $("#jenisWilayahForm").append($("<option selected='selected'></option>")
-                        .val(data.jenis.id).text(data.jenis.jenis_wilayah)).trigger('change');
+                        .val(data.jenis.kode).text(data.jenis.jenis_wilayah)).trigger('change');
                         $("#zonasiForm").append($("<option selected='selected'></option>")
-                        .val(data.zonasi.id).text(data.zonasi.nama_zonasi)).trigger('change');
+                        .val(data.zonasi.kode).text(data.zonasi.nama_zonasi)).trigger('change');
                         $('#submit-wilayah').html('<i class="fas fa-save"></i>&ensp;Update');
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
             }
         }
+
+        $('#generate-kode').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generator') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                }
+            })
+        })
+        $('#generate-kodeProv').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generatorProv') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeModalProv').val(data.kode);
+                }
+            })
+        })
+        $('#generate-kodeKab').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generatorKab') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeModalKab').val(data.kode);
+                }
+            })
+        })
+        $('#generate-kodeKec').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generatorKec') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeModalKec').val(data.kode);
+                }
+            })
+        })
+        $('#generate-kodeJenis').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generatorJenis') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeModalJenis').val(data.kode);
+                }
+            })
+        })
+        $('#generate-kodeZona').click(function() {
+            var url_destination = "<?= base_url('Admin/Wilayah/generatorZona') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeModalZona').val(data.kode);
+                }
+            })
+        })
+
 
     })
 </script>

@@ -18,32 +18,26 @@ class Wilayah extends Migration
             'kode'              => [
                 'type'              => 'BIGINT',
                 'constraint'        => 20,
-                'unsigned'          => true,
             ],
             'kode_provinsi'     => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_kabupaten'    => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_jenis_wilayah'=> [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_kecamatan'    => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_zonasi'       => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',

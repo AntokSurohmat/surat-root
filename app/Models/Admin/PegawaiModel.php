@@ -76,7 +76,7 @@ class PegawaiModel extends Model
     // protected $afterDelete    = [];
 
     var $column_order = array(null, 'nip', 'nama', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'level', null);
-    var $order = array('created_at' => 'DESC');
+    var $order = array('id' => 'DESC');
 
     function get_datatables(){
 

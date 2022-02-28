@@ -16,9 +16,8 @@ class Pegawai extends Migration
                 'auto_increment'    => true,
             ],
             'nip'               => [
-                'type'              => 'BIGINT',
-                'constraint'        => 25,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
             ],
             'nama'              => [
                 'type'              => 'VARCHAR',
@@ -30,14 +29,12 @@ class Pegawai extends Migration
                 'null'              => true,
             ],
             'kode_jabatan'        => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode_pangol'         => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'pelaksana'         => [
                 'type'              => 'ENUM',

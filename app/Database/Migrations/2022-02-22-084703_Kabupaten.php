@@ -16,14 +16,12 @@ class Kabupaten extends Migration
                 'auto_increment'    => true,
             ],
             'kode_provinsi'     => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode'              => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'nama_kabupaten'    => [
                 'type'              => 'VARCHAR',

@@ -80,7 +80,7 @@ class SbuhModel extends Model
     // protected $afterDelete    = [];
 
     var $column_order = array(null, 'kode','id_provinsi', 'id_kabupaten', 'id_jenis_wilayah', 'id_kecamatan', 'id_zonasi', 'id_pangol', 'jumlah_uang', null);
-    var $order = array('created_at' => 'DESC');
+    var $order = array('id' => 'DESC');
 
     function get_datatables(){
 

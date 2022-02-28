@@ -15,20 +15,13 @@ class Kecamatan extends Migration
                 'unsigned'          => true,
                 'auto_increment'    => true,
             ],
-            'kode_provinsi'     => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
-            ],
             'kode_kabupaten'    => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'kode'              => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
             ],
             'nama_kecamatan'    => [
                 'type'              => 'VARCHAR',
@@ -50,14 +43,12 @@ class Kecamatan extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('kode');
-        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode');
         $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode');
         $this->forge->createTable('kecamatan');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('provinsi', 'etbl_kecamatan_kode_provinsi_foreign');
         $this->forge->dropForeignKey('kabupaten', 'etbl_kecamatan_kode_kabupaten_foreign');
         $this->forge->dropTable('kecamatan');
     }

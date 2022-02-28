@@ -58,7 +58,7 @@ class RekeningModel extends Model
     // protected $afterDelete    = [];
 
     var $column_order = array(null, 'kode', 'id_jenis_wilayah', 'nomer_rekening', null);
-    var $order = array('created_at' => 'DESC');
+    var $order = array('id' => 'DESC');
 
     function get_datatables(){
 

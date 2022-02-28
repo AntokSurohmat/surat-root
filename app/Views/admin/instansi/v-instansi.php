@@ -41,7 +41,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachWlyah" id="seachWlyah" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachInstan" id="seachInstan" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                        <table id="wlyah_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
+                        <table id="instan_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -81,17 +81,9 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("[data-rel=\"tooltip\"]").tooltip();
-        // $('[data-rel=\"tooltip\"]').hover(function() {
-        //     $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 50 + 'px')
-        // });
-        // $("body").tooltip({
-        //     selector: '[data-rel=\"tooltip\"]',
-        //     trigger: 'hover'
-        // });
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Instansi/load_data') ?>";
-        var wlyah = $('#wlyah_data').DataTable({
+        var instan = $('#instan_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
             "order": [],
@@ -134,8 +126,8 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachWlyah").value = "";
-                        wlyah.search("").draw();
+                        document.getElementById("seachInstan").value = "";
+                        instan.search("").draw();
                     }
                 });
             } else {
@@ -147,18 +139,18 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachWlyah").value = "";
-                        wlyah.search("").draw();
+                        document.getElementById("seachInstan").value = "";
+                        instan.search("").draw();
                     }
                 });
             }
         }
-        $('#seachWlyah').keyup(function() {
-            wlyah.search($(this).val()).draw();
+        $('#seachInstan').keyup(function() {
+            instan.search($(this).val()).draw();
         });
         $("#refresh").on('click', function() {
-            document.getElementById("seachWlyah").value = "";
-            wlyah.search("").draw();
+            document.getElementById("seachInstan").value = "";
+            instan.search("").draw();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
@@ -193,7 +185,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#wlyah_data').DataTable().ajax.reload(null, false);
+                                $('#instan_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',
@@ -202,7 +194,7 @@
                                     showConfirmButton: true,
                                     timer: 4000
                                 });
-                                $('#wlyah_data').DataTable().ajax.reload(null, false);
+                                $('#instan_data').DataTable().ajax.reload(null, false);
                             }
                         },
                         error: function(xhr, ajaxOptions, thrownError) {

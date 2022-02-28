@@ -18,7 +18,7 @@ use CodeIgniter\RESTful\ResourcePresenter;
 
 class Instansi extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url'];
+    protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
         $this->provinsi = new ProvinsiModel();
@@ -29,6 +29,7 @@ class Instansi extends ResourcePresenter
         $this->csrfHash = csrf_hash();
         $this->session = \Config\Services::session();
         $this->session->start();
+        $this->db = \Config\Database::connect();
     }
     /**
      * Present a view of resource objects
@@ -49,14 +50,14 @@ class Instansi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-        $db      = \Config\Database::connect();
-        $provinsi = $db->table('provinsi')->get();
-        $kabupaten = $db->table('kabupaten')->get();
-        $kecamatan = $db->table('kecamatan')->get();
+        $provinsi = $this->db->table('provinsi')->get();
+        $kabupaten = $this->db->table('kabupaten')->get();
+        $kecamatan = $this->db->table('kecamatan')->get();
         $list = $this->instansi->get_datatables();
         $count_all = $this->instansi->count_all();
         $count_filter = $this->instansi->count_filter();
 
+        // d($list);print_r($list);die();
         $data = array();
         $no = $this->request->getPost('start');
         foreach ($list as $key) {
@@ -66,17 +67,17 @@ class Instansi extends ResourcePresenter
             $row[] = $key->kode;
             $row[] = $key->nama_instansi;
             foreach ($provinsi->getResult() as $prov ) {
-				if ($prov->id == $key->id_provinsi) {
+				if ($prov->kode == $key->kode_provinsi) {
 					$row[] =  $prov->nama_provinsi;
 				}
 			};
             foreach ($kabupaten->getResult() as $kab ) {
-				if ($kab->id == $key->id_kabupaten) {
+				if ($kab->kode == $key->kode_kabupaten) {
 					$row[] =  $kab->nama_kabupaten;
 				}
 			};
             foreach ($kecamatan->getResult() as $kec ) {
-				if ($kec->id == $key->id_kecamatan) {
+				if ($kec->kode == $key->kode_kecamatan) {
 					$row[] =  $kec->nama_kecamatan;
 				}
 			};
@@ -98,6 +99,15 @@ class Instansi extends ResourcePresenter
         echo json_encode($output);
     }
 
+    function generator(){
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+        $data['kode'] = random_string('numeric');
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
     public function getProvinsi()
     {
         if (!$this->request->isAjax()) {
@@ -106,12 +116,12 @@ class Instansi extends ResourcePresenter
 
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
-            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         } else {
-            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
@@ -121,7 +131,7 @@ class Instansi extends ResourcePresenter
         $data = array();
         foreach ($provinsilist as $provinsi) {
             $data[] = array(
-                "id" => $provinsi['id'],
+                "id" => $provinsi['kode'],
                 "text" => $provinsi['nama_provinsi'],
             );
         }
@@ -139,15 +149,15 @@ class Instansi extends ResourcePresenter
 
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {            
-            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
-                ->where('id_provinsi', $this->request->getPost('provinsi'))
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+                ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
-            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
-                ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
@@ -156,7 +166,7 @@ class Instansi extends ResourcePresenter
         $data = array();
         foreach ($kabupatenlist as $kabupaten) {
             $data[] = array(
-                "id" => $kabupaten['id'],
+                "id" => $kabupaten['kode'],
                 "text" => $kabupaten['nama_kabupaten'],
             );
         }
@@ -173,15 +183,15 @@ class Instansi extends ResourcePresenter
 
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {            
-            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
-                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+            $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
+                ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
-            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
+            $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
-                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
@@ -190,7 +200,7 @@ class Instansi extends ResourcePresenter
         $data = array();
         foreach ($kabupatenlist as $kabupaten) {
             $data[] = array(
-                "id" => $kabupaten['id'],
+                "id" => $kabupaten['kode'],
                 "text" => $kabupaten['nama_kecamatan'],
             );
         }
@@ -268,7 +278,7 @@ class Instansi extends ResourcePresenter
                 ],
             ],
             'kodeAddEditForm' => [
-                'label'     => 'Kode Wilayah',
+                'label'     => 'Kode Instansi',
                 'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_instansi.kode]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
@@ -298,16 +308,16 @@ class Instansi extends ResourcePresenter
         } else {
 
             $data = [
-                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
-                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
-                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
-                'kode' => $this->request->getVar('kodeAddEditForm'),
-                'nama_instansi' => $this->request->getVar('instansiAddEditForm'),
+                'kode_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
+                'kode_kabupaten' => $this->db->escapeString($this->request->getVar('kabupatenAddEditForm')),
+                'kode_kecamatan' => $this->db->escapeString($this->request->getVar('kecamatanAddEditForm')),
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'nama_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
             ];
             if ($this->instansi->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
             } else {
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->instansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
@@ -321,9 +331,9 @@ class Instansi extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $data = $this->instansi->where('id', $this->request->getVar('id'))->first();
 
-            $data['provinsi'] = $this->provinsi->where('id', $data['id_provinsi'])->first();
-            $data['kabupaten'] = $this->kabupaten->where('id', $data['id_kabupaten'])->first();
-            $data['kecamatan'] = $this->kecamatan->where('id', $data['id_kecamatan'])->first();
+            $data['provinsi'] = $this->provinsi->where('kode', $data['kode_provinsi'])->first();
+            $data['kabupaten'] = $this->kabupaten->where('kode', $data['kode_kabupaten'])->first();
+            $data['kecamatan'] = $this->kecamatan->where('kode', $data['kode_kecamatan'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -396,7 +406,7 @@ class Instansi extends ResourcePresenter
                 ],
             ],
             'kodeAddEditForm' => [
-                'label'     => 'Kode Wilayah',
+                'label'     => 'Kode Instansi',
                 'rules'     => 'required|numeric|max_length[10]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
@@ -425,16 +435,16 @@ class Instansi extends ResourcePresenter
         } else {
             $id = $this->request->getVar('hiddenID');
             $data = [
-                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
-                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
-                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
-                'kode' => $this->request->getVar('kodeAddEditForm'),
-                'nama_instansi' => $this->request->getVar('instansiAddEditForm'),
+                'kode_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
+                'kode_kabupaten' => $this->db->escapeString($this->request->getVar('kabupatenAddEditForm')),
+                'kode_kecamatan' => $this->db->escapeString($this->request->getVar('kecamatanAddEditForm')),
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'nama_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
             ];
             if ($this->instansi->update($id, $data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
             } else {
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->instansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 

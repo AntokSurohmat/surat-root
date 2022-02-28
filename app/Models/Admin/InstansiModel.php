@@ -15,7 +15,7 @@ class InstansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode', 'nama_instansi'];
+    protected $allowedFields    = ['kode', 'nama_instansi','kode_provinsi', 'kode_kabupaten', 'kode_kecamatan'];
 
     // Dates
     protected $useTimestamps = true;
@@ -67,8 +67,8 @@ class InstansiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null,  'kode', 'nama_instansi', 'kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', null);
-    var $order = array('created_at' => 'DESC');
+    var $column_order = array(null,  'instansi.kode', 'instansi.nama_instansi', 'provinsi.nama_provinsi', 'kabupaten.nama_kabupaten', 'kecamatan.nama_kecamatan', null);
+    var $order = array('instansi.id' => 'DESC');
 
     function get_datatables()
     {
@@ -76,9 +76,9 @@ class InstansiModel extends Model
         // search
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-            $attr_order = "kode LIKE '%$search%' OR nama_instansi LIKE '%$search%'";
+			$attr_order = "instansi.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%'";
         } else {
-            $attr_order = "id != ''";
+            $attr_order = "instansi.id != ''";
         }
 
         // order
@@ -95,9 +95,15 @@ class InstansiModel extends Model
         if (service('request')->getPost('length') != -1);
         // $db = db_connect();
         $builder = $this->db->table('instansi');
-        $query = $builder->select('*')
+        $query = $builder->select('instansi.*')
+            ->select('provinsi.kode', 'provinsi.nama_provinsi')
+            ->select('kabupaten.kode', 'kabupaten.nama_kabupaten')
+            ->select('kecamatan.kode', 'kecamatan.nama_kecamatan')
+            ->join('provinsi', 'provinsi.kode = instansi.kode_provinsi', 'left')
+            ->join('kabupaten', 'kabupaten.kode = instansi.kode_kabupaten', 'left')
+            ->join('kecamatan', 'kecamatan.kode = instansi.kode_kecamatan', 'left')
             ->where($attr_order)
-            ->where('deleted_at', NULL)
+            ->where('instansi.deleted_at', NULL)
             ->orderBy($result_order, $result_dir)
             ->limit(service('request')->getPost('length'), service('request')->getPost('start'))
             ->get();
@@ -117,11 +123,15 @@ class InstansiModel extends Model
         // Kondisi Order
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-            $attr_order = " AND (kode LIKE '%$search%' OR nama_instansi LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%') AND etbl_instansi.deleted_at IS NULL";
         } else {
-            $attr_order = " AND deleted_at IS NULL";
+            $attr_order = " AND etbl_instansi.deleted_at IS NULL";
         }
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(etbl_instansi.id) as total FROM etbl_instansi
+                    LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_instansi.kode_provinsi
+                    LEFT JOIN etbl_kabupaten ON etbl_kabupaten.kode = etbl_instansi.kode_kabupaten
+                    LEFT JOIN etbl_kecamatan ON etbl_kecamatan.kode = etbl_instansi.kode_kecamatan
+                    WHERE etbl_instansi.id != '' $attr_order";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }

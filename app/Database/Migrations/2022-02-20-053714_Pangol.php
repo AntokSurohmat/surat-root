@@ -16,9 +16,8 @@ class Pangol extends Migration
                 'auto_increment' => true,
             ],
             'kode'          => [
-                'type'          => 'BIGINT',
-                'constraint'    => 20,
-                'unsigned'      => true,
+                'type'          => 'VARCHAR',
+                'constraint'    => '20',
             ],
             'nama_pangol'   => [
                 'type'          => 'VARCHAR',

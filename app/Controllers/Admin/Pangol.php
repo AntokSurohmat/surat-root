@@ -14,11 +14,14 @@ use CodeIgniter\HTTP\IncomingRequest;
 class Pangol extends BaseController
 {
 
+    protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
         $this->pangol = new PangolModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
+        $this->session = \Config\Services::session();
+        $this->session->start();
     }
     public function index()
     {
@@ -82,6 +85,15 @@ class Pangol extends BaseController
         }
     }
 
+    function generator(){
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+        $data['kode'] = random_string('numeric');
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
     function save()
     {
         if (!$this->request->isAJAX()) {
@@ -95,7 +107,7 @@ class Pangol extends BaseController
         if ($this->request->getVar('method') == 'New') {
 
             $valid = $this->validate([
-                'kodeAddEdit' => [
+                'kodeAddEditForm' => [
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_pangol.kode]',
                     'errors' => [
@@ -104,7 +116,7 @@ class Pangol extends BaseController
                         'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
-                'nama_pangolAddEdit' => [
+                'pangolAddEditForm' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
@@ -116,28 +128,28 @@ class Pangol extends BaseController
             if (!$valid) {
                 $data = [
                     'error' => [
-                        'kode' => $validation->getError('kodeAddEdit'),
-                        'nama_pangol' => $validation->getError('nama_pangolAddEdit'),
+                        'kode' => $validation->getError('kodeAddEditForm'),
+                        'pangol' => $validation->getError('pangolAddEditForm'),
                     ]
                 ];
             } else {
 
                 $data = [
-                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
-                    'nama_pangol' => $this->db->escapeString($this->request->getVar('nama_pangolAddEdit')),
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                    'nama_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
                 ];
 
                 if ($this->pangol->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->pangol->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }
 
         if ($this->request->getVar('method') == 'Edit') {
             $valid = $this->validate([
-                'kodeAddEdit' => [
+                'kodeAddEditForm' => [
                     'label'     => 'Kode Pangkat & Golongan',
                     'rules'     => 'required|numeric|max_length[20]',
                     'errors' => [
@@ -145,7 +157,7 @@ class Pangol extends BaseController
                         'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ],
-                'nama_pangolAddEdit' => [
+                'pangolAddEditForm' => [
                     'label' => 'Nama Pangkat & Golongan',
                     'rules' => 'required|max_length[20]',
                     'errors' => [
@@ -157,20 +169,20 @@ class Pangol extends BaseController
             if (!$valid) {
                 $data = [
                     'error' => [
-                        'kode' => $validation->getError('kodeAddEdit'),
-                        'nama_pangol' => $validation->getError('nama_pangolAddEdit'),
+                        'kode' => $validation->getError('kodeAddEditForm'),
+                        'pangol' => $validation->getError('pangolAddEditForm'),
                     ]
                 ];
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
-                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
-                    'nama_pangol' => $this->db->escapeString($this->request->getVar('nama_pangolAddEdit')),
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                    'nama_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
                 ];
                 if ($this->pangol->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil diupdate');
                 } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->pangol->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }

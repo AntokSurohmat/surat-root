@@ -24,7 +24,7 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="#" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
+                        <a class="btn btn-sm btn-outline-info float-right" id="add-data" tabindex="1" href="javascript:void(0)" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i>&ensp;Add Data
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Table"><i class="fa fa-retweet"></i>&ensp;Reload</button>
@@ -79,18 +79,18 @@
                             <div class="form-group row">
                                 <label for="kodeForm" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kodeAddEdit" id="kodeForm" class="form-control" placeholder="Kode Jabatan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
-                                    <div class="invalid-feedback kodeError"></div>
+                                    <input type="number" name="kodeAddEditForm" id="kodeForm" class="form-control" placeholder="Kode Jabatan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
+                                    <div class="invalid-feedback kodeErrorForm"></div>
                                 </div>
                                 <span>
-                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onlick="generate_kode()"><i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kode" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
                                 </span>
                             </div>
                             <div class="form-group row">
-                                <label for="nama_jabatanForm" class="col-sm-4 col-form-label">Nama Jabatan</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="nama_jabatanAddEdit" id="nama_jabatanForm" class="form-control" placeholder="Nama Jabatan" />
-                                    <div class="invalid-feedback nama_jabatanError"></div>
+                                <label for="jabatanForm" class="col-sm-4 col-form-label">Nama Jabatan</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="jabatanAddEditForm" id="jabatanForm" class="form-control" placeholder="Nama Jabatan" />
+                                    <div class="invalid-feedback jabatanErrorForm"></div>
                                 </div>
                             </div>
                         </div>
@@ -194,20 +194,20 @@
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
             $("#kodeForm").empty();
-            $("#nama_jabatanForm").empty();
+            $("#jabatanForm").empty();
             $("#kodeForm").removeClass('is-valid');
             $("#kodeForm").removeClass('is-invalid');
-            $("#nama_jabatanForm").removeClass('is-valid');
-            $("#nama_jabatanForm").removeClass('is-invalid');
+            $("#jabatanForm").removeClass('is-valid');
+            $("#jabatanForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $("#kodeForm").focus();
             $('#kodeForm').keydown(function(event) {
                 if (event.keyCode == 13) {
-                    $('#nama_jabatanForm').focus();
+                    $('#jabatanForm').focus();
                 }
             });
-            $('#nama_jabatanForm').keydown(function(event) {
+            $('#jabatanForm').keydown(function(event) {
                 if (event.keyCode == 13) {
                     $('#submit-btn').focus();
                 }
@@ -240,7 +240,7 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#kodeForm').val(data.kode);
-                    $('#nama_jabatanForm').val(data.nama_jabatan);
+                    $('#jabatanForm').val(data.nama_jabatan);
                     $('.modal-title').text('Edit Data ' + data.nama_jabatan);
                     $('.modal-title').css("font-weight", "900");
                     $('#method').val('Edit');
@@ -305,13 +305,6 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-
-            // var grnd_ttl = $('#kodeForm').val() ? $('#kodeForm').val() : 0;
-            // // if( KodeForm == null || KodeForm == "" || KodeForm.length < 5){
-            // //     alert("Kosong");
-            // // }
-
-            // console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Admin/Jabatan/Save') ?>",
                 type: "POST",
@@ -330,13 +323,11 @@
                     // console.log(data.error);
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            // console.log(`${key}: ${data.error[key]} : ${key}Error`);
-                            $("#" + key).addClass('is-invalid');
-                            $("." + key + "Error").html(data.error[key]);
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
-                                .removeClass('is-invalid')
-                                .addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } else {
                         if (data.success) {
@@ -350,13 +341,14 @@
                             });
                             $('#jbtan_data').DataTable().ajax.reload(null, false);
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: data.msg,
-                                showConfirmButton: false,
-                                timer: 2000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -365,6 +357,22 @@
                 }
             });
             return false;
+        })
+
+        $('#generate-kode').click(function() {
+            var url_destination = "<?= base_url('Admin/Jabatan/generator') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                }
+            })
         })
     })
 </script>

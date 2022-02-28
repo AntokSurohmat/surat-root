@@ -55,7 +55,7 @@ class PangolModel extends Model
 
 
     var $column_order = array(null, 'kode', 'nama_pangol', null);
-    var $order = array('created_at' => 'DESC');
+    var $order = array('id' => 'DESC');
 
     function get_datatables(){
 
