@@ -27,13 +27,13 @@ class PangolModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[10]',
+        'kode' => 'required|numeric|max_length[20]',
         'nama_pangol' => 'required|max_length[20]'
     ];
     protected $validationMessages   = [
         'kode'        => [
 			'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 10 Karakter',
+            'max_length' => 'Maksimal 20 Karakter',
         ],
 		'nama_pangol'        => [
             'max_length' => 'Maksimal 20 Karakter',

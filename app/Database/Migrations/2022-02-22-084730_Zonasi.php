@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Sbuh extends Migration
+class Zonasi extends Migration
 {
     public function up()
     {
@@ -14,11 +14,6 @@ class Sbuh extends Migration
                 'constraint'        => 10,
                 'unsigned'          => true,
                 'auto_increment'    => true,
-            ],
-            'kode'              => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
             ],
             'kode_provinsi'     => [
                 'type'              => 'BIGINT',
@@ -30,29 +25,19 @@ class Sbuh extends Migration
                 'constraint'        => 20,
                 'unsigned'          => true,
             ],
-            'kode_jenis_wilayah'=> [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
-            ],
             'kode_kecamatan'    => [
                 'type'              => 'BIGINT',
                 'constraint'        => 20,
                 'unsigned'          => true,
             ],
-            'kode_zonasi'       => [
+            'kode'              => [
                 'type'              => 'BIGINT',
                 'constraint'        => 20,
                 'unsigned'          => true,
             ],
-            'kode_pangol'       => [
-                'type'              => 'BIGINT',
-                'constraint'        => 20,
-                'unsigned'          => true,
-            ],
-            'jumlah_uang'       => [
+            'nama_zonasi'       => [
                 'type'              => 'VARCHAR',
-                'constraint'        => 6,
+                'constraint'        => '40',
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',
@@ -72,21 +57,15 @@ class Sbuh extends Migration
         $this->forge->addKey('kode');
         $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode');
         $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode');
-        $this->forge->addForeignKey('kode_jenis_wilayah', 'jenis_wilayah', 'kode');
         $this->forge->addForeignKey('kode_kecamatan', 'kecamatan', 'kode');
-        $this->forge->addForeignKey('kode_zonasi', 'zonasi', 'kode');
-        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode');
-        $this->forge->createTable('sbuh');
+        $this->forge->createTable('zonasi');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('provinsi', 'etbl_sbuh_kode_provinsi_foreign');
-        $this->forge->dropForeignKey('kabupaten', 'etbl_sbuh_kode_kabupaten_foreign');
-        $this->forge->dropForeignKey('kecamatan', 'etbl_sbuh_kode_kecamatan_foreign');
-        $this->forge->dropForeignKey('jenis_wilayah', 'etbl_sbuh_kode_jenis_wilayah_foreign');
-        $this->forge->dropForeignKey('zonasi', 'etbl_sbuh_kode_zonasi_foreign');
-        $this->forge->dropForeignKey('pangol', 'etbl_sbuh_kode_pangol_foreign');
-        $this->forge->dropTable('sbuh');
+        $this->forge->dropForeignKey('provinsi', 'etbl_zonasi_kode_provinsi_foreign');
+        $this->forge->dropForeignKey('kabupaten', 'etbl_zonasi_kode_kabupaten_foreign');
+        $this->forge->dropForeignKey('kecamatan', 'etbl_zonasi_kode_kecamatan_foreign');
+        $this->forge->dropTable('zonasi');
     }
 }

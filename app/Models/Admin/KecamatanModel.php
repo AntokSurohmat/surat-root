@@ -15,7 +15,7 @@ class KecamatanModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_kabupaten', 'nama_kecamatan'];
+    protected $allowedFields    = ['kode_provinsi', 'kode_kabupaten', 'kode','nama_kecamatan'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,11 +26,21 @@ class KecamatanModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode_kabupaten' => 'required|numeric|max_length[20]',
+        'kode' => 'required|numeric|max_length[20]',
         'nama_kecamatan' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
-        'id_kabupaten' => [
+        'kode_kabupaten' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'kode_kabupaten' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
@@ -40,16 +50,16 @@ class KecamatanModel extends Model
         
     ];
     protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // protected $cleanValidationRules = true;
 
     // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // protected $allowCallbacks = true;
+    // protected $beforeInsert   = [];
+    // protected $afterInsert    = [];
+    // protected $beforeUpdate   = [];
+    // protected $afterUpdate    = [];
+    // protected $beforeFind     = [];
+    // protected $afterFind      = [];
+    // protected $beforeDelete   = [];
+    // protected $afterDelete    = [];
 }

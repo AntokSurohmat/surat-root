@@ -15,7 +15,7 @@ class SbuhModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [ 'kode','id_provinsi', 'id_kabupaten', 'id_jenis_wilayah', 'id_kecamatan', 'id_zonasi', 'id_pangol', 'jumlah_uang'];
+    protected $allowedFields    = [ 'kode','kode_provinsi', 'kode_kabupaten', 'kode_jenis_wilayah', 'kode_kecamatan', 'kode_zonasi', 'kode_pangol', 'jumlah_uang'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,39 +26,39 @@ class SbuhModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[10]',
-        'id_provinsi' => 'required|numeric|max_length[20]',
-        'id_kabupaten' => 'required|numeric|max_length[20]',
-        'id_jenis_wilayah' => 'required|max_length[20]',
-        'id_kecamatan' => 'required|numeric|max_length[20]',
-        'id_zonasi' => 'required|max_length[20]',
-        'id_pangol' => 'required|max_length[10]',
+        'kode' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_jenis_wilayah' => 'required|max_length[20]',
+        'kode_kecamatan' => 'required|numeric|max_length[20]',
+        'kode_zonasi' => 'required|max_length[20]',
+        'kode_pangol' => 'required|max_length[10]',
         'jumlah_uang' => 'required|max_length[6]',
     ];
     protected $validationMessages   = [
         'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 10 Karakter' 
+            'max_length' => 'Maksimal 20 Karakter' 
         ],        
-        'id_provinsi' => [
+        'kode_provinsi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter' 
         ],
-        'id_kabupaten' => [
+        'kode_kabupaten' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_jenis_wilayah' => [
+        'kode_jenis_wilayah' => [
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_kecamatan' => [
+        'kode_kecamatan' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_zonasi' => [
+        'kode_zonasi' => [
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_pangol' => [
+        'kode_pangol' => [
             'max_length' => 'Maksimal 10 Karakter'
         ],
         'jumlah_uang' => [

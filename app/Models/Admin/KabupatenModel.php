@@ -15,7 +15,7 @@ class KabupatenModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_provinsi', 'nama_kabupaten'];
+    protected $allowedFields    = ['kode_provinsi', 'kode', 'nama_kabupaten'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,11 +26,16 @@ class KabupatenModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id_provinsi' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode' => 'required|numeric|max_length[20]',
         'nama_kabupaten' => 'required|max_length[40]',
     ];
     protected $validationMessages   = [
-        'id_provinsi' => [
+        'kode_provinsi' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter',
+        ],
+        'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter',
         ],

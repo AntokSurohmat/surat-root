@@ -15,7 +15,7 @@ class ZonasiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_provinsi', 'id_kabupaten', 'id_kecamatan', 'nama_zonasi'];
+    protected $allowedFields    = ['kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode','nama_zonasi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,20 +26,26 @@ class ZonasiModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'id_provinsi' => 'required|numeric|max_length[20]',
-        'id_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_kecamatan' => 'required|numeric|max_length[20]',
+        'kode' => 'required|numeric|max_length[20]',
         'nama_zonasi' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
-        'id_provinsi' => [
+        'kode_provinsi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_kabupaten' => [
+        'kode_kabupaten' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_kecamtan' => [
+        'kode_kecamtan' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],

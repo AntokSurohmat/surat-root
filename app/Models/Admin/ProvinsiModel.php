@@ -15,7 +15,7 @@ class ProvinsiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_provinsi'];
+    protected $allowedFields    = ['kode', 'nama_provinsi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,9 +26,14 @@ class ProvinsiModel extends Model
 
     // Validation
     protected $validationRules      = [
+        'kode' => 'required|numeric|max_length[20]',
         'nama_provinsi' => 'required|max_length[40]'
     ];
     protected $validationMessages   = [
+        'kode' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
         'nama_provinsi' => [
             'max_length' => 'Maksimal 40 Karakter'
         ]
@@ -47,13 +52,4 @@ class ProvinsiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    public function getDataAjaxRemote($search)
-    {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('provinsi');
-        $builder->select('id, nama_provinsi');
-        $builder->where('deleted_at', NULL);
-        $builder->like('nama_provinsi', $search);
-        $query = $builder->get()->getResult('array');
-    }
 }

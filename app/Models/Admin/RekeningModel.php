@@ -15,7 +15,7 @@ class RekeningModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'id_jenis_wilayah', 'nomer_rekening'];
+    protected $allowedFields    = ['kode', 'kode_jenis_wilayah', 'nomer_rekening'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,7 +27,7 @@ class RekeningModel extends Model
     // Validation
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[20]',
-        'id_jenis_wilayah' => 'required|max_length[20]',
+        'kode_jenis_wilayah' => 'required|numeric|max_length[20]',
         'nomer_rekening' => 'required|max_length[12]',
     ];
     protected $validationMessages   = [
@@ -35,7 +35,8 @@ class RekeningModel extends Model
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter' 
         ],        
-        'id_jenis_wilayah' => [
+        'kode_jenis_wilayah' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
         'nomer_rekening' => [

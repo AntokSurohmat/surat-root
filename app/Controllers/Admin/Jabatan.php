@@ -83,10 +83,10 @@ class Jabatan extends BaseController
             $valid = $this->validate([
                 'kodeAddEdit' => [
                     'label'     => 'Kode Jabatan',
-                    'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_jabatan.kode]',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_jabatan.kode]',
                     'errors' => [
                         'numeric' => '{field} Hanya Bisa Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                         'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
@@ -109,8 +109,8 @@ class Jabatan extends BaseController
             } else {
 
                 $data = [
-                    'kode' => $this->request->getVar('kodeAddEdit'),
-                    'nama_jabatan' => $this->request->getVar('nama_jabatanAddEdit')
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
+                    'nama_jabatan' => $this->db->escapeString($this->request->getVar('nama_jabatanAddEdit')),
                 ];
 
                 if ($this->jabatan->insert($data)) {
@@ -125,10 +125,10 @@ class Jabatan extends BaseController
             $valid = $this->validate([
                 'kodeAddEdit' => [
                     'label'     => 'Kode Jabatan',
-                    'rules'     => 'required|numeric|max_length[10]',
+                    'rules'     => 'required|numeric|max_length[20]',
                     'errors' => [
                         'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ],
                 'nama_jabatanAddEdit' => [
@@ -150,8 +150,8 @@ class Jabatan extends BaseController
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
-                    'kode' => $this->request->getVar('kodeAddEdit'),
-                    'nama_jabatan' => $this->request->getVar('nama_jabatanAddEdit')
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
+                    'nama_jabatan' => $this->db->escapeString($this->request->getVar('nama_jabatanAddEdit')),
                 ];
 
                 if ($this->jabatan->update($id, $data)) {

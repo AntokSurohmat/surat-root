@@ -9,7 +9,7 @@ class Pangol extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id'          => [
+            'id'            => [
                 'type'           => 'INT',
                 'constraint'     => 10,
                 'unsigned'       => true,
@@ -17,7 +17,7 @@ class Pangol extends Migration
             ],
             'kode'          => [
                 'type'          => 'BIGINT',
-                'constraint'    => 10,
+                'constraint'    => 20,
                 'unsigned'      => true,
             ],
             'nama_pangol'   => [
@@ -39,7 +39,7 @@ class Pangol extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('kode');
+        $this->forge->addKey('kode');
         $this->forge->createTable('pangol');
     }
 

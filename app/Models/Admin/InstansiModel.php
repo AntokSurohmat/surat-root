@@ -15,7 +15,7 @@ class InstansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'nama_instansi'];
+    protected $allowedFields    = ['kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode', 'nama_instansi'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,26 +26,26 @@ class InstansiModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[10]',
-        'id_provinsi' => 'required|numeric|max_length[20]',
-        'id_kabupaten' => 'required|numeric|max_length[20]',
-        'id_kecamatan' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_kecamatan' => 'required|numeric|max_length[20]',
+        'kode' => 'required|numeric|max_length[20]',
         'nama_instansi' => 'required|max_length[20]',
     ];
     protected $validationMessages   = [
+        'kode_provinsi' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'kode_kabupaten' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
+        'kode_kecamatan' => [
+            'numeric' => 'Hanya Boleh Memasukkan Angka',
+            'max_length' => 'Maksimal 20 Karakter'
+        ],
         'kode' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 10 Karakter'
-        ],
-        'id_provinsi' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
-        ],
-        'id_kabupaten' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
-        ],
-        'id_kecamatan' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
@@ -67,7 +67,7 @@ class InstansiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null,  'kode', 'nama_instansi', 'id_provinsi', 'id_kabupaten', 'id_kecamatan', null);
+    var $column_order = array(null,  'kode', 'nama_instansi', 'kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', null);
     var $order = array('created_at' => 'DESC');
 
     function get_datatables()

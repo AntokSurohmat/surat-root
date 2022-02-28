@@ -8,24 +8,88 @@ class Pegawai extends Migration
 {
     public function up()
     {
+        $this->forge->addField([
+            'id'                => [
+                'type'              => 'INT',
+                'constraint'        => 10,
+                'unsigned'          => true,
+                'auto_increment'    => true,
+            ],
+            'nip'               => [
+                'type'              => 'BIGINT',
+                'constraint'        => 25,
+                'unsigned'          => true,
+            ],
+            'nama'              => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
+                'null'              => false,
+            ],
+            'tgl_lahir'         => [
+                'type'              => 'DATE',
+                'null'              => true,
+            ],
+            'kode_jabatan'        => [
+                'type'              => 'BIGINT',
+                'constraint'        => 20,
+                'unsigned'          => true,
+            ],
+            'kode_pangol'         => [
+                'type'              => 'BIGINT',
+                'constraint'        => 20,
+                'unsigned'          => true,
+            ],
+            'pelaksana'         => [
+                'type'              => 'ENUM',
+                'constraint'        => ['Kasi Pelayan','Kasi Pengawasan'],
+                'default'           => 'Kasi Pelayan',
+            ],
+            'foto'              => [
+                'type'              => 'VARCHAR',
+				'constraint'        => '255',
+            ],
+            'username'          => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '20',
+                'null'              => false,
+            ],
+            'password'          => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '255',
+                'null'              => false,
+            ],
+            'level'             => [
+                'type'              => 'ENUM',
+                'constraint'        => ['Admin','Kepala Bidang','Bendahara','Pegawai'],
+                'default'           => 'Pegawai',
+            ],
+            'created_at'        => [
+                'type'              => 'DATETIME',
+                'null'              => true,
+            ],
+            'updated_at'        => [
+                'type'              => 'DATETIME',
+                'null'              => true,
+            ],
+            'deleted_at'        => [
+                'type'              => 'DATETIME',
+                'null'              => true,
+            ]
+
+        ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('id_provinsi', 'provinsi', 'id');
-        $this->forge->addForeignKey('id_kabupaten', 'kabupaten', 'id');
-        $this->forge->addForeignKey('id_jenis_wilayah', 'jenis_wilayah', 'id');
-        $this->forge->addForeignKey('id_kecamatan', 'kecamatan', 'id');
-        $this->forge->addForeignKey('id_zonasi', 'zonasi', 'id');
-        $this->forge->addForeignKey('id_pangol', 'pangol', 'id');
-        $this->forge->createTable('sbuh');
+        $this->forge->addKey('kode');
+        $this->forge->addUniqueKey('username');
+        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode');
+        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode');
+        $this->forge->createTable('pegawai');
     }
 
     public function down()
     {
-        $this->forge->dropForeignKey('provinsi', 'etbl_sbuh_id_provinsi_foreign');
-        $this->forge->dropForeignKey('kabupaten', 'etbl_sbuh_id_kabupaten_foreign');
-        $this->forge->dropForeignKey('kecamatan', 'etbl_sbuh_id_kecamatan_foreign');
-        $this->forge->dropForeignKey('jenis_wilayah', 'etbl_sbuh_id_jenis_wilayah_foreign');
-        $this->forge->dropForeignKey('zonasi', 'etbl_sbuh_id_zonasi_foreign');
-        $this->forge->dropForeignKey('pangol', 'etbl_sbuh_id_pangol_foreign');
-        $this->forge->dropTable('sbuh');
+        $this->forge->dropKey('pegawai', 'username');
+        $this->forge->dropForeignKey('jabatan', 'etbl_pegawai_kode_jabatan_foreign');
+        $this->forge->dropForeignKey('pangol', 'etbl_pegawai_kode_pangol_foreign');
+        $this->forge->dropTable('pegawai');
     }
 }

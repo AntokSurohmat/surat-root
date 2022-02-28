@@ -97,10 +97,10 @@ class Pangol extends BaseController
             $valid = $this->validate([
                 'kodeAddEdit' => [
                     'label'     => 'Kode Pangkat & Golongan',
-                    'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_pangol.kode]',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_pangol.kode]',
                     'errors' => [
-                        'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                         'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                     ],
                 ],
@@ -139,10 +139,10 @@ class Pangol extends BaseController
             $valid = $this->validate([
                 'kodeAddEdit' => [
                     'label'     => 'Kode Pangkat & Golongan',
-                    'rules'     => 'required|numeric|max_length[10]',
+                    'rules'     => 'required|numeric|max_length[20]',
                     'errors' => [
                         'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                        'max_length' => '{field} Maksimal 10 Karakter',
+                        'max_length' => '{field} Maksimal 20 Karakter',
                     ],
                 ],
                 'nama_pangolAddEdit' => [
@@ -164,8 +164,8 @@ class Pangol extends BaseController
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
-                    'kode' => $this->request->getVar('kodeAddEdit'),
-                    'nama_pangol' => $this->request->getVar('nama_pangolAddEdit')
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEdit')),
+                    'nama_pangol' => $this->db->escapeString($this->request->getVar('nama_pangolAddEdit')),
                 ];
                 if ($this->pangol->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil diupdate');

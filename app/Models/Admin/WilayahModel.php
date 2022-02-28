@@ -26,35 +26,35 @@ class WilayahModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[10]',
-        'id_provinsi' => 'required|numeric|max_length[20]',
-        'id_kabupaten' => 'required|numeric|max_length[20]',
-        'id_kecamatan' => 'required|numeric|max_length[20]',
-        'id_jenis_wilayah' => 'required|numeric|max_length[20]',
-        'id_zonasi' => 'required|numeric|max_length[20]'
+        'kode' => 'required|numeric|max_length[20]',
+        'kode_provinsi' => 'required|numeric|max_length[20]',
+        'kode_kabupaten' => 'required|numeric|max_length[20]',
+        'kode_kecamatan' => 'required|numeric|max_length[20]',
+        'kode_jenis_wilayah' => 'required|numeric|max_length[20]',
+        'kode_zonasi' => 'required|numeric|max_length[20]'
     ];
     protected $validationMessages   = [
         'kode' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 10 Karakter' 
+            'max_length' => 'Maksimal 20 Karakter' 
         ],        
-        'id_provinsi' => [
+        'kode_provinsi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter' 
         ],
-        'id_kabupaten' => [
+        'kode_kabupaten' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_kecamatan' => [
+        'kode_kecamatan' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_jenis_wilayah' => [
+        'kode_jenis_wilayah' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_zonasi' => [
+        'kode_zonasi' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
             'max_length' => 'Maksimal 20 Karakter'
         ],
@@ -73,7 +73,7 @@ class WilayahModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'id_provinsi', 'id_kabupaten', 'id_kecamatan', 'kode', 'id_jenis_wilayah', 'id_zonasi', null);
+    var $column_order = array(null, 'kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode', 'kode_jenis_wilayah', 'kode_zonasi', null);
     var $order = array('created_at' => 'DESC');
 
     function get_datatables(){
@@ -81,7 +81,7 @@ class WilayahModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "kode LIKE '%$search%' OR id_jenis_wilayah LIKE '%$search%' OR id_zonasi LIKE '%$search%'";
+			$attr_order = "kode LIKE '%$search%' OR kode_jenis_wilayah LIKE '%$search%' OR kode_zonasi LIKE '%$search%'";
 		} else {
 			$attr_order = "id != ''";
 		}
@@ -121,7 +121,7 @@ class WilayahModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR id_jenis_wilayah LIKE '%$search%' OR id_zonasi LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (kode LIKE '%$search%' OR kode_jenis_wilayah LIKE '%$search%' OR kode_zonasi LIKE '%$search%') AND deleted_at IS NULL";
 		} else {
 			$attr_order = " AND deleted_at IS NULL";
 		}

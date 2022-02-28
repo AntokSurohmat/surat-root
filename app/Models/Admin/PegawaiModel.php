@@ -15,7 +15,7 @@ class PegawaiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'id_jabatan', 'id_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
+    protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
 
     // Dates
     protected $useTimestamps = true;
@@ -29,8 +29,8 @@ class PegawaiModel extends Model
         'nip' => 'required|numeric|max_length[25]',
         'nama' => 'required|max_length[50]',
         'tgl_lahir' => 'required',
-        'id_jabatan' => 'required|numeric|max_length[5]',
-        'id_pangol' => 'required|numeric|max_length[5]',
+        'kode_jabatan' => 'required|numeric|max_length[20]',
+        'kode_pangol' => 'required|numeric|max_length[20]',
         'pelaksana' => 'required',
         'foto'  => 'required',
         'username' => 'required|max_length[20]',
@@ -45,13 +45,13 @@ class PegawaiModel extends Model
         'nama' => [
             'max_length' => 'Maksimal 50 Karakter',
         ],
-        'id_jabatan' => [
+        'kode_jabatan' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 5 Karakter'
+            'max_length' => 'Maksimal 20 Karakter'
         ],
-        'id_pangol' => [
+        'kode_pangol' => [
             'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 5 Karakter'
+            'max_length' => 'Maksimal 20 Karakter'
         ],
         'username' => [
             'max_length' => 'Maksimal 20 Karakter',
@@ -75,7 +75,7 @@ class PegawaiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'nip', 'nama', 'id_jabatan', 'id_pangol', 'pelaksana', 'foto', 'username', 'level', null);
+    var $column_order = array(null, 'nip', 'nama', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'level', null);
     var $order = array('created_at' => 'DESC');
 
     function get_datatables(){

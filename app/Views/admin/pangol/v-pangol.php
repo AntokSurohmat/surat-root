@@ -88,7 +88,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="nama_pangolForm" class="col-sm-4 col-form-label">Nama Pangkat & Golongan</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-7">
                                     <input type="text" class="form-control" name="nama_pangolAddEdit" id="nama_pangolForm" placeholder="Nama Pangkat & Golongan" />
                                     <div class="invalid-feedback nama_pangolError"></div>
                                 </div>

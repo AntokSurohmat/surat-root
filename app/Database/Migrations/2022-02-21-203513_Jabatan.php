@@ -9,7 +9,7 @@ class Jabatan extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id'          => [
+            'id'            => [
                 'type'           => 'INT',
                 'constraint'     => 10,
                 'unsigned'       => true,
@@ -17,10 +17,10 @@ class Jabatan extends Migration
             ],
             'kode'          => [
                 'type'          => 'BIGINT',
-                'constraint'    => 10,
+                'constraint'    => 20,
                 'unsigned'      => true,
             ],
-            'nama_jabatan'   => [
+            'nama_jabatan'  => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '20',
             ],
@@ -28,7 +28,7 @@ class Jabatan extends Migration
                 'type'          => 'DATETIME',
                 'null'          => true,
             ],
-            'updated_at'     => [
+            'updated_at'    => [
                 'type'          => 'DATETIME',
                 'null'          => true,
             ],
@@ -39,7 +39,7 @@ class Jabatan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addUniqueKey('kode');
+        $this->forge->addKey('kode');
         $this->forge->createTable('jabatan');
     }
 

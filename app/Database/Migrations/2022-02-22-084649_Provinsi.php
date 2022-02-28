@@ -9,13 +9,18 @@ class Provinsi extends Migration
     public function up()
     {
         $this->forge->addField([
-            'id'          => [
-                'type'           => 'BIGINT',
-                'constraint'     => 20,
+            'id'            => [
+                'type'           => 'INT',
+                'constraint'     => 10,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'nama_provinsi'   => [
+            'kode'          => [
+                'type'           => 'BIGINT',
+                'constraint'     => 20,
+                'unsigned'       => true,
+            ],
+            'nama_provinsi' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '40',
             ],
@@ -34,6 +39,7 @@ class Provinsi extends Migration
 
         ]);
         $this->forge->addKey('id', true);
+        $this->forge->addKey('kode');
         $this->forge->createTable('provinsi');
     }
 
