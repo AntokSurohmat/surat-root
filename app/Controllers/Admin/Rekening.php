@@ -15,12 +15,16 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Rekening extends BaseController
 {
+    protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
         $this->rekening = new RekeningModel();
         $this->jenis = new JenisWilayahModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
+        $this->session = \Config\Services::session();
+        $this->session->start();
+        $this->db = \Config\Database::connect();
     }
     public function index()
     {
@@ -38,8 +42,8 @@ class Rekening extends BaseController
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-        $db    = \Config\Database::connect();
-        $jenis = $db->table('jenis_wilayah')->get();
+
+        $jenis = $this->db->table('jenis_wilayah')->get();
         $list = $this->rekening->get_datatables();
         $count_all = $this->rekening->count_all();
         $count_filter = $this->rekening->count_filter();
@@ -52,7 +56,7 @@ class Rekening extends BaseController
             $row[] = $no;
             $row[] = $key->kode;
             foreach ($jenis->getResult() as $jen) {
-                if ($jen->id == $key->id_jenis_wilayah) {
+                if ($jen->kode == $key->kode_jenis_wilayah) {
                     $row[] =  $jen->jenis_wilayah;
                 }
             };
@@ -75,6 +79,15 @@ class Rekening extends BaseController
         echo json_encode($output);
     }
 
+    function generator(){
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+        $data['kode'] = random_string('numeric');
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
     public function getJenis()
     {
         if (!$this->request->isAjax()) {
@@ -84,7 +97,7 @@ class Rekening extends BaseController
         $response = array();
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
-            $provinsilist = $this->jenis->select('id,jenis_wilayah') // Fetch record
+            $provinsilist = $this->jenis->select('kode,jenis_wilayah') // Fetch record
                 ->where('deleted_at', NULL)
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
@@ -93,7 +106,7 @@ class Rekening extends BaseController
             // print_r($provinsilist);
             // die();
         } else {
-            $provinsilist = $this->provinsi->select('id,jenis_wilayah') // Fetch record
+            $provinsilist = $this->provinsi->select('kode,jenis_wilayah') // Fetch record
                 ->where('deleted_at', NULL)
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('jenis_wilayah')
@@ -103,7 +116,7 @@ class Rekening extends BaseController
         $data = array();
         foreach ($provinsilist as $provinsi) {
             $data[] = array(
-                "id" => $provinsi['id'],
+                "id" => $provinsi['kode'],
                 "text" => $provinsi['jenis_wilayah'],
             );
         }
@@ -123,7 +136,7 @@ class Rekening extends BaseController
         if ($this->request->getVar('id')) {
             $data = $this->rekening->where('id', $this->request->getVar('id'))->first();
 
-            $data['jenis'] = $this->jenis->where('id', $data['id_jenis_wilayah'])->first();
+            $data['jenis'] = $this->jenis->where('kode', $data['kode_jenis_wilayah'])->first();
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -180,16 +193,16 @@ class Rekening extends BaseController
             } else {
 
                 $data = [
-                    'kode' => $this->request->getVar('kodeAddEditForm'),
-                    'id_jenis_wilayah' => $this->request->getVar('jenisWilayahAddEditForm'),
-                    'nomer_rekening' => $this->request->getVar('rekeningAddEditForm'),
+                    'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                    'kode_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
+                    'nomer_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
                 ];
                 // d($data);print_r($data);die();
 
                 if ($this->rekening->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');   
+                    $data = array('success' => false, 'msg' => $this->rekening->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }
@@ -234,13 +247,13 @@ class Rekening extends BaseController
                 $id = $this->request->getVar('hidden_id');
                 $data = [
                     'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                    'id_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
+                    'kode_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
                     'nomer_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
                 ];
                 if ($this->rekening->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil diupdate');
                 } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->rekening->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }

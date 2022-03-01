@@ -61,7 +61,7 @@
                                     <th>Zonasi</th>
                                     <th>Pangkat</th>
                                     <th>Uang Harian</th>
-                                    <th>Aksi</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

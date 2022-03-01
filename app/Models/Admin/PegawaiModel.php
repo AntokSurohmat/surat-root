@@ -75,17 +75,17 @@ class PegawaiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'nip', 'nama', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'level', null);
-    var $order = array('id' => 'DESC');
+    var $column_order = array(null, 'pegawai.nip', 'pegawai.nama', 'jabatan.nama_jabatan', 'pangol.nama_pangol', 'pegawai.pelaksana', 'pegawai.foto', 'pegawai.username', 'pegawai.level', null);
+    var $order = array('pegawai.id' => 'DESC');
 
     function get_datatables(){
 
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "nip LIKE '%$search%' OR nama LIKE '%$search%' OR username LIKE '%$search%'";
+			$attr_order = "pegawai.nip LIKE '%$search%' OR pegawai.nama LIKE '%$search%' OR jabatan.nama_jabatan LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%' OR pegawai.username LIKE '%$search%'";
 		} else {
-			$attr_order = "id != ''";
+			$attr_order = "pegawai.id != ''";
 		}
 
 		// order
@@ -102,9 +102,13 @@ class PegawaiModel extends Model
 		if(service('request')->getPost('length')!=-1);
 		// $db = db_connect();
 		$builder = $this->db->table('pegawai');
-		$query = $builder->select('*')
+		$query = $builder->select('pegawai.*')
+                ->select('jabatan.kode', 'jabatan.nama_jabatan')
+                ->select('pangol.kode', 'pangol.nama_pangol')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
 				->where($attr_order)
-				->where('deleted_at', NULL)
+				->where('pegawai.deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -123,11 +127,14 @@ class PegawaiModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (nip LIKE '%$search%' OR nama LIKE '%$search%' OR username LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (etbl_pegawai.nip LIKE '%$search%' OR etbl_pegawai.nama LIKE '%$search%' OR etbl_jabatan.nama_jabatan LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%' OR etbl_pegawai.username LIKE '%$search%') AND etbl_pegawai.deleted_at IS NULL";
 		} else {
-			$attr_order = " AND deleted_at IS NULL";
+			$attr_order = " AND etbl_pegawai.deleted_at IS NULL";
 		}
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pegawai WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(etbl_pegawai.id) as total FROM etbl_pegawai
+                    LEFT JOIN etbl_jabatan ON etbl_jabatan.kode = etbl_pegawai.kode_jabatan
+                    LEFT JOIN etbl_pangol ON etbl_pangol.kode = etbl_pegawai.kode_pangol
+                    WHERE etbl_pegawai.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

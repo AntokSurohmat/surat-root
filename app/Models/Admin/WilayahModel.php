@@ -100,7 +100,7 @@ class WilayahModel extends Model
 		if(service('request')->getPost('length')!=-1);
 		// $db = db_connect();
 		$builder = $this->db->table('wilayah');
-		$query = $builder->select('*')
+		$query = $builder->select('wilayah.*')
                 ->select('provinsi.kode', 'provinsi.nama_provinsi')
                 ->select('kabupaten.kode', 'kabupaten.nama_kabupaten')
                 ->select('kecamatan.kode', 'kecamatan.nama_kecamatan')

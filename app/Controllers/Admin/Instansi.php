@@ -381,6 +381,14 @@ class Instansi extends ResourcePresenter
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
+            'kodeAddEditForm' => [
+                'label'     => 'Kode Instansi',
+                'rules'     => 'required|numeric|max_length[10]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 10 Karakter',
+                ],
+            ],
             'provinsiAddEditForm' => [
                 'label'     => 'Nama Provinsi',
                 'rules'     => 'required|numeric|max_length[20]',
@@ -403,14 +411,6 @@ class Instansi extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
-                ],
-            ],
-            'kodeAddEditForm' => [
-                'label'     => 'Kode Instansi',
-                'rules'     => 'required|numeric|max_length[10]',
-                'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 10 Karakter',
                 ],
             ],
             'instansiAddEditForm' => [

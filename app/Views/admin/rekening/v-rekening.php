@@ -73,7 +73,7 @@
 
         <!--add/edit-->
         <div id="modal-newitem" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add/Edit Modal</h5>
@@ -89,16 +89,16 @@
                             <div class="form-group row">
                                 <label for="kodeForm" class="col-sm-4 col-form-label">Kode</label>
                                 <div class="col-sm-7">
-                                    <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Pangkat & Golongan" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
+                                    <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Rekening" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" />
                                     <div class="invalid-feedback kodeErrorForm"></div>
                                 </div>
-                                <!-- <span>
-                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" title="Generate kode" id="generate-kode" onclick="generate_kode()"> <i class="fa fa-retweet" aria-hidden="true"></i> </button>
-                                </span> -->
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kode" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
                             </div>
                             <div class="form-group row">
                                 <label for="jenisWilayahForm" class="col-sm-4 col-form-label">Jenis Wilayah</label>
-                                <div class="col-sm-7">
+                                <div class="col-sm-8">
                                     <select name="jenisWilayahAddEditForm" id="jenisWilayahForm" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Cari Jenis Wilayah ---</option>
                                     </select>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="rekeningForm" class="col-sm-4 col-form-label">Nomer Rekening</label>
-                                <div class="col-sm-7">
+                                <div class="col-sm-8">
                                     <input type="number" name="rekeningAddEditForm" class="form-control" id="rekeningForm" placeholder="Nomer Rekening" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" />
                                     <div class="invalid-feedback rekeningErrorForm"></div>
                                 </div>
@@ -265,7 +265,7 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#kodeForm').val(data.kode);
                     $("#jenisWilayahForm").append($("<option selected='selected'></option>")
-                    .val(data.jenis.id).text(data.jenis.jenis_wilayah)).trigger('change');
+                    .val(data.jenis.kode).text(data.jenis.jenis_wilayah)).trigger('change');
                     $('#rekeningForm').val(data.nomer_rekening);
                     $('.modal-title').text('Edit Data ' + data.nomer_rekening);
                     $('.modal-title').css("font-weight:", "900");
@@ -284,7 +284,6 @@
         var url_destination = '<?= base_url('Admin/Rekening/getJenis') ?>';
         $("#jenisWilayahForm").select2({
             theme: 'bootstrap4',
-            tags: true,
             placeholder: '--- Cari Jenis Wilayah ---',
             ajax: {
                 url: url_destination,
@@ -397,13 +396,14 @@
                             });
                             $('#rkning_data').DataTable().ajax.reload(null, false);
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: data.msg,
-                                showConfirmButton: false,
-                                timer: 3000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
@@ -412,6 +412,22 @@
                 }
             });
             return false;
+        })
+
+        $('#generate-kode').click(function() {
+            var url_destination = "<?= base_url('Admin/Rekening/generator') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                }
+            })
         })
 
     })

@@ -138,6 +138,8 @@
     <script src="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.js"></script>
     <!-- Select2 -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Custom Input File -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/custom/js/custom.js"></script>
     <script language="javascript">

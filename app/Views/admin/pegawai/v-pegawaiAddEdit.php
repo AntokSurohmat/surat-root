@@ -29,7 +29,9 @@
                         </a> -->
                     </div>
                     <!-- /.card-header -->
-                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
+
+                    <?= form_open_multipart($action = '', $attributes = array('class' => 'form-horizontal', 'id' => 'form-addedit', 'autocomplete' => 'off')) ?>
+                    <!-- <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false"> -->
                         <div class="card-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="methodPage" value="<?= $method ?>" />
@@ -38,9 +40,9 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="NipForm" class="col-sm-3 col-form-label">NIP</label>
+                                            <label for="nipForm" class="col-sm-3 col-form-label">NIP</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="nipAddEditForm" class="form-control" id="NipForm" placeholder="Nomer NIP" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="25" autofocus />
+                                                <input type="number" name="nipAddEditForm" class="form-control" id="nipForm" placeholder="Nomer NIP" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="25" autofocus />
                                                 <div class="invalid-feedback nipErrorForm"></div>
                                             </div>
                                         </div>
@@ -54,12 +56,13 @@
                                         <div class="form-group row">
                                             <label for="lahirForm" class="col-sm-3 col-form-label">Tanggal Lahir </label>
                                             <div class="col-sm-7">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" name="lahirAddEditForm" class="form-control" id="lahirForm" placeholder="Nama Lengkap"/>
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="lahirAddEditForm" class="form-control" id="lahirForm" placeholder="Nama Lengkap"/>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="invalid-feedback lahirErrorForm"></div>
                                             </div>
                                         </div>
                                         
@@ -82,47 +85,60 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="jenisWilayahForm" class="col-sm-3 col-form-label">Jenis Wilayah</label>
+                                            <label for="pelaksanaForm" class="col-sm-3 col-form-label">Pelaksana</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="jenisWilayahAddEditForm" id="jenisWilayahForm" class="form-control" placeholder="Silahkan Pilih Provinsi & Kabupaten" readonly>
-                                                <div class="invalid-feedback jenisWilayahErrorForm"></div>
+                                                <select name="pelaksanaAddEditForm" id="pelaksanaForm" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Pilih Pelaksana ---</option>
+                                                    <option value="Kasi Pelayan"> Kasi Pelayan </option>
+                                                    <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
+                                                </select>
+                                                <div class="invalid-feedback pelaksanaErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="kecamatanForm" class="col-sm-3 col-form-label">Kecamatan</label>
+                                            <label for="fotoForm" class="col-sm-3 col-form-label">Foto</label>
                                             <div class="col-sm-7">
-                                                <select name="kecamatanAddEditForm" id="kecamatanForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Pilih Kabupaten Terlebih Dahulu ---</option>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" id="fotoForm">
+                                                    <label class="custom-file-label" name="fotoAddEditForm" for="fotoForm">Choose file</label>
+                                                    <div class="invalid-feedback fotoErrorForm"></div>
+                                                </div>
+                                        </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="usernameForm" class="col-sm-3 col-form-label">Username</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">@</span>
+                                                    </div>
+                                                    <input type="text" ame="usernameAddEditForm" id="usernameForm" class="form-control" placeholder="Username">
+                                                </div>
+                                                <div class="invalid-feedback usernameErrorForm"></div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="passwordForm" class="col-sm-3 col-form-label">Password</label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <input type="text" name="passwordAddEditForm" id="passwordForm" class="form-control" placeholder="Masukkan Password">
+                                                    <div class="invalid-feedback passwordErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="levelForm" class="col-sm-3 col-form-label">pangkat & Golongan</label>
+                                            <div class="col-sm-7">
+                                                <select name="levelAddEditForm" id="levelForm" class="form-control select2bs4" style="width: 100%;">
+                                                    <option value="">--- Level Access ---</option>
+                                                    <option value="Admin"> Admin </option>
+                                                    <option value="Kepala Bidang"> Kepala Bidang</option>
+                                                    <option value="Bendahara"> Bendahara</option>
+                                                    <option value="Pegawai"> Pegawai</option>
                                                 </select>
-                                                <div class="invalid-feedback kecamatanErrorForm"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="zonasiForm" class="col-sm-3 col-form-label">Zonasi</label>
-                                            <div class="col-sm-7">
-                                                <input type="text" name="zonasiAddEditForm" id="zonasiForm" class="form-control" placeholder="Silahkan Pilih Kecamatan" readonly>
-                                                <div class="invalid-feedback zonasiErrorForm"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="pangolForm" class="col-sm-3 col-form-label">pangkat & Golongan</label>
-                                            <div class="col-sm-7">
-                                                <select name="pangolAddEditForm" id="pangolForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Cari Pangkat & Golongan ---</option>
-                                                </select>
-                                                <div class="invalid-feedback pangolErrorForm"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="jumlahUangForm" class="col-sm-3 col-form-label">Jumlah Uang Harian</label>
-                                            <!-- <div class="input-group-addon">
-                                                Rp.
-                                            </div> -->
-                                            <div class="col-sm-7">
-                                                <input type="text" name="jumlahUangAddEditForm" id="jumlahUangForm" class="form-control" placeholder="Masukkan Jumlah Uang Harian" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="6">
-                                                <div class="invalid-feedback jumlahUangErrorForm"></div>
+                                                <div class="invalid-feedback levelErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -132,8 +148,8 @@
 
                         <!-- /.card-body -->
                         <div class="card-footer" style="text-align:center;">
-                            <a type="button" href="<?= base_url('') ?>/Admin/Sbuh" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
-                            <button type="submit" id="submit-sbuh" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
+                            <a type="button" href="<?= base_url('') ?>/Admin/Pegawai" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
+                            <button type="submit" id="submit-pegawai" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
@@ -151,6 +167,10 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        $("#pelaksanaForm").select2({theme: 'bootstrap4'})
+        $("#levelForm").select2({theme: 'bootstrap4'})
+        bsCustomFileInput.init();
+
         $('input[name="lahirAddEditForm"]').daterangepicker({
             autoApply: true,
             singleDatePicker: true,
@@ -163,33 +183,37 @@
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event){if(event.keyCode == 13){$('#provinsiForm').select2('open');}});
-        $('#provinsiForm').on('select2:select', function(e) {$('#kabupatenForm').select2('open');});
-        $('#kabupatenForm').on('select2:select', function(e) {if (event.keyCode == 13) {$('#jenisWilayahForm').focus();}});
-        $('#jenisWilayahForm').keydown(function(event) {if (event.keyCode == 13) {$('#kecamatanForm').select2('open');}});
-        $('#kecamatanForm').on('select2:select', function(e) {$('#zonasiForm').focus();});
-        $('#zonasiForm').keydown(function(event) {if (event.keyCode == 13) {$('#pangolForm').select2('open');}});
-        $('#pangolForm').on('select2:select', function(e) {$('#jumlahUangForm').focus();});
-        $('#jumlahUangForm').keydown(function(event) {if (event.keyCode == 13) {$('#submit-sbuh').focus();}});
+        $('#nipForm').keydown(function(event){if(event.keyCode == 13){$('#namaForm').focus();}});
+        $('#namaForm').keydown(function(event){if(event.keyCode == 13){$('#lahirForm').focus();}});
+        $('#lahirForm').keydown(function(event){if(event.keyCode == 13){$('#jabatanForm').select2('open');}});
+        $('#jabatanForm').on('select2:select', function(e) {$('#pangolForm').select2('open');});
+        $('#pangolForm').on('select2:select', function(e) {$('#pelaksanaForm').select2('open');});
+        $('#pelaksanaForm').on('select2:select', function(e) {if (event.keyCode == 13) {$('#fotoForm').focus();}});
+        $('#fotoForm').keydown(function(event){if(event.keyCode == 13){$('#usernameForm').focus();}});
+        $('#usernameForm').keydown(function(event){if(event.keyCode == 13){$('#passwordForm').focus();}});
+        $('#passwordForm').keydown(function(event) {if (event.keyCode == 13) {$('#levelForm').select2('open');}});
+        $('#levelForm').on('select2:select', function(e) {$('#submit-pegawai').focus();});
+
         update();
 
         function clearform() {
             $('#form-addedit')[0].reset();
-            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
-            $("#provinsiForm").empty();$("#provinsiForm").removeClass('is-valid');$("#provinsiForm").removeClass('is-invalid');
-            $("#kabupatenForm").empty();$("#kabupatenForm").removeClass('is-valid');$("#kabupatenForm").removeClass('is-invalid');
-            $("#jenisWilayahForm").empty();$("#jenisWilayahForm").removeClass('is-valid');$("#jenisWilayahForm").removeClass('is-invalid');
-            $("#kecamatanForm").empty();$("#kecamatanForm").removeClass('is-valid');$("#kecamatanForm").removeClass('is-invalid');
-            $("#zonasiForm").empty();$("#zonasiForm").removeClass('is-valid');$("#zonasiForm").removeClass('is-invalid');
+            $("#nipForm").empty();$("#nipForm").removeClass('is-valid');$("#nipForm").removeClass('is-invalid');
+            $("#namaForm").empty();$("#namaForm").removeClass('is-valid');$("#namaForm").removeClass('is-invalid');
+            $("#lahirForm").empty();$("#lahirForm").removeClass('is-valid');$("#lahirForm").removeClass('is-invalid');
+            $("#jabatanForm").empty();$("#jabatanForm").removeClass('is-valid');$("#jabatanForm").removeClass('is-invalid');
             $("#pangolForm").empty();$("#pangolForm").removeClass('is-valid');$("#pangolForm").removeClass('is-invalid');
-            $("#jumlahUangForm").empty();$("#jumlahUangForm").removeClass('is-valid');$("#jumlahUangForm").removeClass('is-invalid');
+            $("#pelaksanaForm").empty();$("#pelaksanaForm").removeClass('is-valid');$("#pelaksanaForm").removeClass('is-invalid');
+            $("#fotoForm").empty();$("#fotoForm").removeClass('is-valid');$("#fotoForm").removeClass('is-invalid');
+            $("#usernameForm").empty();$("#usernameForm").removeClass('is-valid');$("#usernameForm").removeClass('is-invalid');
+            $("#passwordForm").empty();$("#passwordForm").removeClass('is-valid');$("#passwordForm").removeClass('is-invalid');
+            $("#levelForm").empty();$("#levelForm").removeClass('is-valid');$("#levelForm").removeClass('is-invalid');
         }
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Pegawai/getjabatan') ?>';
         $("#jabatanForm").select2({
             theme: 'bootstrap4',
-            tags: true,
             placeholder: '--- Cari Jabatan ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -202,102 +226,34 @@
                 cache: true
             }
         });
-        $("#jabatanForm").change(function() {
-            var provinsiID = $(this).val();var url_destination = '<?= base_url('Admin/Pegawai/getPangol') ?>';
-            // Initialize select2
-            $("#pangolForm").select2({
-                theme: 'bootstrap4',
-                tags: true,
-                placeholder: '--- Cari Pangkat & Golongan ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {
-                        return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
-                    },
-                    processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
-                    },
-                    cache: true
-                }
-            })
-        });
-        $("#kabupatenForm").change(function() {
-            var provinsiID = $('#provinsiForm :selected').val(); var kabupatenID = $(this).val();
-            // console.log(provinsiID);console.log(kabupatenID);
-           var url_destination = "<?= base_url('Admin/Sbuh/getJenis') ?>";
-            $.ajax({
-                url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()},
-                dataType: "JSON",
-                success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#jenisWilayahForm').val(data.jenis_wilayah);
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                },
-            })
-        });
-        $("#kabupatenForm").change(function() {
-            var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Sbuh/getKecamatan') ?>';
-            // Initialize select2
-            $("#kecamatanForm").select2({
-                theme: 'bootstrap4',tags: true,
-                placeholder: '--- Cari Kecamatan ---',
-                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {
-                        return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
-                    },
-                    processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
-                    },
-                    cache: true
-                }
-            })
-        });
-        $("#kecamatanForm").change(function() {
-            var provinsiID = $('#provinsiForm :selected').val();var kabupatenID = $('#kabupatenForm :selected').val();var kecamatanID = $(this).val();
-
-            var url_destination = '<?= base_url('Admin/Sbuh/getZonasi') ?>';
-            $.ajax({
-                url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID, kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
-                success: function(data) {
-                    // console.log(data);
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#zonasiForm').val(data.nama_zonasi);
-                },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
-            })
-        });
+        var url_destination = '<?= base_url('Admin/Pegawai/getPangol') ?>';
         // Initialize select2
-        var url_destination = '<?= base_url('Admin/Sbuh/getPangol') ?>';
         $("#pangolForm").select2({
             theme: 'bootstrap4',
-            tags: true,
             placeholder: '--- Cari Pangkat & Golongan ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                    return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    return {results: response.data};
                 },
                 cache: true
-            }
-        });
+            }   
+        })
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             console.log($(this).serialize());
-            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Sbuh/Create') ?>";
-            } else {var url_destination = "<?= base_url('Admin/Sbuh/Update') ?>";}
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
+            } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
-                    $('#submit-wilayah').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-wilayah').prop('disabled', true);
+                    $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-wilayah').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-wilayah').prop('disabled', false);
+                    $('#submit-pegawai').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-pegawai').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
@@ -316,7 +272,7 @@
                             clearform();let timerInterval
                             swalWithBootstrapButtons.fire({
                                 icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table SBUH!</b><br>' +
+                                html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
                                     'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                                 timer: 3500,timerProgressBar: true,
                                 showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
@@ -324,16 +280,20 @@
                                 if (result.isConfirmed) {window.location.href = data.redirect;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                                     if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Sbuh/new')?>");}
+                                    }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
                                 } else if (result.dismiss === Swal.DismissReason.timer) {
                                     window.location.href = data.redirect;
                                 }
                             })
                         } else {
-                            Swal.fire({
-                                icon: 'error',title: 'Oops...',text: data.msg,
-                                showConfirmButton: false,timer: 3000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -343,27 +303,25 @@
 
         function update() {
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
-                var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/sbuh/single_data') ?>";
+                var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Pegawai/single_data') ?>";
                 $.ajax({
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        $('#submit-sbuh').removeClass("btn-success");
-                        $('#submit-sbuh').addClass("btn-warning text-white");
+                        $('#submit-pegawai').removeClass("btn-success");
+                        $('#submit-pegawai').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                        $('#kodeForm').val(data.kode);
-                        $("#provinsiForm").append($("<option selected='selected'></option>")
-                        .val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
-                        $("#kabupatenForm").append($("<option selected='selected'></option>")
-                        .val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
-                        $('#jenisWilayahForm').val(data.jenis.nama_jenis);
-                        $("#kecamatanForm").append($("<option selected='selected'></option>")
-                        .val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
-                        $("#zonasiForm").val(data.zonasi.nama_zonasi);
+                        $('#nipForm').val(data.nip);
+                        $('#namaForm').val(data.nama);
+                        $('#lahirForm').val(lahir.nama);
+                        $("#jabatanForm").append($("<option selected='selected'></option>")
+                        .val(data.jabatan.kode).text(data.jabatan.nama_jabatan)).trigger('change');
                         $("#pangolForm").append($("<option selected='selected'></option>")
-                        .val(data.pangol.id).text(data.pangol.nama_pangol)).trigger('change');
-                        $("#jumlahUangForm").val(data.jumlah_uang);
-                        $('#submit-sbuh').html('<i class="fas fa-save"></i>&ensp;Update');
+                        .val(data.pangol.kode).text(data.pangol.nama_pangol)).trigger('change');
+                        // $("#pelaksanaForm").append($("<option selected='selected'></option>")
+                        // .val(data.pelaksana.kode).text(data.pelaksana.nama_pelaksana)).trigger('change');
+                        $("#usernamForm").val(data.username);
+                        $('#submit-pegawai').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
             }

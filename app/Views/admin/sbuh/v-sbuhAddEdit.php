@@ -43,6 +43,9 @@
                                                 <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
+                                            <span>
+                                                <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kode" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                            </span>
                                         </div>
                                         <div class="form-group row">
                                             <label for="provinsiForm" class="col-sm-3 col-form-label">Provinsi</label>
@@ -185,7 +188,6 @@
         var url_destination = '<?= base_url('Admin/Sbuh/getProvinsi') ?>';
         $("#provinsiForm").select2({
             theme: 'bootstrap4',
-            tags: true,
             placeholder: '--- Cari Provinsi ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -203,7 +205,6 @@
             // Initialize select2
             $("#kabupatenForm").select2({
                 theme: 'bootstrap4',
-                tags: true,
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -237,7 +238,7 @@
             var kabupatenID = $(this).val();var url_destination = '<?= base_url('Admin/Sbuh/getKecamatan') ?>';
             // Initialize select2
             $("#kecamatanForm").select2({
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -269,7 +270,6 @@
         var url_destination = '<?= base_url('Admin/Sbuh/getPangol') ?>';
         $("#pangolForm").select2({
             theme: 'bootstrap4',
-            tags: true,
             placeholder: '--- Cari Pangkat & Golongan ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -326,10 +326,14 @@
                                 }
                             })
                         } else {
-                            Swal.fire({
-                                icon: 'error',title: 'Oops...',text: data.msg,
-                                showConfirmButton: false,timer: 3000
+                            Object.keys(data.msg).forEach((key, index) => {
+                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                                var element = $('#' + key + 'Form');
+                                element.closest('.form-control')
+                                element.closest('.select2-hidden-accessible') //access select2 class
+                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             });
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -349,21 +353,37 @@
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
                         $("#provinsiForm").append($("<option selected='selected'></option>")
-                        .val(data.provinsi.id).text(data.provinsi.nama_provinsi)).trigger('change');
+                        .val(data.provinsi.kode).text(data.provinsi.nama_provinsi)).trigger('change');
                         $("#kabupatenForm").append($("<option selected='selected'></option>")
-                        .val(data.kabupaten.id).text(data.kabupaten.nama_kabupaten)).trigger('change');
+                        .val(data.kabupaten.kode).text(data.kabupaten.nama_kabupaten)).trigger('change');
                         $('#jenisWilayahForm').val(data.jenis.nama_jenis);
                         $("#kecamatanForm").append($("<option selected='selected'></option>")
-                        .val(data.kecamatan.id).text(data.kecamatan.nama_kecamatan)).trigger('change');
+                        .val(data.kecamatan.kode).text(data.kecamatan.nama_kecamatan)).trigger('change');
                         $("#zonasiForm").val(data.zonasi.nama_zonasi);
                         $("#pangolForm").append($("<option selected='selected'></option>")
-                        .val(data.pangol.id).text(data.pangol.nama_pangol)).trigger('change');
+                        .val(data.pangol.kode).text(data.pangol.nama_pangol)).trigger('change');
                         $("#jumlahUangForm").val(data.jumlah_uang);
                         $('#submit-sbuh').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
             }
         }
+
+        $('#generate-kode').click(function() {
+            var url_destination = "<?= base_url('Admin/Sbuh/generator') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                }
+            })
+        })
 
     })
 </script>

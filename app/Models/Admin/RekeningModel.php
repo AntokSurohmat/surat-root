@@ -57,17 +57,17 @@ class RekeningModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'kode', 'id_jenis_wilayah', 'nomer_rekening', null);
-    var $order = array('id' => 'DESC');
+    var $column_order = array(null, 'rekening.kode', 'jenis_wilayah.jenis_wilayah', 'rekening.nomer_rekening', null);
+    var $order = array('rekening.id' => 'DESC');
 
     function get_datatables(){
 
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "kode LIKE '%$search%' OR nomer_rekening LIKE '%$search%'";
+			$attr_order = "rekening.kode LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR rekening.nomer_rekening LIKE '%$search%'";
 		} else {
-			$attr_order = "id != ''";
+			$attr_order = "rekening.id != ''";
 		}
 
 		// order
@@ -84,9 +84,11 @@ class RekeningModel extends Model
 		if(service('request')->getPost('length')!=-1);
 		// $db = db_connect();
 		$builder = $this->db->table('rekening');
-		$query = $builder->select('*')
+		$query = $builder->select('rekening.*')
+                ->select('jenis_wilayah.kode', 'jenis_wilayah.jenis_wilayah')
+                ->join('jenis_wilayah', 'jenis_wilayah.kode = rekening.kode_jenis_wilayah')
 				->where($attr_order)
-				->where('deleted_at', NULL)
+				->where('rekening.deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -105,11 +107,13 @@ class RekeningModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR nomer_rekening LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%') AND etbl_rekening.deleted_at IS NULL";
 		} else {
-			$attr_order = " AND deleted_at IS NULL";
+			$attr_order = " AND etbl_rekening.deleted_at IS NULL";
 		}
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(etbl_rekening.id) as total FROM etbl_rekening
+                    LEFT JOIN etbl_jenis_wilayah ON etbl_jenis_wilayah.kode = etbl_rekening.kode_jenis_wilayah
+                    WHERE etbl_rekening.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

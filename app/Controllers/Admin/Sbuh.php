@@ -19,7 +19,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Sbuh extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url'];
+    protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
         $this->provinsi = new ProvinsiModel();
@@ -33,6 +33,7 @@ class Sbuh extends ResourcePresenter
         $this->csrfHash = csrf_hash();
         $this->session = \Config\Services::session();
         $this->session->start();
+        $this->db = \Config\Database::connect();
     }
     /**
      * Present a view of resource objects
@@ -54,13 +55,12 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-        $db      = \Config\Database::connect();
-        $provinsi = $db->table('provinsi')->get();
-        $kabupaten = $db->table('kabupaten')->get();
-        $kecamatan = $db->table('kecamatan')->get();
-        $jenis = $db->table('jenis_wilayah')->get();
-        $zonasi = $db->table('zonasi')->get();
-        $pangol = $db->table('pangol')->get();
+        $provinsi = $this->db->table('provinsi')->get();
+        $kabupaten = $this->db->table('kabupaten')->get();
+        $kecamatan = $this->db->table('kecamatan')->get();
+        $jenis = $this->db->table('jenis_wilayah')->get();
+        $zonasi = $this->db->table('zonasi')->get();
+        $pangol = $this->db->table('pangol')->get();
         $list = $this->sbuh->get_datatables();
         $count_all = $this->sbuh->count_all();
         $count_filter = $this->sbuh->count_filter();
@@ -73,32 +73,32 @@ class Sbuh extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->kode;
             foreach ($provinsi->getResult() as $prov) {
-                if ($prov->id == $key->id_provinsi) {
+                if ($prov->kode == $key->kode_provinsi) {
                     $row[] =  $prov->nama_provinsi;
                 }
             };
             foreach ($kabupaten->getResult() as $kab) {
-                if ($kab->id == $key->id_kabupaten) {
+                if ($kab->kode == $key->kode_kabupaten) {
                     $row[] =  $kab->nama_kabupaten;
                 }
             };
             foreach ($jenis->getResult() as $jen) {
-                if ($jen->id == $key->id_jenis_wilayah) {
+                if ($jen->kode == $key->kode_jenis_wilayah) {
                     $row[] =  $jen->jenis_wilayah;
                 }
             };
             foreach ($kecamatan->getResult() as $kec) {
-                if ($kec->id == $key->id_kecamatan) {
+                if ($kec->kode == $key->kode_kecamatan) {
                     $row[] =  $kec->nama_kecamatan;
                 }
             };
             foreach ($zonasi->getResult() as $zona) {
-                if ($zona->id == $key->id_zonasi) {
+                if ($zona->kode == $key->kode_zonasi) {
                     $row[] =  $zona->nama_zonasi;
                 }
             };
             foreach ($pangol->getResult() as $pang) {
-                if ($pang->id == $key->id_pangol) {
+                if ($pang->kode == $key->kode_pangol) {
                     $row[] =  $pang->nama_pangol;
                 }
             };
@@ -121,6 +121,15 @@ class Sbuh extends ResourcePresenter
         echo json_encode($output);
     }
 
+    function generator(){
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+        $data['kode'] = random_string('numeric');
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
     public function getProvinsi()
     {
         if (!$this->request->isAjax()) {
@@ -130,7 +139,7 @@ class Sbuh extends ResourcePresenter
         $response = array();
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
-            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
@@ -139,7 +148,7 @@ class Sbuh extends ResourcePresenter
             // print_r($provinsilist);
             // die();
         } else {
-            $provinsilist = $this->provinsi->select('id,nama_provinsi') // Fetch record
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->where('deleted_at', NULL)
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_provinsi')
@@ -149,7 +158,7 @@ class Sbuh extends ResourcePresenter
         $data = array();
         foreach ($provinsilist as $provinsi) {
             $data[] = array(
-                "id" => $provinsi['id'],
+                "id" => $provinsi['kode'],
                 "text" => $provinsi['nama_provinsi'],
             );
         }
@@ -167,15 +176,15 @@ class Sbuh extends ResourcePresenter
 
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {
-            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
-                ->where('id_provinsi', $this->request->getPost('provinsi'))
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+                ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
-            $kabupatenlist = $this->kabupaten->select('id,nama_kabupaten') // Fetch record
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
-                ->where('id_provinsi', $this->request->getPost('provinsi'))
+                ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
@@ -184,7 +193,7 @@ class Sbuh extends ResourcePresenter
         $data = array();
         foreach ($kabupatenlist as $kabupaten) {
             $data[] = array(
-                "id" => $kabupaten['id'],
+                "id" => $kabupaten['kode'],
                 "text" => $kabupaten['nama_kabupaten'],
             );
         }
@@ -200,7 +209,7 @@ class Sbuh extends ResourcePresenter
         }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten')) {
-            $data = $this->jenis->where('id_provinsi', $this->request->getVar('provinsi'))->where('id_kabupaten', $this->request->getVar('kabupaten'))->first(['id']);
+            $data = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->first();
             // d($data['id']);print_r($data);die();
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -214,15 +223,15 @@ class Sbuh extends ResourcePresenter
 
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {
-            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
-                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+            $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
+                ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
-            $kabupatenlist = $this->kecamatan->select('id,nama_kecamatan') // Fetch record
+            $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
-                ->where('id_kabupaten', $this->request->getPost('kabupaten'))
+                ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
@@ -231,7 +240,7 @@ class Sbuh extends ResourcePresenter
         $data = array();
         foreach ($kabupatenlist as $kabupaten) {
             $data[] = array(
-                "id" => $kabupaten['id'],
+                "id" => $kabupaten['kode'],
                 "text" => $kabupaten['nama_kecamatan'],
             );
         }
@@ -247,7 +256,7 @@ class Sbuh extends ResourcePresenter
         }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten') && $this->request->getVar('kecamatan')) {
-            $data = $this->zonasi->where('id_provinsi', $this->request->getVar('provinsi'))->where('id_kabupaten', $this->request->getVar('kabupaten'))->where('id_kecamatan', $this->request->getVar('kecamatan'))->first();
+            $data = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->where('kode_kecamatan', $this->request->getVar('kecamatan'))->first();
             // d($data);print_r($data);die();
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -262,12 +271,12 @@ class Sbuh extends ResourcePresenter
         $response = array();
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
-            $pangollist = $this->pangol->select('id,nama_pangol') // Fetch record
+            $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
                 ->where('deleted_at', NULL)
                 ->orderBy('nama_pangol')
                 ->findAll(10);
         } else {
-            $pangollist = $this->pangol->select('id,nama_pangol') // Fetch record
+            $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
                 ->where('deleted_at', NULL)
                 ->like('nama_pangol', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_pangol')
@@ -277,7 +286,7 @@ class Sbuh extends ResourcePresenter
         $data = array();
         foreach ($pangollist as $pangol) {
             $data[] = array(
-                "id" => $pangol['id'],
+                "id" => $pangol['kode'],
                 "text" => $pangol['nama_pangol'],
             );
         }
@@ -334,10 +343,10 @@ class Sbuh extends ResourcePresenter
         $valid = $this->validate([
             'kodeAddEditForm' => [
                 'label'     => 'Kode SBUH',
-                'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_wilayah.kode]',
+                'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_sbuh.kode]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 10 Karakter',
+                    'max_length' => '{field} Maksimal 20 Karakter',
                     'is_unique' => '{field} Kode Yang Anda masukkan sudah dipakai',
                 ],
             ],
@@ -345,7 +354,7 @@ class Sbuh extends ResourcePresenter
                 'label'     => 'Nama Provinsi',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
@@ -353,13 +362,13 @@ class Sbuh extends ResourcePresenter
                 'label'     => 'Nama Kabupaten',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'jenisWilayahAddEditForm' => [
                 'label' => 'Nama Jenis Wilayah',
-                'rules' => 'required|max_length[20]',
+                'rules'  => 'required|max_length[20]',
                 'errors' => [
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
@@ -368,23 +377,23 @@ class Sbuh extends ResourcePresenter
                 'label'     => 'Nama Kecamatan',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'zonasiAddEditForm' => [
                 'label' => 'Nama Zonasi',
-                'rules' => 'required|max_length[20]',
+                'rules'     => 'required|max_length[20]',
                 'errors' => [
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'pangolAddEditForm' => [
                 'label'     => 'Nama Pangkat & Golongan',
-                'rules'     => 'required|numeric|max_length[10]',
+                'rules'     => 'required|numeric|max_length[20]',
                 'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 10 Karakter',
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'jumlahUangAddEditForm' => [
@@ -417,24 +426,24 @@ class Sbuh extends ResourcePresenter
             ];
         } else {
 
-            $jenisWilayah = $this->jenis->where('id_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('id_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->first();
-            $zonasi = $this->zonasi->where('id_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('id_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->where('id_kecamatan', $this->request->getVar('kecamatanAddEditForm'))->first();
+            $jenisWilayah = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('kode_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->first();
+            $zonasi = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('kode_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->where('kode_kecamatan', $this->request->getVar('kecamatanAddEditForm'))->first();
 
 
             $data = [
-                'kode' => $this->request->getVar('kodeAddEditForm'),
-                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
-                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
-                'id_jenis_wilayah' => $jenisWilayah['id'],
-                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
-                'id_zonasi' => $zonasi['id'],
-                'id_pangol' => $this->request->getVar('pangolAddEditForm'),
-                'jumlah_uang' => $this->request->getVar('jumlahUangAddEditForm')
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'kode_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
+                'kode_kabupaten' => $this->db->escapeString($this->request->getVar('kabupatenAddEditForm')),
+                'kode_jenis_wilayah' => $this->db->escapeString($jenisWilayah['kode']),
+                'kode_kecamatan' => $this->db->escapeString($this->request->getVar('kecamatanAddEditForm')),
+                'kode_zonasi' => $this->db->escapeString($zonasi['kode']),
+                'kode_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
+                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahUangAddEditForm')),
             ];
             if ($this->sbuh->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/sbuh'));
             } else {
-                $data = array('success' => false, 'msg' => $this->sbuh->errors());
+                $data = array('success' => false, 'msg' => $this->sbuh->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
@@ -448,12 +457,12 @@ class Sbuh extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $data = $this->sbuh->where('id', $this->request->getVar('id'))->first();
 
-            $data['provinsi'] = $this->provinsi->where('id', $data['id_provinsi'])->first();
-            $data['kabupaten'] = $this->kabupaten->where('id', $data['id_kabupaten'])->first();
-            $data['jenis'] = $this->jenis->where('id', $data['id_jenis_wilayah'])->first();
-            $data['kecamatan'] = $this->kecamatan->where('id', $data['id_kecamatan'])->first();
-            $data['zonasi'] = $this->zonasi->where('id', $data['id_zonasi'])->first();
-            $data['pangol'] = $this->pangol->where('id', $data['id_pangol'])->first();
+            $data['provinsi'] = $this->provinsi->where('kode', $data['kode_provinsi'])->first();
+            $data['kabupaten'] = $this->kabupaten->where('kode', $data['kode_kabupaten'])->first();
+            $data['jenis'] = $this->jenis->where('kode', $data['kode_jenis_wilayah'])->first();
+            $data['kecamatan'] = $this->kecamatan->where('kode', $data['kode_kecamatan'])->first();
+            $data['zonasi'] = $this->zonasi->where('kode', $data['kode_zonasi'])->first();
+            $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -527,7 +536,7 @@ class Sbuh extends ResourcePresenter
             ],
             'jenisWilayahAddEditForm' => [
                 'label' => 'Nama Jenis Wilayah',
-                'rules' => 'required|max_length[20]',
+                'rules'     => 'required|max_length[20]',
                 'errors' => [
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
@@ -542,7 +551,7 @@ class Sbuh extends ResourcePresenter
             ],
             'zonasiAddEditForm' => [
                 'label' => 'Nama Zonasi',
-                'rules' => 'required|max_length[20]',
+                'rules'     => 'required|max_length[20]',
                 'errors' => [
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
@@ -585,23 +594,23 @@ class Sbuh extends ResourcePresenter
             ];
         } else {
 
-            $jenisWilayah = $this->jenis->where('id_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('id_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->first();
-            $zonasi = $this->zonasi->where('id_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('id_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->where('id_kecamatan', $this->request->getVar('kecamatanAddEditForm'))->first();
+            $jenisWilayah = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('kode_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->first();
+            $zonasi = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsiAddEditForm'))->where('kode_kabupaten', $this->request->getVar('kabupatenAddEditForm'))->where('kode_kecamatan', $this->request->getVar('kecamatanAddEditForm'))->first();
             $id = $this->request->getVar('hiddenID');
             $data = [
-                'kode' => $this->request->getVar('kodeAddEditForm'),
-                'id_provinsi' => $this->request->getVar('provinsiAddEditForm'),
-                'id_kabupaten' => $this->request->getVar('kabupatenAddEditForm'),
-                'id_jenis_wilayah' => $jenisWilayah['id'],
-                'id_kecamatan' => $this->request->getVar('kecamatanAddEditForm'),
-                'id_zonasi' => $zonasi['id'],
-                'id_pangol' => $this->request->getVar('pangolAddEditForm'),
-                'jumlah_uang' => $this->request->getVar('jumlahUangAddEditForm')
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'kode_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
+                'kode_kabupaten' => $this->db->escapeString($this->request->getVar('kabupatenAddEditForm')),
+                'kode_jenis_wilayah' => $this->db->escapeString($jenisWilayah['kode']),
+                'kode_kecamatan' => $this->db->escapeString($this->request->getVar('kecamatanAddEditForm')),
+                'kode_zonasi' => $this->db->escapeString($zonasi['kode']),
+                'kode_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
+                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahUangAddEditForm'))
             ];
             if ($this->sbuh->update($id, $data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/sbuh'));
             } else {
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->sbuh->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
