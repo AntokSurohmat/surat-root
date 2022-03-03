@@ -30,8 +30,8 @@
                     </div>
                     <!-- /.card-header -->
 
-                    <?= form_open_multipart($action = '', $attributes = array('class' => 'form-horizontal', 'id' => 'form-addedit', 'autocomplete' => 'off')) ?>
-                    <!-- <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false"> -->
+
+                    <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false" enctype="multipart/form-data">
                         <div class="card-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="methodPage" value="<?= $method ?>" />
@@ -101,12 +101,18 @@
                                             <label for="fotoForm" class="col-sm-3 col-form-label">Foto</label>
                                             <div class="col-sm-7">
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input" id="fotoForm">
-                                                    <label class="custom-file-label" name="fotoAddEditForm" for="fotoForm">Choose file</label>
+                                                    <label class="custom-file-label" for="fotoForm">Choose file</label>
+                                                    <input type="file" name="fotoAddEditForm" class="custom-file-input" id="fotoForm">
                                                     <div class="invalid-feedback fotoErrorForm"></div>
                                                 </div>
+                                            </div>
                                         </div>
-                                        </div>
+                                        <!-- <div class="form-group row">
+                                            <label class="control-label col-sm-3 col-form-label" for="profileImage">Profile Image:</label>
+                                            <div class="col-sm-7">
+                                                <input type="file" class="form-control" id="profileImage" name="profileImage">
+                                            </div>
+                                        </div> -->
                                         <div class="form-group row">
                                             <label for="usernameForm" class="col-sm-3 col-form-label">Username</label>
                                             <div class="col-sm-7">
@@ -114,9 +120,9 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">@</span>
                                                     </div>
-                                                    <input type="text" ame="usernameAddEditForm" id="usernameForm" class="form-control" placeholder="Username">
+                                                    <input type="text" name="usernameAddEditForm" id="usernameForm" class="form-control" placeholder="Username">
+                                                    <div class="invalid-feedback usernameErrorForm"></div>
                                                 </div>
-                                                <div class="invalid-feedback usernameErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -177,6 +183,9 @@
             showDropdowns: true,
             minYear: 1950,
             maxYear: parseInt(moment().format('YYYY'),10),
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
         });
         // console.log(maxYear);
 
@@ -233,7 +242,7 @@
             placeholder: '--- Cari Pangkat & Golongan ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
@@ -248,7 +257,7 @@
             console.log($(this).serialize());
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
-            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
+            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",contentType: false,processData: false,
                 beforeSend: function() {
                     $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
                 },

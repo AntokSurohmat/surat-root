@@ -13,7 +13,7 @@ class PegawaiModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
 
@@ -32,9 +32,8 @@ class PegawaiModel extends Model
         'kode_jabatan' => 'required|numeric|max_length[20]',
         'kode_pangol' => 'required|numeric|max_length[20]',
         'pelaksana' => 'required',
-        'foto'  => 'required',
         'username' => 'required|max_length[20]',
-        'password' => 'requred|max_length[20]',
+        'password' => 'required',
         'level' => 'required',
     ];
     protected $validationMessages   = [
@@ -56,9 +55,6 @@ class PegawaiModel extends Model
         'username' => [
             'max_length' => 'Maksimal 20 Karakter',
         ],
-        'password' => [
-            'max_length' => 'Maksimal 20 Karakter',
-        ]
 
     ];
     protected $skipValidation       = false;

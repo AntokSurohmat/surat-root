@@ -8,6 +8,8 @@ use App\Models\Admin\PangolModel;
 use App\Models\Admin\PegawaiModel;
 
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\Files\File;
+
 
 /**
  * @property IncomingRequest $request
@@ -62,6 +64,7 @@ class Pegawai extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->nip;
             $row[] = $key->nama;
+            $row[] = $key->foto;
             foreach ($jabatan->getResult() as $jbt ) {
 				if ($jbt->kode == $key->kode_jabatan) {
 					$row[] =  $jbt->nama_jabatan;
@@ -253,10 +256,12 @@ class Pegawai extends ResourcePresenter
                 'label' => 'Pilih Pelaksana',
                 'rules'     => 'required',
             ],
-            'fotoAddEditForm' => [
-                    'uploaded[file]',
-                    'mime_in[file,image/jpg,image/jpeg,image/gif,image/png]',
-                    'max_size[file,4096]',
+            "profileImage" => [
+                "label" => "Foto",
+                'rules' => 'uploaded[profileImage]'
+                . '|is_image[profileImage]'
+                . '|mime_in[profileImage,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
+                . '|max_size[profileImage,2048]'
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',
@@ -292,7 +297,7 @@ class Pegawai extends ResourcePresenter
                     'jabatan' => $validation->getError('jabatanAddEditForm'),
                     'pangol' => $validation->getError('pangolAddEditForm'),
                     'pelaksana' => $validation->getError('pelaksanaAddEditForm'),
-                    'foto' => $validation->getError('fotoAddEditForm'),
+                    'foto' => $validation->getError('profileImage'),
                     'username' => $validation->getError('usernameAddEditForm'),
                     'password' => $validation->getError('passwordAddEditForm'),
                     'level' => $validation->getError('levelAddEditForm'),
@@ -300,17 +305,39 @@ class Pegawai extends ResourcePresenter
             ];
         } else {
 
+            $img = $this->request->getFile('fotoAddEditForm');
+
+
+            if (! $img->hasMoved()) {
+                $filepath = 'uploads/' . $img->store();
+    
+                print_r($filepath);
+            } else {
+                $data = ['error' => 'The file has already been moved.'];
+    
+            }
+
             $data = [
                 'nip' => $this->db->escapeString($this->request->getVar('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getVar('namaAddEditForm')),
-                'lahir' => $this->db->escapeString($this->request->getVar('lahirAddEditForm')),
+                'tgl_lahir' => $this->db->escapeString($this->request->getVar('lahirAddEditForm')),
+                'kode_jabatan' => $this->db->escapeString($this->request->getVar('jabatanAddEditForm')),
+                'kode_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
+                'pelaksana' => $this->db->escapeString($this->request->getVar('pelaksanaAddEditForm')),
+                'foto' => "uploads/ .$filepath",
+                'username' => $this->db->escapeString($this->request->getVar('usernameAddEditForm')),
+                'password' => password_hash($this->request->getVar('passwordAddEditForm'), PASSWORD_BCRYPT),
+                'level' => $this->db->escapeString($this->request->getVar('levelAddEditForm')),
 
             ];
+
+            // return view('upload_success', $data);
             if ($this->pegawai->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/sbuh'));
             } else {
                 $data = array('success' => false, 'msg' => $this->pegawai->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
+
         }
 
         $data[$this->csrfToken] = $this->csrfHash;

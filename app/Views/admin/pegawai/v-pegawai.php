@@ -44,11 +44,14 @@
                         <table id="pgw_data" class="table table-bordered table-hover display wrap" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>NIP</th>
                                     <th>Nama</th>
+                                    <th>Foto</th>
+                                    <th>Jabatan</th>
                                     <th>Pangkat</th>
-                                    <th>jabatan</th>
                                     <th>Username</th>
+                                    <th>level</th>
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
@@ -99,7 +102,7 @@
                 "targets": [0],
                 "orderable": false
             }, {
-                "targets": [5],
+                "targets": [8],
                 "orderable": false,
                 "class": "text-center",
             }, ],
