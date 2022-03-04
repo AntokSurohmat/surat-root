@@ -973,7 +973,7 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Wilayah/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Wilayah/Update') ?>";}
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-wilayah').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-wilayah').prop('disabled', true);

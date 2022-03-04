@@ -33,9 +33,9 @@
 
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false" enctype="multipart/form-data">
                         <div class="card-body">
-                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="text" id="methodPage" value="<?= $method ?>" />
-                            <input type="text" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="hidden" id="methodPage" value="<?= $method ?>" />
+                            <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -101,8 +101,8 @@
                                             <label for="fotoForm" class="col-sm-3 col-form-label">Foto</label>
                                             <div class="col-sm-7">
                                                 <div class="custom-file">
-                                                    <label class="custom-file-label" for="fotoForm">Choose file</label>
                                                     <input type="file" name="fotoAddEditForm" class="custom-file-input" id="fotoForm">
+                                                    <label class="custom-file-label" for="fotoForm">Choose file</label>
                                                     <div class="invalid-feedback fotoErrorForm"></div>
                                                 </div>
                                             </div>
@@ -254,15 +254,10 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-           var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
-           var formData = new FormData(this);
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
+            } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
             // console.log($(this).serialize());
-            $.ajax({url: url_destination,
-                type: "POST",
-                cache: false,
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
+            $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
                 beforeSend: function() {
                     $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
                 },
@@ -270,6 +265,7 @@
                     $('#submit-pegawai').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-pegawai').prop('disabled', false);
                 },
                 success: function(data) {
+                    console.log(data.error);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -278,44 +274,39 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
+                            console.log(element);
+                            console.log(data.error[key].length);
                         });
-                    } else {
+                    }else {
                         if (data.success) {
-                            clearform();
-                            let timerInterval
+                            clearform();let timerInterval
                             swalWithBootstrapButtons.fire({
                                 icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
+                                html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
                                     'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                                 timer: 3500,timerProgressBar: true,
-                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
-                                cancelButtonText: 'No, cancel!',reverseButtons: true,
+                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {window.location.href = data.redirect;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                                     if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Instansi/new')?>");}
+                                    }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
                                 } else if (result.dismiss === Swal.DismissReason.timer) {
                                     window.location.href = data.redirect;
                                 }
                             })
                         } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                                var element = $('#' + key + 'Form');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            swalWithBootstrapButtons.fire({
+                                icon: 'error',
+                                title: 'Not Insert!',
+                                text: data.msg,
+                                showConfirmButton: true,
+                                timer: 4000
                             });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
-            return false;
         })
 
         function update() {

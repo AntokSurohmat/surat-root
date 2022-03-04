@@ -153,12 +153,12 @@ class Jabatan extends BaseController
             ]);
 
             if (!$valid) {
-                $data = [
-                    'error' => [
-                        'kode' => $validation->getError('kodeAddEditForm'),
-                        'jabatan' => $validation->getError('jabatanAddEditForm'),
-                    ]
-                ];
+                // $data = [
+                //     'error' => [
+                //         'kode' => $validation->getError('kodeAddEditForm'),
+                //         'jabatan' => $validation->getError('jabatanAddEditForm'),
+                //     ]
+                // ];
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
