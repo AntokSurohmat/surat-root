@@ -21,6 +21,14 @@
         <div class="row">
             <div class="col-12">
 
+                <?php if (session()->getFlashdata('error')) : ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
@@ -41,7 +49,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                        <table id="pgw_data" class="table table-bordered table-hover display wrap" style="width:100%">
+                        <table id="pgw_data" class="table table-bordered table-hover projects display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -101,6 +109,10 @@
             "columnDefs": [{
                 "targets": [0],
                 "orderable": false
+            },{
+                "targets": [3],
+                "orderable": false,
+                "class": "text-center",
             }, {
                 "targets": [8],
                 "orderable": false,
@@ -158,7 +170,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     var id = $(this).data('id');
-                    var url_destination = "<?= base_url('Admin/Sbuh/Delete') ?>";
+                    var url_destination = "<?= base_url('Admin/Pegawai/Delete') ?>";
                     $.ajax({
                         url: url_destination,
                         method: "POST",

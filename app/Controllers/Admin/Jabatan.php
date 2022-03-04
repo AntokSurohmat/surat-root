@@ -125,10 +125,12 @@ class Jabatan extends BaseController
                     'nama_jabatan' => $this->db->escapeString($this->request->getVar('jabatanAddEditForm')),
                 ];
 
+                
+
                 if ($this->jabatan->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
-                    $data = array('success' => false, 'msg' => $this->pangol->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->jabatan->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }
@@ -153,12 +155,12 @@ class Jabatan extends BaseController
             ]);
 
             if (!$valid) {
-                // $data = [
-                //     'error' => [
-                //         'kode' => $validation->getError('kodeAddEditForm'),
-                //         'jabatan' => $validation->getError('jabatanAddEditForm'),
-                //     ]
-                // ];
+                $data = [
+                    'error' => [
+                        'kode' => $validation->getError('kodeAddEditForm'),
+                        'jabatan' => $validation->getError('jabatanAddEditForm'),
+                    ]
+                ];
             } else {
                 $id = $this->request->getVar('hidden_id');
                 $data = [
@@ -169,7 +171,7 @@ class Jabatan extends BaseController
                 if ($this->jabatan->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
                 } else {
-                    $data = array('success' => false, 'msg' => $this->pangol->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->jabatan->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
             }
         }

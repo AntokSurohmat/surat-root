@@ -782,20 +782,19 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
+                    } 
+                    if (data.success==true) {
+                        $("#modal-prov").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
-                        if (data.success) {
-                            $("#modal-prov").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.msg[key]);
-                                var element = $('#' + key + 'ModalProv');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalProv');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -823,20 +822,19 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
+                    } 
+                    if (data.success==true) {
+                        $("#modal-kab").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
-                        if (data.success) {
-                            $("#modal-kab").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'ModalKab').addClass('is-invalid');$("." + key + "ErrorModalKab").html(data.msg[key]);
-                                var element = $('#' + key + 'ModalKab');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'ModalKab').addClass('is-invalid');$("." + key + "ErrorModalKab").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalKab');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -864,20 +862,19 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
+                    }
+                    if (data.success==true) {
+                        $("#modal-kec").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
-                        if (data.success) {
-                            $("#modal-kec").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'ModalKec').addClass('is-invalid');$("." + key + "ErrorModalKec").html(data.msg[key]);
-                                var element = $('#' + key + 'ModalKec');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'ModalKec').addClass('is-invalid');$("." + key + "ErrorModalKec").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalKec');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -906,20 +903,19 @@
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                             // console.log(element);
                         });
+                    }
+                    if (data.success==true) {
+                        $("#modal-jenis").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
-                        if (data.success) {
-                            $("#modal-jenis").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.msg[key]);
-                                var element = $('#' + key + 'ModalJenis');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalJenis');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -948,20 +944,19 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');;
                         });
+                    }
+                    if (data.success==true) {
+                        $("#modal-zona").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
-                        if (data.success) {
-                            $("#modal-zona").modal('hide');
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'ModalZona').addClass('is-invalid');$("." + key + "ErrorModalZona").html(data.msg[key]);
-                                var element = $('#' + key + 'ModalZona');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'ModalZona').addClass('is-invalid');$("." + key + "ErrorModalZona").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalZona');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -993,34 +988,33 @@
                             // console.log(element);
                             // console.log(data.error[key].length);
                         });
+                    }
+                    if (data.success==true) {
+                        clearform();let timerInterval
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
+                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {window.location.href = data.redirect;
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                }else{window.location.replace("<?= base_url('Admin/Wilayah/new')?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = data.redirect;
+                            }
+                        })
                     } else {
-                        if (data.success) {
-                            clearform();let timerInterval
-                            swalWithBootstrapButtons.fire({
-                                icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
-                                    'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                                timer: 3500,timerProgressBar: true,
-                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
-                            }).then((result) => {
-                                if (result.isConfirmed) {window.location.href = data.redirect;
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Wilayah/new')?>");}
-                                } else if (result.dismiss === Swal.DismissReason.timer) {
-                                    window.location.href = data.redirect;
-                                }
-                            })
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                                var element = $('#' + key + 'Form');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

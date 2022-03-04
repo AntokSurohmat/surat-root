@@ -208,36 +208,35 @@
                             // console.log(element);
                             // console.log(data.error[key].length);
                         });
+                    } 
+                    if (data.success==true) {
+                        clearform();
+                        let timerInterval
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
+                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                            cancelButtonText: 'No, cancel!',reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {window.location.href = data.redirect;
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                }else{window.location.replace("<?= base_url('Admin/Instansi/new')?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = data.redirect;
+                            }
+                        })
                     } else {
-                        if (data.success) {
-                            clearform();
-                            let timerInterval
-                            swalWithBootstrapButtons.fire({
-                                icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
-                                    'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                                timer: 3500,timerProgressBar: true,
-                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
-                                cancelButtonText: 'No, cancel!',reverseButtons: true,
-                            }).then((result) => {
-                                if (result.isConfirmed) {window.location.href = data.redirect;
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Instansi/new')?>");}
-                                } else if (result.dismiss === Swal.DismissReason.timer) {
-                                    window.location.href = data.redirect;
-                                }
-                            })
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                                var element = $('#' + key + 'Form');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

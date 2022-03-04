@@ -107,12 +107,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="form-group row">
-                                            <label class="control-label col-sm-3 col-form-label" for="profileImage">Profile Image:</label>
-                                            <div class="col-sm-7">
-                                                <input type="file" class="form-control" id="profileImage" name="profileImage">
-                                            </div>
-                                        </div> -->
                                         <div class="form-group row">
                                             <label for="usernameForm" class="col-sm-3 col-form-label">Username</label>
                                             <div class="col-sm-7">
@@ -128,14 +122,13 @@
                                         <div class="form-group row">
                                             <label for="passwordForm" class="col-sm-3 col-form-label">Password</label>
                                             <div class="col-sm-7">
-                                                <div class="input-group">
-                                                    <input type="text" name="passwordAddEditForm" id="passwordForm" class="form-control" placeholder="Masukkan Password">
-                                                    <div class="invalid-feedback passwordErrorForm"></div>
-                                                </div>
+                                                <input type="text" name="passwordAddEditForm" id="passwordForm" aria-describedby="passwordHelp" class="form-control" placeholder="Masukkan Password">
+                                                <small id="passwordHelp" class="form-text text-muted"></small>
+                                                <div class="invalid-feedback passwordErrorForm"></div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="levelForm" class="col-sm-3 col-form-label">pangkat & Golongan</label>
+                                            <label for="levelForm" class="col-sm-3 col-form-label">Level</label>
                                             <div class="col-sm-7">
                                                 <select name="levelAddEditForm" id="levelForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Level Access ---</option>
@@ -265,7 +258,7 @@
                     $('#submit-pegawai').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-pegawai').prop('disabled', false);
                 },
                 success: function(data) {
-                    console.log(data.error);
+                    // console.log(data.error);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -274,38 +267,56 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            console.log(element);
-                            console.log(data.error[key].length);
+                            // console.log(element);
+                            // console.log(data.error[key].length);
                         });
-                    }else {
-                        if (data.success) {
-                            clearform();let timerInterval
-                            swalWithBootstrapButtons.fire({
-                                icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
-                                    'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                                timer: 3500,timerProgressBar: true,
-                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
-                            }).then((result) => {
-                                if (result.isConfirmed) {window.location.href = data.redirect;
-                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
-                                } else if (result.dismiss === Swal.DismissReason.timer) {
-                                    window.location.href = data.redirect;
-                                }
-                            })
-                        } else {
-                            swalWithBootstrapButtons.fire({
-                                icon: 'error',
-                                title: 'Not Insert!',
-                                text: data.msg,
-                                showConfirmButton: true,
-                                timer: 4000
-                            });
+                    }
+                    if (data.success==true) {
+                        clearform();let timerInterval
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
+                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {window.location.href = data.redirect;
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = data.redirect;
+                            }
+                        })
+                    } else {
+                        // swalWithBootstrapButtons.fire({
+                        //     icon: 'error',
+                        //     title: 'Not Insert!',
+                        //     text: data.msg,
+                        //     showConfirmButton: true,
+                        //     timer: 4000
+                        // });
+                        // console.log(data.msg);
+                        Object.keys(data.msg).forEach((key, index) => {
+                            var remove = key.replace("kode_", "");
+                            var remove = key.replace("tgl_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log("#"+remove+"Form");
+                            // console.log(index);
+                        });
+                        if(data.msg != ""){
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
             });
         })
 
@@ -316,19 +327,23 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
+                        // console.log(data);
                         $('#submit-pegawai').removeClass("btn-success");
                         $('#submit-pegawai').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#nipForm').val(data.nip);
                         $('#namaForm').val(data.nama);
-                        $('#lahirForm').val(lahir.nama);
+                        $('#lahirForm').val(data.tgl_lahir);
                         $("#jabatanForm").append($("<option selected='selected'></option>")
                         .val(data.jabatan.kode).text(data.jabatan.nama_jabatan)).trigger('change');
                         $("#pangolForm").append($("<option selected='selected'></option>")
                         .val(data.pangol.kode).text(data.pangol.nama_pangol)).trigger('change');
-                        // $("#pelaksanaForm").append($("<option selected='selected'></option>")
-                        // .val(data.pelaksana.kode).text(data.pelaksana.nama_pelaksana)).trigger('change');
-                        $("#usernamForm").val(data.username);
+                        $("#pelaksanaForm").append($("<option selected='selected'></option>")
+                        .val(data.pelaksana).text(data.pelaksana)).trigger('change');
+                        $("#usernameForm").val(data.username);
+                        $("#passwordHelp").html("Kosongkan Jika Tidak Ingin mengganti Password");
+                        $("#levelForm").append($("<option selected='selected'></option>")
+                        .val(data.level).text(data.level)).trigger('change');
                         $('#submit-pegawai').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })

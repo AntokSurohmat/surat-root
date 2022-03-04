@@ -44,6 +44,7 @@ class Pegawai extends Migration
             'foto'              => [
                 'type'              => 'VARCHAR',
 				'constraint'        => '255',
+                'default'           => 'custom/img/foto/default.png',
             ],
             'username'          => [
                 'type'              => 'VARCHAR',

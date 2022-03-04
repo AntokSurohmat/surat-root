@@ -31,11 +31,11 @@ class JabatanModel extends Model
     ];
     protected $validationMessages   = [
         'kode'        => [
-			'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter',
+			'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter',
         ],
 		'nama_jabatan'        => [
-            'max_length' => 'Maksimal 20 Karakter',
+            'max_length' => '{field} Maksimal 20 Karakter',
         ],
     ];
     protected $skipValidation       = false;

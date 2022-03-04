@@ -329,27 +329,31 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
+                    }
+                    if (data.success == true) {
+                        $("#modal-newitem").modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil..',
+                            text: data.msg,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#jbtan_data').DataTable().ajax.reload(null, false);
                     } else {
-                        if (data.success) {
-                            $("#modal-newitem").modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil..',
-                                text: data.msg,
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                            $('#jbtan_data').DataTable().ajax.reload(null, false);
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
-                                var element = $('#' + key + 'Form');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        // console.log(data.msg);
+                        Object.keys(data.msg).forEach((key, index) => {
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log("#"+remove+"Form");
+                            // console.log(index);
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

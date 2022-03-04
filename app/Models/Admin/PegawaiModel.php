@@ -12,7 +12,7 @@ class PegawaiModel extends Model
     protected $useAutoIncrement = true;
 
     // protected $insertID         = 0;
-    protected $returnType       = 'object';
+    protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
@@ -38,27 +38,23 @@ class PegawaiModel extends Model
     ];
     protected $validationMessages   = [
         'nip' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 25 Karakter'
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 25 Karakter'
         ],
         'nama' => [
-            'max_length' => 'Maksimal 50 Karakter',
+            'max_length' => '{field} Maksimal 50 Karakter',
         ],
         'kode_jabatan' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
         ],
         'kode_pangol' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter'
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
         ],
         'username' => [
-            'max_length' => 'Maksimal 20 Karakter',
+            'max_length' => '{field} Maksimal 20 Karakter',
         ],
-        'password' => [
-            'max_length' => 'Minimal 3 Karakter',
-        ],
-
     ];
     protected $skipValidation       = false;
     // protected $cleanValidationRules = true;

@@ -325,27 +325,26 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
+                    } 
+                    if (data.success==true) {
+                        $("#modal-newitem").modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil..',
+                            text: data.msg,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                        $('#pangol_data').DataTable().ajax.reload(null, false);
                     } else {
-                        if (data.success) {
-                            $("#modal-newitem").modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil..',
-                                text: data.msg,
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-                            $('#pangol_data').DataTable().ajax.reload(null, false);
-                        } else {
-                            Object.keys(data.msg).forEach((key, index) => {
-                                $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
-                                var element = $('#' + key + 'Form');
-                                element.closest('.form-control')
-                                element.closest('.select2-hidden-accessible') //access select2 class
-                                element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            });
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
-                        }
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {

@@ -64,7 +64,7 @@ class Pegawai extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->nip;
             $row[] = $key->nama;
-            $row[] = $key->foto;
+            $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/custom/img/foto/'.$key->foto).'">';
             foreach ($jabatan->getResult() as $jbt ) {
 				if ($jbt->kode == $key->kode_jabatan) {
 					$row[] =  $jbt->nama_jabatan;
@@ -78,7 +78,7 @@ class Pegawai extends ResourcePresenter
             $row[] = $key->username;
             $row[] = $key->level;
             $row[] = '
-            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Instansi/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Pegawai/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
@@ -234,7 +234,7 @@ class Pegawai extends ResourcePresenter
             ],
             'lahirAddEditForm' => [
                 'label'     => 'Tanggal lahir',
-                'rules'     => 'required|',
+                'rules'     => 'required',
             ],
             'jabatanAddEditForm' => [
                 'label' => 'Nama Jabatan',
@@ -259,7 +259,7 @@ class Pegawai extends ResourcePresenter
             "fotoAddEditForm" => [
                 'rules' => 'uploaded[fotoAddEditForm]|mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
 				'errors' => [
-					'uploaded' => 'Harus Ada File yang diupload',
+                    'uploaded' => 'Harus Ada File Foto',
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
                 ],
@@ -302,55 +302,58 @@ class Pegawai extends ResourcePresenter
                     'username' => $validation->getError('usernameAddEditForm'),
                     'password' => $validation->getError('passwordAddEditForm'),
                     'level' => $validation->getError('levelAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
-            $dataBerkas = $this->request->getFile('fotoAddEditForm');
-            $fileName = $this->request->getPost('nipAddEditForm');
-            if(!$dataBerkas->move('custom/img/foto/', $fileName)){
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam Upload data');
-            }else{
-                
-                $data = [
-                    'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
-                    'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                    'tgl_lahir' => $this->db->escapeString($this->request->getPost('lahirAddEditForm')),
-                    'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
-                    'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
-                    'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
-                    'foto' => " custom/img/foto/ $fileName",
-                    'username' => $this->db->escapeString($this->request->getPost('usernameAddEditForm')),
-                    'password' => password_hash($this->request->getPost('passwordAddEditForm'), PASSWORD_BCRYPT),
-                    'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
-    
-                ];
-    
-                // return view('upload_success', $data);
-                if ($this->pegawai->insert($data)) {
-                    $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/pegawai'));
-                } else {
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            if(!empty($this->request->getFile('fotoAddEditForm'))){
+                $dataBerkas = $this->request->getFile('fotoAddEditForm');
+                $fileName = $dataBerkas->getRandomName();
+                if(!$dataBerkas->move('custom/img/foto/', $fileName)){
+                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam Upload data');
+                    $foto = 'default.png';
+                }else{
+                    $foto = $fileName;
                 }
-
             }
 
-            // d($dataBerkas);print_r($dataBerkas);die();
+            $data = [
+                'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
+                'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
+                'tgl_lahir' => $this->db->escapeString($this->request->getPost('lahirAddEditForm')),
+                'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
+                'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
+                'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
+                'foto' => $foto,
+                'username' => $this->db->escapeString($this->request->getPost('usernameAddEditForm')),
+                'password' => password_hash($this->request->getPost('passwordAddEditForm'), PASSWORD_BCRYPT),
+                'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
 
-
-
+            ];
+            if ($this->pegawai->insert($data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/pegawai'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->pegawai->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
         }
-
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($this->response->setJSON($data));
-        // d (json_encode($data));
-        // d($this->response->setJSON($this->pegawai->errors()));
-        // // print_r($this->response->setJSON($data));die();
-        // // print_r(json_encode($data));die();
-        // print_r( $this->response->setJSON($this->pegawai->errors()));die();
-
         return $this->response->setJSON($data);
-        // echo json_encode($data);
+    }
+
+    function single_data()
+    {
+
+        if ($this->request->getVar('id')) {
+            $data = $this->pegawai->where('id', $this->request->getVar('id'))->first();
+
+            $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
+            $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
     }
 
     /**
@@ -362,7 +365,19 @@ class Pegawai extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        //
+        if (!$id) {
+            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
+        $data = array(
+            'title' => 'Edit Pegawai',
+            'parent' => 2,
+            'pmenu' => 2.1,
+            'method' => 'Update',
+            'hiddenID' => $id,
+        );
+        return view('admin/pegawai/v-pegawaiAddEdit', $data);
     }
 
     /**
@@ -375,7 +390,129 @@ class Pegawai extends ResourcePresenter
      */
     public function update($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'nipAddEditForm' => [
+                'label'     => 'Nomer NIP',
+                'rules'     => 'required|numeric|max_length[25]',
+                'errors' => [
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 25 Karakter',
+                ],
+            ],
+            'namaAddEditForm' => [
+                'label'     => 'Nama Lengkap',
+                'rules'     => 'required|max_length[50]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 50 Karakter',
+                ],
+            ],
+            'lahirAddEditForm' => [
+                'label'     => 'Tanggal lahir',
+                'rules'     => 'required',
+            ],
+            'jabatanAddEditForm' => [
+                'label' => 'Nama Jabatan',
+                'rules'  => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ],
+            ],
+            'pangolAddEditForm' => [
+                'label'     => 'Nama Pangkat & Golongan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ],
+            ],
+            'pelaksanaAddEditForm' => [
+                'label' => 'Pilih Pelaksana',
+                'rules'     => 'required',
+            ],
+            "fotoAddEditForm" => [
+                'rules' => 'mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
+            'usernameAddEditForm' => [
+                'label'     => 'Username',
+                'rules'     => 'required|max_length[20]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ],
+            ],
+            'levelAddEditForm' => [
+                'label' => 'Pilih Level Access',
+                'rules'     => 'required',
+            ],
+        ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'nip' => $validation->getError('nipAddEditForm'),
+                    'nama' => $validation->getError('namaAddEditForm'),
+                    'lahir' => $validation->getError('lahirAddEditForm'),
+                    'jabatan' => $validation->getError('jabatanAddEditForm'),
+                    'pangol' => $validation->getError('pangolAddEditForm'),
+                    'pelaksana' => $validation->getError('pelaksanaAddEditForm'),
+                    'foto' => $validation->getError('fotoAddEditForm'),
+                    'username' => $validation->getError('usernameAddEditForm'),
+                    'password' => $validation->getError('passwordAddEditForm'),
+                    'level' => $validation->getError('levelAddEditForm'),
+                ]
+            ];
+        } else {
+
+            if(!empty($this->request->getFile('fotoAddEditForm'))){
+                $dataBerkas = $this->request->getFile('fotoAddEditForm');
+                $fileName = $dataBerkas->getRandomName();
+                if(!$dataBerkas->move('custom/img/foto/', $fileName)){
+                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam Upload data');
+                    $foto = 'default.png';
+                }else{
+                    $foto = $fileName;
+                }
+            }
+
+            $data = [
+                'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
+                'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
+                'tgl_lahir' => $this->db->escapeString($this->request->getPost('lahirAddEditForm')),
+                'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
+                'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
+                'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
+                'foto' => $foto,
+                'username' => $this->db->escapeString($this->request->getPost('usernameAddEditForm')),
+                'password' => password_hash($this->request->getPost('passwordAddEditForm'), PASSWORD_BCRYPT),
+                'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
+
+            ];
+            $id = $this->request->getVar('hiddenID');
+            if ($this->pegawai->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/pegawai'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->pegawai->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**
@@ -399,6 +536,21 @@ class Pegawai extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')) {
+            $id = $this->request->getVar('id');
+
+            if ($this->pegawai->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }
