@@ -86,9 +86,9 @@ class RekeningModel extends Model
 		$builder = $this->db->table('rekening');
 		$query = $builder->select('rekening.*')
                 ->select('jenis_wilayah.kode', 'jenis_wilayah.jenis_wilayah')
-                ->join('jenis_wilayah', 'jenis_wilayah.kode = rekening.kode_jenis_wilayah')
-				->where($attr_order)
+                ->join('jenis_wilayah', 'jenis_wilayah.kode = rekening.kode_jenis_wilayah', 'left')
 				->where('rekening.deleted_at', NULL)
+				->where($attr_order)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -107,7 +107,7 @@ class RekeningModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%') AND etbl_rekening.deleted_at IS NULL";
+			$attr_order = " AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%' ) AND etbl_rekening.deleted_at IS NULL";
 		} else {
 			$attr_order = " AND etbl_rekening.deleted_at IS NULL";
 		}

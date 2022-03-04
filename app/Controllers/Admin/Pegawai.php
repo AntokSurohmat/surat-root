@@ -256,12 +256,14 @@ class Pegawai extends ResourcePresenter
                 'label' => 'Pilih Pelaksana',
                 'rules'     => 'required',
             ],
-            "profileImage" => [
-                "label" => "Foto",
-                'rules' => 'uploaded[profileImage]'
-                . '|is_image[profileImage]'
-                . '|mime_in[profileImage,image/jpg,image/jpeg,image/gif,image/png,image/webp]'
-                . '|max_size[profileImage,2048]'
+            "fotoAddEditForm" => [
+                'rules' => 'uploaded[fotoAddEditForm]|mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
+				'errors' => [
+					'uploaded' => 'Harus Ada File yang diupload',
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+
+                ]
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',
@@ -283,6 +285,9 @@ class Pegawai extends ResourcePresenter
             ],
         ]);
 
+        // // d($this->request->getEnv());print_r($this->request->getEnv());
+        // d($this->request->getFile('fotoAddEditForm'));print_r($this->request->getFile('fotoAddEditForm'));die();
+
         if (!$valid) {
             /**
              *'kode' => $validation->getError('kodeAddEdit'),
@@ -297,7 +302,7 @@ class Pegawai extends ResourcePresenter
                     'jabatan' => $validation->getError('jabatanAddEditForm'),
                     'pangol' => $validation->getError('pangolAddEditForm'),
                     'pelaksana' => $validation->getError('pelaksanaAddEditForm'),
-                    'foto' => $validation->getError('profileImage'),
+                    'foto' => $validation->getError('fotoAddEditForm'),
                     'username' => $validation->getError('usernameAddEditForm'),
                     'password' => $validation->getError('passwordAddEditForm'),
                     'level' => $validation->getError('levelAddEditForm'),
@@ -305,17 +310,11 @@ class Pegawai extends ResourcePresenter
             ];
         } else {
 
-            $img = $this->request->getFile('fotoAddEditForm');
+            $dataBerkas = $this->request->getFile('fotoAddEditForm');
+            $fileName = $dataBerkas->getRandomName();
+            $dataBerkas->move('public/foto/', $fileName);
 
-
-            if (! $img->hasMoved()) {
-                $filepath = 'uploads/' . $img->store();
-    
-                print_r($filepath);
-            } else {
-                $data = ['error' => 'The file has already been moved.'];
-    
-            }
+            d($dataBerkas);print_r($dataBerkas);die();
 
             $data = [
                 'nip' => $this->db->escapeString($this->request->getVar('nipAddEditForm')),
@@ -324,7 +323,7 @@ class Pegawai extends ResourcePresenter
                 'kode_jabatan' => $this->db->escapeString($this->request->getVar('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getVar('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getVar('pelaksanaAddEditForm')),
-                'foto' => "uploads/ .$filepath",
+                'foto' => $fileName,
                 'username' => $this->db->escapeString($this->request->getVar('usernameAddEditForm')),
                 'password' => password_hash($this->request->getVar('passwordAddEditForm'), PASSWORD_BCRYPT),
                 'level' => $this->db->escapeString($this->request->getVar('levelAddEditForm')),

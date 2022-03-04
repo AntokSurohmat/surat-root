@@ -87,7 +87,7 @@ class SbuhModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "sbuh.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%'  OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%'";
+			$attr_order = "sbuh.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%'";
 		} else {
 			$attr_order = "sbuh.id != ''";
 		}
@@ -139,7 +139,7 @@ class SbuhModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (sbuh.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (etbl_sbuh.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%') AND etbl_sbuh.deleted_at IS NULL";
 		} else {
 			$attr_order = " AND etbl_sbuh.deleted_at IS NULL";
 		}

@@ -12,7 +12,7 @@ class PegawaiModel extends Model
     protected $useAutoIncrement = true;
 
     // protected $insertID         = 0;
-    protected $returnType       = 'array';
+    // protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
@@ -57,7 +57,7 @@ class PegawaiModel extends Model
         ],
 
     ];
-    protected $skipValidation       = false;
+    protected $skipValidation       = true;
     // protected $cleanValidationRules = true;
 
     // Callbacks

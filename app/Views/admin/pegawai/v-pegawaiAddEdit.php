@@ -33,9 +33,9 @@
 
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false" enctype="multipart/form-data">
                         <div class="card-body">
-                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="hidden" id="methodPage" value="<?= $method ?>" />
-                            <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
+                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="text" id="methodPage" value="<?= $method ?>" />
+                            <input type="text" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -254,10 +254,15 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            console.log($(this).serialize());
-            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
-            } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
-            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",contentType: false,processData: false,
+           var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
+           var formData = new FormData(this);
+            // console.log($(this).serialize());
+            $.ajax({url: url_destination,
+                type: "POST",
+                cache: false,
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
                 beforeSend: function() {
                     $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
                 },
@@ -278,18 +283,20 @@
                         });
                     } else {
                         if (data.success) {
-                            clearform();let timerInterval
+                            clearform();
+                            let timerInterval
                             swalWithBootstrapButtons.fire({
                                 icon: 'success',title: 'Berhasil Memasukkan Data',
-                                html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
+                                html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
                                     'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                                 timer: 3500,timerProgressBar: true,
-                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                                showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                                cancelButtonText: 'No, cancel!',reverseButtons: true,
                             }).then((result) => {
                                 if (result.isConfirmed) {window.location.href = data.redirect;
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                                     if ($('#methodPage').val() === 'New') {location.reload();
-                                    }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
+                                    }else{window.location.replace("<?= base_url('Admin/Instansi/new')?>");}
                                 } else if (result.dismiss === Swal.DismissReason.timer) {
                                     window.location.href = data.redirect;
                                 }
@@ -305,7 +312,8 @@
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
-                },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })
