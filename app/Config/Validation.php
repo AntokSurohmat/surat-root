@@ -9,7 +9,7 @@ use CodeIgniter\Validation\Rules;
 /**
  * Add by Me
  */
-use App\Validation\Userrules;
+use App\Validation\Authrules;
 
 class Validation
 {
@@ -31,7 +31,7 @@ class Validation
         /**
          * Add by Me
          */
-        Userrules::class, // here we have registered
+        Authrules::class, // here we have registered
     ];
 
     /**

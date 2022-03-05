@@ -8,12 +8,11 @@ use App\Models\Admin\PangolModel;
 use App\Models\Admin\PegawaiModel;
 
 use CodeIgniter\HTTP\IncomingRequest;
-use CodeIgniter\Files\File;
 
 
 /**
  * @property IncomingRequest $request
- */
+*/
 
 
 class Pegawai extends ResourcePresenter
@@ -474,7 +473,8 @@ class Pegawai extends ResourcePresenter
                     'username' => $validation->getError('usernameAddEditForm'),
                     'password' => $validation->getError('passwordAddEditForm'),
                     'level' => $validation->getError('levelAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -510,7 +510,7 @@ class Pegawai extends ResourcePresenter
             }
 
         }
-
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($data);
     }

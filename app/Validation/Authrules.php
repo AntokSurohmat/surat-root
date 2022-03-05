@@ -11,7 +11,7 @@ class Authrules
     //     return true;
     // }
 
-    public function validateUser(string $str, string $fields, array $data)
+    public function validateLogin(string $str, string $fields, array $data)
     {
         $model = new PegawaiModel();
         $user = $model->where('username', $data['username'])

@@ -4,6 +4,13 @@ namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
 use App\Models\Admin\PegawaiModel;
+use CodeIgniter\HTTP\IncomingRequest;
+
+
+/**
+ * @property IncomingRequest $request
+*/
+
 
 class Auth extends BaseController
 {
@@ -23,59 +30,82 @@ class Auth extends BaseController
 
     public function login()
     {
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
         $data = [];
+        $validation = \Config\Services::validation();
 
-        if ($this->request->getMethod() == 'post') {
-
-            $rules = [
-                'username' => 'required|min_length[3]|max_length[50]|',
-                'password' => 'required|min_length[8]|max_length[255]|validateUser[username,password]',
-            ];
-
-            $errors = [
-                'password' => [
-                    'validateUser' => "Some Thing Wrong",
+        $valid = $this->validate([
+            'username' => [
+                'label'     => 'Username',
+                'rules'     => 'required|max_length[20]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 20 Karakter',
                 ],
+            ],
+            'password' => [
+                'label'     => 'Password',
+                'rules'     => 'required|max_length[255]|validateLogin[username,password]',
+                'errors' => [
+                    'max_length' => '{field} Maksimal 255 Karakter',
+                    'validateLogin' => 'Username Or Passoword Not Match,Please try Again.',
+                ],
+            ],
+        ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'username' => $validation->getError('username'),
+                    'password' => $validation->getError('password'),
+                ],
+                'msg' => 'Username Or Passoword Not Match,Please try Again.',
             ];
+        } else {
+            // $data = "";
+            $user =  $this->pegawai->where('username', $this->request->getVar('username'))->first();
+            // d($user);print_R($user);
+            // Stroing session values
+            $this->setUserSession($user);
 
-            if (!$this->validate($rules, $errors)) {
+            // Redirecting to dashboard after login
+            if($user['level'] == "Admin"){
+                $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('admin'));
 
-                return view('auth', [
-                    "validation" => $this->validator,
-                ]);
-
-            } else {
-
-                $user =  $this->pegawai->where('username', $this->request->getVar('username'))
-                    ->first();
-
-                // Stroing session values
-                $this->setUserSession($user);
-
-
-                // Redirecting to dashboard after login
-                if($user['role'] == "admin"){
-
-                    return redirect()->to(base_url('admin'));
-
-                }elseif($user['role'] == "editor"){
-
-                    return redirect()->to(base_url('editor'));
-                }
+            }elseif($user['level'] == "Kepala"){
+                $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('kepala'));
+            }
+            elseif($user['level'] == "Bendahara"){
+                $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('bendahara'));
+            }
+            elseif($user['level'] == "Pegawai"){
+                $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('pegawai'));
             }
         }
-        return view('login');
+        // d($data);print_R($data);die();
+        $data['msg'] = $data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        // return $this->response->setJSON($data);
+        return $this->response->setJSON($data);
+        // d($this->response->setJSON($data));print_R($this->response->setJSON($data));die();
+        // echo json_encode($data);
+
     }
 
     private function setUserSession($user)
     {
         $data = [
             'id' => $user['id'],
-            'name' => $user['name'],
-            'phone_no' => $user['phone_no'],
-            'email' => $user['email'],
+            'username' => $user['username'],
             'isLoggedIn' => true,
-            "role" => $user['role'],
+            "level" => $user['level'],
         ];
 
         session()->set($data);
