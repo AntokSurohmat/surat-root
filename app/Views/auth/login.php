@@ -78,7 +78,7 @@
             event.preventDefault();
             var url_destination = "<?= base_url('Auth/Auth/Login') ?>";
             console.log($(this).serialize());
-            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),
+            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),processData:false,dataType: "JSON",cache:false,async:false,
                 beforeSend: function() {
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn').prop('disabled', true);
                 },

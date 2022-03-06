@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('auth', 'Auth\Auth::index');
+$routes->get('auth/logout', 'Auth\Auth::logout');
 $routes->group('admin', function ($routes) {
     $routes->get('', 'Admin\Dashboard::index');
     $routes->presenter('Pegawai', ['except' => 'show,remove']);

@@ -34,7 +34,7 @@ class Auth extends BaseController
             exit('No direct script is allowed');
         }
 
-        $data = [];
+        // $data = [];
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
@@ -54,6 +54,8 @@ class Auth extends BaseController
                 ],
             ],
         ]);
+
+
 
         if (!$valid) {
             /**
@@ -109,12 +111,13 @@ class Auth extends BaseController
         ];
 
         session()->set($data);
+        // d($data);print_r($data);die();
         return true;
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('login');
+        return redirect()->to('auth');
     }
 }

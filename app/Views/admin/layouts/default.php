@@ -85,7 +85,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> Close&ensp;<i class="fas fa-times"></i></button>
-                        <a class="btn btn-sm btn-danger" tabindex="1" href="#">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
+                        <a class="btn btn-sm btn-danger" tabindex="1" href="<?= base_url('auth/logout') ;?>">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
                     </div>
                 </div>
                 <!-- /.modal-content -->

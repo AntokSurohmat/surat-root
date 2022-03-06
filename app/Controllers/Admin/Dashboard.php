@@ -6,7 +6,13 @@ use App\Controllers\BaseController;
 
 class Dashboard extends BaseController
 {
-
+    public function __construct()
+    {
+        if (session()->get('level') != "Admin") {
+            echo 'Access denied';
+            exit;
+        }
+    }
     public function index()
     {
 
