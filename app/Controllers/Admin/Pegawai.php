@@ -150,7 +150,7 @@ class Pegawai extends ResourcePresenter
             // print_r($provinsilist);
             // die();
         } else {
-            $pangollist = $this->jabatan->select('kode,nama_pangol') // Fetch record
+            $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
                 ->where('deleted_at', NULL)
                 ->like('nama_pangol', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_pangol')
@@ -320,7 +320,7 @@ class Pegawai extends ResourcePresenter
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                'tgl_lahir' => $this->db->escapeString($this->request->getPost('lahirAddEditForm')),
+                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm')))),
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
@@ -492,7 +492,7 @@ class Pegawai extends ResourcePresenter
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                'tgl_lahir' => $this->db->escapeString($this->request->getPost('lahirAddEditForm')),
+                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm')))),
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),

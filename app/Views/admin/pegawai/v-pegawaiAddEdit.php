@@ -65,7 +65,7 @@
                                                 <div class="invalid-feedback lahirErrorForm"></div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group row">
                                             <label for="jabatanForm" class="col-sm-3 col-form-label">Jabatan</label>
                                             <div class="col-sm-7">
@@ -165,32 +165,16 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
-
-        $("#pelaksanaForm").select2({theme: 'bootstrap4'})
-        $("#levelForm").select2({theme: 'bootstrap4'})
-        bsCustomFileInput.init();
-
-        $('input[name="lahirAddEditForm"]').daterangepicker({
-            autoApply: true,
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 1950,
-            maxYear: parseInt(moment().format('YYYY'),10),
-            locale: {
-                format: 'YYYY-MM-DD'
-            }
-        });
-        // console.log(maxYear);
-
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
         $('#nipForm').keydown(function(event){if(event.keyCode == 13){$('#namaForm').focus();}});
         $('#namaForm').keydown(function(event){if(event.keyCode == 13){$('#lahirForm').focus();}});
         $('#lahirForm').keydown(function(event){if(event.keyCode == 13){$('#jabatanForm').select2('open');}});
+
         $('#jabatanForm').on('select2:select', function(e) {$('#pangolForm').select2('open');});
         $('#pangolForm').on('select2:select', function(e) {$('#pelaksanaForm').select2('open');});
-        $('#pelaksanaForm').on('select2:select', function(e) {if (event.keyCode == 13) {$('#fotoForm').focus();}});
+        $('#pelaksanaForm').on('select2:select', function(e) {$('#fotoForm').focus();});
         $('#fotoForm').keydown(function(event){if(event.keyCode == 13){$('#usernameForm').focus();}});
         $('#usernameForm').keydown(function(event){if(event.keyCode == 13){$('#passwordForm').focus();}});
         $('#passwordForm').keydown(function(event) {if (event.keyCode == 13) {$('#levelForm').select2('open');}});
@@ -212,6 +196,13 @@
             $("#levelForm").empty();$("#levelForm").removeClass('is-valid');$("#levelForm").removeClass('is-invalid');
         }
 
+        $("#pelaksanaForm").select2({theme: 'bootstrap4'});$("#levelForm").select2({theme: 'bootstrap4'});bsCustomFileInput.init();
+        $('input[name="lahirAddEditForm"]').daterangepicker({
+            autoApply: true,singleDatePicker: true,
+            showDropdowns: true,locale: {format: 'DD/MM/YYYY',},
+            "alwaysShowCalendars": true,
+        });
+
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Pegawai/getjabatan') ?>';
         $("#jabatanForm").select2({
@@ -228,8 +219,8 @@
                 cache: true
             }
         });
-        var url_destination = '<?= base_url('Admin/Pegawai/getPangol') ?>';
         // Initialize select2
+        var url_destination = '<?= base_url('Admin/Pegawai/getPangol') ?>';
         $("#pangolForm").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Pangkat & Golongan ---',
@@ -242,7 +233,7 @@
                     return {results: response.data};
                 },
                 cache: true
-            }   
+            }
         })
 
         $('#form-addedit').on('submit', function(event) {

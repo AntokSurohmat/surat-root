@@ -43,7 +43,7 @@ $routes->group('admin', function ($routes) {
     $routes->presenter('Instansi', ['except' => 'show,remove']);
     $routes->presenter('Sbuh', ['except' => 'show,remove']);
     $routes->get('rekening', 'Admin\Rekening::index');
-    $routes->get('spt', 'Admin\Spt::index');
+    $routes->presenter('Spt', ['except' => 'show,remove']);
     $routes->get('spd', 'Admin\Spd::index');
     $routes->get('lapspt', 'Admin\Lapspt::index');
     $routes->get('lapspd', 'Admin\Lapspd::index');

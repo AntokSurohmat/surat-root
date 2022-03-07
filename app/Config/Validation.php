@@ -10,6 +10,7 @@ use CodeIgniter\Validation\Rules;
  * Add by Me
  */
 use App\Validation\Authrules;
+use App\Validation\MultiSelectRules;
 
 class Validation
 {
@@ -32,6 +33,7 @@ class Validation
          * Add by Me
          */
         Authrules::class, // here we have registered
+        MultiSelectRules::class, // here we have registered
     ];
 
     /**
