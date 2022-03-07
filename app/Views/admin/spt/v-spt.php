@@ -157,6 +157,32 @@
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
 
+        $(document).on('click', '.view', function() {
+            var id = $(this).data('id');
+            var url_destination = "<?= base_url('Admin/Spt/single_data') ?>";
+            $.ajax({
+                url: url_destination,
+                type: "POST",
+                data: {
+                    id: id,
+                    csrf_token_name: $('input[name=csrf_token_name]').val()
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                    $('#jabatanForm').val(data.nama_jabatan);
+                    $('.modal-title').text('Edit Data ' + data.nama_jabatan);
+                    $('.modal-title').css("font-weight", "900");
+                    $('#method').val('Edit');
+                    $('#hidden_id').val(id);
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
+                    $('#submit-btn').removeClass("btn-success");
+                    $('#submit-btn').addClass("btn-warning text-white");
+                    $('#modal-newitem').modal('show');
+                }
+            })
+        })
 
         $(document).on('click', '.delete', function() {
             swalWithBootstrapButtons.fire({

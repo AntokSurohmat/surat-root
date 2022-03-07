@@ -468,6 +468,21 @@ class Spt extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')) {
+            $id = $this->request->getVar('id');
+
+            if ($this->spt->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }

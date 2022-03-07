@@ -347,6 +347,11 @@
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
+                        console.log(data.nama_pegawai);
+                        console.log(JSON.parse(data.nama_pegawai))
+                        $.each(JSON.parse(data.nama_pegawai), function(i, val) {
+                            $('#pegawaiForm').append('<option value="'+i+'">'+val+'</option>').multiselect('refresh');
+                        });
                         $('#dasarForm').val(data.dasar);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").append($("<option selected='selected'></option>")
