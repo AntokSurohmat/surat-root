@@ -50,7 +50,7 @@
                                         <div class="form-group row">
                                             <label for="instansiForm" class="col-sm-3 col-form-label">Nama Instansi</label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="instansiAddEditForm" class="form-control" id="instansiForm" placeholder="Masukkan Nama Wilayah">
+                                                <input type="text" name="instansiAddEditForm" class="form-control" id="instansiForm" placeholder="Masukkan Nama Instansi">
                                                 <div class="invalid-feedback instansiErrorForm"></div>
                                             </div>
                                         </div>

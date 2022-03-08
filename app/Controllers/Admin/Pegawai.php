@@ -191,7 +191,7 @@ class Pegawai extends ResourcePresenter
     public function new()
     {
         $data = array(
-            'title' => 'Tambah Instansi',
+            'title' => 'Tambah Pegawai',
             'parent' => 2,
             'pmenu' => 2.1,
             'method' => 'New',
@@ -316,11 +316,12 @@ class Pegawai extends ResourcePresenter
                     $foto = $fileName;
                 }
             }
+            
 
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm')))),
+                'tgl_lahir' => date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm'))),
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
@@ -330,6 +331,9 @@ class Pegawai extends ResourcePresenter
                 'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
 
             ];
+
+            // d($data);print_r($data);die();
+
             if ($this->pegawai->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/pegawai'));
             } else {

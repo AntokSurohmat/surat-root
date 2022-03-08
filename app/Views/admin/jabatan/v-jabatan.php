@@ -213,7 +213,6 @@
                 }
             });
         });
-
         $('#add-data').click(function() {
             var option = {
                 backdrop: 'static',
@@ -223,7 +222,7 @@
             $('#form-addedit')[0].reset();
             $('#method').val('New');
             $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');
-            $('#modal-new-item').modal('show');
+            $('#modal-newitem').modal('show');
         })
 
         $(document).on('click', '.edit', function() {

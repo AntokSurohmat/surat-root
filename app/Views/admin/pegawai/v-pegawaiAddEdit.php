@@ -199,8 +199,10 @@
         $("#pelaksanaForm").select2({theme: 'bootstrap4'});$("#levelForm").select2({theme: 'bootstrap4'});bsCustomFileInput.init();
         $('input[name="lahirAddEditForm"]').daterangepicker({
             autoApply: true,singleDatePicker: true,
-            showDropdowns: true,locale: {format: 'DD/MM/YYYY',},
-            "alwaysShowCalendars": true,
+            showDropdowns: true,"alwaysShowCalendars": true,    
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
         });
 
         // Initialize select2
@@ -280,14 +282,6 @@
                             }
                         })
                     } else {
-                        // swalWithBootstrapButtons.fire({
-                        //     icon: 'error',
-                        //     title: 'Not Insert!',
-                        //     text: data.msg,
-                        //     showConfirmButton: true,
-                        //     timer: 4000
-                        // });
-                        // console.log(data.msg);
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("kode_", "");
                             var remove = key.replace("tgl_", "");

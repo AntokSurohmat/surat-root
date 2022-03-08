@@ -396,9 +396,18 @@ class Spt extends ResourcePresenter
         return $this->response->setJSON($data);
     }
 
-    function single_data()
+    function view_data()
     {
 
+        if ($this->request->getVar('id')) {
+            $data = $this->spt->where('id', $this->request->getVar('id'))->first();
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
+    }
+
+    function single_data()
+    {
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 

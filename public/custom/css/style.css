@@ -17,3 +17,61 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
+/* Generic */
+hr {
+    background-color:white;
+    margin:0 0 45px 0;
+    border-width:0;
+  }
+  
+  hr.s1 {
+    height:5px;
+    border-top:1px solid black;
+    border-bottom:2px solid black;
+  }
+  
+  hr.s2 {
+    height:9px;
+    border-top:2px solid black;
+    border-bottom:4px solid black;
+  }
+  
+  hr.s3 {
+    height:14px;
+    border-top:4px solid black;
+    border-bottom:8px solid black;
+  }
+  
+  hr.s4 {
+    height:14px;
+    border-top:2px solid black;
+    border-bottom:9px solid black;
+  }
+  
+  hr.s5 {
+    height:4px;
+    border-top:2px solid black;
+    border-bottom:1px solid black;
+  }
+  
+  hr.s6 {
+    height:9px;
+    border-top:4px solid black;
+    border-bottom:2px solid black;
+  }
+  
+  hr.s7 {
+    height:14px;
+    border-top:8px solid black;
+    border-bottom:4px solid black;
+  }
+  
+  hr.s8 {
+    height:12px;
+    border-top:7px solid black;
+    border-bottom:1px solid black;
+  }
+  
+  hr.s9 {
+    border:2px solid black;
+  }
