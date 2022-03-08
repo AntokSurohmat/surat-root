@@ -370,7 +370,7 @@ class Spt extends ResourcePresenter
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                'nama_pegawai' => $this->db->escapeString(json_encode($this->request->getVar('pegawaiAddEditForm[]', JSON_UNESCAPED_SLASHES))),
+                'nama_pegawai' => $this->db->escapeString(json_encode($this->request->getVar('pegawaiAddEditForm[]'))),
                 'dasar' => $this->db->escapeString($this->request->getVar('dasarAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),

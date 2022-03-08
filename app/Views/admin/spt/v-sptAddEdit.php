@@ -56,9 +56,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="dasarForm" class="col-sm-3 col-form-label">Dasar </label>
+                                            <label for="dasarForm" class="col-sm-3 col-form-label">Dasar Perjalanan Dinas</label>
                                             <div class="col-sm-7">
-                                                <textarea name="dasarAddEditForm" class="form-control" id="dasarForm" rows="3" placeholder="Dasar" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea>
+                                                <textarea name="dasarAddEditForm" class="form-control" id="dasarForm" rows="3" placeholder="Dasar Perjalanan Dinas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea>
                                                 <!-- <input type="text" name="dasarAddEditForm" class="form-control" id="dasarForm" placeholder="Dasar"/> -->
                                                 <div class="invalid-feedback dasarErrorForm"></div>
                                             </div>
@@ -66,7 +66,7 @@
                                         <div class="form-group row">
                                             <label for="untukForm" class="col-sm-3 col-form-label">Maksud Perjalanan Dinas</label>
                                             <div class="col-sm-7">
-                                            <textarea name="untukAddEditForm" class="form-control" id="untukForm" rows="3" placeholder="Untuk" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea>
+                                            <textarea name="untukAddEditForm" class="form-control" id="untukForm" rows="3" placeholder="Maksud Perjalanan Dinas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea>
                                                 <!-- <input type="text" name="untukAddEditForm" class="form-control" id="untukForm" placeholder="Untuk"/> -->
                                                 <div class="invalid-feedback untukErrorForm"></div>
                                             </div>
@@ -347,11 +347,13 @@
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
-                        console.log(data.nama_pegawai);
-                        console.log(JSON.parse(data.nama_pegawai))
-                        $.each(JSON.parse(data.nama_pegawai), function(i, val) {
-                            $('#pegawaiForm').append('<option value="'+i+'">'+val+'</option>').multiselect('refresh');
-                        });
+                        // $('#pegawaiForm').html(data.nama_pegawai);
+                        // $('#pegawaiForm').multiselect('refresh');
+                        // // console.log(data.nama_pegawai);
+                        // // console.log(JSON.parse(data.nama_pegawai))
+                        // // $.each(JSON.parse(data.nama_pegawai), function(i, val) {
+                        // //     $('#pegawaiForm').append('<option value="'+i+'">'+val+'</option>').multiselect('refresh');
+                        // // });
                         $('#dasarForm').val(data.dasar);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").append($("<option selected='selected'></option>")
@@ -362,6 +364,14 @@
                         // $('#startForm' ).datepicker('setDate', '09/03/2022');
                         // $('#lahirForm').val(data.tgl_lahir);
                         // $('#lahirForm').val(data.tgl_lahir);
+
+                        $("#startForm").datepicker({ 
+                            format: 'yyyy-mm-dd'
+                        });
+                        $("#startForm").on("change", function () {
+                            var fromdate = $(this).val(data.awal);
+                            alert(fromdate);
+                        });
                         $('#lamaForm').val(data.lama);
                         $('#submit-spt').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
