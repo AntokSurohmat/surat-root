@@ -65,8 +65,23 @@ class Spt extends ResourcePresenter
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $key->kode;
+            $row[] = $key->kodes;
             $row[] = $key->nama_pegawai;
+            // // d(json_decode($key->nama_pegawai));print_r(json_decode($key->nama_pegawai));die();
+            // foreach (json_decode($key->nama_pegawai) as $value){
+            //     //     $key = $value[$key];
+            //     // d($value[$key]);print_r($value[$key]);die();
+            // }
+            // foreach ($pegawai->getResult() as $pega ) {
+            //     foreach (json_decode($key->nama_pegawai) as $value){
+            //         if ($pega->nip == $value) {
+            //             // $valuedata = array();
+            //             // $valuedata[] = 
+            //             $row[] =  $pega->nama; 
+            //         }
+            //     }
+			// };
+            // d($row);print_r($row);die();
             $row[] = $key->dasar;
             $row[] = $key->untuk;
             foreach ($pegawai->getResult() as $pega ) {
@@ -268,8 +283,8 @@ class Spt extends ResourcePresenter
             exit('No direct script is allowed');
         }
 
-        // d(count($this->request->getVar('pegawaiAddEditForm[]')));
-        // print_r(count($this->request->getVar(('pegawaiAddEditForm[]'))));
+        // d(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
+        // print_r(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
         // die();
         // $data = [];
         $validation = \Config\Services::validation();
@@ -370,13 +385,13 @@ class Spt extends ResourcePresenter
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                'nama_pegawai' => $this->db->escapeString(json_encode($this->request->getVar('pegawaiAddEditForm[]'))),
+                'nama_pegawai' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
                 'dasar' => $this->db->escapeString($this->request->getVar('dasarAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
                 'alamat_instansi' => $this->db->escapeString($this->request->getVar('alamatAddEditForm')),
-                'awal' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getVar('startAddEditForm')))),
-                'akhir' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getVar('endAddEditForm')))),
+                'awal' => date("Y-m-d", strtotime($this->request->getVar('startAddEditForm'))),
+                'akhir' => date("Y-m-d", strtotime($this->request->getVar('endAddEditForm'))),
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
                 'diperintah' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
                 'status' => 'Pending',
@@ -401,7 +416,24 @@ class Spt extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
+            // // d(json_decode($data['nama_pegawai']));print_r(json_decode($data['nama_pegawai']));die();
+            // $nama = $this->spt->where('id', $this->request->getVar('id'))->get();
+            // foreach ($nama->getResult('array') as $row) {
+            //     d($row['nama_pegawai']);print_r($row['nama_pegawai']);
+            //     d(json_decode($row['nama_pegawai']));print_r(json_decode($row['nama_pegawai']));
+            //     // d(json_encode($row['nama_pegawai']));print_r(json_encode($row['nama_pegawai']));die();
+            //     foreach ($row['nama_pegawai'] as $rew) {
+            //         d(rew);print_r();
+            //     }
+            // }
+            
+            $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            foreach(json_decode($data['nama_pegawai']) as $pegawai_one){
+                $data[] = $this->pegawai->where('nama', $pegawai_one)->findAll();
+            }
             $data[$this->csrfToken] = $this->csrfHash;
+            // $data['mumet'] = $mumet;
+            // print_r($data[0]);
             echo json_encode($data);
         }
     }

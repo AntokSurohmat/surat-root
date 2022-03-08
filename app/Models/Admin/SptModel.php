@@ -110,6 +110,7 @@ class SptModel extends Model
 		// $db = db_connect();
 		$builder = $this->db->table('spt');
 		$query = $builder->select('spt.*')
+                ->select('spt.kode AS kodes')
                 ->select('pegawai.nip', 'pegawai.nama')
                 ->select('instansi.kode', 'instansi.nama_instansi')
                 ->join('pegawai', 'pegawai.nip = spt.diperintah', 'left')
