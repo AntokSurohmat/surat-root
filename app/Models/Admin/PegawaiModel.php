@@ -13,7 +13,7 @@ class PegawaiModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
 
@@ -22,7 +22,7 @@ class PegawaiModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -103,7 +103,6 @@ class PegawaiModel extends Model
                 ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
                 ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
 				->where($attr_order)
-				->where('pegawai.deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -113,7 +112,7 @@ class PegawaiModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pegawai WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_pegawai ";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -122,9 +121,9 @@ class PegawaiModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_pegawai.nip LIKE '%$search%' OR etbl_pegawai.nama LIKE '%$search%' OR etbl_jabatan.nama_jabatan LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%' OR etbl_pegawai.username LIKE '%$search%') AND etbl_pegawai.deleted_at IS NULL";
+			$attr_order = " AND (etbl_pegawai.nip LIKE '%$search%' OR etbl_pegawai.nama LIKE '%$search%' OR etbl_jabatan.nama_jabatan LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%' OR etbl_pegawai.username LIKE '%$search%')";
 		} else {
-			$attr_order = " AND etbl_pegawai.deleted_at IS NULL";
+			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_pegawai.id) as total FROM etbl_pegawai
                     LEFT JOIN etbl_jabatan ON etbl_jabatan.kode = etbl_pegawai.kode_jabatan

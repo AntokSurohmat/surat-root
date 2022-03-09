@@ -13,7 +13,7 @@ class ProvinsiModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'nama_provinsi'];
 
@@ -22,7 +22,7 @@ class ProvinsiModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [

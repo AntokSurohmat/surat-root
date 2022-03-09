@@ -13,7 +13,7 @@ class InstansiModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'nama_instansi','kode_provinsi', 'kode_kabupaten', 'kode_kecamatan'];
 
@@ -22,7 +22,7 @@ class InstansiModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -103,7 +103,6 @@ class InstansiModel extends Model
             ->join('kabupaten', 'kabupaten.kode = instansi.kode_kabupaten', 'left')
             ->join('kecamatan', 'kecamatan.kode = instansi.kode_kecamatan', 'left')
             ->where($attr_order)
-            ->where('instansi.deleted_at', NULL)
             ->orderBy($result_order, $result_dir)
             ->limit(service('request')->getPost('length'), service('request')->getPost('start'))
             ->get();
@@ -113,7 +112,7 @@ class InstansiModel extends Model
 
     function count_all()
     {
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi WHERE deleted_at IS NULL";
+        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }
@@ -123,9 +122,9 @@ class InstansiModel extends Model
         // Kondisi Order
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%') AND etbl_instansi.deleted_at IS NULL";
+			$attr_order = " AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%')";
         } else {
-            $attr_order = " AND etbl_instansi.deleted_at IS NULL";
+            $attr_order = " ";
         }
 		$sQuery = "SELECT COUNT(etbl_instansi.id) as total FROM etbl_instansi
                     LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_instansi.kode_provinsi

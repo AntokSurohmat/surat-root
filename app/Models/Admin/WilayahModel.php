@@ -13,7 +13,7 @@ class WilayahModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode_jenis_wilayah', 'kode_zonasi'];
 
@@ -22,7 +22,7 @@ class WilayahModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -112,7 +112,6 @@ class WilayahModel extends Model
                 ->join('jenis_wilayah', 'jenis_wilayah.kode = wilayah.kode_jenis_wilayah', 'left')
                 ->join('zonasi', 'zonasi.kode = wilayah.kode_zonasi', 'left')
 				->where($attr_order)
-				->where('wilayah.deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -122,7 +121,7 @@ class WilayahModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_wilayah WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_wilayah ";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -131,9 +130,9 @@ class WilayahModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_wilayah.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%') AND etbl_wilayah.deleted_at IS NULL";
+			$attr_order = " AND (etbl_wilayah.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%')";
 		} else {
-			$attr_order = " AND etbl_wilayah.deleted_at IS NULL";
+			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_wilayah.id) as total FROM etbl_wilayah
                     LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_wilayah.kode_provinsi

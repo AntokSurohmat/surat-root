@@ -13,7 +13,7 @@ class JabatanModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'nama_jabatan'];
 
@@ -22,7 +22,7 @@ class JabatanModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -81,7 +81,6 @@ class JabatanModel extends Model
 		$builder = $this->db->table('jabatan');
 		$query = $builder->select('*')
 				->where($attr_order)
-				->where('deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -91,7 +90,7 @@ class JabatanModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_jabatan WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_jabatan ";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -100,9 +99,9 @@ class JabatanModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (kode LIKE '%$search%' OR nama_jabatan LIKE '%$search%') AND deleted_at IS NULL";
+			$attr_order = " AND (kode LIKE '%$search%' OR nama_jabatan LIKE '%$search%') ";
 		} else {
-			$attr_order = " AND deleted_at IS NULL";
+			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(id) as total FROM etbl_jabatan WHERE id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();

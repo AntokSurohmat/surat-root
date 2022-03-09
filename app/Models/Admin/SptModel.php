@@ -12,7 +12,7 @@ class SptModel extends Model
     protected $useAutoIncrement = true;
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
+    protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'nama_pegawai', 'dasar', 'untuk', 'kode_instansi', 'alamat_instansi', 'awal', 'akhir', 'lama', 'diperintah', 'status', 'keterangan'];
 
@@ -21,7 +21,7 @@ class SptModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    // protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -116,7 +116,6 @@ class SptModel extends Model
                 ->join('pegawai', 'pegawai.nip = spt.diperintah', 'left')
                 ->join('instansi', 'instansi.kode = spt.kode_instansi', 'left')
 				->where($attr_order)
-				->where('spt.deleted_at', NULL)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -125,7 +124,7 @@ class SptModel extends Model
 	}
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_spt WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_spt";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -134,9 +133,9 @@ class SptModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%') AND etbl_spt.deleted_at IS NULL";
+			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
 		} else {
-			$attr_order = " AND etbl_spt.deleted_at IS NULL";
+			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_spt.id) as total FROM etbl_spt
                     LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.diperintah
