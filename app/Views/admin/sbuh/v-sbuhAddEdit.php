@@ -40,7 +40,7 @@
                                         <div class="form-group row">
                                             <label for="kodeForm" class="col-sm-3 col-form-label">Kode</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode Wilayah" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
+                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Kode SBUH" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="10" autofocus />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
                                             <span>
