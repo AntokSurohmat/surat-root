@@ -59,8 +59,9 @@ $routes->group('bendahara', function ($routes) {
     $routes->get('rincian', 'Bendahara\RincianController::index');
 });
 $routes->group('kepala', function ($routes) {
-    $routes->get('', 'Kepala\DashboardController::index');
-    $routes->get('verifikasi', 'Kepala\VerifikasiController::index');
+    $routes->get('', 'Kepala\Dashboard::index');
+    $routes->presenter('Verifikasi', ['only' => ['index', 'update']]);
+    // $routes->get('verifikasi', 'Kepala\VerifikasiController::index');
 });
 
 /*

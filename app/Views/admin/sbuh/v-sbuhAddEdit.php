@@ -101,10 +101,8 @@
                                         </div>
                                         <div class="form-group row">
                                             <label for="jumlahUangForm" class="col-sm-3 col-form-label">Jumlah Uang Harian</label>
-                                            <!-- <div class="input-group-addon">
-                                                Rp.
-                                            </div> -->
-                                            <div class="col-sm-7">
+                                            <p class="pt-2 pl-2">Rp. </p>
+                                            <div class="col-sm-6">
                                                 <input type="text" name="jumlahUangAddEditForm" id="jumlahUangForm" class="form-control" placeholder="Masukkan Jumlah Uang Harian" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="6">
                                                 <div class="invalid-feedback jumlahUangErrorForm"></div>
                                             </div>

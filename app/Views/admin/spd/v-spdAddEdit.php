@@ -42,7 +42,7 @@
                                             <label for="kodeForm" class="col-sm-5 col-form-label">No SPD</label>
                                             <p class="pt-2 pl-2">090/</p>
                                             <div class="col-sm-4">
-                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPT" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" autofocus />
+                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPD" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" autofocus />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
                                             <p class="pt-2">/Bid.ML</p>
@@ -66,15 +66,15 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="levelForm" class="col-sm-5 col-form-label">Tingkat Biaya Perjalanan Dinas</label>
+                                            <label for="tingkatBiayaForm" class="col-sm-5 col-form-label">Tingkat Biaya Perjalanan Dinas</label>
                                             <div class="col-sm-7">
-                                                <select name="levelAddEditForm" id="levelForm" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="tingkatBiayaAddEditForm" id="tingkatBiayaForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Pilih Tingkat Biaya ---</option>
                                                     <option value="Admin"> Tingkat A </option>
                                                     <option value="Kepala Bidang"> Tingkat B </option>
                                                     <option value="Bendahara"> Tingkat C </option>
                                                 </select>
-                                                <div class="invalid-feedback levelErrorForm"></div>
+                                                <div class="invalid-feedback tingkatBiayaErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -145,9 +145,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="levelForm" class="col-sm-5 col-form-label">Jenis Kendaraan</label>
+                                            <label for="kendaraanForm" class="col-sm-5 col-form-label">Jenis Kendaraan</label>
                                             <div class="col-sm-7">
-                                                <select name="levelAddEditForm" id="levelForm" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="kendaraanAddEditForm" id="kendaraanForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Pilih jenis Kendaraan ---</option>
                                                     <option value="Bus"> Bus </option>
                                                     <option value="Kapal"> Kapal </option>
@@ -156,7 +156,7 @@
                                                     <option value="Motor Dinas"> Motor Dinas </option>
                                                     <option value="Pesawat"> Pesawat </option>
                                                 </select>
-                                                <div class="invalid-feedback levelErrorForm"></div>
+                                                <div class="invalid-feedback kendaraanErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -166,137 +166,241 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <div class="card card-primary">
+                                        <div class="card card-outline card-primary">
                                             <div class="card-header">
-                                                <h3 class="card-title">I</h3>
+                                                <h3 class="card-title" style="font-weight: 900;margin-top:-25px;padding: 0 5px;background-color:#FFF;">I</h3>
                                             </div>
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <label for="tibadiFormFirst">Tiba Di</label>
-                                                    <input type="text" class="form-control" name="tibadiAddEdit" id="tibadiFormFirst" placeholder="Tiba Di">
+                                                    <input type="text" class="form-control" name="tibadiAddEditFirst" id="tibadiFormFirst" placeholder="Tiba Di">
                                                     <div class="invalid-feedback tibadiErrorFormFirst"></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="padaTanggalFormFirst">Pada Tanggal</label>
+                                                    <label for="tanggalTibaFormFirst">Tanggal Berangkat</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" name="startAddEditForm" class="form-control" id="padaTanggalFormFirst" placeholder="Dari Tanggal" />
+                                                        <input type="text" class="form-control" name="tanggalTibaAddEditFormFirst" class="form-control" id="tanggalTibaFormFirst" placeholder="Dari Tanggal" />
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                         </div>
                                                     </div>
-                                                    <div class="invalid-feedback padaTanggalErrorFormFirst"></div>
+                                                    <div class="invalid-feedback tanggalTibaErrorFormFirst"></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleInputFile">File input</label>
+                                                    <label for="kepalaTibaFormFirst">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaTibaAddEditFormFirst" id="kepalaTibaFormFirst" placeholder="Kepala Pada Tiba Di Lokasi">
+                                                    <div class="invalid-feedback kepalaTibaErrorFormFirst"></div>
+                                                </div>
+                                                <hr class="s9" style="margin: 0;">
+                                                <div class="form-group">
+                                                    <label for="berangkatFormFirst">Berangkat Dari</label>
+                                                    <input type="text" class="form-control" name="berangkatAddEditFormFirst" id="berangkatFormFirst" placeholder="Berangkat Dari">
+                                                    <div class="invalid-feedback berangkatErrorFormFirst"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tujuanFormFirst">Tujuan Instansi</label>
+                                                    <input type="text" class="form-control" name="tujuanAddEditFormFirst" id="tujuanFormFirst" placeholder="tujuan Dari">
+                                                    <div class="invalid-feedback tujuanErrorFormFirst"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalBerangkatFormFirst">Tanggal Berangkat</label>
                                                     <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" class="custom-file-input" id="exampleInputFile">
-                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                        </div>
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text">Upload</span>
+                                                        <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFirst" class="form-control" id="tanggalBerangkatFormFirst" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                         </div>
                                                     </div>
+                                                    <div class="invalid-feedback tanggalBerangkatErrorFormFirst"></div>
                                                 </div>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                                <div class="form-group">
+                                                    <label for="kepalaBerangkatFormFirst">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaAddEditFormFirst" id="kepalaBerangkatFormFirst" placeholder="Kepala Pada Saat Tiba">
+                                                    <div class="invalid-feedback kepalaBerangkatErrorFormFirst"></div>
                                                 </div>
                                             </div>
-
-                                            <div class="card-footer">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card card-primary card-outline">
-                                        <div class="card-body box-profile">
-                                            <div class="text-center">
-                                                <img class="profile-user-img img-fluid img-circle" src="<?= base_url() ?>/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
-                                            </div>
-                                            <h3 class="profile-username text-center">Nina Mcintire</h3>
-                                            <p class="text-muted text-center">Software Engineer</p>
-                                            <ul class="list-group list-group-unbordered mb-3">
-                                                <li class="list-group-item">
-                                                    <b>Followers</b> <a class="float-right">1,322</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Following</b> <a class="float-right">543</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Friends</b> <a class="float-right">13,287</a>
-                                                </li>
-                                            </ul>
-                                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                                         </div>
-
                                     </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card card-primary card-outline">
-                                        <div class="card-body box-profile">
-                                            <div class="text-center">
-                                                <img class="profile-user-img img-fluid img-circle" src="<?= base_url() ?>/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
+                                    <div class="col-sm-3">
+                                        <div class="card card-outline card-primary">
+                                            <div class="card-header">
+                                            <h3 class="card-title" style="font-weight: 900;margin-top:-25px;padding: 0 5px;background-color:#FFF;">II</h3>
                                             </div>
-                                            <h3 class="profile-username text-center">Nina Mcintire</h3>
-                                            <p class="text-muted text-center">Software Engineer</p>
-                                            <ul class="list-group list-group-unbordered mb-3">
-                                                <li class="list-group-item">
-                                                    <b>Followers</b> <a class="float-right">1,322</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Following</b> <a class="float-right">543</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Friends</b> <a class="float-right">13,287</a>
-                                                </li>
-                                            </ul>
-                                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="tibadiFormSecond">Tiba Di</label>
+                                                    <input type="text" class="form-control" name="tibadiAddEditSecond" id="tibadiFormSecond" placeholder="Tiba Di">
+                                                    <div class="invalid-feedback tibadiErrorFormSecond"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalTibaFormSecond">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalTibaAddEditFormSecond" class="form-control" id="tanggalTibaFormSecond" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalTibaErrorFormSecond"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaTibaFormSecond">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaTibaAddEditFormSecond" id="kepalaTibaFormSecond" placeholder="Kepala Pada Tiba Di Lokasi">
+                                                    <div class="invalid-feedback kepalaTibaErrorFormSecond"></div>
+                                                </div>
+                                                <hr class="s9" style="margin: 0;">
+                                                <div class="form-group">
+                                                    <label for="berangkatFormSecond">Berangkat Dari</label>
+                                                    <input type="text" class="form-control" name="berangkatAddEditFormSecond" id="berangkatFormSecond" placeholder="Berangkat Dari">
+                                                    <div class="invalid-feedback berangkatErrorFormSecond"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tujuanFormSecond">Tujuan Instansi</label>
+                                                    <input type="text" class="form-control" name="tujuanAddEditFormSecond" id="tujuanFormSecond" placeholder="tujuan Dari">
+                                                    <div class="invalid-feedback tujuanErrorFormSecond"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalBerangkatFormSecond">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalBerangkatAddEditFormSecond" class="form-control" id="tanggalBerangkatFormSecond" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalBerangkatErrorFormSecond"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaBerangkatFormSecond">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaAddEditFormSecond" id="kepalaBerangkatFormSecond" placeholder="Kepala Pada Saat Tiba">
+                                                    <div class="invalid-feedback kepalaBerangkatErrorFormSecond"></div>
+                                                </div>
+                                            </div>
                                         </div>
-
                                     </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="card card-primary card-outline">
-                                        <div class="card-body box-profile">
-                                            <div class="text-center">
-                                                <img class="profile-user-img img-fluid img-circle" src="<?= base_url() ?>/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
+                                    <div class="col-sm-3">
+                                        <div class="card card-outline card-primary">
+                                            <div class="card-header">
+                                            <h3 class="card-title" style="font-weight: 900;margin-top:-25px;padding: 0 5px;background-color:#FFF;">III</h3>
                                             </div>
-                                            <h3 class="profile-username text-center">Nina Mcintire</h3>
-                                            <p class="text-muted text-center">Software Engineer</p>
-                                            <ul class="list-group list-group-unbordered mb-3">
-                                                <li class="list-group-item">
-                                                    <b>Followers</b> <a class="float-right">1,322</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Following</b> <a class="float-right">543</a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Friends</b> <a class="float-right">13,287</a>
-                                                </li>
-                                            </ul>
-                                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="tibadiFormThird">Tiba Di</label>
+                                                    <input type="text" class="form-control" name="tibadiAddEditThird" id="tibadiFormThird" placeholder="Tiba Di">
+                                                    <div class="invalid-feedback tibadiErrorFormThird"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalTibaFormThird">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalTibaAddEditFormThird" class="form-control" id="tanggalTibaFormThird" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalTibaErrorFormThird"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaTibaFormThird">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaTibaAddEditFormThird" id="kepalaTibaFormThird" placeholder="Kepala Pada Tiba Di Lokasi">
+                                                    <div class="invalid-feedback kepalaTibaErrorFormThird"></div>
+                                                </div>
+                                                <hr class="s9" style="margin: 0;">
+                                                <div class="form-group">
+                                                    <label for="berangkatFormThird">Berangkat Dari</label>
+                                                    <input type="text" class="form-control" name="berangkatAddEditFormThird" id="berangkatFormThird" placeholder="Berangkat Dari">
+                                                    <div class="invalid-feedback berangkatErrorFormThird"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tujuanFormThird">Tujuan Instansi</label>
+                                                    <input type="text" class="form-control" name="tujuanAddEditFormThird" id="tujuanFormThird" placeholder="tujuan Dari">
+                                                    <div class="invalid-feedback tujuanErrorFormThird"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalBerangkatFormThird">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalBerangkatAddEditFormThird" class="form-control" id="tanggalBerangkatFormThird" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalBerangkatErrorFormThird"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaBerangkatFormThird">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaAddEditFormThird" id="kepalaBerangkatFormThird" placeholder="Kepala Pada Saat Tiba">
+                                                    <div class="invalid-feedback kepalaBerangkatErrorFormThird"></div>
+                                                </div>
+                                            </div>
                                         </div>
-
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="card card-outline card-primary">
+                                            <div class="card-header">
+                                            <h3 class="card-title" style="font-weight: 900;margin-top:-25px;padding: 0 5px;background-color:#FFF;">IV</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="tibadiFormFourth">Tiba Di</label>
+                                                    <input type="text" class="form-control" name="tibadiAddEditFourth" id="tibadiFormFourth" placeholder="Tiba Di">
+                                                    <div class="invalid-feedback tibadiErrorFormFourth"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalTibaFormFourth">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalTibaAddEditFormFourth" class="form-control" id="tanggalTibaFormFourth" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalTibaErrorFormFourth"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaTibaFormFourth">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaTibaAddEditFormFourth" id="kepalaTibaFormFourth" placeholder="Kepala Pada Tiba Di Lokasi">
+                                                    <div class="invalid-feedback kepalaTibaErrorFormFourth"></div>
+                                                </div>
+                                                <hr class="s9" style="margin: 0;">
+                                                <div class="form-group">
+                                                    <label for="berangkatFormFourth">Berangkat Dari</label>
+                                                    <input type="text" class="form-control" name="berangkatAddEditFormFourth" id="berangkatFormFourth" placeholder="Berangkat Dari">
+                                                    <div class="invalid-feedback berangkatErrorFormFourth"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tujuanFormFourth">Tujuan Instansi</label>
+                                                    <input type="text" class="form-control" name="tujuanAddEditFormFourth" id="tujuanFormFourth" placeholder="tujuan Dari">
+                                                    <div class="invalid-feedback tujuanErrorFormFourth"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tanggalBerangkatFormFourth">Tanggal Berangkat</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFourth" class="form-control" id="tanggalBerangkatFormFourth" placeholder="Dari Tanggal" />
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="invalid-feedback tanggalBerangkatErrorFormFourth"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kepalaBerangkatFormFourth">Kepala Saat Tiba</label>
+                                                    <input type="text" class="form-control" name="kepalaAddEditFormFourth" id="kepalaBerangkatFormFourth" placeholder="Kepala Pada Saat Tiba">
+                                                    <div class="invalid-feedback kepalaBerangkatErrorFormFourth"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
+                        <!-- /.card-body -->
+                        <div class="card-footer" style="text-align:center;">
+                            <a type="button" href="<?= base_url('') ?>/Admin/Spt" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
+                            <button type="submit" id="submit-spt" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
+                        </div>
+                    </form>
                 </div>
+                <!-- /.card -->
 
-                <!-- /.card-body -->
-                <div class="card-footer" style="text-align:center;">
-                    <a type="button" href="<?= base_url('') ?>/Admin/Spt" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
-                    <button type="submit" id="submit-spt" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
-                </div>
-                </form>
             </div>
-            <!-- /.card -->
-
         </div>
-    </div>
 
     </div><!-- /.container-fluid -->
 </section>
@@ -308,117 +412,53 @@
     $(document).ready(function() {
 
         // preventDefault to stay in modal when keycode 13
-        $('form input').keydown(function(event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                return false;
-            }
-        });
+        $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#pegawaiForm').select2('open');
-            }
-        });
-        $('#pegawaiForm').on('select2:select', function(e) {
-            $('#dasarForm').focus();
-        });
-        $('#dasarForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#untukForm').focus();
-            }
-        });
-        $('#untukForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#instansiForm').select2('open');
-            }
-        });
-        $('#instansiForm').on('select2:select', function(e) {
-            $('startForm').focus();
-        });
-        $('#startForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#endForm').focus();
-            }
-        });
-        $('#endForm').keydown(function(event) {
-            if (event.keyCode == 13) {
-                $('#diperintahForm').select2('open');
-            }
-        });
-        $('#diperintahForm').on('select2:select', function(e) {
-            $('#submit-spt').focus();
-        });
+        $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#pegawaiForm').select2('open');}});
+        $('#pegawaiForm').on('select2:select', function(e) {$('#dasarForm').focus();});
+        $('#dasarForm').keydown(function(event) {if (event.keyCode == 13) {$('#untukForm').focus();}});
+        $('#untukForm').keydown(function(event) {if (event.keyCode == 13) {$('#instansiForm').select2('open');}});
+        $('#instansiForm').on('select2:select', function(e) {$('startForm').focus();});
+        $('#startForm').keydown(function(event) {if (event.keyCode == 13) {$('#endForm').focus();}});
+        $('#endForm').keydown(function(event) {if (event.keyCode == 13) {$('#diperintahForm').select2('open');}});
+        $('#diperintahForm').on('select2:select', function(e) {$('#submit-spt').focus();});
 
         // update();
 
         function clearform() {
             $('#form-addedit')[0].reset();
-            $("#kodeForm").empty();
-            $("#kodeForm").removeClass('is-valid');
-            $("#kodeForm").removeClass('is-invalid');
-            $("#pegawaiForm").empty();
-            $("#pegawaiForm").removeClass('is-valid');
-            $("#pegawaiForm").removeClass('is-invalid');
-            $("#dasarForm").empty();
-            $("#dasarForm").removeClass('is-valid');
-            $("#dasarForm").removeClass('is-invalid');
-            $("#untukForm").empty();
-            $("#untukForm").removeClass('is-valid');
-            $("#untukForm").removeClass('is-invalid');
-            $("#instansiForm").empty();
-            $("#instansiForm").removeClass('is-valid');
-            $("#instansiForm").removeClass('is-invalid');
-            $("#alamatForm").empty();
-            $("#alamatForm").removeClass('is-valid');
-            $("#alamatForm").removeClass('is-invalid');
-            $("#startForm").empty();
-            $("#startForm").removeClass('is-valid');
-            $("#startForm").removeClass('is-invalid');
-            $("#endForm").empty();
-            $("#endForm").removeClass('is-valid');
-            $("#endForm").removeClass('is-invalid');
-            $("#lamaForm").empty();
-            $("#lamaForm").removeClass('is-valid');
-            $("#lamaForm").removeClass('is-invalid');
-            $("#diperintahForm").empty();
-            $("#diperintahForm").removeClass('is-valid');
-            $("#diperintahForm").removeClass('is-invalid');
+            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
+            $("#pegawaiForm").empty();$("#pegawaiForm").removeClass('is-valid');$("#pegawaiForm").removeClass('is-invalid');
+            $("#dasarForm").empty();$("#dasarForm").removeClass('is-valid');$("#dasarForm").removeClass('is-invalid');
+            $("#untukForm").empty();$("#untukForm").removeClass('is-valid');$("#untukForm").removeClass('is-invalid');
+            $("#instansiForm").empty();$("#instansiForm").removeClass('is-valid');$("#instansiForm").removeClass('is-invalid');
+            $("#alamatForm").empty();$("#alamatForm").removeClass('is-valid');$("#alamatForm").removeClass('is-invalid');
+            $("#startForm").empty();$("#startForm").removeClass('is-valid');$("#startForm").removeClass('is-invalid');
+            $("#endForm").empty();$("#endForm").removeClass('is-valid');$("#endForm").removeClass('is-invalid');
+            $("#lamaForm").empty();$("#lamaForm").removeClass('is-valid');$("#lamaForm").removeClass('is-invalid');
+            $("#diperintahForm").empty();$("#diperintahForm").removeClass('is-valid');$("#diperintahForm").removeClass('is-invalid');
         }
 
+        $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'});
+
         $('#startForm').daterangepicker({
-            singleDatePicker: true,
-            autoApply: true,
-            minDate: moment(),
-            startDate: moment(),
-            locale: {
-                format: 'DD/MM/YYYY',
-                firstDay: 1
-            }
+            singleDatePicker: true,autoApply: true,
+            minDate: moment(),startDate: moment(),
+            locale: {format: 'DD/MM/YYYY',firstDay: 1}
         });
 
         $('#endForm').daterangepicker({
-            singleDatePicker: true,
-            autoApply: true,
-            minDate: moment(),
-            startDate: moment().add(7, 'days'),
-            locale: {
-                format: 'DD/MM/YYYY',
-                firstDay: 1
-            }
+            singleDatePicker: true,autoApply: true,
+            minDate: moment(),startDate: moment().add(7, 'days'),
+            locale: {format: 'DD/MM/YYYY',firstDay: 1}
         });
 
         $('#startForm').on('apply.daterangepicker', function(ev, picker) {
             var new_start = picker.startDate.clone().add(7, 'days');
             $('#end-date').daterangepicker({
-                singleDatePicker: true,
-                autoApply: true,
-                minDate: moment(),
-                startDate: new_start,
-                locale: {
-                    format: 'DD/MM/YYYY',
-                    firstDay: 1
-                }
+                singleDatePicker: true,autoApply: true,
+                minDate: moment(),startDate: new_start,
+                locale: {format: 'DD/MM/YYYY',firstDay: 1}
             });
 
         });
@@ -432,22 +472,13 @@
         $("#pegawaiForm").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Pegawai ---',
-            ajax: {
-                url: url_destination,
-                type: "POST",
-                dataType: "JSON",
-                delay: 250,
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {
-                        searchTerm: params.term,
-                        csrf_token_name: $('input[name=csrf_token_name]').val()
-                    };
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {
-                        results: response.data,
-                    };
+                    return {results: response.data,};
                 },
                 cache: true
             }
@@ -458,22 +489,13 @@
         $("#instansiForm").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Instansi ---',
-            ajax: {
-                url: url_destination,
-                type: "POST",
-                dataType: "JSON",
-                delay: 250,
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {
-                        searchTerm: params.term,
-                        csrf_token_name: $('input[name=csrf_token_name]').val()
-                    };
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {
-                        results: response.data,
-                    };
+                    return {results: response.data,};
                 },
                 cache: true
             }
@@ -483,23 +505,13 @@
             var instansiKode = $(this).val();
             var url_destination = '<?= base_url('Admin/Spt/getAlamatInstansi') ?>';
             // Initialize select2
-            $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    instansi: instansiKode,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
-                dataType: "JSON",
-                cache: false,
-                async: false,
+            $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: true,async: false,
+                data: {instansi: instansiKode,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#alamatForm').val(data.alamat)
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             })
         });
 
@@ -508,22 +520,13 @@
         $("#diperintahForm").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Pegawai Yang Memberikan Perintah ---',
-            ajax: {
-                url: url_destination,
-                type: "POST",
-                dataType: "JSON",
-                delay: 250,
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
-                    return {
-                        searchTerm: params.term,
-                        csrf_token_name: $('input[name=csrf_token_name]').val()
-                    };
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {
-                        results: response.data,
-                    };
+                    return {results: response.data,};
                 },
                 cache: true
             }
@@ -531,35 +534,23 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            if ($('#methodPage').val() === 'New') {
-                var url_destination = "<?= base_url('Admin/Spt/Create') ?>";
-            } else {
-                var url_destination = "<?= base_url('Admin/Spt/Update') ?>";
-            }
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spt/Create') ?>";
+            } else {var url_destination = "<?= base_url('Admin/Spt/Update') ?>";}
             // console.log($(this).serialize());
-            $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "JSON",
-                cache: false,
+            $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
-                    $('#submit-spt').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
-                    $('#submit-spt').prop('disabled', true);
+                    $('#submit-spt').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spt').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-spt').html("<i class='fa fa-save'></i>&ensp;Submit");
-                    $('#submit-spt').prop('disabled', false);
+                    $('#submit-spt').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-spt').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');
-                            $("." + key + "ErrorForm").html(data.error[key]);
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
-                            element.closest('.form-control')
-                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                             // console.log(element);
                             // console.log(data.error[key].length);
@@ -569,50 +560,34 @@
                         clearform();
                         let timerInterval
                         swalWithBootstrapButtons.fire({
-                            icon: 'success',
-                            title: 'Berhasil Memasukkan Data',
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
                             html: '<b>Otomatis Ke Table SPT!</b><br>' +
                                 'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                            timer: 3500,
-                            timerProgressBar: true,
-                            showCancelButton: true,
-                            confirmButtonText: 'Ya, Kembali!',
-                            cancelButtonText: 'No, cancel!',
-                            reverseButtons: true,
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                            cancelButtonText: 'No, cancel!',reverseButtons: true,
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 window.location.href = data.redirect;
                             } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                if ($('#methodPage').val() === 'New') {
-                                    location.reload();
-                                } else {
-                                    window.location.replace("<?= base_url('Admin/Spt/new') ?>");
-                                }
-                            } else if (result.dismiss === Swal.DismissReason.timer) {
-                                window.location.href = data.redirect;
-                            }
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                } else {window.location.replace("<?= base_url('Admin/Spt/new') ?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {window.location.href = data.redirect;}
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');
-                            $("." + key + "ErrorForm").html(data.msg[key]);
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
                             var element = $('#' + key + 'Form');
-                            element.closest('.form-control')
-                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                         if (data.msg != "") {
-                            toastr.options = {
-                                "positionClass": "toast-top-right",
-                                "closeButton": true
-                            };
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};
                             toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })
@@ -648,7 +623,7 @@
         //                 // $('#lahirForm').val(data.tgl_lahir);
         //                 // $('#lahirForm').val(data.tgl_lahir);
 
-        //                 $("#startForm").datepicker({ 
+        //                 $("#startForm").datepicker({
         //                     format: 'yyyy-mm-dd'
         //                 });
         //                 $("#startForm").on("change", function () {

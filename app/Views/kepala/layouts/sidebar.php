@@ -14,7 +14,7 @@
     with font-awesome or any other icon font library -->
             <li class="nav-header">NAVIGATIONS</li>
             <li class="nav-item">
-                <a href="<?= route_to('kepala.index') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
+                <a href="<?= site_url('kepala') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?= route_to('kepala.verifikasi') ?>" class="nav-link <?= $parent=='2' ? 'active' : ''; ?>">
+                <a href="<?= site_url('kepala/verifikasi') ?>" class="nav-link <?= $parent=='2' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-envelope-open"></i>
                     <p>
                         Verifikasi

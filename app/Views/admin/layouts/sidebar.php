@@ -14,7 +14,7 @@
     with font-awesome or any other icon font library -->
             <li class="nav-header">NAVIGATIONS</li>
             <li class="nav-item">
-                <a href="<?= base_url('admin') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
+                <a href="<?= site_url('admin') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -31,43 +31,43 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/pegawai') ?>" class="nav-link <?= $pmenu=='2.1' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/pegawai') ?>" class="nav-link <?= $pmenu=='2.1' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Data Pegawai</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/pangol') ?>" class="nav-link <?= $pmenu=='2.2' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/pangol') ?>" class="nav-link <?= $pmenu=='2.2' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Pangkat & Golongan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/jabatan') ?>" class="nav-link <?= $pmenu=='2.3' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/jabatan') ?>" class="nav-link <?= $pmenu=='2.3' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Jabatan</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="<?= base_url('admin/wilayah') ?>" class="nav-link <?= $pmenu=='2.4' ? 'active' : ''; ?>">
+                    <a href="<?= site_url('admin/wilayah') ?>" class="nav-link <?= $pmenu=='2.4' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Wilayah</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="<?= base_url('admin/instansi') ?>" class="nav-link <?= $pmenu=='2.5' ? 'active' : ''; ?>">
+                    <a href="<?= site_url('admin/instansi') ?>" class="nav-link <?= $pmenu=='2.5' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Instansi</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="<?= base_url('admin/sbuh') ?>" class="nav-link <?= $pmenu=='2.6' ? 'active' : ''; ?>">
+                    <a href="<?= site_url('admin/sbuh') ?>" class="nav-link <?= $pmenu=='2.6' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>SBUH</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="<?= base_url('admin/rekening') ?>" class="nav-link <?= $pmenu=='2.7' ? 'active' : ''; ?>">
+                    <a href="<?= site_url('admin/rekening') ?>" class="nav-link <?= $pmenu=='2.7' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kode Rekening</p>
                         </a>
@@ -84,13 +84,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/spt') ?>" class="nav-link <?= $pmenu=='3.1' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/spt') ?>" class="nav-link <?= $pmenu=='3.1' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>SPT</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/spd') ?>" class="nav-link <?= $pmenu=='3.2' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/spd') ?>" class="nav-link <?= $pmenu=='3.2' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>SPD</p>
                         </a>
@@ -107,13 +107,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/lapspt') ?>" class="nav-link <?= $pmenu=='4.1' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/lapspt') ?>" class="nav-link <?= $pmenu=='4.1' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Laporan SPT</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('admin/lapspd') ?>" class="nav-link <?= $pmenu=='4.2' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('admin/lapspd') ?>" class="nav-link <?= $pmenu=='4.2' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Laporan SPD</p>
                         </a>

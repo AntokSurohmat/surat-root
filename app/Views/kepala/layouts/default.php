@@ -30,13 +30,16 @@
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Costum CSS -->
     <link rel="stylesheet" href="<?= base_url() ?>/custom/css/style.css">
 
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
@@ -75,7 +78,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> Close&ensp;<i class="fas fa-times"></i></button>
-                        <a class="btn btn-sm btn-danger" href="#">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
+                        <a class="btn btn-sm btn-danger" href="<?= base_url('auth/logout') ;?>">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -124,7 +127,10 @@
     <script src="<?= base_url() ?>/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.js"></script>
-
+    <!-- Select2 -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Custom Input File -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/custom/js/custom.js"></script>
     <script language="javascript">

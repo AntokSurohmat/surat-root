@@ -67,21 +67,6 @@ class Spt extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->kodes;
             $row[] = $key->nama_pegawai;
-            // // d(json_decode($key->nama_pegawai));print_r(json_decode($key->nama_pegawai));die();
-            // foreach (json_decode($key->nama_pegawai) as $value){
-            //     //     $key = $value[$key];
-            //     // d($value[$key]);print_r($value[$key]);die();
-            // }
-            // foreach ($pegawai->getResult() as $pega ) {
-            //     foreach (json_decode($key->nama_pegawai) as $value){
-            //         if ($pega->nip == $value) {
-            //             // $valuedata = array();
-            //             // $valuedata[] = 
-            //             $row[] =  $pega->nama; 
-            //         }
-            //     }
-			// };
-            // d($row);print_r($row);die();
             $row[] = $key->dasar;
             $row[] = $key->untuk;
             foreach ($pegawai->getResult() as $pega ) {

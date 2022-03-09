@@ -1,70 +1,35 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models\Kepala;
 
 use CodeIgniter\Model;
 
-class SptModel extends Model
+class VerifikasiModel extends Model
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'spt';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    // protected $insertID         = 0;
+
+    protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'nama_pegawai', 'dasar', 'untuk', 'kode_instansi', 'alamat_instansi', 'awal', 'akhir', 'lama', 'diperintah', 'status', 'keterangan'];
+    protected $allowedFields    = ['status','keterangan'];
 
     // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    // protected $deletedField  = 'deleted_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[3]',
-        'nama_pegawai' => 'required|max_length[100]',
-        'dasar' => 'required|max_length[50]',
-        'untuk' => 'required|max_length[50]',
-        'kode_instansi' => 'required|numeric|max_length[20]',
-        'alamat_instansi' => 'required|max_length[50]',
-        'awal' => 'required',
-        'akhir' => 'required',
-        'lama' => 'required|numeric|max_length[2]',
-        'diperintah' => 'required|numeric|max_length[25]',
         'status' => 'required',
-        'keterangan' => 'max_length[20]'
+        'keterangan' => 'max_length[20]',
     ];
     protected $validationMessages   = [
-        'kode' => [
-            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-            'max_length' => '{field} Maksimal 25 Karakter'
-        ],
-
-        'dasar' => [
-            'max_length' => '{field} Maksimal 50 Karakter',
-        ],
-        'untuk' => [
-            'max_length' => '{field} Maksimal 50 Karakter',
-        ],
-        'kode_instansi' => [
-            'numeric' => '{field} Hanya Boleh Memsasukkan Angka',
-            'max_length' => '{field} Maksimal 20 Karakter',
-        ],
-        'alamat_instansi' => [
-            'max_length[50]' => '{field} Maksmimal 50 Karakter'
-        ],
-        'lama' => [
-            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-            'max_length' => '{field} Maksimal 2 Karakter',
-        ],
-        'diperintah' => [
-            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-            'max_length' => '{field} Maksmimal 25 Karakter',
-        ],
         'keterangan' => [
             'max_length' => '{field} Maksmimal 20 Karakter'
         ]
@@ -145,4 +110,5 @@ class SptModel extends Model
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
+
 }
