@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layouts/default') ?>
+<?= $this->extend('kepala/layouts/default') ?>
 
 <?= $this->section('content') ?>
 
@@ -257,11 +257,11 @@
                                 <input type="hidden" name="hidden_id" id="hidden_id" />
                                 <div class="form-group row">
                                     <div class="form-check ml-1 mr-2">
-                                        <input class="form-check-input" type="radio" name="radioAddEditModalView" value="Disetujui" id="setujuiModalVerfikasi">
+                                        <input class="form-check-input" type="radio" name="radioAddEditModalVerifikasi" value="Disetujui" id="setujuiModalVerfikasi">
                                         <label class="form-check-label">Setujui</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioAddEditModalView" value="Revisi" id="revisiModalVerfikasi" checked>
+                                        <input class="form-check-input" type="radio" name="radioAddEditModalVerifikasi" value="Revisi" id="revisiModalVerfikasi" checked>
                                         <label class="form-check-label">Revisi</label>
                                     </div>
                                 </div>
@@ -302,32 +302,13 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": url_destination,
-                "type": 'POST',
-                "data": {
-                    "csrf_token_name": $('input[name=csrf_token_name]').val()
-                },
-                "data": function(data) {
-                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
-                },
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
-                },
-                "timeout": 15000,
-                "error": handleAjaxError
+                "url": url_destination,"type": 'POST',
+                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
+                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
+                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
+                "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{
-                "targets": [0],
-                "orderable": false
-            }, {
-                "targets": [6],
-                "orderable": false,
-                "class": "text-center",
-            }, {
-                "targets": [7],
-                "class": "text-center",
-            }, ],
+            "columnDefs": [{"targets":[0],"orderable":false},{"targets":[6],"orderable":false,"class":"text-center"},{"targets":[7],"class":"text-center"}],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
@@ -409,12 +390,11 @@
 
         $('#modal-verifikasiitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
             $("#ketModalVerifikasi").empty();$("#ketModalVerifikasi").removeClass('is-valid');$("#ketModalVerifikasi").removeClass('is-invalid');
         });
         $('#modal-verifikasiitem').on('shown.bs.modal', function() {
-            $('input:radio[name=radioAddEdit]')[1].focus();
-            $('input:radio[name=radioAddEdit]').change(function () {setTimeout(function() { $("#ketModalVerifikasi").focus(); }, 0)});
+            $('input:radio[name=radioAddEditModalVerifikasi]')[1].focus();
+            $('input:radio[name=radioAddEditModalVerifikasi]').change(function () {setTimeout(function() { $("#ketModalVerifikasi").focus(); }, 0)});
             $('#ketModalVerifikasi').keydown(function(event) {if (event.keyCode == 13) {$('#submit-verifikasi').focus();}});
         });
         $(document).on('click', '.verifikasi', function() {
@@ -429,7 +409,7 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $("#revisiModalVerfikasi").prop("checked", true);
@@ -441,6 +421,7 @@
 
         $('#form-verfikasi').on('submit', function(event) {
             event.preventDefault();
+            console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Kepala/Verifikasi/update') ?>",
                 type: "POST",

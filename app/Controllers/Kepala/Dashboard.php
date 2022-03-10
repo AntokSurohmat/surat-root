@@ -11,7 +11,8 @@ class Dashboard extends BaseController
         $data = array(
             'title' => 'DASHBOARD',
             'parent' => 1,
-            'pmenu' => 1.1
+            'pmenu' => 1.1,
+            'session' => $this->session->username
         );
         return view('kepala/index', $data);
     }

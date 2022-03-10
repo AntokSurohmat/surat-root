@@ -124,7 +124,7 @@ class Spt extends ResourcePresenter
         $data = array();
         foreach ($pegawailist as $pegawai) {
             $data[] = array(
-                "id" => $pegawai['nip'] . ":" .  $pegawai['nama'],
+                "id" => $pegawai['nip'],
                 "text" => $pegawai['nama'],
             );
         }
@@ -269,8 +269,12 @@ class Spt extends ResourcePresenter
             exit('No direct script is allowed');
         }
 
-        // d(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
-        // print_r(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
+        // foreach($this->request->getVar('pegawaiAddEditForm[]') as $nip){
+
+        // }
+
+        // d($this->request->getVar('pegawaiAddEditForm[]'));
+        // print_r($this->request->getVar('pegawaiAddEditForm[]'));
         // die();
         // $data = [];
         $validation = \Config\Services::validation();
@@ -402,24 +406,19 @@ class Spt extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
-            // // d(json_decode($data['nama_pegawai']));print_r(json_decode($data['nama_pegawai']));die();
-            // $nama = $this->spt->where('id', $this->request->getVar('id'))->get();
-            // foreach ($nama->getResult('array') as $row) {
-            //     d($row['nama_pegawai']);print_r($row['nama_pegawai']);
-            //     d(json_decode($row['nama_pegawai']));print_r(json_decode($row['nama_pegawai']));
-            //     // d(json_encode($row['nama_pegawai']));print_r(json_encode($row['nama_pegawai']));die();
-            //     foreach ($row['nama_pegawai'] as $rew) {
-            //         d(rew);print_r();
-            //     }
-            // }
+
+            // d(json_decode($data['nama_pegawai']));
+            // print_r(json_decode($data['nama_pegawai']));
+            // die();
+
+            $data['looping'] = $this->pegawai->whereIn('nama', json_decode($data['nama_pegawai']))->findAll();
+            // d($data['looping']);
+            // print_r($data['looping']);
+            // die();
             
             $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
-            foreach(json_decode($data['nama_pegawai']) as $pegawai_one){
-                $data[] = $this->pegawai->where('nama', $pegawai_one)->findAll();
-            }
+
             $data[$this->csrfToken] = $this->csrfHash;
-            // $data['mumet'] = $mumet;
-            // print_r($data[0]);
             echo json_encode($data);
         }
     }

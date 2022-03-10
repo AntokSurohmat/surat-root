@@ -75,3 +75,7 @@ hr {
   hr.s9 {
     border:2px solid black;
   }
+
+  table#minimpadding td {
+    padding: 5px
+  }

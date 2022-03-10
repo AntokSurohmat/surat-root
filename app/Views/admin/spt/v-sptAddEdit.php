@@ -365,7 +365,7 @@
                         // $('#lahirForm').val(data.tgl_lahir);
                         // $('#lahirForm').val(data.tgl_lahir);
 
-                        $("#startForm").datepicker({ 
+                        $("#startForm").datepicker({
                             format: 'yyyy-mm-dd'
                         });
                         $("#startForm").on("change", function () {

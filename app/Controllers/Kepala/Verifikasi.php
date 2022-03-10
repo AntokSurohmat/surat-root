@@ -76,7 +76,8 @@ class Verifikasi extends ResourcePresenter
 				}
 			};
 
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>
+            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+            $button .= $key->status == "Revisi" ? '' : '
             <a type="button" class="btn btn-xs btn-primary mr-1 mb-1 verifikasi" href="javascript:void(0)" name="verifikasi" data-id="'. $key->id .'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Verifikasi Data ]"><i class="fas fa-check text-white"></i></a>';
             $button .= $key->status == "Disetujui" ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
 
@@ -183,17 +184,35 @@ class Verifikasi extends ResourcePresenter
         }
 
         $validation = \Config\Services::validation();
-
-        $valid = $this->validate([
-            'ketAddEditModalVerifikasi' => [
-                'label'     => 'Keterangan',
-                'rules'     => 'required|max_length[20]',
-                'errors' => [
-                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 20 Karakter',
+        
+        if($this->request->getVar('radioAddEditModalVerifikasi') == 'Revisi'){
+            $valid = $this->validate([
+                'ketAddEditModalVerifikasi' => [
+                    'label'     => 'Keterangan',
+                    'rules'     => 'required|max_length[20]',
+                    'errors' => [ 'max_length' => '{field} Maksimal 20 Karakter'],
                 ],
-            ],
-        ]);
+            ]);
+        }else{
+            $valid = $this->validate([
+                'ketAddEditModalVerifikasi' => [
+                    'label'     => 'Keterangan',
+                    'rules'     => 'max_length[20]',
+                    'errors' => [ 'max_length' => '{field} Maksimal 20 Karakter'],
+                ],
+            ]);
+        }
+        // dd($this->request->getVar('radioAddEditModalVerifikasi'));
+        // $valid = $this->validate([
+        //     'ketAddEditModalVerifikasi' => [
+        //         'label'     => 'Keterangan',
+        //         'rules'     => 'required_with[radioAddEditModalVerifikasi,ketAddEditModalVerifikasi]|max_length[20]',
+        //         'errors' => [
+        //             'max_length' => '{field} Maksimal 20 Karakter',
+        //             'required_with' => '{field} Harus Diisi Ketika Revisi'
+        //         ],
+        //     ],
+        // ]);
 
         if (!$valid) {
             /**
@@ -209,11 +228,11 @@ class Verifikasi extends ResourcePresenter
             ];
         }else{
             $data = [
-                'status' => $this->db->escapeString($this->request->getVar('radioAddEditModalView')),
+                'status' => $this->db->escapeString($this->request->getVar('radioAddEditModalVerifikasi')),
                 'keterangan' => $this->db->escapeString($this->request->getVar('ketAddEditModalVerifikasi')),
             ];
 
-            $id = $this->request->getVar('hiddenID');
+            $id = $this->request->getVar('hidden_id');
             if ($this->verifikasi->update($id, $data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
             } else {

@@ -133,25 +133,26 @@
                                             </div>
                                         </div><br>
                                         <div class="row">
-                                            <div class="col-12 table-responsive">
-                                                <table class="table table-striped table-bordered" style="font-size: 16px;">
+                                            <div class="col-12 table-responsive pl-5 ml-5 mr-5">
+                                                <table id="minimpadding" class="table table-borderless" style="font-size: 16px;">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:15%;">Dasar</td>
                                                             <td style="width:1%;">:</td>
-                                                            <td><p id="dasarModalView"></p></td>
+                                                            <td id="dasarModalView"></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width:15%;">Kepada</td>
                                                             <td style="width:1%;">:</td>
-                                                            <td>
-                                                                <table class="table table-bordered table-striped">
-                                                                    <thead>
+                                                            <td id="namaPegawaiModalViewTableLooping">
+                                                                <!-- <table class="table table-bordered table-striped">
+                                                                    <tbody>
+
                                                                         <tr>
                                                                             <td style="width:2%;">1</td>
                                                                             <td style="width:15%;">Nama</td>
                                                                             <td style="width:1%;">:</td>
-                                                                            <td>Nama Pegawai</td>
+                                                                            <td></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td style="width:2%;"></td>
@@ -171,14 +172,15 @@
                                                                             <td style="width: 1%;">:</td>
                                                                             <td>Jabatan</td>
                                                                         </tr>
-                                                                    </thead>
-                                                                </table>
+                                                                    </tbody>
+                                                                </table> -->
+
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width: 15%;">Untuk</td>
                                                             <td style="width: 1%;">:</td>
-                                                            <td><p id="untukModalView"></p></td>
+                                                            <td id="untukModalView"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -187,7 +189,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-2"></div>
-                                            <div class="col-10">
+                                            <div class="col-10 pr-5">
                                                 <p style="font-size: 16px;">
                                                     Demikian pemerintah tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.
                                                 </p>
@@ -239,7 +241,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button>
+                            <!-- <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button> -->
                         </div>
                 </div>
             </div>
@@ -345,32 +347,20 @@
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#no_sptModalView').text(data.kode);
-                    $('#dasarModalView').text(data.dasar);
-                    $('#untukModalView').text(data.untuk);
-                    var m_names = new Array("Januari", "Februari", "Maret", 
-                        "April", "Mei", "Juni", "Juli", "Augustus", "September", 
-                        "Oktober", "November", "Desember");
-
-                    var d = new Date(data.created_at);
-                    var curr_date = d.getDate();
-                    var curr_month = d.getMonth();
-                    var curr_year = d.getFullYear();
+                    $('#dasarModalView').append(data.dasar);
+                    $('#untukModalView').append(data.untuk);
+                    var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
                     // document.write(curr_date + "-" + m_names[curr_month] 
                     // + "-" + curr_year);
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
                     $('#modal-viewitem').modal('show');
-                    data[0].forEach((student) => {
-                        console.log(student.id);
-                        // student[0].id.forEach((value) => {
-                        //     console.log(value);
-                        // });
+                    data.looping.forEach((pegawailoop, index) => {
+                        console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
+                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless"><tbody><tr><td style="width:2%;">' + (index + 1) + '</td><td style="width:30%;">Nama</td><td style="width:1%;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Pangkat Golongan</td><td style="width: 1%;">:</td><td>' + pegawailoop.kode_pangol + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">' + pegawailoop.nip + '</td><td style="width: 1%;">:</td><td>NIP</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Jabatan</td><td style="width: 1%;">:</td><td>' + pegawailoop.kode_jabatan + '</td></tr></tbody></table>');
                     });
-                    // console.log(data[0].concat(data[1]));
-                    // for (let i = 0; i < data.length; i++) {
-                    //     text += cars[i] + "<br>";
-                    // }
                 }
             })
         })
