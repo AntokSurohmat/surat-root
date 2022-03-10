@@ -75,10 +75,12 @@ class Verifikasi extends ResourcePresenter
 					$row[] =  $pega->nama;
 				}
 			};
-            $row[] =
+
             $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>
             <a type="button" class="btn btn-xs btn-primary mr-1 mb-1 verifikasi" href="javascript:void(0)" name="verifikasi" data-id="'. $key->id .'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Verifikasi Data ]"><i class="fas fa-check text-white"></i></a>';
-            $button .= $key->status == "Pending" ? '<a class="btn btn-xs btn-success mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
+            $button .= $key->status == "Disetujui" ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
+
+            $row[] = $button;
             $row[] = $key->status;
             $row[] = $key->keterangan;
             $data[] = $row;
@@ -111,12 +113,12 @@ class Verifikasi extends ResourcePresenter
             // }
 
             $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
-            foreach(json_decode($data['nama_pegawai']) as $pegawai_one){
-                $data[] = $this->pegawai->where('nama', $pegawai_one)->findAll();
-            }
-            $data[$this->csrfToken] = $this->csrfHash;
+            // foreach(json_decode($data['nama_pegawai']) as $pegawai_one){
+            //     $data[] = $this->pegawai->where('nama', $pegawai_one)->findAll();
+            // }
             // $data['mumet'] = $mumet;
             // print_r($data[0]);
+            $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
     }
@@ -176,7 +178,52 @@ class Verifikasi extends ResourcePresenter
      */
     public function update($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'ketAddEditModalVerifikasi' => [
+                'label'     => 'Keterangan',
+                'rules'     => 'required|max_length[20]',
+                'errors' => [
+                    'numeric' => '{field}Hanya Bisa Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ],
+            ],
+        ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'ket' => $validation->getError('ketAddEditModalVerifikasi'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+            $data = [
+                'status' => $this->db->escapeString($this->request->getVar('radioAddEditModalView')),
+                'keterangan' => $this->db->escapeString($this->request->getVar('ketAddEditModalVerifikasi')),
+            ];
+
+            $id = $this->request->getVar('hiddenID');
+            if ($this->verifikasi->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**

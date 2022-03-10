@@ -74,11 +74,12 @@ class Spt extends ResourcePresenter
 					$row[] =  $pega->nama;
 				}
 			};
-            $row[] = '
-            <a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>
-            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spt/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
-            <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
+            
+            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+            $button .= $key->status == 'Disetujui' ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spt/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
+            $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
+            $row[] = $button;
             $row[] = $key->status;
             $row[] = $key->keterangan;
             $data[] = $row;
@@ -471,6 +472,131 @@ class Spt extends ResourcePresenter
     public function update($id = null)
     {
 
+        // d(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
+        // print_r(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
+        // die();
+        // $data = [];
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'kodeAddEditForm' => [
+                'label'     => 'No SPT',
+                'rules'     => 'required|numeric|max_length[3]',
+                'errors' => [
+                    'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length'    => '{field} Maksimal 3 Karakter',
+                ],
+            ],
+            // 'pegawaiAddEditForm' => [
+            //     'label' => 'Nama Pegawai',
+            //     'rules' => 'multiselectValidation[pegawaiAddEditForm]',
+            // ],
+            'dasarAddEditForm' => [
+                'label'     => 'Dasar Pengajuan SPT',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 50 Karakter'
+                ]
+            ],
+            'untukAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 50 Karakter'
+                ]
+            ],
+            'instansiAddEditForm' => [
+                'label'     => 'Nama Instansi',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'alamatAddEditForm' => [
+                'label'     => 'Alamat Instansi',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 50 Karakter'
+                ]
+            ],
+            'startAddEditForm' => [
+                'label'     => 'Tanggal Pergi',
+                'rules'     => 'required'
+            ],
+            'endAddEditForm'   => [
+                'label'     => 'Tanggal Kembali',
+                'rules'     => 'required'
+            ],
+            'lamaAddEditForm'  => [
+                'label'     => 'Lama Perjalanan',
+                'rules'     => 'required|numeric|max_length[2]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 2 Karakter',
+                ] 
+            ],
+            'diperintahAddEditForm' => [
+                'label'     => 'Pejabat Yang Memberikan Perintah',
+                'rules'     => 'required|numeric|max_length[25]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 25 Karakter',
+                ]
+            ]
+        ]);
+
+        // dd($valid);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kodeAddEditForm'),
+                    'pegawai' => $validation->getError('pegawaiAddEditForm[]'),
+                    'dasar' => $validation->getError('dasarAddEditForm'),
+                    'untuk' => $validation->getError('untukAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
+                    'alamat' => $validation->getError('alamatAddEditForm'),
+                    'start' => $validation->getError('startAddEditForm'),
+                    'end' => $validation->getError('endAddEditForm'),
+                    'lama' => $validation->getError('lamaAddEditForm'),
+                    'diperintah' => $validation->getError('diperintahAddEditForm'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+
+            $data = [
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'nama_pegawai' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
+                'dasar' => $this->db->escapeString($this->request->getVar('dasarAddEditForm')),
+                'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
+                'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
+                'alamat_instansi' => $this->db->escapeString($this->request->getVar('alamatAddEditForm')),
+                'awal' => date("Y-m-d", strtotime($this->request->getVar('startAddEditForm'))),
+                'akhir' => date("Y-m-d", strtotime($this->request->getVar('endAddEditForm'))),
+                'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
+                'diperintah' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
+                'status' => 'Pending',
+
+            ];
+            $id = $this->request->getVar('hiddenID');
+            if ($this->spt->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spt'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**

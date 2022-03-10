@@ -251,28 +251,29 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                        <form>
+                        <form role="form" id="form-verfikasi" autocomplete="off" onsubmit="return false">
                             <div class="modal-body">
                                 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioAddEdit" value="Setujui">
+                                <input type="hidden" name="hidden_id" id="hidden_id" />
+                                <div class="form-group row">
+                                    <div class="form-check ml-1 mr-2">
+                                        <input class="form-check-input" type="radio" name="radioAddEditModalView" value="Disetujui" id="setujuiModalVerfikasi">
                                         <label class="form-check-label">Setujui</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="radioAddEdit" value="Revisi" checked>
+                                        <input class="form-check-input" type="radio" name="radioAddEditModalView" value="Revisi" id="revisiModalVerfikasi" checked>
                                         <label class="form-check-label">Revisi</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan(<span style="font-weight: 900">Hanya Diisi Jika Revisi</span>)</label>
-                                    <textarea class="form-control" rows="3" placeholder="Masukkan Alasan" name="ketAddEdit" id="ketModalVerifikasi"></textarea>
+                                    <textarea class="form-control" rows="3" placeholder="Masukkan Alasan" name="ketAddEditModalVerifikasi" id="ketModalVerifikasi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="20"></textarea>
                                     <div class="invalid-feedback ketErrorModalVerifikasi"></div>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                                <button type="submit" id="submit-verifikasi" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button>
+                                <button type="submit" id="submit-verifikasi" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                             </div>
                         </form>
                 </div>
@@ -369,7 +370,7 @@
 
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');
-            var url_destination = "<?= base_url('Admin/Spt/view_data') ?>";
+            var url_destination = "<?= base_url('Kepala/Verifikasi/view_data') ?>";
             $.ajax({
                 url: url_destination,
                 type: "POST",
@@ -385,26 +386,18 @@
                     $('#no_sptModalView').text(data.kode);
                     $('#dasarModalView').text(data.dasar);
                     $('#untukModalView').text(data.untuk);
-                    var m_names = new Array("Januari", "Februari", "Maret",
-                        "April", "Mei", "Juni", "Juli", "Augustus", "September",
-                        "Oktober", "November", "Desember");
-
-                    var d = new Date(data.created_at);
-                    var curr_date = d.getDate();
-                    var curr_month = d.getMonth();
-                    var curr_year = d.getFullYear();
-                    // document.write(curr_date + "-" + m_names[curr_month]
-                    // + "-" + curr_year);
+                    var m_names = new Array("Januari", "Februari", "Maret","April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "Desember");
+                    var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
 
-                    data[0].forEach((student) => {
-                        console.log(student.id);
-                        // student[0].id.forEach((value) => {
-                        //     console.log(value);
-                        // });
-                    });
+                    // data[0].forEach((student) => {
+                    //     console.log(student.id);
+                    //     // student[0].id.forEach((value) => {
+                    //     //     console.log(value);
+                    //     // });
+                    // });
                     // console.log(data[0].concat(data[1]));
                     // for (let i = 0; i < data.length; i++) {
                     //     text += cars[i] + "<br>";
@@ -416,16 +409,12 @@
 
         $('#modal-verifikasiitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kodeForm").empty();
-            $("#jabatanForm").empty();
-            $("#kodeForm").removeClass('is-valid');
-            $("#kodeForm").removeClass('is-invalid');
-            $("#jabatanForm").removeClass('is-valid');
-            $("#jabatanForm").removeClass('is-invalid');
+            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
+            $("#ketModalVerifikasi").empty();$("#ketModalVerifikasi").removeClass('is-valid');$("#ketModalVerifikasi").removeClass('is-invalid');
         });
         $('#modal-verifikasiitem').on('shown.bs.modal', function() {
-            $('#input:radio[name=radioAddEdit]')[0].focus();
-            $('#input:radio[name=radioAddEdit]').change(function () {setTimeout(function() { $("#ketModalVerifikasi").focus(); }, 0)});
+            $('input:radio[name=radioAddEdit]')[1].focus();
+            $('input:radio[name=radioAddEdit]').change(function () {setTimeout(function() { $("#ketModalVerifikasi").focus(); }, 0)});
             $('#ketModalVerifikasi').keydown(function(event) {if (event.keyCode == 13) {$('#submit-verifikasi').focus();}});
         });
         $(document).on('click', '.verifikasi', function() {
@@ -443,9 +432,68 @@
                     console.log(data);
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $("#revisiModalVerfikasi").prop("checked", true);
+                    $('#hidden_id').val(data.id);
                     $('#modal-verifikasiitem').modal('show');
                 }
             })
+        })
+
+        $('#form-verfikasi').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: "<?= base_url('Kepala/Verifikasi/update') ?>",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-verfikasi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-verfikasi').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-verfikasi').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-verfikasi').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    // console.log(data.error);
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key + 'ModalVerifikasi').addClass('is-invalid');$("." + key + "ErrorModalVerifikasi").html(data.error[key]);
+                            var element = $('#' + key + 'ModalVerifikasi');
+                            element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                    }
+                    if (data.success == true) {
+                        $("#modal-verifikasiitem").modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil..',
+                            text: data.msg,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#veri_data').DataTable().ajax.reload(null, false);
+                    } else {
+                        // console.log(data.msg);
+                        Object.keys(data.msg).forEach((key, index) => {
+                            // var remove = key.replace("nama_", "");
+                            $("#" + key + 'ModalVerifikasi').addClass('is-invalid');$("." + key + "ErrorModalVerifikasi").html(data.msg[key]);
+                            var element = $('#' + key + 'ModalVerifikasi');
+                            element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log("#"+remove+"Form");
+                            // console.log(index);
+                        });
+                        if(data.msg != ""){
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                }
+            });
+            return false;
         })
 
     })
