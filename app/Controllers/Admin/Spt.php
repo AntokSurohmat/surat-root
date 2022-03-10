@@ -124,7 +124,7 @@ class Spt extends ResourcePresenter
         $data = array();
         foreach ($pegawailist as $pegawai) {
             $data[] = array(
-                "id" => $pegawai['nama'],
+                "id" => $pegawai['nip'] . ":" .  $pegawai['nama'],
                 "text" => $pegawai['nama'],
             );
         }
