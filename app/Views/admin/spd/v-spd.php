@@ -33,7 +33,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachInst" id="seachInst" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachSpd" id="seachSpd" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -45,14 +45,14 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>No SPT</th>
-                                    <th>Nama</th>
-                                    <th>Dasar Perjalanan Dinas</th>
-                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>No SPD</th>
                                     <th>Pejabat Yang Memberikan Perintah</th>
+                                    <th>Pegawai Yang Diperintah</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Kendaraan</th>
+                                    <th>Keterangan</th>
                                     <th style="width: 10%;">Aksi</th>
                                     <th>Status</th>
-                                    <th>Keterangan</th>
                                 </tr>
                                 </tr>
                             </thead>
@@ -76,16 +76,61 @@
 <script type="text/javascript">
     $(function() {
         /*-- DataTable To Load Data Mahasiswa --*/
+        var url_destination = "<?= base_url('Admin/Spd/load_data') ?>";
         var spd = $('#spd_data').DataTable({
-
-            "sDom": 'lrtip',
-            "lengthChange": false,
-            "processing": true,
-            "responsive": true
-
+            "sDom": 'lrtip',"lengthChange": false,"order": [],
+            "processing": true,"responsive": true,"serverSide": true,
+            "ajax": {"url": url_destination,"type": 'POST',
+                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
+                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
+                "timeout": 15000,"error": handleAjaxError
+            },
+            "columnDefs": [
+                {"targets": [0],"orderable": false},
+                {"targets": [6],"orderable": false,"class": "text-center"},
+                {"targets": [7],"class": "text-center"}
+            ],
         });
-        $('#seachInst').keyup(function() {
+
+        function handleAjaxError(xhr, textStatus, error) {
+            if (textStatus === 'timeout') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The server took too long to send the data.',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachSpd").value = "";
+                        spd.search("").draw();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachSpd").value = "";
+                        spd.search("").draw();
+                    }
+                });
+            }
+        }
+        $('#seachSpd').keyup(function() {
             spd.search($(this).val()).draw();
+        });
+                $("#refresh").on('click', function() {
+            document.getElementById("seachSpd").value = "";
+            spd.search("").draw();
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
     })

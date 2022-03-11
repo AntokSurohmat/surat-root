@@ -104,7 +104,6 @@ class Pegawai extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $jabatanlist = $this->jabatan->select('kode,nama_jabatan') // Fetch record
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_jabatan')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -113,7 +112,6 @@ class Pegawai extends ResourcePresenter
             // die();
         } else {
             $jabatanlist = $this->jabatan->select('kode,nama_jabatan') // Fetch record
-                ->where('deleted_at', NULL)
                 ->like('nama_jabatan', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_jabatan')
                 ->findAll(10);
@@ -142,7 +140,6 @@ class Pegawai extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_pangol')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -151,7 +148,6 @@ class Pegawai extends ResourcePresenter
             // die();
         } else {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
-                ->where('deleted_at', NULL)
                 ->like('nama_pangol', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_pangol')
                 ->findAll(10);

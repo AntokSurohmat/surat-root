@@ -43,7 +43,6 @@ class SptModel extends Model
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksimal 25 Karakter'
         ],
-
         'dasar' => [
             'max_length' => '{field} Maksimal 50 Karakter',
         ],

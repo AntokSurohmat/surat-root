@@ -61,7 +61,7 @@ class Spt extends Migration
             'keterangan'             => [
                 'type'              => 'varchar',
                 'constraint'        => '20',
-                'null'              => null
+                'null'              => true
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',

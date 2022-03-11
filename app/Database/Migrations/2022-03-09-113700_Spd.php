@@ -19,6 +19,7 @@ class Spd extends Migration
             'kode'              => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '3',
+                'null'              => true
             ],
             'diperintah'        => [
                 'type'              => 'VARCHAR',
@@ -26,11 +27,12 @@ class Spd extends Migration
             ],
             'nama_pegawai'      => [
                 'type'              => 'VARCHAR',
-                'constraint'        => '255',
+                'constraint'        => '100',
             ],
             'pegawai_diperintah'             => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '50',
+                'null'              => true
             ],
             'tingkat_biaya'     => [
                 'type'              => 'ENUM',
@@ -58,11 +60,12 @@ class Spd extends Migration
             'kode_rekening'     => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '20',
+                'null'              => true
             ],
             'keterangan'        => [
                 'type'              => 'varchar',
                 'constraint'        => '20',
-                'null'              => null
+                'null'              => true
             ],
             'jenis_kendaraan'   => [
                 'type'              => 'ENUM',
@@ -75,7 +78,9 @@ class Spd extends Migration
                 'default'           => 'false',
             ],
             'detail'            => [
-                'type'              => 'JSON'
+                'type'              => 'JSON',
+                'null'              => true,
+                'defaul'            => '{}',
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',

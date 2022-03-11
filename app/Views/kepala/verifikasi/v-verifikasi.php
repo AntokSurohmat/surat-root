@@ -198,7 +198,7 @@
 
                                             <div class="col-6">
                                                 <!-- <p class="lead">Amount Due 2/22/2014</p> -->
-                                                <div class="table-responsive">
+                                                <div class="table-responsive mb-0">
                                                     <table class="table table-borderless" style="line-height: 1em;">
                                                         <tr>
                                                             <td style="width:50%;text-align:center;padding:5px;">Ditetapkan di</td>
@@ -208,7 +208,7 @@
                                                         <tr>
                                                             <td style="width:50%;text-align:center;padding:5px;">Pada Tanggal</td>
                                                             <td style="padding:5px;"> : </td>
-                                                            <td style="padding:5px;"><p id="createdatModalView"></p></td>
+                                                            <td style="padding:5px;" id="createdatModalView"></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -371,7 +371,7 @@
                     $('#untukModalView').text(data.untuk);
                     var m_names = new Array("Januari", "Februari", "Maret","April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "Desember");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
+                    $('#createdatModalView').append(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
                     data.looping.forEach((pegawailoop, index) => {

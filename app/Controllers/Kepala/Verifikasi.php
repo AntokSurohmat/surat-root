@@ -4,6 +4,7 @@ namespace App\Controllers\Kepala;
 
 use CodeIgniter\RESTful\ResourcePresenter;
 use App\Models\Admin\PegawaiModel;
+use App\Models\Admin\SptModel;
 use App\Models\Admin\SpdModel;
 use App\Models\Admin\InstansiModel;
 use App\Models\Admin\ProvinsiModel;
@@ -24,6 +25,7 @@ class Verifikasi extends ResourcePresenter
     protected $helpers = ['form', 'url', 'text'];
     public function __construct(){
         $this->pegawai = new PegawaiModel();
+        $this->spt = new SptModel();
         $this->spd = new SpdModel();
         $this->instansi = new instansiModel();
         $this->provinsi = new ProvinsiModel();
@@ -109,7 +111,7 @@ class Verifikasi extends ResourcePresenter
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
             ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
             ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nama', json_decode($data['nama_pegawai']))->get();
+            ->whereIn('pegawai.nip', json_decode($data['nama_pegawai']))->get();
 
             $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
@@ -226,14 +228,21 @@ class Verifikasi extends ResourcePresenter
             $id = $this->request->getVar('hidden_id');
             if ($this->verifikasi->update($id, $data)) {
 
-                $builder = $this->db->table('spt');
-                $query = $builder->select('lama')->where('id', $id)->get();
-                $spt = $query->getResult();
-                
-                $this->spd->insert( $spt);
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
+                $spt = $this->spt->where('id', $id)->first();
+                $data = [
+                    'diperintah' => $spt['diperintah'],'nama_pegawai' => $spt['nama_pegawai'],
+                    'untuk' => $spt['untuk'],'kode_instansi' => $spt['kode_instansi'],
+                    'awal' => $spt['awal'],'akhir' => $spt['akhir'],'lama' => $spt['lama'],
+                ];
+
+                if($this->spd->insert($data)){
+
+                    $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
+                }else{
+                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                }
             } else {
-                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 

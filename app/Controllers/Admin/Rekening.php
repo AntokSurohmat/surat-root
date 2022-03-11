@@ -98,7 +98,6 @@ class Rekening extends BaseController
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->jenis->select('kode,jenis_wilayah') // Fetch record
-                ->where('deleted_at', NULL)
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -107,7 +106,6 @@ class Rekening extends BaseController
             // die();
         } else {
             $provinsilist = $this->provinsi->select('kode,jenis_wilayah') // Fetch record
-                ->where('deleted_at', NULL)
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);

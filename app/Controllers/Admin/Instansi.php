@@ -117,13 +117,11 @@ class Instansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         } else {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         }
@@ -151,14 +149,12 @@ class Instansi extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         }
@@ -185,14 +181,12 @@ class Instansi extends ResourcePresenter
         if ($this->request->getPost('searchTerm') == NULL) {            
             $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
                 ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
                 ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         }

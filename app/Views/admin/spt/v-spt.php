@@ -54,7 +54,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>No SPT</th>
-                                    <th>Nama</th>
+                                    <th style="width: 100px">Nama</th>
                                     <th>Dasar Perjalanan Dinas</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Pejabat Yang Memberikan Perintah</th>
@@ -269,7 +269,11 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{"targets": [0],"orderable": false}, {"targets": [6],"orderable": false,"class": "text-center"}, {"targets": [7],"class": "text-center"} ],
+            "columnDefs": [
+                {"targets": [0],"orderable": false}, 
+                {"targets": [6],"orderable": false,"class": "text-center"}, 
+                {"targets": [7],"class": "text-center"} 
+            ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
