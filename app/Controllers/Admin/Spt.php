@@ -53,7 +53,6 @@ class Spt extends ResourcePresenter
             exit('No direct script is allowed');
         }
         $pegawai = $this->db->table('pegawai')->get();
-        $instansi = $this->db->table('instansi')->get();
         $list = $this->spt->get_datatables();
         $count_all = $this->spt->count_all();
         $count_filter = $this->spt->count_filter();
@@ -407,15 +406,14 @@ class Spt extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
-            // d(json_decode($data['nama_pegawai']));
-            // print_r(json_decode($data['nama_pegawai']));
-            // die();
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nama', json_decode($data['nama_pegawai']))->get();
 
-            $data['looping'] = $this->pegawai->whereIn('nama', json_decode($data['nama_pegawai']))->findAll();
-            // d($data['looping']);
-            // print_r($data['looping']);
-            // die();
-            
+            $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;

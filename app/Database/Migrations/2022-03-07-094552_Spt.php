@@ -24,11 +24,11 @@ class Spt extends Migration
                 'constraint'        => '255',
             ],
             'dasar'             => [
-                'type'              => 'varchar',
+                'type'              => 'VARCHAR',
                 'constraint'        => '50',
             ],
             'untuk'             => [
-                'type'              => 'varchar',
+                'type'              => 'VARCHAR',
                 'constraint'        => '50',
             ],
             'kode_instansi'     => [

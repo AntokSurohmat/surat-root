@@ -126,29 +126,30 @@
                                                             <td>090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>
+                                                </table>                                                
                                             </div>
                                         </div><br>
                                         <div class="row">
-                                            <div class="col-12 table-responsive">
-                                                <table class="table table-striped table-bordered" style="font-size: 16px;">
+                                            <div class="col-12 table-responsive pl-5 ml-5 mr-5">
+                                                <table class="table table-borderless minimpadding" style="font-size: 16px;">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:15%;">Dasar</td>
                                                             <td style="width:1%;">:</td>
-                                                            <td><p id="dasarModalView"></p></td>
+                                                            <td id="dasarModalView"></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width:15%;">Kepada</td>
                                                             <td style="width:1%;">:</td>
-                                                            <td>
-                                                                <table class="table table-bordered table-striped">
-                                                                    <thead>
+                                                            <td id="namaPegawaiModalViewTableLooping">
+                                                                <!-- <table class="table table-bordered table-striped">
+                                                                    <tbody>
+
                                                                         <tr>
                                                                             <td style="width:2%;">1</td>
                                                                             <td style="width:15%;">Nama</td>
                                                                             <td style="width:1%;">:</td>
-                                                                            <td>Nama Pegawai</td>
+                                                                            <td></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td style="width:2%;"></td>
@@ -168,14 +169,15 @@
                                                                             <td style="width: 1%;">:</td>
                                                                             <td>Jabatan</td>
                                                                         </tr>
-                                                                    </thead>
-                                                                </table>
+                                                                    </tbody>
+                                                                </table> -->
+
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width: 15%;">Untuk</td>
                                                             <td style="width: 1%;">:</td>
-                                                            <td><p id="untukModalView"></p></td>
+                                                            <td id="untukModalView"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -184,7 +186,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-2"></div>
-                                            <div class="col-10">
+                                            <div class="col-10 pr-5">
                                                 <p style="font-size: 16px;">
                                                     Demikian pemerintah tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.
                                                 </p>
@@ -236,7 +238,7 @@
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button>
+                            <!-- <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button> -->
                         </div>
                 </div>
             </div>
@@ -362,7 +364,7 @@
                 dataType: "JSON",
                 success: function(data) {
                     console.log(data);
-                    // console.log(data);
+                    console.log(data.jabatan);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#no_sptModalView').text(data.kode);
                     $('#dasarModalView').text(data.dasar);
@@ -372,17 +374,10 @@
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
-
-                    // data[0].forEach((student) => {
-                    //     console.log(student.id);
-                    //     // student[0].id.forEach((value) => {
-                    //     //     console.log(value);
-                    //     // });
-                    // });
-                    // console.log(data[0].concat(data[1]));
-                    // for (let i = 0; i < data.length; i++) {
-                    //     text += cars[i] + "<br>";
-                    // }
+                    data.looping.forEach((pegawailoop, index) => {
+                        // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
+                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:2%;">' + (index + 1) + '.' +'</td><td style="width:30%;">Nama</td><td style="width:1%;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Pangkat Golongan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_pangol +'</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">NIP</td><td style="width: 1%;">:</td><td>' + pegawailoop.nip + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Jabatan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_jabatan + '</td></tr></tbody></table>');
+                    });
                     $('#modal-viewitem').modal('show');
                 }
             })

@@ -134,7 +134,7 @@
                                         </div><br>
                                         <div class="row">
                                             <div class="col-12 table-responsive pl-5 ml-5 mr-5">
-                                                <table id="minimpadding" class="table table-borderless" style="font-size: 16px;">
+                                                <table class="table table-borderless minimpadding" style="font-size: 16px;">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:15%;">Dasar</td>
@@ -258,39 +258,18 @@
         /*-- DataTable To Load Data Mahasiswa --*/
         var url_destination = "<?= base_url('Admin/Spt/load_data') ?>";
         var spt = $('#spt_data').DataTable({
-            "sDom": 'lrtip',
-            "lengthChange": false,
-            "order": [],
-            "processing": true,
-            "responsive": true,
-            "serverSide": true,
-            "ajax": {
-                "url": url_destination,
-                "type": 'POST',
-                "data": {
-                    "csrf_token_name": $('input[name=csrf_token_name]').val()
-                },
-                "data": function(data) {
-                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
-                },
+            "sDom": 'lrtip',"lengthChange": false,"order": [],
+            "processing": true,"responsive": true,"serverSide": true,
+            "ajax": {"url": url_destination,"type": 'POST',
+                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
+                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
                 "dataSrc": function(response) {
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return response.data;
                 },
-                "timeout": 15000,
-                "error": handleAjaxError
+                "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{
-                "targets": [0],
-                "orderable": false
-            }, {
-                "targets": [6],
-                "orderable": false,
-                "class": "text-center",
-            }, {
-                "targets": [7],
-                "class": "text-center",
-            }, ],
+            "columnDefs": [{"targets": [0],"orderable": false}, {"targets": [6],"orderable": false,"class": "text-center"}, {"targets": [7],"class": "text-center"} ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
@@ -343,7 +322,7 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#no_sptModalView').text(data.kode);
@@ -356,11 +335,11 @@
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
-                    $('#modal-viewitem').modal('show');
                     data.looping.forEach((pegawailoop, index) => {
-                        console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
-                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless"><tbody><tr><td style="width:2%;">' + (index + 1) + '</td><td style="width:30%;">Nama</td><td style="width:1%;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Pangkat Golongan</td><td style="width: 1%;">:</td><td>' + pegawailoop.kode_pangol + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">' + pegawailoop.nip + '</td><td style="width: 1%;">:</td><td>NIP</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Jabatan</td><td style="width: 1%;">:</td><td>' + pegawailoop.kode_jabatan + '</td></tr></tbody></table>');
+                        // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
+                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:2%;">' + (index + 1) + '.' +'</td><td style="width:30%;">Nama</td><td style="width:1%;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Pangkat Golongan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_pangol +'</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">NIP</td><td style="width: 1%;">:</td><td>' + pegawailoop.nip + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Jabatan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_jabatan + '</td></tr></tbody></table>');
                     });
+                    $('#modal-viewitem').modal('show');
                 }
             })
         })

@@ -76,6 +76,10 @@ hr {
     border:2px solid black;
   }
 
-  table#minimpadding td {
+  table.minimpadding td {
     padding: 5px
   }
+  table.nopadding td {
+    padding: 1px
+  }
+

@@ -4,6 +4,7 @@ namespace App\Controllers\Kepala;
 
 use CodeIgniter\RESTful\ResourcePresenter;
 use App\Models\Admin\PegawaiModel;
+use App\Models\Admin\SpdModel;
 use App\Models\Admin\InstansiModel;
 use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
@@ -23,6 +24,7 @@ class Verifikasi extends ResourcePresenter
     protected $helpers = ['form', 'url', 'text'];
     public function __construct(){
         $this->pegawai = new PegawaiModel();
+        $this->spd = new SpdModel();
         $this->instansi = new instansiModel();
         $this->provinsi = new ProvinsiModel();
         $this->kabupaten = new KabupatenModel();
@@ -54,7 +56,6 @@ class Verifikasi extends ResourcePresenter
             exit('No direct script is allowed');
         }
         $pegawai = $this->db->table('pegawai')->get();
-        $instansi = $this->db->table('instansi')->get();
         $list = $this->verifikasi->get_datatables();
         $count_all = $this->verifikasi->count_all();
         $count_filter = $this->verifikasi->count_filter();
@@ -102,23 +103,17 @@ class Verifikasi extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->verifikasi->where('id', $this->request->getVar('id'))->first();
-            // // d(json_decode($data['nama_pegawai']));print_r(json_decode($data['nama_pegawai']));die();
-            // $nama = $this->verifikasi->where('id', $this->request->getVar('id'))->get();
-            // foreach ($nama->getResult('array') as $row) {
-            //     d($row['nama_pegawai']);print_r($row['nama_pegawai']);
-            //     d(json_decode($row['nama_pegawai']));print_r(json_decode($row['nama_pegawai']));
-            //     // d(json_encode($row['nama_pegawai']));print_r(json_encode($row['nama_pegawai']));die();
-            //     foreach ($row['nama_pegawai'] as $rew) {
-            //         d(rew);print_r();
-            //     }
-            // }
 
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nama', json_decode($data['nama_pegawai']))->get();
+
+            $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
-            // foreach(json_decode($data['nama_pegawai']) as $pegawai_one){
-            //     $data[] = $this->pegawai->where('nama', $pegawai_one)->findAll();
-            // }
-            // $data['mumet'] = $mumet;
-            // print_r($data[0]);
+
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -182,6 +177,12 @@ class Verifikasi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
+        // $id = $this->request->getVar('hidden_id');
+        // $builder = $this->db->table('spt');
+        // $query = $builder->select('lama')->where('id', $id)->get();
+        // $spt = $query->getResult();
+
+        // d($spt);print_r($spt);die();
 
         $validation = \Config\Services::validation();
         
@@ -202,17 +203,7 @@ class Verifikasi extends ResourcePresenter
                 ],
             ]);
         }
-        // dd($this->request->getVar('radioAddEditModalVerifikasi'));
-        // $valid = $this->validate([
-        //     'ketAddEditModalVerifikasi' => [
-        //         'label'     => 'Keterangan',
-        //         'rules'     => 'required_with[radioAddEditModalVerifikasi,ketAddEditModalVerifikasi]|max_length[20]',
-        //         'errors' => [
-        //             'max_length' => '{field} Maksimal 20 Karakter',
-        //             'required_with' => '{field} Harus Diisi Ketika Revisi'
-        //         ],
-        //     ],
-        // ]);
+
 
         if (!$valid) {
             /**
@@ -234,6 +225,12 @@ class Verifikasi extends ResourcePresenter
 
             $id = $this->request->getVar('hidden_id');
             if ($this->verifikasi->update($id, $data)) {
+
+                $builder = $this->db->table('spt');
+                $query = $builder->select('lama')->where('id', $id)->get();
+                $spt = $query->getResult();
+                
+                $this->spd->insert( $spt);
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
             } else {
                 $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');

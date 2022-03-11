@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use PHPUnit\Framework\Constraint\Constraint;
 
 class Spd extends Migration
 {
@@ -19,25 +20,30 @@ class Spd extends Migration
                 'type'              => 'VARCHAR',
                 'constraint'        => '3',
             ],
+            'diperintah'        => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
+            ],
             'nama_pegawai'      => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
             ],
-            'dasar'             => [
-                'type'              => 'varchar',
+            'pegawai_diperintah'             => [
+                'type'              => 'VARCHAR',
                 'constraint'        => '50',
             ],
+            'tingkat_biaya'     => [
+                'type'              => 'ENUM',
+                'constraint'        =>  ['Tingkat A', 'Tingkat B', 'Tinkat C'],
+                'default'           => 'Tingkat A'
+            ],
             'untuk'             => [
-                'type'              => 'varchar',
+                'type'              => 'VARCHAR',
                 'constraint'        => '50',
             ],
             'kode_instansi'     => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '20',
-            ],
-            'alamat_instansi'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
             ],
             'awal'              => [
                 'type'              => 'DATE',
@@ -47,21 +53,29 @@ class Spd extends Migration
             ],
             'lama'              => [
                 'type'              => 'INT',
-                'constraint'         => 2
+                'constraint'        => 2
             ],
-            'diperintah'        => [
+            'kode_rekening'     => [
                 'type'              => 'VARCHAR',
-                'constraint'        => '25',
+                'constraint'        => '20',
             ],
-            'status'        => [
-                'type'              => 'ENUM',
-                'constraint'        => ['Pending','Revisi','Disetujui'],
-                'default'           => 'Pending',
-            ],
-            'keterangan'             => [
+            'keterangan'        => [
                 'type'              => 'varchar',
                 'constraint'        => '20',
                 'null'              => null
+            ],
+            'jenis_kendaraan'   => [
+                'type'              => 'ENUM',
+                'constraint'        =>  ['Bus', 'Kapal', 'Kereta Api', 'Mobil Dinas', 'Motor Dinas', 'Pesawat'],
+                'default'           => 'Bus'
+            ],
+            'status'            => [
+                'type'              => 'ENUM',
+                'constraint'        => ['true', 'false'],
+                'default'           => 'false',
+            ],
+            'detail'            => [
+                'type'              => 'JSON'
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',
@@ -80,14 +94,16 @@ class Spd extends Migration
         $this->forge->addUniqueKey('kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
         $this->forge->addForeignKey('diperintah', 'pegawai', 'nip');
-        $this->forge->createTable('spt');
+        $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode');
+        $this->forge->createTable('spd');
     }
 
     public function down()
     {
-        $this->forge->dropKey('spt', 'kode');
-        $this->forge->dropForeignKey('instansi', 'etbl_spt_kode_instansi_foreign');
-        $this->forge->dropForeignKey('pegawai', 'etbl_spt_diperintah_foreign');
-        $this->forge->dropTable('spt');
+        $this->forge->dropKey('spd', 'kode');
+        $this->forge->dropForeignKey('instansi', 'etbl_spd_kode_instansi_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spd_diperintah_foreign');
+        $this->forge->dropForeignKey('rekening', 'etbl_spd_kode_rekening_foreign');
+        $this->forge->dropTable('spd');
     }
 }
