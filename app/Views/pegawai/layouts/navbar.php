@@ -5,7 +5,7 @@
         </li>
         <li>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= route_to('pegawai.index') ?>" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Ke Halaman Dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="<?= site_url('pegawai') ?>" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Ke Halaman Dashboard">Home</a></li>
                 <li class="breadcrumb-item active" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Halaman Saat Ini"><?= ucwords(strtolower($title)) ?></li>
             </ol>
         </li>
@@ -46,41 +46,12 @@
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
         </li>
-        <li class="nav-item dropdown user-menu">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+        <li class="nav-item user-menu">
+            <a href="javascript:void(0)" class="nav-link" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Profile">
                 <img src="<?= base_url() ?>/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
                 <span class="d-none d-md-inline">Alexander Pierce</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-                <li class="user-header bg-primary">
-                    <img src="<?= base_url() ?>/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-                    <p>
-                        Alexander Pierce - Web Developer
-                        <small>Member since Nov. 2012</small>
-                    </p>
-                </li>
-
-                <li class="user-body">
-                    <div class="row">
-                        <div class="col-4 text-center">
-                            <a href="#">Followers</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Sales</a>
-                        </div>
-                        <div class="col-4 text-center">
-                            <a href="#">Friends</a>
-                        </div>
-                    </div>
-
-                </li>
-
-                <li class="user-footer">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                    <a href="#" class="btn btn-default btn-flat float-right">Sign out</a>
-                </li>
-            </ul>
         </li>
         <li class="nav-item">
             <a role="button" style="margin-right:5px;" href="javascript:void(0)" class="nav-link" onclick="logout()" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Logout">

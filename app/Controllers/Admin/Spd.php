@@ -8,6 +8,8 @@ use App\Models\Admin\InstansiModel;
 use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
+use App\Models\Admin\WilayahModel;
+use App\Models\Admin\RekeningModel;
 use App\Models\Admin\SpdModel;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -27,6 +29,8 @@ class Spd extends ResourcePresenter
         $this->provinsi = new ProvinsiModel();
         $this->kabupaten = new KabupatenModel();
         $this->kecamatan = new KecamatanModel();
+        $this->wilayah = new WilayahModel();
+        $this->rekening = new RekeningModel();
         $this->spd = new SpdModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
@@ -75,7 +79,14 @@ class Spd extends ResourcePresenter
             $row[] = $key->jenis_kendaraan;
             $row[] = $key->keterangan;
 
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a><a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spd/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a><a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+            $button = $key->status == 'false' ? '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="/Admin/spd/new/' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>' : '' ;
+
+            $button .= '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+
+            $button .= $key->status == 'true' ? '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spd/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' : '' ;
+
+            $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+
             $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
             $row[] = $button;
             if($key->status == 'false'){$status = 'SPD Belum Dibuat';
@@ -95,6 +106,29 @@ class Spd extends ResourcePresenter
         $output[$this->csrfToken] = $this->csrfHash;
         echo json_encode($output);
     }
+
+    public function getPegawai()
+    {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        $pegawailist = $this->spd->select('nama_pegawai')->first();
+
+        $data = array();
+        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['nama_pegawai']))->get();
+        foreach (array_combine(json_decode($pegawailist['nama_pegawai']), $nama->getResultArray())  as $pegawai => $nama) {
+            $data[] = array(
+                "id" => $pegawai,
+                "text" => $nama['nama'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
     /**
      * Present a view to present a specific resource object
      *
@@ -112,14 +146,14 @@ class Spd extends ResourcePresenter
      *
      * @return mixed
      */
-    public function new()
+    public function new($id = null)
     {
         $data = array(
             'title' => 'Tambah Data Surat Perjalanan Dinas',
             'parent' => 3,
             'pmenu' => 3.2,
             'method' => 'New',
-            'hiddenID' => '',
+            'hiddenID' => $id,
         );
         return view('admin/spd/v-spdAddEdit', $data);
     }
@@ -132,7 +166,214 @@ class Spd extends ResourcePresenter
      */
     public function create()
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        // d($this->request->getVar('pegawaiAddEditForm'));print_r($this->request->getVar('pegawaiAddEditForm'));die();
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'kodeAddEditForm' => [
+                'label'     => 'No SPT',
+                'rules'     => 'required|numeric|max_length[3]',
+                'errors' => [
+                    'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length'    => '{field} Maksimal 3 Karakter',
+                ],
+            ],
+            'diperintahAddEditForm' => [
+                'label'     => 'Pegawai Yang diperintah',
+                'rules'     => 'required|max_length[20]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'pegawaiAddEditForm' => [
+                'label'     => 'Pegawai Yang diperintah',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'tingkatBiayaAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[10]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 10 Karakter'
+                ]
+            ],
+            'untukAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 50 Karakter'
+                ]
+            ],
+            'instansiAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[20]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 20 Karakter'
+                ]
+            ],
+            'startAddEditForm' => [
+                'label'     => 'Tanggal Pergi',
+                'rules'     => 'required'
+            ],
+            'endAddEditForm'   => [
+                'label'     => 'Tanggal Kembali',
+                'rules'     => 'required'
+            ],
+            'lamaAddEditForm'  => [
+                'label'     => 'Lama Perjalanan',
+                'rules'     => 'required|numeric|max_length[2]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 2 Karakter',
+                ]
+            ],
+            'rekeningAddEditForm'  => [
+                'label'     => 'Lama Perjalanan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+        ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kodeAddEditForm'),
+                    'diperintah' => $validation->getError('diperintahAddEditForm[]'),
+                    'pegawai' => $validation->getError('pegawaiAddEditForm'),
+                    'tingkat' => $validation->getError('tingkatBiayaAddEditForm'),
+                    'untuk' => $validation->getError('untukAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
+                    'start' => $validation->getError('startAddEditForm'),
+                    'end' => $validation->getError('endAddEditForm'),
+                    'lama' => $validation->getError('lamaAddEditForm'),
+                    'rekening' => $validation->getError('rekeningAddEditForm'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+
+            $detail_array = array(
+                "first" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditFirst'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormFirst'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFirst'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFirst'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormFirst'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormFirst'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFirst'),
+                ),
+                "second" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditSecond'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormSecond'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormSecond'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormSecond'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormSecond'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormSecond'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormSecond'),
+                ),
+                "third" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditThird'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormThird'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormThird'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormThird'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormThird'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormThird'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormThird'),
+                ),
+                "fourth" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditFourth'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormFourth'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFourth'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFourth'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormFourth'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormFourth'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFourth'),
+                )
+
+            );
+
+            $data = [
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'diperintah' => $this->pegawai->select('nip')->where('nama', $this->request->getVar('diperintahAddEditForm'))->first(),
+                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('pegawaiAddEditForm')),
+                'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
+                'kode_instansi' => $this->instansi->select('kode')->where('nama_instansi', $this->request->getVar('instansiAddEditForm'))->first(),
+                'awal' => $this->request->getVar('startAddEditForm'),
+                'akhir' => $this->request->getVar('endAddEditForm'),
+                'kode_rekening' => $this->rekening->select('kode')->where('nomer_rekening', $this->request->getVar('rekeningAddEditForm'))->first(),
+                'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
+                'keterangan' => $this->db->escapeString($this->request->getVar('keteranganAddEditForm')),
+                'jenis_kendaraan' => $this->db->escapeString($this->request->getVar('kendaraanAddEditForm')),
+                'detail' => json_encode($detail_array),
+                'status' => 'true',
+
+            ];
+            $id = $this->request->getVar('hiddenID');
+            if ($this->spd->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
+
+    }
+
+    function new_update()
+    {
+        if ($this->request->getVar('id')) {
+            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+
+            $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $instansi = $this->instansi->where('kode', $data['kode_instansi'])->first();
+
+            $wilayah = $this->wilayah->select('kode_jenis_wilayah')->where(['kode_provinsi' => $instansi['kode_provinsi'], 'kode_kabupaten' => $instansi['kode_kabupaten']])->first();
+
+            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode_jenis_wilayah', $wilayah)->first();
+
+            $data['instansi'] = $instansi;
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
+    }
+
+    function real_update()
+    {
+        if ($this->request->getVar('id')) {
+            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+
+            $data['diperintah'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
+            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode', $data['kode_rekening'])->first();
+            $data['json'] = json_decode($data['detail'], true);
+            // d(json_decode($data['detail']));print_r(json_decode($data['detail']));die();
+            // d($data['json']);print_r($data['json']);die();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
     }
 
     /**
@@ -144,7 +385,19 @@ class Spd extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        //
+        if (!$id) {
+            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
+        $data = array(
+            'title' => 'Edit Data Surat Perjalanan Dinas',
+            'parent' => 3,
+            'pmenu' => 3.2,
+            'method' => 'Update',
+            'hiddenID' => $id,
+        );
+        return view('admin/spd/v-spdAddEdit', $data);
     }
 
     /**
@@ -157,7 +410,177 @@ class Spd extends ResourcePresenter
      */
     public function update($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        // d($this->request->getVar('pegawaiAddEditForm'));print_r($this->request->getVar('pegawaiAddEditForm'));die();
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'kodeAddEditForm' => [
+                'label'     => 'No SPT',
+                'rules'     => 'required|numeric|max_length[3]',
+                'errors' => [
+                    'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
+                    'max_length'    => '{field} Maksimal 3 Karakter',
+                ],
+            ],
+            'diperintahAddEditForm' => [
+                'label'     => 'Pegawai Yang diperintah',
+                'rules'     => 'required|max_length[20]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'pegawaiAddEditForm' => [
+                'label'     => 'Pegawai Yang diperintah',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'tingkatBiayaAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[10]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 10 Karakter'
+                ]
+            ],
+            'untukAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 50 Karakter'
+                ]
+            ],
+            'instansiAddEditForm' => [
+                'label'     => 'Maksud Perjalan Dinas',
+                'rules'     => 'required|max_length[20]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 20 Karakter'
+                ]
+            ],
+            'startAddEditForm' => [
+                'label'     => 'Tanggal Pergi',
+                'rules'     => 'required'
+            ],
+            'endAddEditForm'   => [
+                'label'     => 'Tanggal Kembali',
+                'rules'     => 'required'
+            ],
+            'lamaAddEditForm'  => [
+                'label'     => 'Lama Perjalanan',
+                'rules'     => 'required|numeric|max_length[2]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 2 Karakter',
+                ]
+            ],
+            'rekeningAddEditForm'  => [
+                'label'     => 'Lama Perjalanan',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+        ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kodeAddEditForm'),
+                    'diperintah' => $validation->getError('diperintahAddEditForm[]'),
+                    'pegawai' => $validation->getError('pegawaiAddEditForm'),
+                    'tingkat' => $validation->getError('tingkatBiayaAddEditForm'),
+                    'untuk' => $validation->getError('untukAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
+                    'start' => $validation->getError('startAddEditForm'),
+                    'end' => $validation->getError('endAddEditForm'),
+                    'lama' => $validation->getError('lamaAddEditForm'),
+                    'rekening' => $validation->getError('rekeningAddEditForm'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+
+            $detail_array = array(
+                "first" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditFirst'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormFirst'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFirst'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFirst'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormFirst'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormFirst'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFirst'),
+                ),
+                "second" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditSecond'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormSecond'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormSecond'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormSecond'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormSecond'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormSecond'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormSecond'),
+                ),
+                "third" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditThird'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormThird'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormThird'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormThird'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormThird'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormThird'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormThird'),
+                ),
+                "fourth" => array(
+                    "tibadi" => $this->request->getVar('tibadiAddEditFourth'),
+                    "tanggaltiba" => $this->request->getVar('tanggalTibaAddEditFormFourth'),
+                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFourth'),
+                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFourth'),
+                    "tujuan" => $this->request->getVar('tujuanAddEditFormFourth'),
+                    "tanggalberangkat" => $this->request->getVar('tanggalBerangkatAddEditFormFourth'),
+                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFourth'),
+                )
+
+            );
+
+            $data = [
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'diperintah' => $this->pegawai->select('nip')->where('nama', $this->request->getVar('diperintahAddEditForm'))->first(),
+                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('pegawaiAddEditForm')),
+                'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
+                'kode_instansi' => $this->instansi->select('kode')->where('nama_instansi', $this->request->getVar('instansiAddEditForm'))->first(),
+                'awal' => $this->request->getVar('startAddEditForm'),
+                'akhir' => $this->request->getVar('endAddEditForm'),
+                'kode_rekening' => $this->rekening->select('kode')->where('nomer_rekening', $this->request->getVar('rekeningAddEditForm'))->first(),
+                'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
+                'keterangan' => $this->db->escapeString($this->request->getVar('keteranganAddEditForm')),
+                'jenis_kendaraan' => $this->db->escapeString($this->request->getVar('kendaraanAddEditForm')),
+                'detail' => json_encode($detail_array),
+                'status' => 'true',
+
+            ];
+            $id = $this->request->getVar('hiddenID');
+            if ($this->spd->update($id, $data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**
@@ -181,6 +604,21 @@ class Spd extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')) {
+            $id = $this->request->getVar('id');
+
+            if ($this->spd->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }

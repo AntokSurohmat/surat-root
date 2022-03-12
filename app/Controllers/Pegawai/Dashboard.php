@@ -4,7 +4,7 @@ namespace App\Controllers\Pegawai;
 
 use App\Controllers\BaseController;
 
-class DashboardController extends BaseController
+class Dashboard extends BaseController
 {
     public function index()
     {

@@ -93,7 +93,7 @@
                                             <label for="startForm" class="col-sm-3 col-form-label">Tanggal Pergi </label>
                                             <div class="col-sm-7">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="startAddEditForm" class="form-control" id="startForm" placeholder="Dari Tanggal"/>
+                                                    <input type="text" class="form-control" name="startAddEditForm" id="startForm" placeholder="Dari Tanggal"/>
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                     </div>
@@ -105,7 +105,7 @@
                                             <label for="endForm" class="col-sm-3 col-form-label">Tanggal Kembali </label>
                                             <div class="col-sm-7">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="endAddEditForm" class="form-control" id="endForm" placeholder="Sampai Tanggal"/>
+                                                    <input type="text" class="form-control" name="endAddEditForm"  id="endForm" placeholder="Sampai Tanggal"/>
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                     </div>

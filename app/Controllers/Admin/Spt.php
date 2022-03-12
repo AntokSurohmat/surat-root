@@ -468,6 +468,9 @@ class Spt extends ResourcePresenter
      */
     public function update($id = null)
     {
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
 
         // d(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
         // print_r(json_encode($this->request->getVar('pegawaiAddEditForm[]')));

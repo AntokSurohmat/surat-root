@@ -5,7 +5,7 @@
         </li>
         <li>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= route_to('admin.index') ?>" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Ke Halaman Dashboard">Home</a></li>
+                <li class="breadcrumb-item"><a href="<?= site_url('admin') ?>" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Ke Halaman Dashboard">Home</a></li>
                 <li class="breadcrumb-item active" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Halaman Saat Ini"><?= ucwords(strtolower($title)) ?></li>
             </ol>
         </li>

@@ -48,11 +48,6 @@ $routes->group('admin', function ($routes) {
     $routes->get('lapspt', 'Admin\Lapspt::index');
     $routes->get('lapspd', 'Admin\Lapspd::index');
 });
-$routes->group('pegawai', function ($routes) {
-    $routes->get('', 'Pegawai\DashboardController::index');
-    $routes->get('spt', 'Pegawai\SptController::index');
-    $routes->get('spd', 'Pegawai\SpdController::index');
-});
 $routes->group('bendahara', function ($routes) {
     $routes->get('', 'Bendahara\DashboardController::index',);
     $routes->get('kuitansi', 'Bendahara\KuitansiController::index');
@@ -61,9 +56,12 @@ $routes->group('bendahara', function ($routes) {
 $routes->group('kepala', function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
     $routes->presenter('Verifikasi', ['only' => ['index', 'update']]);
-    // $routes->get('verifikasi', 'Kepala\VerifikasiController::index');
 });
-
+$routes->group('pegawai', function ($routes) {
+    $routes->get('', 'Pegawai\Dashboard::index');
+    $routes->get('spt', 'Pegawai\Spt::index');
+    $routes->get('spd', 'Pegawai\Spd::index');
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing

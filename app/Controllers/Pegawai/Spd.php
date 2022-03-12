@@ -4,15 +4,15 @@ namespace App\Controllers\Pegawai;
 
 use App\Controllers\BaseController;
 
-class SptController extends BaseController
+class Spd extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'SURAT PERINTAH TUGAS',
+            'title' => 'SURAT PERJALANAN DINAS',
             'parent' => 2,
-            'pmenu' => 2.1
+            'pmenu' => 2.2
         );
-        return view('pegawai/spd/v-spd', $data);
+        return view('pegawai/spt/v-spt', $data);
     }
 }

@@ -57,7 +57,7 @@
                                             <label for="lahirForm" class="col-sm-3 col-form-label">Tanggal Lahir </label>
                                             <div class="col-sm-7">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" name="lahirAddEditForm" class="form-control" id="lahirForm" placeholder="Nama Lengkap"/>
+                                                    <input type="text" class="form-control" name="lahirAddEditForm" id="lahirForm" placeholder="Nama Lengkap"/>
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                     </div>
