@@ -48,8 +48,8 @@
         </li>
         <li class="nav-item user-menu">
             <a href="javascript:void(0)" class="nav-link" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Profile">
-                <img src="<?= base_url() ?>/AdminLTE/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <img src="<?= base_url('/custom/img/foto/'.$photo) ?>" class="user-image img-circle elevation-2" alt="User Image">
+                <span class="d-none d-md-inline"><?= $nama ?></span>
             </a>
 
         </li>

@@ -83,3 +83,8 @@ hr {
     padding: 1px
   }
 
+  @media (min-width: 1200px){
+    .modal-xl {
+        max-width: 90vw;
+    }
+  }

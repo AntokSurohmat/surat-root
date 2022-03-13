@@ -181,7 +181,7 @@
                                     <div class="form-group">
                                         <label for="tanggalBerangkatFormfirst">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormfirst" id="tanggalBerangkatFormFirst" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormfirst" id="tanggalBerangkatFormfirst" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>

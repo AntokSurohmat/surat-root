@@ -398,7 +398,7 @@ class Pegawai extends ResourcePresenter
         $valid = $this->validate([
             'nipAddEditForm' => [
                 'label'     => 'Nomer NIP',
-                'rules'     => 'required|numeric|max_length[25]',
+                'rules'     => 'trim|required|numeric|max_length[25]',
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 25 Karakter',
@@ -413,11 +413,11 @@ class Pegawai extends ResourcePresenter
             ],
             'lahirAddEditForm' => [
                 'label'     => 'Tanggal lahir',
-                'rules'     => 'required',
+                'rules'     => 'trim|required',
             ],
             'jabatanAddEditForm' => [
                 'label' => 'Nama Jabatan',
-                'rules'  => 'required|numeric|max_length[20]',
+                'rules'  => 'trim|required|numeric|max_length[20]',
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
@@ -425,7 +425,7 @@ class Pegawai extends ResourcePresenter
             ],
             'pangolAddEditForm' => [
                 'label'     => 'Nama Pangkat & Golongan',
-                'rules'     => 'required|numeric|max_length[20]',
+                'rules'     => 'trim|required|numeric|max_length[20]',
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
@@ -434,13 +434,6 @@ class Pegawai extends ResourcePresenter
             'pelaksanaAddEditForm' => [
                 'label' => 'Pilih Pelaksana',
                 'rules'     => 'required',
-            ],
-            "fotoAddEditForm" => [
-                'rules' => 'mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',

@@ -340,8 +340,28 @@ class Spd extends ResourcePresenter
 
     }
 
-    function new_update()
-    {
+    function view_data() {
+
+        if ($this->request->getVar('id')) {
+            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+
+            $data['pegawai'] = $query->getResult();
+            $data['diperintah'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
+    }
+
+    function new_update() {
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
@@ -358,8 +378,7 @@ class Spd extends ResourcePresenter
         }
     }
 
-    function real_update()
-    {
+    function real_update() {
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
