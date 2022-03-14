@@ -13,7 +13,43 @@
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-
+<style>
+    @media print {
+    .content-wrapper {
+        height: 29,7cm;
+    }
+    div#modal-viewitem {
+        height: 29.7cm;
+    }
+    .modal-header, .modal-footer, .main-footer {
+        display: none;
+    }
+    .modal-content {
+        z-index: 9999999;
+        height: 29,7cm;
+    }
+    .modal-lg, .modal-xl {
+        max-width: 100%;
+    }
+    .modal.show .modal-dialog {
+        margin: 0 !important;
+    }
+    .invoice {
+        border: 0;
+    }
+    }
+</style>
+<script>
+function printPageArea(areaID){
+    var printContent = document.getElementById(areaID);
+    var WinPrint = window.open('', '', 'width=900,height=650');
+    WinPrint.document.write(printContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}
+</script>
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -85,7 +121,7 @@
                     </div>
                         <div class="modal-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <div class="row">
+                            <div id="areaID" class="row">
                                 <div class="col-12">
                                     <div class="invoice p-3 mb-3">
                                         <div class="row invoice-info">
@@ -145,36 +181,6 @@
                                                             <td style="width:15%;">Kepada</td>
                                                             <td style="width:1%;">:</td>
                                                             <td id="namaPegawaiModalViewTableLooping">
-                                                                <!-- <table class="table table-bordered table-striped">
-                                                                    <tbody>
-
-                                                                        <tr>
-                                                                            <td style="width:2%;">1</td>
-                                                                            <td style="width:15%;">Nama</td>
-                                                                            <td style="width:1%;">:</td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">Pangkat Golongan</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>Pangkat Golongan</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">NIP</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>NIP</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">Jabatan</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>Jabatan</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table> -->
-
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -242,6 +248,7 @@
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
                             <!-- <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button> -->
+                            <a href="javascript:void(0);" onclick="printPageArea('printableArea')">Print</a>
                         </div>
                 </div>
             </div>

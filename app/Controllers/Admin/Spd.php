@@ -80,13 +80,9 @@ class Spd extends ResourcePresenter
             $row[] = $key->keterangan;
 
             $button = $key->status == 'false' ? '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="/Admin/spd/new/' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>' : '' ;
-
             $button .= '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-
             $button .= $key->status == 'true' ? '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spd/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' : '' ;
-
             $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-
             $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
             $row[] = $button;
             if($key->status == 'false'){$status = 'SPD Belum Dibuat';
@@ -353,6 +349,15 @@ class Spd extends ResourcePresenter
             ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
 
             $data['pegawai'] = $query->getResult();
+
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nip', json_decode($data['nama_pegawai']))->get();
+
+            $data['looping'] = $query->getResult();
+            $data['json'] = json_decode($data['detail'], true);
             $data['diperintah'] = $this->pegawai->where('nip', $data['diperintah'])->first();
             $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
 
