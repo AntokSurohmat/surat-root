@@ -49,9 +49,9 @@ $routes->group('admin', function ($routes) {
     $routes->get('lapspd', 'Admin\Lapspd::index');
 });
 $routes->group('bendahara', function ($routes) {
-    $routes->get('', 'Bendahara\DashboardController::index',);
-    $routes->get('kuitansi', 'Bendahara\KuitansiController::index');
-    $routes->get('rincian', 'Bendahara\RincianController::index');
+    $routes->get('', 'Bendahara\Dashboard::index',);
+    $routes->get('kuitansi', 'Bendahara\Kuitansi::index');
+    $routes->get('rincian', 'Bendahara\Rincian::index');
 });
 $routes->group('kepala', function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
