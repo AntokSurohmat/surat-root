@@ -139,7 +139,7 @@
 
                         <div class="col-6"></div>
 
-                        <div class="col-6" style="">
+                        <div class="col-6">
                             <p style="font-size: 16px;text-align:center;text-decoration: underline;" class="mb-0">
                                 Demikian pemerintah tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.
                             </p>

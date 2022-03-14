@@ -392,6 +392,14 @@
             $('input:radio[name=radioAddEditModalVerifikasi]').change(function () {setTimeout(function() { $("#ketModalVerifikasi").focus(); }, 0)});
             $('#ketModalVerifikasi').keydown(function(event) {if (event.keyCode == 13) {$('#submit-verifikasi').focus();}});
         });
+
+        $('#modal-viewitem').on('hidden.bs.modal', function() {
+            $('#no_sptModalView').empty();$('#dasarModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#untukModalView').empty();
+            $('#createdatModalView').empty();$('#diperintahModalView').empty();$('#diperintahNIPModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
+        });
+        
         $(document).on('click', '.verifikasi', function() {
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Kepala/Verifikasi/view_data') ?>";

@@ -4,14 +4,14 @@ namespace App\Controllers\Bendahara;
 
 use App\Controllers\BaseController;
 
-class Rincian extends BaseController
+class Kuitansi extends BaseController
 {
     public function index()
     {
         $data = array(
-            'title' => 'RINCIAN BIAYA',
+            'title' => 'KUITANSI',
             'parent' => 2,
-            'pmenu' => 2.2
+            'pmenu' => 2.1
         );
         return view('bendahara/kuitansi/v-kuitansi', $data);
     }

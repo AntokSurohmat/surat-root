@@ -634,8 +634,6 @@
                             // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                // // your code
-                                // console.log(prop + " = " + obj[prop]);
                                 $('#'+ prop +'Form' + urutan).val(obj[prop]);
                             }
                         }

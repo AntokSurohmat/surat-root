@@ -70,19 +70,24 @@ class Verifikasi extends ResourcePresenter
             $row = array();
             $row[] = $no;
             $row[] = $key->kodes;
-            $row[] = $key->nama_pegawai;
-            $row[] = $key->dasar;
-            $row[] = $key->untuk;
             foreach ($pegawai->getResult() as $pega ) {
 				if ($pega->nip == $key->diperintah) {
 					$row[] =  $pega->nama;
 				}
 			};
+            $row[] = $key->nama_pegawai;
+            $row[] = $key->dasar;
+            $row[] = $key->untuk;
 
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-            $button .= $key->status == "Revisi" ? '' : '
-            <a type="button" class="btn btn-xs btn-primary mr-1 mb-1 verifikasi" href="javascript:void(0)" name="verifikasi" data-id="'. $key->id .'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Verifikasi Data ]"><i class="fas fa-check text-white"></i></a>';
-            $button .= $key->status == "Disetujui" ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
+            if($key->status == "Revisi"){
+                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="#" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+            }elseif($key->status == 'Disetujui'){
+                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="#" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                $button .= '<a type="button"class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+            }else{
+                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="#" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                $button .= '<a type="button" class="btn btn-xs btn-primary mr-1 mb-1 verifikasi" href="javascript:void(0)" name="verifikasi" data-id="'. $key->id .'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Verifikasi Data ]"><i class="fas fa-check text-white"></i></a>' ;
+            }
 
             $row[] = $button;
             $row[] = $key->status;
@@ -187,7 +192,7 @@ class Verifikasi extends ResourcePresenter
         // d($spt);print_r($spt);die();
 
         $validation = \Config\Services::validation();
-        
+
         if($this->request->getVar('radioAddEditModalVerifikasi') == 'Revisi'){
             $valid = $this->validate([
                 'ketAddEditModalVerifikasi' => [

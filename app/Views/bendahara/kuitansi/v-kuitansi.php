@@ -42,46 +42,17 @@
 
                         <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
-                                <tr class="text-center">
+                                <tr>
                                     <th>No SPD</th>
-                                    <th>Pejabat Yang Memberikan Perintah</th>
+                                    <th>Nama Pegawai</th>
                                     <th>Pegawai Yang Diperintah</th>
-                                    <th>Tingkat Biaya Perjalanan Dinas</th>
-                                    <th>Maksud Perjalanan Dinas</th>
-                                    <th>Jenis Transportasi</th>
                                     <th>Nama Instansi</th>
                                     <th>Tanggal Pergi</th>
                                     <th>Tanggal Kembali</th>
-                                    <th>Lama</th>
-                                    <th>Pengikut</th>
-                                    <th>Kode Rekening</th>
-                                    <th>Aksi</th>
-                                    <th>Keterangn</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
-                                    </td>
-                                    <td>Win 95+</td>
-                                    <td> 4</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>X</td>
-                                    <td>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Detail Data ]"><i class="fas fa-info-circle text-info"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Update Data ]"><i class="fas fa-edit text-warning"></i></a>
-                                        <a style="margin-right:5px;" href="javascript:void(0)" id="" data-rel="tooltip" data-placement="top" title="[ Delete Data ]"><i class="fas fa-trash text-danger"></i></a>
-                                    </td>
-                                    <td>X</td>      
-                                </tr>
                             </tbody>
                         </table>
                     </div>

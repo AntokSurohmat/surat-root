@@ -13,43 +13,6 @@
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-<style>
-    @media print {
-    .content-wrapper {
-        height: 29,7cm;
-    }
-    div#modal-viewitem {
-        height: 29.7cm;
-    }
-    .modal-header, .modal-footer, .main-footer {
-        display: none;
-    }
-    .modal-content {
-        z-index: 9999999;
-        height: 29,7cm;
-    }
-    .modal-lg, .modal-xl {
-        max-width: 100%;
-    }
-    .modal.show .modal-dialog {
-        margin: 0 !important;
-    }
-    .invoice {
-        border: 0;
-    }
-    }
-</style>
-<script>
-function printPageArea(areaID){
-    var printContent = document.getElementById(areaID);
-    var WinPrint = window.open('', '', 'width=900,height=650');
-    WinPrint.document.write(printContent.innerHTML);
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-    WinPrint.close();
-}
-</script>
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -121,7 +84,7 @@ function printPageArea(areaID){
                     </div>
                         <div class="modal-body">
                             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <div id="areaID" class="row">
+                            <div class="row">
                                 <div class="col-12">
                                     <div class="invoice p-3 mb-3">
                                         <div class="row invoice-info">
@@ -165,12 +128,12 @@ function printPageArea(areaID){
                                                             <td>090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>                                                
+                                                </table>
                                             </div>
                                         </div><br>
                                         <div class="row">
                                             <div class="col-12 table-responsive pl-5 ml-5 mr-5">
-                                                <table class="table table-borderless minimpadding" style="font-size: 16px;">
+                                                <table class="table table-borderless table-sm" style="font-size: 16px;">
                                                     <tbody>
                                                         <tr>
                                                             <td style="width:15%;">Dasar</td>
@@ -248,7 +211,6 @@ function printPageArea(areaID){
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
                             <!-- <button type="submit" id="submit-btn" class="btn btn-sm btn-success"><i class="fa fas-save"></i>&ensp;Submit</button> -->
-                            <a href="javascript:void(0);" onclick="printPageArea('printableArea')">Print</a>
                         </div>
                 </div>
             </div>
@@ -277,9 +239,9 @@ function printPageArea(areaID){
                 "timeout": 15000,"error": handleAjaxError
             },
             "columnDefs": [
-                {"targets": [0],"orderable": false}, 
-                {"targets": [6],"orderable": false,"class": "text-center"}, 
-                {"targets": [7],"class": "text-center"} 
+                {"targets": [0],"orderable": false},
+                {"targets": [6],"orderable": false,"class": "text-center"},
+                {"targets": [7],"class": "text-center"}
             ],
         });
 
@@ -293,6 +255,7 @@ function printPageArea(areaID){
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        location.reload();
                         document.getElementById("seachSPT").value = "";
                         spt.search("").draw();
                     }
@@ -306,6 +269,7 @@ function printPageArea(areaID){
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        location.reload();
                         document.getElementById("seachSPT").value = "";
                         spt.search("").draw();
                     }
@@ -320,6 +284,13 @@ function printPageArea(areaID){
             spt.search("").draw();
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
+
+        $('#modal-viewitem').on('hidden.bs.modal', function() {
+            $('#no_sptModalView').empty();$('#dasarModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#untukModalView').empty();
+            $('#createdatModalView').empty();$('#diperintahModalView').empty();$('#diperintahNIPModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
+        });
 
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');
@@ -341,7 +312,7 @@ function printPageArea(areaID){
                     $('#untukModalView').append(data.untuk);
                     var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    // document.write(curr_date + "-" + m_names[curr_month] 
+                    // document.write(curr_date + "-" + m_names[curr_month]
                     // + "-" + curr_year);
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);

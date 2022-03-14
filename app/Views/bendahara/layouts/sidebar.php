@@ -32,13 +32,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="<?= route_to('bendahara.kuitansi') ?>" class="nav-link <?= $pmenu=='2.1' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('bendahara/kuitansi') ?>" class="nav-link <?= $pmenu=='2.1' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kuitansi</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= route_to('bendahara.rincian') ?>" class="nav-link <?= $pmenu=='2.2' ? 'active' : ''; ?>">
+                        <a href="<?= site_url('bendahara/rincian') ?>" class="nav-link <?= $pmenu=='2.2' ? 'active' : ''; ?>">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Rincian Biaya</p>
                         </a>

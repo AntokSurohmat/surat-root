@@ -32,6 +32,7 @@
                 <div class="card card-outline card-info">
                     <div class="card-header">
                     <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                    <button type="button" class="btn btn-sm btn-outline-info float-right mr-1" tabindex="1" id="print" data-rel="tooltip" data-placement="top" data-container=".content" title="Print Format"><i class="fa fa-print"></i>&ensp;Print</button>
                         <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
@@ -51,12 +52,12 @@
                                 <tr>
                                     <th>No</th>
                                     <th>No SPD</th>
-                                    <th>Pejabat Yang Memberikan Perintah</th>
+                                    <th >Pejabat Yang Memberikan Perintah</th>
                                     <th>Pegawai Yang Diperintah</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Kendaraan</th>
                                     <th>Keterangan</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th style="width: 12%;">Aksi</th>
                                     <th>Status</th>
                                 </tr>
                                 </tr>
@@ -156,22 +157,22 @@
                         </div>
                     </div><br>
                     <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-striped minimpadding" style="font-size: 16px;">
+                        <div class="col-12">
+                            <table class="table table-borderless table-sm ml-4">
                                 <tbody>
                                     <tr>
                                         <td style="width:5%;">1</td>
-                                        <td style="width:40%;">Pejabat yang memberikan perintah</td>
+                                        <td style="width:20%;">Pejabat yang memberikan perintah</td>
                                         <td id="diperintahModalView" colspan="2">: </td>
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">2</td>
-                                        <td style="width:40%;">Nama pegawai yang dipertintah</td>
+                                        <td style="width:20%;">Nama pegawai yang dipertintah</td>
                                         <td id="pegawaimodalView" colspan="2">: </td>
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">3</td>
-                                        <td style="width:40%;">
+                                        <td style="width:20%;">
                                             <ol type="a">
                                                 <li>Pangkat dan golongan</li>
                                                 <li>Jabatan/Instansi</li>
@@ -198,7 +199,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">6</td>
-                                        <td style="width:40%;">
+                                        <td style="width:20%;">
                                             <ol type="a">
                                                 <li>Tempat berangkat</li>
                                                 <li>Tempat tujuan</li>
@@ -213,7 +214,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">7</td>
-                                        <td style="width:40%;">
+                                        <td style="width:20%;">
                                             <ol type="a">
                                                 <li>Lama perjalanan dinas</li>
                                                 <li>Tanggal berangkat</li>
@@ -236,13 +237,13 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 5%;"></td>
-                                        <td style="width:40%;" id="pengikutModalView"></td>
+                                        <td style="width:20%;" id="pengikutModalView"></td>
                                         <td style="width:25%;" id="pengikutTTLModalView"></td>
                                         <td style="width:25%;" id="ketPengikutModalView"></td>
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">9</td>
-                                        <td style="width:40%;">
+                                        <td style="width:20%;">
                                         <ul class="list-unstyled">
                                                 <li>
                                                 Pembebanana anggaran
@@ -270,7 +271,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width:5%;">10</td>
-                                        <td style="width:40%;">Keterangan</td>
+                                        <td style="width:20%;">Keterangan</td>
                                         <td id="keteranganModalView" colspan="2">: </td>
                                     </tr>
                                 </tbody>
@@ -331,12 +332,12 @@
                 <div class="invoice p-3 mb-3">
                     <div class="row invoice-info">
                         <div class="col-sm-12 invoice-col">
-                            <table class="table table-striped">
+                            <table class="table table-sm">
                                 <tbody>
                                     <tr>
                                         <td style="width: 50%;"></td>
                                         <td>
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table table-border minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;">I.</td>
@@ -378,7 +379,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table table-sm">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;">II.</td>
@@ -402,7 +403,7 @@
                                             </table>
                                         </td>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;"></td>
@@ -434,7 +435,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table  minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;">III.</td>
@@ -458,7 +459,7 @@
                                             </table>
                                         </td>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;"></td>
@@ -490,7 +491,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;">VI.</td>
@@ -514,7 +515,7 @@
                                             </table>
                                         </td>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;"></td>
@@ -546,7 +547,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;">V.</td>
@@ -570,7 +571,7 @@
                                             </table>
                                         </td>
                                         <td style="width: 50%;">
-                                            <table class="table table-striped minimpadding">
+                                            <table class="table minimpadding">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 5%;"></td>
@@ -689,6 +690,37 @@
         });
         /*-- /. DataTable To Load Data Mahasiswa --*/
 
+
+        $('#modal-viewitem').on('hidden.bs.modal', function() {
+            $('#no_sptModalView').empty();$('#diperintahModalView').empty();
+            $('#pegawaimodalView').empty();$('#pangolModelView').empty();
+            $('#jabatan_instansiModalView').empty();$('#tinkatBiayaMovelView').empty();$('#jenisKendaraanModalView').empty();
+            $('#berangkatModalView').empty();$('#tujuanModalView').empty();
+            $('#lamaModalView').empty();$('#awalmodalView').empty();$('#akhirModalView').empty();
+            $('#untukModalView').empty();$('#pengikutModalView').empty();$('#pengikutTTLModalView').empty();
+            $('#ketPengikutModalView').empty();$('#biayaInstansiModalViews').empty();$('#kodeRekeningModalView').empty();
+            $('#keteranganModalView').empty();$('#diperintahTTDModalView').empty();$('#nipTTDModalView').empty();
+            //slide 2
+            $('#nospdslide2ModelView').empty();$('#tglberangkatslide2ModelView').empty();$('#tujuanslide2ModelView').empty();
+            $('#diperintahslide2ModelView').empty();$('#nipslide2ModelView').empty();
+
+            $('#tibadislide2ModelViewfirst').empty();$('#tanggaltibaslide2ModelViewfirst').empty();$('#kepalatibaslide2ModelViewfirst').empty();
+            $('#berangkatdarislide2ModelViewfirst').empty();$('#tujuanslide2ModelViewfirst').empty();
+            $('#tanggalberangkatslide2ModelViewfirst').empty();$('#kepalaberangkatslide2ModelViewfirst').empty();
+
+            $('#tibadislide2ModelViewsecond').empty();$('#tanggaltibaslide2ModelViewsecond').empty();$('#kepalatibaslide2ModelViewsecond').empty();
+            $('#berangkatdarislide2ModelViewsecond').empty();$('#tujuanslide2ModelViewsecond').empty();
+            $('#tanggalberangkatslide2ModelViewsecond').empty();$('#kepalaberangkatslide2ModelViewsecond').empty();
+
+            $('#tibadislide2ModelViewthird').empty();$('#tanggaltibaslide2ModelViewthird').empty();$('#kepalatibaslide2ModelViewthird').empty();
+            $('#berangkatdarislide2ModelViewthird').empty();$('#tujuanslide2ModelViewthird').empty();
+            $('#tanggalberangkatslide2ModelViewthird').empty();$('#kepalaberangkatslide2ModelViewthird').empty();
+
+            $('#tibadislide2ModelViewfourth').empty();$('#tanggaltibaslide2ModelViewfourth').empty();$('#kepalatibaslide2ModelViewfourth').empty();
+            $('#berangkatdarislide2ModelViewfourth').empty();$('#tujuanslide2ModelViewfourth').empty();
+            $('#tanggalberangkatslide2ModelViewfourth').empty();$('#kepalaberangkatslide2ModelViewfourth').empty();
+        });
+
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Spd/view_data') ?>";
@@ -712,7 +744,7 @@
                     $('#tinkatBiayaMovelView').append(data.tingkat_biaya);
                     $('#jenisKendaraanModalView').append(data.jenis_kendaraan);
                     $('#berangkatModalView').append('Sumber');
-                    $('#tujuanModalView').append('');
+                    $('#tujuanModalView').append(data.instansi.nama_instansi);
                     $('#lamaModalView').append(data.lama+' Hari');
                     $('#awalmodalView').append(data.awal);
                     $('#akhirModalView').append(data.akhir);
