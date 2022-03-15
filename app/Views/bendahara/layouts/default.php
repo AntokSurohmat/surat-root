@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | <?= $title ?></title>
 
@@ -25,14 +25,18 @@
     <!-- Datatables -->
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Costum CSS -->
     <link rel="stylesheet" href="<?= base_url() ?>/custom/css/style.css">
 
+    <!-- jQuery -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/jquery/jquery.min.js"></script>
 
 </head>
 
@@ -92,9 +96,6 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="<?= base_url() ?>/AdminLTE/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -108,33 +109,42 @@
     <script src="<?= base_url() ?>/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-
     <!-- overlayScrollbars -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= base_url() ?>/AdminLTE/dist/js/adminlte.js"></script>
-
     <!-- DataTables  & Plugins -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= base_url() ?>/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="<?= base_url() ?>/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="<?= base_url() ?>/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
     <!-- SweetAlert2 -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/toastr/toastr.min.js"></script>
-
+    <!-- Select2 -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Custom Input File -->
+    <script src="<?= base_url() ?>/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/custom/js/custom.js"></script>
     <script language="javascript">
         // Jquery
         jQuery(function($) {
             $('[data-rel="popover"]').popover()
-            $('[data-rel="tooltip"]').tooltip();
-            $('[data-rel="tooltip"]').hover(function() {
-                $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
+            $('[data-rel="tooltip"]').tooltip({
+                trigger: 'hover'
+            })
+            $("body").tooltip({
+                selector: '[data-rel="tooltip"]',
+                trigger: 'hover'
             });
+            // $('[data-rel="tooltip"]').hover(function() {
+            //     $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
+            // });
+            // $('.select2bs4').select2({
+            //     theme: 'bootstrap4'
+            // })
         });
     </script>
     <?= $this->renderSection('scripts') ?>

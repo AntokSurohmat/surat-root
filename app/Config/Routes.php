@@ -50,7 +50,7 @@ $routes->group('admin', function ($routes) {
 });
 $routes->group('bendahara', function ($routes) {
     $routes->get('', 'Bendahara\Dashboard::index',);
-    $routes->get('kuitansi', 'Bendahara\Kuitansi::index');
+    $routes->presenter('Kuitansi', ['except' => 'show,remove']);
     $routes->get('rincian', 'Bendahara\Rincian::index');
 });
 $routes->group('kepala', function ($routes) {
