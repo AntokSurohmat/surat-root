@@ -39,18 +39,20 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="noSpdForm" class="col-sm-3 col-form-label" style="text-align: right;">No SPD </label>
+                                            <label for="noSpdKuitansiForm" class="col-sm-3 col-form-label" style="text-align: right;">No SPD </label>
                                             <div class="col-sm-7">
-                                                <input type="text" name="noSpdAddEditForm" class="form-control" id="noSpdForm" placeholder="Masukkan No SPD"/>
+                                                <select name="noSpdAddEditForm" id="noSpdKuitansiForm" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari No SPD ---</option>
+                                                </select>
                                                 <div class="invalid-feedback noSpdErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="namaPegawaiForm" class="col-sm-3 col-form-label" style="text-align: right;">Nama Pegawai</label>
+                                            <label for="namaPegawaiKuitansiForm" class="col-sm-3 col-form-label" style="text-align: right;">Nama Pegawai</label>
                                             <div class="col-sm-7">
-                                                <select name="namaPegawaiAddEditForm" id="namaPegawaiForm" class="form-control " style="width: 100%;">
+                                                <select name="namaPegawaiAddEditForm" id="namaPegawaiKuitansiForm" class="form-control " style="width: 100%;">
                                                     <option value="">--- Pilih Nama Pegawai ---</option>
                                                 </select>
                                                 <div class="invalid-feedback namaPegawaiErrorForm"></div>
@@ -97,7 +99,10 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="lamaKuitansiForm">Lama Perjalanan</label>
-                                            <input type="email" class="form-control" name="lamaAddEditForm" id="lamaKuitansiForm" placeholder="Perjalanan" readonly>
+                                            <div class="col-sm-12 row">
+                                            <input type="email" class="form-control col-sm-10" name="lamaAddEditForm" id="lamaKuitansiForm" placeholder="Perjalanan" readonly>
+                                            <p class="col-sm-2 mt-2"><b>Hari</b></p>
+                                            </div>
                                             <div class="invalid-feedback lamaKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
@@ -159,14 +164,14 @@
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#noSpdForm').keydown(function(event){if(event.keyCode == 13){$('#namaPegawaiForm').select2('open');}});
-        $('#namaPegawaiForm').on('select2:select', function(e) {$('#pejabatKuitansiForm').select2('open');});
+        $('#noSpdKuitansiForm').keydown(function(event){if(event.keyCode == 13){$('#namaPegawaiKuitansiForm').select2('open');}});
+        $('#namaPegawaiKuitansiForm').on('select2:select', function(e) {$('#pejabatKuitansiForm').select2('open');});
         $('#pejabatKuitansiForm').on('select2:select', function(e) {$('#submit-kuitansi').focus();});
 
         function clearform() {
             $('#form-addedit')[0].reset();
-            $("#noSpdForm").empty();$("#noSpdForm").removeClass('is-valid');$("#noSpdForm").removeClass('is-invalid');
-            $("#namaPegawaiForm").empty();$("#namaPegawaiForm").removeClass('is-valid');$("#namaPegawaiForm").removeClass('is-invalid');
+            $("#noSpdKuitansiForm").empty();$("#noSpdKuitansiForm").removeClass('is-valid');$("#noSpdKuitansiForm").removeClass('is-invalid');
+            $("#namaPegawaiKuitansiForm").empty();$("#namaPegawaiKuitansiForm").removeClass('is-valid');$("#namaPegawaiKuitansiForm").removeClass('is-invalid');
             $("#nipKuitansiForm").empty();$("#nipKuitansiForm").removeClass('is-valid');$("#nipKuitansiForm").removeClass('is-invalid');
             $("#namaKuitansiForm").empty();$("#namaKuitansiForm").removeClass('is-valid');$("#namaKuitansiForm").removeClass('is-invalid');
             $("#pangkatKuitansiForm").empty();$("#pangkatKuitansiForm").removeClass('is-valid');$("#pangkatKuitansiForm").removeClass('is-invalid');
@@ -180,8 +185,69 @@
             $("#pejabatKuitansiForm").empty();$("#pejabatKuitansiForm").removeClass('is-valid');$("#pejabatKuitansiForm").removeClass('is-invalid');
             $("#jumlahKuitansiForm").empty();$("#jumlahKuitansiForm").removeClass('is-valid');$("#jumlahKuitansiForm").removeClass('is-invalid');
         }
+        var url_destination = '<?= base_url('Bendahara/Kuitansi/getNoSpd') ?>';
+        $("#noSpdKuitansiForm").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Jabatan ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {results: response.data,};
+                },
+                cache: true
+            }
+        });
 
-        var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawai') ?>';
+        
+        $("#noSpdKuitansiForm").change(function() {
+            // Initialize select2
+            var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawai') ?>';
+            // $("#pegawaiAddEditForm option:selected").text();
+            $("#namaPegawaiKuitansiForm").select2({
+                // var pegawai = $('#pegawaiAddEditForm :selected').val();
+                // console.log(pegawai);
+                minimumResultsForSearch: Infinity,
+                theme: 'bootstrap4',
+                placeholder: '--- Cari Data Pegawai ---',
+                ajax: {url: url_destination,spd :idSpd,type: "POST",dataType: "JSON",delay: 250,
+                    data: function(params) {return {searchTerm: params.term,spd: idSpd,csrf_token_name: $('input[name=csrf_token_name]').val()}},
+                    processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,}},
+                    cache: true
+                }
+            });
+        });
+
+
+        $("#namaPegawaiKuitansiForm").change(function() {
+            var namaPegawai = $(this).val();var idSpd = $("#noSpdKuitansiForm").val();
+            var url_destination = '<?= base_url('Bendahara/Kuitansi/getDetailPegawai') ?>';
+            $.ajax({
+                    url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd ,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                    dataType: "JSON",
+                    success: function(data) {
+                        console.log(data);
+                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                        $('#nipKuitansiForm').val(data.nip);
+                        $('#namaKuitansiForm').val(data.nama);
+                        $('#pangkatKuitansiForm').val(data.pangol.nama_pangol);
+                        $('#jabatanKuitansiForm').val(data.jabatan.nama_jabatan);
+                        $("#tglBerangkatKuitansiForm").val(data.spd.awal);
+                        $("#tglKembaliKuitansiForm").val(data.spd.akhir);
+                        $("#lamaKuitansiForm").val(data.spd.lama);
+                        $("#rekeningKuitansiForm").val(data.spd.kode_rekening);
+                        $("#instansiKuitansiForm").val(data.instansi.nama_instansi);
+                        $("#untukKuitansiForm").val(data.spd.untuk);
+                        var jumlah = data.sbuh.jumlah_uang * data.spd.lama;
+                        $("#jumlahKuitansiForm").val(jumlah);
+
+                    },
+                    // error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                })
+        });
+        var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';
         $("#pejabatKuitansiForm").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Jabatan ---',
@@ -196,6 +262,67 @@
                 cache: true
             }
         });
+
+        $('#form-addedit').on('submit', function(event) {
+            event.preventDefault();
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Bendahara/Kuitansi/Create') ?>";
+            } else {var url_destination = "<?= base_url('Bendahara/Kuitansi/Update') ?>";}
+            // console.log($(this).serialize());
+            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-kuitansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-kuitansi').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-kuitansi').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-kuitansi').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key + 'KuitansiForm').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                            var element = $('#' + key + 'KuitansiForm');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                            // console.log(data.error[key].length);
+                        });
+                    }
+                    if (data.success==true) {
+                        clearform();let timerInterval
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
+                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {window.location.href = data.redirect;
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                }else{window.location.replace("<?= base_url('Bendahara/Bendahara/new')?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = data.redirect;
+                            }
+                        })
+                    } else {
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+            });
+            return false;
+        })
+
+
+
     })
 </script>
 <?= $this->endSection() ?>

@@ -37,22 +37,121 @@ class KuitansiModel extends Model
         'akhir' => 'trim|required',
         'lama' => 'trim|required|numeric|max_length[2]',
         'kode_rekening' => 'trim|required|numeric|max_length[20]',
-        'pejabat' => 'trim|required|numeric|max_length[20]',
+        'pejabat' => 'trim|required|numeric|max_length[25]',
         'jumlah_uang' => 'trim|required|max_length[8]'
 
     ];
-    protected $validationMessages   = [];
+    protected $validationMessages   = [
+        'nip_pegawai' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' =>  '{field} Maksimal 25 Karakter'
+        ],
+        'kode_pangol' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
+        ],
+        'kode_jabatan' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
+        ],
+        'untuk' => [
+            'max_length' => '{field} Maksimal 50 Karakter'
+        ],
+        'kode_instansi' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
+        ],
+        'lama' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 2 Karakter'
+        ],
+        'kode_rekening' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 20 Karakter'
+        ],
+        'pejabat' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 25 Karakter'
+        ],
+        'jumlah_uang' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 8 Karakter'
+        ],
+    ];
     protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // protected $cleanValidationRules = true;
 
     // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // protected $allowCallbacks = true;
+    // protected $beforeInsert   = [];
+    // protected $afterInsert    = [];
+    // protected $beforeUpdate   = [];
+    // protected $afterUpdate    = [];
+    // protected $beforeFind     = [];
+    // protected $afterFind      = [];
+    // protected $beforeDelete   = [];
+    // protected $afterDelete    = [];
+
+    var $column_order = array(null, 'kuitansi.kode_spd', 'kuitansi.nama_pegawai','kuitansi.untuk','pegawai.pejabat', null);
+    var $order = array('kuitansi.id' => 'DESC');
+
+    function get_datatables(){
+
+		// search
+		if(service('request')->getPost('search')['value']){
+			$search = service('request')->getPost('search')['value'];
+			$attr_order = "kuitansi.kode_spd LIKE '%$search%' OR kuitansi.nama_pegawai LIKE '%$search%' OR kuitansi.untuk LIKE '%$search%' OR pegawai.pejabat LIKE '%$search%";
+		} else {
+			$attr_order = "kuitansi.id != ''";
+		}
+
+		// order
+        if(service('request')->getPost('order')){
+			$result_order = $this->column_order[service('request')->getPost('order')['0']['column']];
+			$result_dir = service('request')->getPost('order')['0']['dir'];
+		} else if ($this->order){
+			$order = $this->order;
+			$result_order = key($order);
+			$result_dir = $order[key($order)];
+		}
+
+
+		if(service('request')->getPost('length')!=-1);
+		// $db = db_connect();
+		$builder = $this->db->table('kuitansi');
+		$query = $builder->select('kuitansi.*')
+                ->select('kuitansi.kode_spd AS kodes')
+                ->select('pegawai.nip', 'pegawai.nama')
+                ->select('instansi.kode', 'instansi.nama_instansi')
+                ->join('pegawai', 'pegawai.nip = kuitansi.pejabat', 'left')
+                ->join('instansi', 'instansi.kode = kuitansi.kode_instansi', 'left')
+				->where($attr_order)
+				->orderBy($result_order, $result_dir)
+				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
+				->get();
+		return $query->getResult();
+
+	}
+
+	function count_all(){
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_kuitansi";
+		$query = $this->db->query($sQuery)->getRow();
+		return $query;
+	}
+
+	function count_filter(){
+		// Kondisi Order
+		if(service('request')->getPost('search')['value']){
+			$search = service('request')->getPost('search')['value'];
+			$attr_order = " AND (etbl_kuitansi.kode_spd LIKE '%$search%' OR etbl_kuitansi.nama_pegawai LIKE '%$search%' OR etbl_kuitansi.untuk LIKE '%$search%' OR etbl_pegawai.pejabat LIKE '%$search%')";
+		} else {
+			$attr_order = " ";
+		}
+		$sQuery = "SELECT COUNT(etbl_kuitansi.id) as total FROM etbl_kuitansi
+                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_kuitansi.pejabat
+                    LEFT JOIN etbl_instansi ON etbl_instansi.kode = etbl_kuitansi.kode_instansi
+                    WHERE etbl_kuitansi.id != '' $attr_order";
+		$query = $this->db->query($sQuery)->getRow();
+		return $query;
+	}
 }

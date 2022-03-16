@@ -83,7 +83,7 @@ class Kuitansi extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('kode_spd', 'spd', 'kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
-        $this->forge->addForeignKey('diperintah', 'pegawai', 'nip');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip');
         $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode');
         $this->forge->createTable('kuitansi');
     }

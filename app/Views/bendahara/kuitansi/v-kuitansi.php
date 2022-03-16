@@ -21,12 +21,21 @@
     <div class="row">
             <div class="col-12">
 
+                <?php if (session()->getFlashdata('error')) : ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        <?= session()->getFlashdata('error') ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                    <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
-                        <a class="btn btn-sm btn-outline-info float-right" href="javascript:void(0)" data-rel="tooltip" data-placement="left" title="Tambah Data Baru">
-                            Add Data  <i class="fas fa-plus"></i> 
+                        <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                        <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('') ?>/bendahara/kuitansi/new" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
+                            <i class="fas fa-plus"></i> Add Data
                         </a>
+                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -39,16 +48,16 @@
                                 </button>
                             </div>
                         </div>
-
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>No SPD</th>
                                     <th>Nama Pegawai</th>
-                                    <th>Pegawai Yang Diperintah</th>
-                                    <th>Nama Instansi</th>
-                                    <th>Tanggal Pergi</th>
-                                    <th>Tanggal Kembali</th>
+                                    <th>Maksud Perjalanan Dinas</th>
+                                    <th>Lama Perjalanan</th>
+                                    <th>Jumlah</th>
                                     <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
@@ -70,20 +79,79 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    $(function() {
-        /*-- DataTable To Load Data Mahasiswa --*/
+    $(document).ready(function() {
+ /*-- DataTable To Load Data Wilayah --*/
+ var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
-
             "sDom": 'lrtip',
             "lengthChange": false,
+            "order": [],
             "processing": true,
-            "responsive": true
-
+            "responsive": true,
+            "serverSide": true,
+            "ajax": {
+                "url": url_destination,
+                "type": 'POST',
+                "data": {
+                    "csrf_token_name": $('input[name=csrf_token_name]').val()
+                },
+                "data": function(data) {
+                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
+                },
+                "dataSrc": function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return response.data;
+                },
+                "timeout": 15000,
+                "error": handleAjaxError
+            },
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": false
+            }, {
+                "targets": [5],
+                "orderable": false,
+                "class": "text-center",
+            }, ],
         });
+
+        function handleAjaxError(xhr, textStatus, error) {
+            if (textStatus === 'timeout') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'The server took too long to send the data.',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachKuit").value = "";
+                        kui.search("").draw();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',
+                    showConfirmButton: true,
+                    confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("seachKuit").value = "";
+                        kui.search("").draw();
+                    }
+                });
+            }
+        }
         $('#seachKuit').keyup(function() {
             kui.search($(this).val()).draw();
         });
-        /*-- /. DataTable To Load Data Mahasiswa --*/
+        $("#refresh").on('click', function() {
+            document.getElementById("seachKuit").value = "";
+            kui.search("").draw();
+        });
+        /*-- /. DataTable To Load Data Wilayah --*/
     })
 </script>
 <?= $this->endSection() ?>
