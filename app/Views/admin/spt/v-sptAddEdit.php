@@ -185,13 +185,13 @@
 
         $('#startForm').daterangepicker({
             singleDatePicker: true,autoApply: true,
-            minDate : moment(),startDate: moment(),
+            startDate: moment(),
             locale: {format: 'DD/MM/YYYY',firstDay: 1}
         });
 
         $('#endForm').daterangepicker({
             singleDatePicker: true,autoApply: true,
-            minDate: moment(),startDate: moment().add(7, 'days'),
+            startDate: moment().add(7, 'days'),
             locale: {format: 'DD/MM/YYYY',firstDay: 1}
         });
 
@@ -199,8 +199,7 @@
             var new_start =  picker.startDate.clone().add(7, 'days');
             $('#end-date').daterangepicker({
                 singleDatePicker: true,autoApply: true,
-                minDate: moment(),startDate: new_start,
-                locale: {format: 'DD/MM/YYYY',firstDay: 1}
+                startDate: new_start,locale: {format: 'DD/MM/YYYY',firstDay: 1}
             });
 
         });
@@ -364,14 +363,13 @@
                         // $('#startForm' ).datepicker('setDate', '09/03/2022');
                         // $('#lahirForm').val(data.tgl_lahir);
                         // $('#lahirForm').val(data.tgl_lahir);
-
-                        $("#startForm").datepicker({
-                            format: 'yyyy-mm-dd'
-                        });
-                        $("#startForm").on("change", function () {
-                            var fromdate = $(this).val(data.awal);
-                            alert(fromdate);
-                        });
+                        var m_names = new Array(01,02,03,04,05,06,07,08,09,10,11,12);
+                        var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                        $('#startForm').data('daterangepicker').setStartDate(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                        $('#endForm').data('daterangepicker').setStartDate(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        $( "#startForm" ).data('daterangepicker').updateView();
+                        $( "#startForm" ).data('daterangepicker').updateCalendars();
                         $('#lamaForm').val(data.lama);
                         $('#submit-spt').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

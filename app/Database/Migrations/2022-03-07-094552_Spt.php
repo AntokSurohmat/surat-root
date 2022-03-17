@@ -19,9 +19,9 @@ class Spt extends Migration
                 'type'              => 'VARCHAR',
                 'constraint'        => '3',
             ],
-            'nama_pegawai'      => [
+            'pegawai_all'      => [
                 'type'              => 'VARCHAR',
-                'constraint'        => '255',
+                'constraint'        => '100',
             ],
             'dasar'             => [
                 'type'              => 'VARCHAR',
@@ -49,7 +49,7 @@ class Spt extends Migration
                 'type'              => 'INT',
                 'constraint'         => 2
             ],
-            'diperintah'        => [
+            'pejabat'        => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
             ],
@@ -79,7 +79,7 @@ class Spt extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
-        $this->forge->addForeignKey('diperintah', 'pegawai', 'nip');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip');
         $this->forge->createTable('spt');
     }
 
@@ -87,7 +87,7 @@ class Spt extends Migration
     {
         $this->forge->dropKey('spt', 'kode');
         $this->forge->dropForeignKey('instansi', 'etbl_spt_kode_instansi_foreign');
-        $this->forge->dropForeignKey('pegawai', 'etbl_spt_diperintah_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spt_pemberi_perintah_foreign');
         $this->forge->dropTable('spt');
     }
 }

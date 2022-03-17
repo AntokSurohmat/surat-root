@@ -65,11 +65,11 @@ class Spt extends ResourcePresenter
             $row = array();
             $row[] = $no;
             $row[] = $key->kodes;
-            $row[] = $key->nama_pegawai;
+            $row[] = $key->pegawai_all;
             $row[] = $key->dasar;
             $row[] = $key->untuk;
             foreach ($pegawai->getResult() as $pega ) {
-				if ($pega->nip == $key->diperintah) {
+				if ($pega->nip == $key->pejabat) {
 					$row[] =  $pega->nama;
 				}
 			};
@@ -329,11 +329,11 @@ class Spt extends ResourcePresenter
             ],
             'startAddEditForm' => [
                 'label'     => 'Tanggal Pergi',
-                'rules'     => 'required'
+                'rules'     => 'required|valid_date[d/m/Y]'
             ],
             'endAddEditForm'   => [
                 'label'     => 'Tanggal Kembali',
-                'rules'     => 'required'
+                'rules'     => 'required|valid_date[d/m/Y]'
             ],
             'lamaAddEditForm'  => [
                 'label'     => 'Lama Perjalanan',
@@ -380,17 +380,16 @@ class Spt extends ResourcePresenter
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                'nama_pegawai' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
+                'pegawai_all' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
                 'dasar' => $this->db->escapeString($this->request->getVar('dasarAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
                 'alamat_instansi' => $this->db->escapeString($this->request->getVar('alamatAddEditForm')),
-                'awal' => date("Y-m-d", strtotime($this->request->getVar('startAddEditForm'))),
-                'akhir' => date("Y-m-d", strtotime($this->request->getVar('endAddEditForm'))),
+                'awal' => date("Y-m-d", strtotime(str_replace('/', '-', $this->request->getVar('startAddEditForm')))),
+                'akhir' => date("Y-m-d", strtotime(str_replace('/', '-', $this->request->getVar('endAddEditForm')))),
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
-                'diperintah' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
+                'pejabat' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
                 'status' => 'Pending',
-
             ];
 
             if ($this->spt->insert($data)) {
@@ -417,10 +416,10 @@ class Spt extends ResourcePresenter
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
             ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
             ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['nama_pegawai']))->get();
+            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
 
             $data['looping'] = $query->getResult();
-            $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -432,7 +431,7 @@ class Spt extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
-            $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
@@ -528,11 +527,11 @@ class Spt extends ResourcePresenter
             ],
             'startAddEditForm' => [
                 'label'     => 'Tanggal Pergi',
-                'rules'     => 'required'
+                'rules'     => 'required|valid_date[d/m/Y]'
             ],
             'endAddEditForm'   => [
                 'label'     => 'Tanggal Kembali',
-                'rules'     => 'required'
+                'rules'     => 'required|valid_date[d/m/Y]'
             ],
             'lamaAddEditForm'  => [
                 'label'     => 'Lama Perjalanan',
@@ -579,15 +578,15 @@ class Spt extends ResourcePresenter
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                'nama_pegawai' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
+                'pegawai_all' => json_encode($this->request->getVar('pegawaiAddEditForm[]')),
                 'dasar' => $this->db->escapeString($this->request->getVar('dasarAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
                 'alamat_instansi' => $this->db->escapeString($this->request->getVar('alamatAddEditForm')),
                 'awal' => date("Y-m-d", strtotime($this->request->getVar('startAddEditForm'))),
-                'akhir' => date("Y-m-d", strtotime($this->request->getVar('endAddEditForm'))),
+                'akhir' => date("Y-m-d", strtotime(str_replace('/', '-', $this->request->getVar('endAddEditForm')))),
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
-                'diperintah' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
+                'pejabat' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),
                 'status' => 'Pending',
 
             ];

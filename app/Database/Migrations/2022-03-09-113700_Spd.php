@@ -21,11 +21,11 @@ class Spd extends Migration
                 'constraint'        => '3',
                 'null'              => true
             ],
-            'diperintah'        => [
+            'pejabat'        => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
             ],
-            'nama_pegawai'      => [
+            'pegawai_all'      => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '100',
             ],
@@ -98,7 +98,7 @@ class Spd extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
-        $this->forge->addForeignKey('diperintah', 'pegawai', 'nip');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip');
         $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode');
         $this->forge->createTable('spd');
     }

@@ -14,7 +14,7 @@ class SptModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode', 'nama_pegawai', 'dasar', 'untuk', 'kode_instansi', 'alamat_instansi', 'awal', 'akhir', 'lama', 'diperintah', 'status', 'keterangan'];
+    protected $allowedFields    = ['kode', 'pegawai_all', 'dasar', 'untuk', 'kode_instansi', 'alamat_instansi', 'awal', 'akhir', 'lama', 'pejabat', 'status', 'keterangan'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,7 +26,7 @@ class SptModel extends Model
     // Validation
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[3]',
-        'nama_pegawai' => 'required|max_length[100]',
+        'pegawai_all' => 'required|max_length[100]',
         'dasar' => 'required|max_length[50]',
         'untuk' => 'required|max_length[50]',
         'kode_instansi' => 'required|numeric|max_length[20]',
@@ -34,7 +34,7 @@ class SptModel extends Model
         'awal' => 'required',
         'akhir' => 'required',
         'lama' => 'required|numeric|max_length[2]',
-        'diperintah' => 'required|numeric|max_length[25]',
+        'pejabat' => 'required|numeric|max_length[25]',
         'status' => 'required',
         'keterangan' => 'max_length[20]'
     ];
@@ -60,7 +60,7 @@ class SptModel extends Model
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksimal 2 Karakter',
         ],
-        'diperintah' => [
+        'pejabat' => [
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksmimal 25 Karakter',
         ],
@@ -82,7 +82,7 @@ class SptModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'spt.kode', 'spt.nama_pegawai','spt.dasar','spt.untuk','pegawai.nip', 'spt.status', null);
+    var $column_order = array(null, 'spt.kode', 'spt.pegawai_all','spt.dasar','spt.untuk','pegawai.nip', 'spt.status', null);
     var $order = array('spt.id' => 'DESC');
 
     function get_datatables(){
@@ -90,7 +90,7 @@ class SptModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "spt.kode LIKE '%$search%' OR spt.nama_pegawai LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%'";
+			$attr_order = "spt.kode LIKE '%$search%' OR spt.pegawai_all LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%'";
 		} else {
 			$attr_order = "spt.id != ''";
 		}
@@ -113,7 +113,7 @@ class SptModel extends Model
                 ->select('spt.kode AS kodes')
                 ->select('pegawai.nip', 'pegawai.nama')
                 ->select('instansi.kode', 'instansi.nama_instansi')
-                ->join('pegawai', 'pegawai.nip = spt.diperintah', 'left')
+                ->join('pegawai', 'pegawai.nip = spt.pejabat', 'left')
                 ->join('instansi', 'instansi.kode = spt.kode_instansi', 'left')
 				->where($attr_order)
 				->orderBy($result_order, $result_dir)
@@ -133,12 +133,12 @@ class SptModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
+			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.pegawai_all LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
 		} else {
 			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_spt.id) as total FROM etbl_spt
-                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.diperintah
+                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.pejabat
                     LEFT JOIN etbl_instansi ON etbl_instansi.kode = etbl_spt.kode_instansi
                     WHERE etbl_spt.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();

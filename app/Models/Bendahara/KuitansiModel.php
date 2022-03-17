@@ -15,7 +15,7 @@ class KuitansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_spd', 'nama_pegawai', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang'];
+    protected $allowedFields    = ['kode_spd', 'pegawai_all','pwgawai_diperintah', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,7 +27,7 @@ class KuitansiModel extends Model
     // Validation
     protected $validationRules      = [
         'kode_spd' => 'trim|required',
-        'nama_pegawai' => 'required',
+        'pegawai_all' => 'required',
         'nip_pegawai' => 'trim|required|numeric|max_length[25]',
         'kode_pangol' => 'trim|required|numeric|max_length[20]',
         'kode_jabatan' => 'trim|required|numeric|max_length[20]',
@@ -92,7 +92,7 @@ class KuitansiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'kuitansi.kode_spd', 'kuitansi.nama_pegawai','kuitansi.untuk','pegawai.pejabat', null);
+    var $column_order = array(null, 'kuitansi.kode_spd', 'kuitansi.pegawai_all','kuitansi.untuk','pegawai.pejabat', null);
     var $order = array('kuitansi.id' => 'DESC');
 
     function get_datatables(){
@@ -100,7 +100,7 @@ class KuitansiModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "kuitansi.kode_spd LIKE '%$search%' OR kuitansi.nama_pegawai LIKE '%$search%' OR kuitansi.untuk LIKE '%$search%' OR pegawai.pejabat LIKE '%$search%";
+			$attr_order = "kuitansi.kode_spd LIKE '%$search%' OR kuitansi.pegawai_all LIKE '%$search%' OR kuitansi.untuk LIKE '%$search%' OR pegawai.pejabat LIKE '%$search%";
 		} else {
 			$attr_order = "kuitansi.id != ''";
 		}
@@ -143,7 +143,7 @@ class KuitansiModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_kuitansi.kode_spd LIKE '%$search%' OR etbl_kuitansi.nama_pegawai LIKE '%$search%' OR etbl_kuitansi.untuk LIKE '%$search%' OR etbl_pegawai.pejabat LIKE '%$search%')";
+			$attr_order = " AND (etbl_kuitansi.kode_spd LIKE '%$search%' OR etbl_kuitansi.pegawai_all LIKE '%$search%' OR etbl_kuitansi.untuk LIKE '%$search%' OR etbl_pegawai.pejabat LIKE '%$search%')";
 		} else {
 			$attr_order = " ";
 		}

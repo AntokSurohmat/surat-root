@@ -16,8 +16,8 @@ class SpdModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'kode', 'diperintah',
-        'nama_pegawai', 'pegawai_diperintah',
+        'kode', 'pejabat',
+        'pegawai_all', 'pegawai_diperintah',
         'tingkat_biaya', 'untuk',
         'kode_instansi', 'awal',
         'akhir', 'lama',
@@ -36,7 +36,7 @@ class SpdModel extends Model
     // Validation
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[3]',
-        'nama_pegawai' => 'required|max_length[100]',
+        'pegawai_all' => 'required|max_length[100]',
         'untuk' => 'required|max_length[50]',
         'kode_instansi' => 'required|max_length[20]',
         'lama'  => 'required|numeric|max_length[2]',
@@ -58,7 +58,7 @@ class SpdModel extends Model
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksimal 2 Karakter',
         ],
-        'diperintah' => [
+        'pejabat' => [
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksmimal 25 Karakter',
         ],
@@ -80,7 +80,7 @@ class SpdModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'spd.kode', 'spd.nama_pegawai','spd.untuk','pegawai.nip', 'spd.status', null);
+    var $column_order = array(null, 'spd.kode', 'spd.pegawai_all','spd.untuk','pegawai.nip', 'spd.status', null);
     var $order = array('spd.id' => 'DESC');
 
     function get_datatables(){
@@ -88,7 +88,7 @@ class SpdModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "spd.kode LIKE '%$search%' OR spd.nama_pegawai LIKE '%$search%' OR spd.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spd.status LIKE '%$search%'";
+			$attr_order = "spd.kode LIKE '%$search%' OR spd.pegawai_all LIKE '%$search%' OR spd.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spd.status LIKE '%$search%'";
 		} else {
 			$attr_order = "spd.id != ''";
 		}
@@ -111,7 +111,7 @@ class SpdModel extends Model
                 ->select('spd.kode AS kodes')
                 ->select('pegawai.nip', 'pegawai.nama')
                 ->select('instansi.kode', 'instansi.nama_instansi')
-                ->join('pegawai', 'pegawai.nip = spd.diperintah', 'left')
+                ->join('pegawai', 'pegawai.nip = spd.pejabat', 'left')
                 ->join('instansi', 'instansi.kode = spd.kode_instansi', 'left')
 				->where($attr_order)
 				->orderBy($result_order, $result_dir)
@@ -131,12 +131,12 @@ class SpdModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_spd.kode LIKE '%$search%' OR etbl_spd.nama_pegawai LIKE '%$search%' OR etbl_spd.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spd.status LIKE '%$search%')";
+			$attr_order = " AND (etbl_spd.kode LIKE '%$search%' OR etbl_spd.pegawai_all LIKE '%$search%' OR etbl_spd.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spd.status LIKE '%$search%')";
 		} else {
 			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_spd.id) as total FROM etbl_spd
-                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spd.diperintah
+                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spd.pejabat
                     LEFT JOIN etbl_instansi ON etbl_instansi.kode = etbl_spd.kode_instansi
                     WHERE etbl_spd.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();

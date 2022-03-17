@@ -148,11 +148,11 @@ class Kuitansi extends ResourcePresenter
 
         // d($this->request->getPost('spd'));print_r($this->request->getPost('spd'));die();
         $response = array();
-        $pegawailist = $this->spd->select('nama_pegawai')->where('id', $this->request->getPost('spd'))->first();
+        $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getPost('spd'))->first();
 
         $data = array();
-        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['nama_pegawai']))->get();
-        foreach (array_combine(json_decode($pegawailist['nama_pegawai']), $nama->getResultArray())  as $pegawai => $nama) {
+        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->get();
+        foreach (array_combine(json_decode($pegawailist['pegawai_all']), $nama->getResultArray())  as $pegawai => $nama) {
             $data[] = array(
                 "id" => $pegawai,
                 "text" => $nama['nama'],
@@ -266,7 +266,7 @@ class Kuitansi extends ResourcePresenter
 
         $validation = \Config\Services::validation();
         $valid = $this->validate([
-            'kodeAddEditForm' => [
+            'noSpdAddEditForm' => [
                 'label'     => 'No SPT',
                 'rules'     => 'required|numeric|max_length[3]',
                 'errors' => [
@@ -274,7 +274,7 @@ class Kuitansi extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 3 Karakter',
                 ],
             ],
-            'diperintahAddEditForm' => [
+            'namaPegawaiAddEditForm' => [
                 'label'     => 'Pegawai Yang diperintah',
                 'rules'     => 'required|max_length[20]',
                 'errors'    => [
@@ -282,40 +282,43 @@ class Kuitansi extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 20 Karakter',
                 ]
             ],
-            'pegawaiAddEditForm' => [
-                'label'     => 'Pegawai Yang diperintah',
+            'nipAddEditForm' => [
+                'label'     => 'NIP Pegawai',
+                'rules'     => 'required|numeric|max_length[25]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 25 Karakter',
+                ]
+            ],
+            'namaAddEditForm' => [
+                'label'     => 'Nama Pegawai',
+                'rules'     => 'required|numeric|max_length[25]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'pangkatAddEditForm' => [
+                'label'     => 'Pangkat & Golongan Pegawai',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors'    => [
                     'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'tingkatBiayaAddEditForm' => [
-                'label'     => 'Maksud Perjalan Dinas',
-                'rules'     => 'required|max_length[10]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 10 Karakter'
-                ]
-            ],
-            'untukAddEditForm' => [
-                'label'     => 'Maksud Perjalan Dinas',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
                     'max_length'    => '{field} Maksimal 50 Karakter'
                 ]
             ],
-            'instansiAddEditForm' => [
-                'label'     => 'Maksud Perjalan Dinas',
-                'rules'     => 'required|max_length[20]',
+            'jabatanAddEditForm' => [
+                'label'     => 'Jabatan Pegawai',
+                'rules'     => 'required|numeric|max_length[20]',
                 'errors'    => [
-                    'max_length'    => '{field} Maksimal 20 Karakter'
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 50 Karakter'
                 ]
             ],
-            'startAddEditForm' => [
+            'tglBerangkatAddEditForm' => [
                 'label'     => 'Tanggal Pergi',
                 'rules'     => 'required'
             ],
-            'endAddEditForm'   => [
+            'tglKembaliAddEditForm'   => [
                 'label'     => 'Tanggal Kembali',
                 'rules'     => 'required'
             ],
@@ -328,14 +331,101 @@ class Kuitansi extends ResourcePresenter
                 ]
             ],
             'rekeningAddEditForm'  => [
-                'label'     => 'Lama Perjalanan',
+                'label'     => 'Kode Rekening',
                 'rules'     => 'required|numeric|max_length[20]',
                 'errors'    => [
                     'numeric' => '{field} Hanya Boleh Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ]
             ],
+            'instansiAddEditForm'  => [
+                'label'     => 'Nama Instansi',
+                'rules'     => 'required|numeric|max_length[20]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'untukAddEditForm'  => [
+                'label'     => 'Nama Instansi',
+                'rules'     => 'required|max_length[50]',
+                'errors'    => [
+                    'max_length' => '{field} Maksimal 20 Karakter',
+                ]
+            ],
+            'pejabatKuitansiAddEditForm' => [
+                'label'     => 'Pejabat Pelaksanan Teknis',
+                'rules'     => 'required|numeric|max_length[25]',
+                'errors'    => [
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahAddEditForm'  => [
+                'label'     => 'Jumlah Uang',
+                'rules'     => 'required|numeric|max_length[8]',
+                'errors'    => [
+                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+                    'max_length' => '{field} Maksimal 8 Karakter',
+                ]
+            ],
         ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'noSpd' => $validation->getError('noSpdAddEditForm'),
+                    'namaPegawai' => $validation->getError('namaPegawaiAddEditForm'),
+                    'nip' => $validation->getError('nipAddEditForm'),
+                    'nama' => $validation->getError('namaAddEditForm'),
+                    'pangkat' => $validation->getError('pangkatAddEditForm'),
+                    'jabatan' => $validation->getError('jabatanAddEditForm'),
+                    'tglBerangkat' => $validation->getError('tglBerangkatAddEditForm'),
+                    'tglKembali' => $validation->getError('tglKembaliAddEditForm'),
+                    'lama' => $validation->getError('lamaAddEditForm'),
+                    'rekening' => $validation->getError('rekeningAddEditForm'),
+                    'instansi' => $validation->getError('instansiAddEditForm'),
+                    'untuk' => $validation->getError('untukAddEditForm'),
+                    'pejabat' => $validation->getError('pejabatKuitansiAddEditForm'),
+                    'jumlah' => $validation->getError('jumlahAddEditForm'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+
+            $data = [
+                'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
+                'pegawai_all' => $this->spd->select('pegawai_all')->where('kode', $this->request->getVar('noSpdAddEditForm'))->first(),
+                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('namaPegawaiAddEditForm')),
+                'nip_pegawai' => $this->db->escapeString($this->request->getVar('nipAddEditForm')),
+                'kode_pangol' => $this->db->escapeString($this->request->getVar('pangkatAddEditForm')),
+                'kode_jabatan' => $this->db->escapeString($this->request->getVar('jabatanAddEditForm')),
+                'awal' => $this->db->escapeString($this->request->getVar('tglBerangkatAddEditForm')),
+                'akhir' => $this->db->escapeString($this->request->getVar('tglKembaliAddEditForm')),
+                'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
+                'kode_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
+                'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
+                'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
+                'pejabat' => $this->db->escapeString($this->request->getVar('pejabatKuitansiAddEditForm')),
+                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahAddEditForm')),
+            ];
+
+            if ($this->kuitansi->insert($data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spt'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**
