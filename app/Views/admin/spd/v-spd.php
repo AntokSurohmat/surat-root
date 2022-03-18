@@ -75,7 +75,7 @@
         </div>
 
         <div id="modal-viewitem" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ViewModal" aria-hidden="true">
-            <div class="modal-dialog modal-xl ">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">View Surat Perjalanan Dinas</h5>
@@ -85,534 +85,534 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                        <div class="row">
-            <div class="col-6" style="padding:0px;">
-                <div class="invoice p-3 mb-3">
-                    <div class="row invoice-info">
-                        <div class="col-sm-2 invoice-col text-center">
-                            <img src="<?= base_url() ?>/custom/img/logo/logo.png" alt="" style="height:120px;">
-                        </div>
+                        <div class="row p-3">
+                            <div class="col-6" style="padding:0px;">
+                                <div class="invoice p-3 mb-3">
+                                    <div class="row invoice-info">
+                                        <div class="col-sm-2 invoice-col text-center">
+                                            <img src="<?= base_url() ?>/custom/img/logo/logo.png" alt="" style="height:120px;">
+                                        </div>
 
-                        <div class="col-sm-10 invoice-col">
-                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:500" class="mb-0 mr-5">PEMERINTAH KABUPATEN CIREBON</p>
-                            <p style="font-size:22px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class="mr-5">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
-                            <p style="font-size:16px;text-align:center;line-height: 16px;" class="mb-0 mr-5">Jl. Sunan Kalijaga Nomor 10</p>
-                            <p style="font-size:16px;text-align:center;line-height: 16px;margin-bottom:8px;" class="mr-5">Pusat Pemerintah Cirebon Telp.(0231) 321495 - 321073</p>
-                            <div class="row">
-                            <div class="col-sm-10 invoice-col">
-                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:800" class="mr-5">SUMBER</p>
-                            </div>
-                            <div class="col-sm-1">
-                                45611
-                            </div>
-                            </div>
-                        </div>
+                                        <div class="col-sm-10 invoice-col">
+                                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:500" class="mb-0 mr-5">PEMERINTAH KABUPATEN CIREBON</p>
+                                            <p style="font-size:22px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class="mr-5">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
+                                            <p style="font-size:16px;text-align:center;line-height: 16px;" class="mb-0 mr-5">Jl. Sunan Kalijaga Nomor 10</p>
+                                            <p style="font-size:16px;text-align:center;line-height: 16px;margin-bottom:8px;" class="mr-5">Pusat Pemerintah Cirebon Telp.(0231) 321495 - 321073</p>
+                                            <div class="row">
+                                            <div class="col-sm-10 invoice-col">
+                                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:800" class="mr-5">SUMBER</p>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                45611
+                                            </div>
+                                            </div>
+                                        </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <hr class="s5 mb-3 mt-0">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-7"></div>
-                        <div class="col-sm-5">
-                            <table style="margin: 0 auto;">
-                                <tbody>
-                                    <tr>
-                                        <td>Lembaran</td>
-                                        <td> : </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Kode No</td>
-                                        <td> : </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomer</td>
-                                        <td> : </td>
-                                        <td><span id="no_sptModalView"></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" style="margin: auto;">
-                            <table style="margin: 0 auto;">
-                                <tbody>
-                                    <tr>
-                                        <td  class="text-center">
-                                            <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;text-decoration: underline;" class="mb-0">SURAT PERJALANAN DINAS</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td  class="text-center">
-                                            <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;" class="mb-0">(SPD)</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div><br>
-                    <div class="row">
-                        <div class="col-12">
-                            <table class="table table-borderless table-sm ml-4">
-                                <tbody>
-                                    <tr>
-                                        <td style="width:5%;">1</td>
-                                        <td style="width:20%;">Pejabat yang memberikan perintah</td>
-                                        <td id="diperintahModalView" colspan="2">: </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">2</td>
-                                        <td style="width:20%;">Nama pegawai yang dipertintah</td>
-                                        <td id="pegawaimodalView" colspan="2">: </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">3</td>
-                                        <td style="width:20%;">
-                                            <ol type="a">
-                                                <li>Pangkat dan golongan</li>
-                                                <li>Jabatan/Instansi</li>
-                                                <li>Tingkat Biaya Perjalanan</li>
-                                            </ol>
-                                        </td>
-                                        <td colspan="2">
-                                        <ul class="list-unstyled">
-                                            <li id="pangolModelView">: </li>
-                                            <li id="jabatan_instansiModalView">: </li>
-                                            <li id="tinkatBiayaMovelView">: </li>
-                                        </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">4</td>
-                                        <td style="width: 40%;">Maksud perjalanan dinas</td>
-                                        <td id="untukModalView" colspan="2">: </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">5</td>
-                                        <td style="width: 40%;">Alat angkutan yang dipergunakan</td>
-                                        <td id="jenisKendaraanModalView" colspan="2">: </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">6</td>
-                                        <td style="width:20%;">
-                                            <ol type="a">
-                                                <li>Tempat berangkat</li>
-                                                <li>Tempat tujuan</li>
-                                            </ol>
-                                        </td>
-                                        <td colspan="2">
-                                            <ul class="list-unstyled">
-                                                <li id="berangkatModalView">: </li>
-                                                <li id="tujuanModalView">: </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">7</td>
-                                        <td style="width:20%;">
-                                            <ol type="a">
-                                                <li>Lama perjalanan dinas</li>
-                                                <li>Tanggal berangkat</li>
-                                                <li>Tanggal harus kembali</li>
-                                            </ol>
-                                        </td>
-                                        <td colspan="2">
-                                        <ul class="list-unstyled">
-                                            <li id="lamaModalView">: </li>
-                                            <li id="awalmodalView">: </li>
-                                            <li id="akhirModalView">: </li>
-                                        </ul>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">8</td>
-                                        <td style="width: 40%;">Pengikut</td>
-                                        <td style="width: 25%">Tanggal Lahir</td>
-                                        <td style="width: 25%">Keterangan</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 5%;"></td>
-                                        <td style="width:20%;" id="pengikutModalView"></td>
-                                        <td style="width:25%;" id="pengikutTTLModalView"></td>
-                                        <td style="width:25%;" id="ketPengikutModalView"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">9</td>
-                                        <td style="width:20%;">
-                                        <ul class="list-unstyled">
-                                                <li>
-                                                Pembebanana anggaran
-                                                </li>
-                                                <li>
-                                                    <ol type="a">
-                                                        <li>Instansi</li>
-                                                        <li>Mata anggaran/kode rekening</li>
-                                                    </ol>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                        <td colspan="2">
-                                        <ul class="list-unstyled">
-                                                <li><br></li>
-                                                <li>
-                                                    <ul class="list-unstyled">
-                                                        <li id="biayaInstansiModalViews">: </li>
-                                                        <li id="kodeRekeningModalView">: </li>
-                                                    </ul>
-                                                </li>
-                                        </ul>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:5%;">10</td>
-                                        <td style="width:20%;">Keterangan</td>
-                                        <td id="keteranganModalView" colspan="2">: </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-2"></div>
-                        <div class="col-10 pr-5">
-                            <p style="font-size: 16px;">
-                                Demikian pemerintah tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-6"></div>
-
-                        <div class="col-6">
-                            <!-- <p class="lead">Amount Due 2/22/2014</p> -->
-                            <div class="table-responsive">
-                                <table class="table table-borderless" style="line-height: 1em;">
-                                    <tr>
-                                        <td style="width:50%;text-align:center;padding:5px;">Dikeluarkan di</td>
-                                        <td style="padding:5px;"> : </td>
-                                        <td style="padding:5px;">Sumber</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:50%;text-align:center;padding:5px;">Pada Tanggal</td>
-                                        <td style="padding:5px;"> : </td>
-                                        <td style="padding:5px;"><p id="createdatModalView"></p></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <hr class="s9" style="margin:0;margin-bottom:0px;margin-top:0px;">
-                            <div class="col-sm-12">
-                                <p style="font-size: 16px;text-align:center">
-                                    Pejabat yang memberikan perintah
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-6"></div>
-                        <div class="col-6">
-                            <br><br>
-                            <p style="font-size: 16px;text-align:center;text-decoration: underline;" class="mb-0" id="diperintahTTDModalView"></p>
-                            <p style="font-size: 16px;text-align:center" class="mb-0" id="nipTTDModalView"></p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-6" style="padding:0px;">
-                <div class="invoice p-3 mb-3">
-                    <div class="row invoice-info">
-                        <div class="col-sm-12 invoice-col">
-                            <table class="table table-sm">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 50%;"></td>
-                                        <td>
-                                            <table class="table table-border minimpadding">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <hr class="s5 mb-3 mt-0">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-7"></div>
+                                        <div class="col-sm-5">
+                                            <table style="margin: 0 auto;">
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 5%;">I.</td>
-                                                        <td style="width: 38%;">SPD No</td>
-                                                        <td style="width: 10%;"> : </td>
-                                                        <td id="nospdslide2ModelView"></td>
+                                                        <td>Lembaran</td>
+                                                        <td> : </td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 10%;"> : </td>
-                                                        <td id="berangkatdarislide2ModelView">Sumber</td>
+                                                        <td>Kode No</td>
+                                                        <td> : </td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 10%;"> : </td>
-                                                        <td id="tglberangkatslide2ModelView"></td>
+                                                        <td>Nomer</td>
+                                                        <td> : </td>
+                                                        <td><span id="no_sptModalView"></span></td>
                                                     </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12" style="margin: auto;">
+                                            <table style="margin: 0 auto;">
+                                                <tbody>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Ke</td>
-                                                        <td style="width: 10%;"> : </td>
-                                                        <td id="tujuanslide2ModelView"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4" class="text-center">Pejabat yang memberikan perintah<br><br><br><br>
+                                                        <td  class="text-center">
+                                                            <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;text-decoration: underline;" class="mb-0">SURAT PERJALANAN DINAS</p>
                                                         </td>
                                                     </tr>
-                                                    <tr class="mt-5">
-                                                        <td colspan="4" class="text-center" id="diperintahslide2ModelView"></td>
-                                                    </tr>
                                                     <tr>
-                                                        <td colspan="4" class="text-center" id="nipslide2ModelView"></td>
+                                                        <td  class="text-center">
+                                                            <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;" class="mb-0">(SPD)</p>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 50%;">
-                                            <table class="table table-sm">
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <table class="table table-borderless table-sm ml-4">
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 5%;">II.</td>
-                                                        <td style="width: 38%;">Tiba di</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tibadislide2ModelViewfirst"></td>
+                                                        <td style="width:5%;">1</td>
+                                                        <td style="width:20%;">Pejabat yang memberikan perintah</td>
+                                                        <td id="diperintahModalView" colspan="2">: </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">2</td>
+                                                        <td style="width:20%;">Nama pegawai yang dipertintah</td>
+                                                        <td id="pegawaimodalView" colspan="2">: </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">3</td>
+                                                        <td style="width:20%;">
+                                                            <ol type="a">
+                                                                <li>Pangkat dan golongan</li>
+                                                                <li>Jabatan/Instansi</li>
+                                                                <li>Tingkat Biaya Perjalanan</li>
+                                                            </ol>
+                                                        </td>
+                                                        <td colspan="2">
+                                                        <ul class="list-unstyled">
+                                                            <li id="pangolModelView">: </li>
+                                                            <li id="jabatan_instansiModalView">: </li>
+                                                            <li id="tinkatBiayaMovelView">: </li>
+                                                        </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">4</td>
+                                                        <td style="width: 40%;">Maksud perjalanan dinas</td>
+                                                        <td id="untukModalView" colspan="2">: </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">5</td>
+                                                        <td style="width: 40%;">Alat angkutan yang dipergunakan</td>
+                                                        <td id="jenisKendaraanModalView" colspan="2">: </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">6</td>
+                                                        <td style="width:20%;">
+                                                            <ol type="a">
+                                                                <li>Tempat berangkat</li>
+                                                                <li>Tempat tujuan</li>
+                                                            </ol>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <ul class="list-unstyled">
+                                                                <li id="berangkatModalView">: </li>
+                                                                <li id="tujuanModalView">: </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">7</td>
+                                                        <td style="width:20%;">
+                                                            <ol type="a">
+                                                                <li>Lama perjalanan dinas</li>
+                                                                <li>Tanggal berangkat</li>
+                                                                <li>Tanggal harus kembali</li>
+                                                            </ol>
+                                                        </td>
+                                                        <td colspan="2">
+                                                        <ul class="list-unstyled">
+                                                            <li id="lamaModalView">: </li>
+                                                            <li id="awalmodalView">: </li>
+                                                            <li id="akhirModalView">: </li>
+                                                        </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">8</td>
+                                                        <td style="width: 40%;">Pengikut</td>
+                                                        <td style="width: 25%">Tanggal Lahir</td>
+                                                        <td style="width: 25%">Keterangan</td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggaltibaslide2ModelViewfirst"></td>
+                                                        <td style="width:20%;" id="pengikutModalView"></td>
+                                                        <td style="width:25%;" id="pengikutTTLModalView"></td>
+                                                        <td style="width:25%;" id="ketPengikutModalView"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalatibaslide2ModelViewfirst"></td>
+                                                        <td style="width:5%;">9</td>
+                                                        <td style="width:20%;">
+                                                        <ul class="list-unstyled">
+                                                                <li>
+                                                                Pembebanana anggaran
+                                                                </li>
+                                                                <li>
+                                                                    <ol type="a">
+                                                                        <li>Instansi</li>
+                                                                        <li>Mata anggaran/kode rekening</li>
+                                                                    </ol>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td colspan="2">
+                                                        <ul class="list-unstyled">
+                                                                <li><br></li>
+                                                                <li>
+                                                                    <ul class="list-unstyled">
+                                                                        <li id="biayaInstansiModalViews">: </li>
+                                                                        <li id="kodeRekeningModalView">: </li>
+                                                                    </ul>
+                                                                </li>
+                                                        </ul>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:5%;">10</td>
+                                                        <td style="width:20%;">Keterangan</td>
+                                                        <td id="keteranganModalView" colspan="2">: </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </td>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2"></div>
+                                        <div class="col-10 pr-5">
+                                            <p style="font-size: 16px;">
+                                                Demikian pemerintah tugas ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-6"></div>
+
+                                        <div class="col-6">
+                                            <!-- <p class="lead">Amount Due 2/22/2014</p> -->
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless" style="line-height: 1em;">
+                                                    <tr>
+                                                        <td style="width:50%;text-align:center;padding:5px;">Dikeluarkan di</td>
+                                                        <td style="padding:5px;"> : </td>
+                                                        <td style="padding:5px;">Sumber</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:50%;text-align:center;padding:5px;">Pada Tanggal</td>
+                                                        <td style="padding:5px;"> : </td>
+                                                        <td style="padding:5px;"><p id="createdatModalView"></p></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <hr class="s9" style="margin:0;margin-bottom:0px;margin-top:0px;">
+                                            <div class="col-sm-12">
+                                                <p style="font-size: 16px;text-align:center">
+                                                    Pejabat yang memberikan perintah
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6"></div>
+                                        <div class="col-6">
+                                            <br><br>
+                                            <p style="font-size: 16px;text-align:center;text-decoration: underline;" class="mb-0" id="diperintahTTDModalView"></p>
+                                            <p style="font-size: 16px;text-align:center" class="mb-0" id="nipTTDModalView"></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-6" style="padding:0px;">
+                                <div class="invoice p-3 mb-3">
+                                    <div class="row invoice-info">
+                                        <div class="col-sm-12 invoice-col">
+                                            <table class="table table-sm table-borderless">
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="berangkatdarislide2ModelViewfirst"></td>
+                                                        <td style="width: 50%;"></td>
+                                                        <td>
+                                                            <table class="table table-border minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;">I.</td>
+                                                                        <td style="width: 38%;">SPD No</td>
+                                                                        <td style="width: 10%;"> : </td>
+                                                                        <td id="nospdslide2ModelView"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 10%;"> : </td>
+                                                                        <td id="berangkatdarislide2ModelView">Sumber</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 10%;"> : </td>
+                                                                        <td id="tglberangkatslide2ModelView"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Ke</td>
+                                                                        <td style="width: 10%;"> : </td>
+                                                                        <td id="tujuanslide2ModelView"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-center">Pejabat yang memberikan perintah<br><br><br><br>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="mt-5">
+                                                                        <td colspan="4" class="text-center" id="diperintahslide2ModelView"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-center" id="nipslide2ModelView"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tujuanslide2ModelViewfirst"></td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table table-sm">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;">II.</td>
+                                                                        <td style="width: 38%;">Tiba di</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tibadislide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggaltibaslide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalatibaslide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="berangkatdarislide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tujuanslide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggalberangkatslide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalaberangkatslide2ModelViewfirst"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggalberangkatslide2ModelViewfirst"></td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table  minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;">III.</td>
+                                                                        <td style="width: 38%;">Tiba di</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tibadislide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggaltibaslide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalatibaslide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="berangkatdarislide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tujuanslide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggalberangkatslide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalaberangkatslide2ModelViewsecond"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalaberangkatslide2ModelViewfirst"></td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;">VI.</td>
+                                                                        <td style="width: 38%;">Tiba di</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tibadislide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggaltibaslide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalatibaslide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="berangkatdarislide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tujuanslide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggalberangkatslide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalaberangkatslide2ModelViewthird"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;">V.</td>
+                                                                        <td style="width: 38%;">Tiba di</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tibadislide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggaltibaslide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalatibaslide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        <td style="width: 50%;">
+                                                            <table class="table minimpadding">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="berangkatdarislide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tujuanslide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Pada tanggal</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="tanggalberangkatslide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width: 5%;"></td>
+                                                                        <td style="width: 38%;">Kepala</td>
+                                                                        <td style="width: 5%;"> : </td>
+                                                                        <td id="kepalaberangkatslide2ModelViewfourth"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">VI. CATATAN LAIN - LAIN</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" class="text-justify"><p>VII. Pejabat yang berwenang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba serta Bendaharawan yang bertanggung jawab, berdasarkan pengaturan-pengaturan Keuangan Negara apabila Negara mendapatkan akibat kesalahan, kelupaannya.</p></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 50%;">
-                                            <table class="table  minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;">III.</td>
-                                                        <td style="width: 38%;">Tiba di</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tibadislide2ModelViewsecond"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggaltibaslide2ModelViewsecond"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalatibaslide2ModelViewsecond"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="berangkatdarislide2ModelViewsecond"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tujuanslide2ModelViewsecond"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggalberangkatslide2ModelViewsecond"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalaberangkatslide2ModelViewsecond"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;">VI.</td>
-                                                        <td style="width: 38%;">Tiba di</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tibadislide2ModelViewthird"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggaltibaslide2ModelViewthird"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalatibaslide2ModelViewthird"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="berangkatdarislide2ModelViewthird"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tujuanslide2ModelViewthird"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggalberangkatslide2ModelViewthird"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalaberangkatslide2ModelViewthird"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;">V.</td>
-                                                        <td style="width: 38%;">Tiba di</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tibadislide2ModelViewfourth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggaltibaslide2ModelViewfourth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalatibaslide2ModelViewfourth"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                        <td style="width: 50%;">
-                                            <table class="table minimpadding">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="berangkatdarislide2ModelViewfourth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Berangkat dari</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tujuanslide2ModelViewfourth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Pada tanggal</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="tanggalberangkatslide2ModelViewfourth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="width: 5%;"></td>
-                                                        <td style="width: 38%;">Kepala</td>
-                                                        <td style="width: 5%;"> : </td>
-                                                        <td id="kepalaberangkatslide2ModelViewfourth"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">VI. CATATAN LAIN - LAIN</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="text-justify"><p>VII. Pejabat yang berwenang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba serta Bendaharawan yang bertanggung jawab, berdasarkan pengaturan-pengaturan Keuangan Negara apabila Negara mendapatkan akibat kesalahan, kelupaannya.</p></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -733,8 +733,7 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
-                    // console.log(data.pegawai[0].nama);
+                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#no_sptModalView').append(data.kode);
                     $('#diperintahModalView').append(data.diperintah.nama);
@@ -746,16 +745,20 @@
                     $('#berangkatModalView').append('Sumber');
                     $('#tujuanModalView').append(data.instansi.nama_instansi);
                     $('#lamaModalView').append(data.lama+' Hari');
-                    $('#awalmodalView').append(data.awal);
-                    $('#akhirModalView').append(data.akhir);
+                    var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                    var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                    $('#awalmodalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                    $('#akhirModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
                     $('#untukModalView').append(data.untuk);
-                    var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var month_fullnames = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
+                    $('#createdatModalView').text(curr_date + " " + month_fullnames[curr_month] + " " + curr_year);
                     data.looping.forEach((pegawailoop, index) => {
                         // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
+                        var lahir = new Date(pegawailoop.tgl_lahir);var curr_date = lahir.getDate();var curr_month = lahir.getMonth();var curr_year = lahir.getFullYear();
                         $('#pengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama+'</li></ul>');
-                        $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.tgl_lahir+'</li></ul>');
+                        $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+curr_date + "-" + m_names[curr_month] + "-" + curr_year+'</li></ul>');
                         $('#ketPengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama_jabatan+'</li></ul>');
                     });
                     $('#biayaInstansiModalViews').append('--');

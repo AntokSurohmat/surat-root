@@ -51,7 +51,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>No SPT</th>
-                                    <th>Nama</th>
+                                    <th>Nama Pegawai</th>
                                     <th>Dasar Perjalanan Dinas</th>
                                     <th>Maksud Perjalanan Dinas</th>
                                     <th>Pejabat Yang Memberikan Perintah</th>

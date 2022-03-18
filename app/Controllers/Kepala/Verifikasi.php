@@ -70,14 +70,14 @@ class Verifikasi extends ResourcePresenter
             $row = array();
             $row[] = $no;
             $row[] = $key->kodes;
+            $row[] = $key->pegawai_all;
+            $row[] = $key->dasar;
+            $row[] = $key->untuk;
             foreach ($pegawai->getResult() as $pega ) {
-				if ($pega->nip == $key->diperintah) {
+				if ($pega->nip == $key->pejabat) {
 					$row[] =  $pega->nama;
 				}
 			};
-            $row[] = $key->nama_pegawai;
-            $row[] = $key->dasar;
-            $row[] = $key->untuk;
 
             if($key->status == "Revisi"){
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="#" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
@@ -116,10 +116,10 @@ class Verifikasi extends ResourcePresenter
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
             ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
             ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['nama_pegawai']))->get();
+            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
 
             $data['looping'] = $query->getResult();
-            $data['pegawai'] = $this->pegawai->where('nip', $data['diperintah'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -235,7 +235,7 @@ class Verifikasi extends ResourcePresenter
 
                 $spt = $this->spt->where('id', $id)->first();
                 $data = [
-                    'diperintah' => $spt['diperintah'],'nama_pegawai' => $spt['nama_pegawai'],
+                    'pejabat' => $spt['pejabat'],'pegawai_all' => $spt['pegawai_all'],
                     'untuk' => $spt['untuk'],'kode_instansi' => $spt['kode_instansi'],
                     'awal' => $spt['awal'],'akhir' => $spt['akhir'],'lama' => $spt['lama'],
                 ];

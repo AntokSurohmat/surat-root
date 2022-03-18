@@ -15,7 +15,7 @@ class KuitansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_spd', 'pegawai_all','pwgawai_diperintah', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang'];
+    protected $allowedFields    = ['kode_spd', 'pegawai_all','pegawai_diperintah', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang'];
 
     // Dates
     protected $useTimestamps = true;
@@ -26,19 +26,20 @@ class KuitansiModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode_spd' => 'trim|required',
+        'kode_spd' => 'required',
         'pegawai_all' => 'required',
-        'nip_pegawai' => 'trim|required|numeric|max_length[25]',
-        'kode_pangol' => 'trim|required|numeric|max_length[20]',
-        'kode_jabatan' => 'trim|required|numeric|max_length[20]',
+        'pegawai_diperintah' => 'required',
+        'nip_pegawai' => 'required|numeric|max_length[25]',
+        'kode_pangol' => 'required|numeric|max_length[20]',
+        'kode_jabatan' => 'required|numeric|max_length[20]',
         'untuk' => 'required|max_length[50]',
-        'kode_instansi' => 'trim|required|numeric|max_length[20]',
-        'awal' => 'trim|required',
-        'akhir' => 'trim|required',
-        'lama' => 'trim|required|numeric|max_length[2]',
-        'kode_rekening' => 'trim|required|numeric|max_length[20]',
-        'pejabat' => 'trim|required|numeric|max_length[25]',
-        'jumlah_uang' => 'trim|required|max_length[8]'
+        'kode_instansi' => 'required|numeric|max_length[20]',
+        'awal' => 'required',
+        'akhir' => 'required',
+        'lama' => 'required|numeric|max_length[2]',
+        'kode_rekening' => 'required|numeric|max_length[20]',
+        'pejabat' => 'required|numeric|max_length[25]',
+        'jumlah_uang' => 'required|max_length[8]'
 
     ];
     protected $validationMessages   = [

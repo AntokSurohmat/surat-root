@@ -571,6 +571,7 @@ class Spt extends ResourcePresenter
                     'end' => $validation->getError('endAddEditForm'),
                     'lama' => $validation->getError('lamaAddEditForm'),
                     'diperintah' => $validation->getError('diperintahAddEditForm'),
+                    'keterangan' => $validation->getError('diperintahAddEditForm'),
                 ],
                 'msg' => '',
             ];
@@ -583,7 +584,7 @@ class Spt extends ResourcePresenter
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
                 'alamat_instansi' => $this->db->escapeString($this->request->getVar('alamatAddEditForm')),
-                'awal' => date("Y-m-d", strtotime($this->request->getVar('startAddEditForm'))),
+                'awal' => date("Y-m-d", strtotime(str_replace('/', '-', $this->request->getVar('startAddEditForm')))),
                 'akhir' => date("Y-m-d", strtotime(str_replace('/', '-', $this->request->getVar('endAddEditForm')))),
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
                 'pejabat' => $this->db->escapeString($this->request->getVar('diperintahAddEditForm')),

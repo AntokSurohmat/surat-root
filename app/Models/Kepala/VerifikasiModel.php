@@ -48,7 +48,7 @@ class VerifikasiModel extends Model
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
 
-    var $column_order = array(null, 'spt.kode', 'spt.nama_pegawai','spt.dasar','spt.untuk','pegawai.nip', 'spt.status', null);
+    var $column_order = array(null, 'spt.kode', 'spt.pegawai_all','spt.dasar','spt.untuk','pegawai.nip', 'spt.status', null);
     var $order = array('spt.id' => 'DESC');
 
     function get_datatables(){
@@ -56,7 +56,7 @@ class VerifikasiModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "spt.kode LIKE '%$search%' OR spt.nama_pegawai LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%'";
+			$attr_order = "spt.kode LIKE '%$search%' OR spt.pegawai_all LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%'";
 		} else {
 			$attr_order = "spt.id != ''";
 		}
@@ -79,7 +79,7 @@ class VerifikasiModel extends Model
                 ->select('spt.kode AS kodes')
                 ->select('pegawai.nip', 'pegawai.nama')
                 ->select('instansi.kode', 'instansi.nama_instansi')
-                ->join('pegawai', 'pegawai.nip = spt.diperintah', 'left')
+                ->join('pegawai', 'pegawai.nip = spt.pejabat', 'left')
                 ->join('instansi', 'instansi.kode = spt.kode_instansi', 'left')
 				->where($attr_order)
 				->orderBy($result_order, $result_dir)
@@ -99,12 +99,12 @@ class VerifikasiModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
+			$attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.pegawai_all LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
 		} else {
 			$attr_order = " ";
 		}
 		$sQuery = "SELECT COUNT(etbl_spt.id) as total FROM etbl_spt
-                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.diperintah
+                    LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.pejabat
                     LEFT JOIN etbl_instansi ON etbl_instansi.kode = etbl_spt.kode_instansi
                     WHERE etbl_spt.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();

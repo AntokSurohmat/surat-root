@@ -497,17 +497,17 @@
 
         $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'});
         //Form first
-        $('#tanggalBerangkatFormfirst').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
-        $('#tanggalTibaFormfirst').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
+        $('#tanggalBerangkatFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalTibaFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
         //Form second
-        $('#tanggalBerangkatFormsecond').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
-        $('#tanggalTibaFormsecond').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
+        $('#tanggalBerangkatFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalTibaFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
         //Form third
-        $('#tanggalBerangkatFormthird').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
-        $('#tanggalTibaFormthird').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
+        $('#tanggalBerangkatFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalTibaFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
         //Form fourth
-        $('#tanggalBerangkatFormfourth').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
-        $('#tanggalTibaFormfourth').daterangepicker({singleDatePicker: true,minDate: moment(),locale: {format: 'YYYY-MM-DD',firstDay: 1}});
+        $('#tanggalBerangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalTibaFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getPegawai') ?>';
@@ -593,8 +593,11 @@
                         $("#diperintahForm").val(data.pegawai.nama);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").val(data.instansi.nama_instansi);
-                        $('#startForm').val(data.awal);
-                        $('#endForm').val(data.akhir);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                        $('#startForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                        $('#endForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
                         $('#lamaForm').val(data.lama);
                         $('#rekeningForm').val(data.rekening.nomer_rekening);
                         $('#submit-spd').html('<i class="fas fa-save"></i>&ensp;Submit');
@@ -625,8 +628,11 @@
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").val(data.instansi.nama_instansi);
                         $('#alamatForm').val(data.alamat_instansi);
-                        $('#startForm').val(data.awal);
-                        $('#endForm').val(data.akhir);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                        $('#startForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                        $('#endForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
                         $('#lamaForm').val(data.lama);
                         $('#keteranganForm').val(data.keterangan);
                         $('#rekeningForm').val(data.rekening.nomer_rekening);

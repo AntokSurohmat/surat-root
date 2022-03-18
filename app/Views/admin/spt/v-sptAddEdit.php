@@ -163,8 +163,8 @@
         $('#dasarForm').keydown(function(event){if(event.keyCode == 13){$('#untukForm').focus();}});
         $('#untukForm').keydown(function(event){if(event.keyCode == 13){$('#instansiForm').select2('open');}});
         $('#instansiForm').on('select2:select', function(e) {$('startForm').focus();});
-        $('#startForm').keydown(function(event) {if (event.keyCode == 13) {$('#endForm').focus();}});
-        $('#endForm').keydown(function(event){if(event.keyCode == 13){$('#diperintahForm').select2('open');}});
+        $('#startForm').on('apply.daterangepicker', function(ev) {$('#endForm').focus();});
+        $('#endForm').on('apply.daterangepicker', function(ev) {$('#diperintahForm').select2('open');});
         $('#diperintahForm').on('select2:select', function(e) {$('#submit-spt').focus();});
 
         update();
@@ -184,22 +184,19 @@
         }
 
         $('#startForm').daterangepicker({
-            singleDatePicker: true,autoApply: true,
-            startDate: moment(),
-            locale: {format: 'DD/MM/YYYY',firstDay: 1}
+            singleDatePicker: true,showDropdowns: true,
+            startDate: moment(),locale: {format: 'DD/MM/YYYY'}
         });
 
         $('#endForm').daterangepicker({
-            singleDatePicker: true,autoApply: true,
-            startDate: moment().add(7, 'days'),
-            locale: {format: 'DD/MM/YYYY',firstDay: 1}
+            singleDatePicker: true,showDropdowns: true,
+            startDate: moment().add(7, 'days'),locale: {format: 'DD/MM/YYYY'}
         });
 
         $('#startForm').on('apply.daterangepicker', function(ev, picker) {
             var new_start =  picker.startDate.clone().add(7, 'days');
             $('#end-date').daterangepicker({
-                singleDatePicker: true,autoApply: true,
-                startDate: new_start,locale: {format: 'DD/MM/YYYY',firstDay: 1}
+                singleDatePicker: true,startDate: new_start,locale: {format: 'DD/MM/YYYY'}
             });
 
         });
@@ -363,13 +360,13 @@
                         // $('#startForm' ).datepicker('setDate', '09/03/2022');
                         // $('#lahirForm').val(data.tgl_lahir);
                         // $('#lahirForm').val(data.tgl_lahir);
-                        var m_names = new Array(01,02,03,04,05,06,07,08,09,10,11,12);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                         var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
                         $('#startForm').data('daterangepicker').setStartDate(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        $('#startForm').data('daterangepicker').updateView();$('#startForm').data('daterangepicker').updateCalendars();
                         var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
                         $('#endForm').data('daterangepicker').setStartDate(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                        $( "#startForm" ).data('daterangepicker').updateView();
-                        $( "#startForm" ).data('daterangepicker').updateCalendars();
+                        $('#endForm').data('daterangepicker').updateView();$('#endForm').data('daterangepicker').updateCalendars();
                         $('#lamaForm').val(data.lama);
                         $('#submit-spt').html('<i class="fas fa-save"></i>&ensp;Update');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

@@ -67,60 +67,62 @@
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="nipKuitansiForm">NIP</label>
-                                            <input type="email" class="form-control" name="nipAddEditForm" id="nipKuitansiForm" placeholder="NIP Pegawai" readonly>
+                                            <input type="text" class="form-control" name="nipAddEditForm" id="nipKuitansiForm" placeholder="NIP Pegawai" readonly>
                                             <div class="invalid-feedback nipKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="namaKuitansiForm">Nama Pegawai</label>
-                                            <input type="email" class="form-control" name="namaAddEditForm" id="namaKuitansiForm" placeholder="Nama Pegawai" readonly>
+                                            <input type="text" class="form-control" name="namaAddEditForm" id="namaKuitansiForm" placeholder="Nama Pegawai" readonly>
                                             <div class="invalid-feedback namaKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="pangkatKuitansiForm">Pangkat</label>
-                                            <input type="email" class="form-control" name="pangkatAddEditForm" id="pangkatKuitansiForm" placeholder="Pangkat" readonly>
+                                            <input type="text" class="form-control" name="pangkatAddEditForm" id="pangkatKuitansiForm" placeholder="Pangkat" readonly>
                                             <div class="invalid-feedback pangkatKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="jabatanKuitansiForm">Jabatan</label>
-                                            <input type="email" class="form-control" name="jabatanAddEditForm" id="jabatanKuitansiForm" placeholder="Jabatan" readonly>
+                                            <input type="text" class="form-control" name="jabatanAddEditForm" id="jabatanKuitansiForm" placeholder="Jabatan" readonly>
                                             <div class="invalid-feedback jabatanKuitansiErrorForm"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="tglBerangkatKuitansiForm">Tanggal Berangkat</label>
-                                            <input type="email" class="form-control" name="tglBerangkatAddEditForm" id="tglBerangkatKuitansiForm" placeholder="Tanggal Berangkat" readonly>
+                                            <input type="text" class="form-control" name="tglBerangkatAddEditForm" id="tglBerangkatKuitansiForm" placeholder="Tanggal Berangkat" readonly>
                                             <div class="invalid-feedback tglBerangkatKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="tglKembaliKuitansiForm">Tanggal Kembali</label>
-                                            <input type="email" class="form-control" name="tglKembaliAddEditForm" id="tglKembaliKuitansiForm" placeholder="Tanggal Kembali" readonly>
+                                            <input type="text" class="form-control" name="tglKembaliAddEditForm" id="tglKembaliKuitansiForm" placeholder="Tanggal Kembali" readonly>
                                             <div class="invalid-feedback tglKembaliKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="lamaKuitansiForm">Lama Perjalanan</label>
-                                            <div class="col-sm-12 row">
-                                            <input type="email" class="form-control col-sm-10" name="lamaAddEditForm" id="lamaKuitansiForm" placeholder="Perjalanan" readonly>
-                                            <p class="col-sm-2 mt-2"><b>Hari</b></p>
+                                            <div class="input-group">
+                                            <input type="text" class="form-control" name="lamaAddEditForm" id="lamaKuitansiForm" placeholder="Perjalanan" readonly>
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">Hari</span>
+                                                </div>
+                                                <div class="invalid-feedback lamaKuitansiErrorForm"></div>
                                             </div>
-                                            <div class="invalid-feedback lamaKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="rekeningKuitansiForm">Kode Rekening</label>
-                                            <input type="email" class="form-control" name="rekeningAddEditForm" id="rekeningKuitansiForm" placeholder="Kode Rekening" readonly>
+                                            <input type="text" class="form-control" name="rekeningAddEditForm" id="rekeningKuitansiForm" placeholder="Kode Rekening" readonly>
                                             <div class="invalid-feedback rekeningKuitansiErrorForm"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="instansiKuitansiForm">Nama Instansi</label>
-                                            <input type="email" class="form-control" name="instansiAddEditForm" id="instansiKuitansiForm" placeholder="Nama Instansi" readonly>
+                                            <input type="text" class="form-control" name="instansiAddEditForm" id="instansiKuitansiForm" placeholder="Nama Instansi" readonly>
                                             <div class="invalid-feedback instansiKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="untukKuitansiForm" class="col-form-label">Maksud Perjalanan Dinas</label>
                                             <textarea name="untukAddEditForm" class="form-control" id="untukKuitansiForm" rows="3" placeholder="Maksud Perjalanan Dinas" readonly></textarea>
-                                            <div class="invalid-feedback untukErrorForm"></div>
+                                            <div class="invalid-feedback untukKuitansiErrorForm"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="pejabatKuitansiForm" class="col-form-label">Pejabat Pelaksana Teknis</label>
@@ -131,11 +133,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="jumlahKuitansiForm">Jumlah</label>
-                                            <div class="col-sm-12 row">
-                                            <p class="col-sm-1 mt-2">Rp. </p>
-                                            <input type="email" class="form-control col-sm-8" name="jumlahAddEditForm" id="jumlahKuitansiForm" placeholder="Nama jumlah" readonly>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend">Rp.</span>
+                                                </div>
+                                                <input type="text" class="form-control" name="jumlahAddEditForm" id="jumlahKuitansiForm" placeholder="Nama jumlah" readonly>
+                                                <div class="invalid-feedback jumlahKuitansiErrorForm"></div>
                                             </div>
-                                            <div class="invalid-feedback jumlahKuitansiErrorForm"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,6 +171,8 @@
         $('#noSpdKuitansiForm').keydown(function(event){if(event.keyCode == 13){$('#namaPegawaiKuitansiForm').select2('open');}});
         $('#namaPegawaiKuitansiForm').on('select2:select', function(e) {$('#pejabatKuitansiForm').select2('open');});
         $('#pejabatKuitansiForm').on('select2:select', function(e) {$('#submit-kuitansi').focus();});
+
+        update();
 
         function clearform() {
             $('#form-addedit')[0].reset();
@@ -228,14 +234,17 @@
                     url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd ,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#nipKuitansiForm').val(data.nip);
                         $('#namaKuitansiForm').val(data.nama);
                         $('#pangkatKuitansiForm').val(data.pangol.nama_pangol);
                         $('#jabatanKuitansiForm').val(data.jabatan.nama_jabatan);
-                        $("#tglBerangkatKuitansiForm").val(data.spd.awal);
-                        $("#tglKembaliKuitansiForm").val(data.spd.akhir);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var awal = new Date(data.spd.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                        $('#tglBerangkatKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        var akhir = new Date(data.spd.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                        $('#tglKembaliKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
                         $("#lamaKuitansiForm").val(data.spd.lama);
                         $("#rekeningKuitansiForm").val(data.spd.kode_rekening);
                         $("#instansiKuitansiForm").val(data.instansi.nama_instansi);
@@ -279,7 +288,7 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            $("#" + key + 'KuitansiForm').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                            $("#" + key + 'KuitansiForm').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);$("." + key + "KuitansiErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'KuitansiForm');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
@@ -292,15 +301,16 @@
                         clearform();let timerInterval
                         swalWithBootstrapButtons.fire({
                             icon: 'success',title: 'Berhasil Memasukkan Data',
-                            html: '<b>Otomatis Ke Table Wilayah!</b><br>' +
+                            html: '<b>Otomatis Ke Table Kuitansi!</b><br>' +
                                 'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                             timer: 3500,timerProgressBar: true,
-                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                            cancelButtonText: 'No, cancel!',reverseButtons: true,
                         }).then((result) => {
                             if (result.isConfirmed) {window.location.href = data.redirect;
                             } else if (result.dismiss === Swal.DismissReason.cancel) {
                                 if ($('#methodPage').val() === 'New') {location.reload();
-                                }else{window.location.replace("<?= base_url('Bendahara/Bendahara/new')?>");}
+                                }else{window.location.replace("<?= base_url('Bendahara/Kuitansi/new')?>");}
                             } else if (result.dismiss === Swal.DismissReason.timer) {
                                 window.location.href = data.redirect;
                             }
@@ -323,7 +333,28 @@
             return false;
         })
 
-
+        function update() {
+            if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
+                var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Bendahara/Kuitansi/single_data') ?>";
+                $.ajax({
+                    url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                    dataType: "JSON",
+                    success: function(data) {
+                        console.log(data);
+                        $('#submit-kuitansi').removeClass("btn-success");
+                        $('#submit-kuitansi').addClass("btn-warning text-white");
+                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                        $("#noSpdKuitansiForm").append($("<option selected='selected'></option>")
+                        .val(data.spd.id).text(data.spd.kode)).trigger('change');
+                        $("#namaPegawaiKuitansiForm").append($("<option selected='selected'></option>")
+                        .val(data.pegawai.nip).text(data.pegawai.nama)).trigger('change');
+                        $("#pejabatKuitansiForm").append($("<option selected='selected'></option>")
+                        .val(data.pejabat.nip).text(data.pejabat.nama)).trigger('change');
+                        $('#submit-kuitansi').html('<i class="fas fa-save"></i>&ensp;Update');
+                    },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                })
+            }
+        }
 
     })
 </script>

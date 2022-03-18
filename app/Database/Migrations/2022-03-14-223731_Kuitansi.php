@@ -20,9 +20,13 @@ class Kuitansi extends Migration
                 'constraint'        => '3',
                 'null'              => true
             ],
-            'nama_pegawai'      => [
+            'pegawai_all'      => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '100',
+            ],
+            'pegawai_diperintah' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25'
             ],
             'nip_pegawai'               => [
                 'type'              => 'VARCHAR',
