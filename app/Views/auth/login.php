@@ -1,6 +1,15 @@
 <?= $this->extend('auth/layouts/default') ?>    
 
 <?= $this->section('content') ?>
+
+        <?php if (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
@@ -108,17 +117,13 @@
                     if (data.success == true) {
                         clearform();let timerInterval
                         Swal.fire({
-                            icon: 'success',title: 'Berhasil Memasukkan Data',
-                            html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
-                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
-                            timer: 3500,timerProgressBar: true,
-                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',cancelButtonText: 'No, cancel!',reverseButtons: true,
+                            icon: 'success',title: 'Berhasil Login',
+                            html: '<b>'+data.msg+ '</b><br>' +
+                                'Otomatis diarahkan ke halaman Dashboard',
+                            timer: 2000,timerProgressBar: true,
+                            showConfirmButton: false,
                         }).then((result) => {
-                            if (result.isConfirmed) {window.location.href = data.redirect;
-                            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                if ($('#methodPage').val() === 'New') {location.reload();
-                                }else{window.location.replace("<?= base_url('Admin/Pegawai/new')?>");}
-                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                            if (result.dismiss === Swal.DismissReason.timer) {
                                 window.location.href = data.redirect;
                             }
                         })

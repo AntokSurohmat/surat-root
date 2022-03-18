@@ -21,6 +21,9 @@ class Instansi extends ResourcePresenter
     protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
+        if (session()->get('level') != "Admin") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
         $this->provinsi = new ProvinsiModel();
         $this->kabupaten = new KabupatenModel();
         $this->kecamatan = new KecamatanModel();

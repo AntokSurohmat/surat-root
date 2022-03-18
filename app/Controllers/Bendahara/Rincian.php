@@ -6,6 +6,12 @@ use App\Controllers\BaseController;
 
 class Rincian extends BaseController
 {
+    public function __construct()
+    {
+        if (session()->get('level') != "Bendahara") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+    }
     public function index()
     {
         $data = array(

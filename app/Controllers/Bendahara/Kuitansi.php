@@ -25,6 +25,9 @@ class Kuitansi extends ResourcePresenter
     protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
+        if (session()->get('level') != "Bendahara") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
         $this->jabatan = new JabatanModel();
         $this->pangol = new PangolModel();
         $this->pegawai = new PegawaiModel();

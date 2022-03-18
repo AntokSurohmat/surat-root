@@ -10,6 +10,9 @@ class Jabatan extends BaseController
     protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
+        if (session()->get('level') != "Admin") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
         $this->jabatan = new JabatanModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();

@@ -15,7 +15,9 @@ class Dashboard extends BaseController
     protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
-        if (session()->get('level') != "Pegawai") { echo 'Access denied';exit;}
+        if (session()->get('level') != "Pegawai") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
         $this->pegawai = new PegawaiModel();
         $this->csrfToken = csrf_token();

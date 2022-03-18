@@ -17,10 +17,12 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Auth');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function(){
+    return view('auth/error_404');
+});
 $routes->setAutoRoute(true);
 
 /*
@@ -31,10 +33,12 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('auth', 'Auth\Auth::index');
-$routes->get('auth/logout', 'Auth\Auth::logout');
-$routes->group('admin', function ($routes) {
+$routes->get('/', 'Auth\Auth::index', ["filter" => "noauth"]);
+// // $routes->get('/', ["filter" => "noauth"], 'Auth\Auth::index');
+// $routes->match(['get', 'post'], 'login', 'Auth\Auth::index', ["filter" => "noauth"]);
+$routes->get('logout', 'Auth\Auth::logout');
+$routes->get('forbidden', 'Auth\Auth::forbidden');
+$routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Admin\Dashboard::index');
     $routes->presenter('Pegawai', ['except' => 'show,remove']);
     $routes->get('pangol', 'Admin\Pangol::index');
@@ -48,16 +52,16 @@ $routes->group('admin', function ($routes) {
     $routes->get('lapspt', 'Admin\Lapspt::index');
     $routes->get('lapspd', 'Admin\Lapspd::index');
 });
-$routes->group('bendahara', function ($routes) {
+$routes->group('bendahara', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Bendahara\Dashboard::index',);
     $routes->presenter('Kuitansi', ['except' => 'show,remove']);
     $routes->get('rincian', 'Bendahara\Rincian::index');
 });
-$routes->group('kepala', function ($routes) {
+$routes->group('kepala', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
     $routes->presenter('Verifikasi', ['only' => ['index', 'update']]);
 });
-$routes->group('pegawai', function ($routes) {
+$routes->group('pegawai', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Pegawai\Dashboard::index');
     $routes->get('spt', 'Pegawai\Spt::index');
     $routes->get('spd', 'Pegawai\Spd::index');

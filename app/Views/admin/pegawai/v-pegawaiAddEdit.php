@@ -199,9 +199,9 @@
         $("#pelaksanaForm").select2({theme: 'bootstrap4'});$("#levelForm").select2({theme: 'bootstrap4'});bsCustomFileInput.init();
         $('input[name="lahirAddEditForm"]').daterangepicker({
             autoApply: true,singleDatePicker: true,
-            showDropdowns: true,"alwaysShowCalendars": true,    
+            showDropdowns: true,startDate:moment(),    
             locale: {
-                format: 'YYYY-MM-DD'
+                format: 'DD/MM/YYYY'
             }
         });
 
@@ -318,7 +318,9 @@
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#nipForm').val(data.nip);
                         $('#namaForm').val(data.nama);
-                        $('#lahirForm').val(data.tgl_lahir);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var lahir = new Date(data.tgl_lahir);var curr_date = lahir.getDate();var curr_month = lahir.getMonth();var curr_year = lahir.getFullYear();
+                        $('#lahirForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
                         $("#jabatanForm").append($("<option selected='selected'></option>")
                         .val(data.jabatan.kode).text(data.jabatan.nama_jabatan)).trigger('change');
                         $("#pangolForm").append($("<option selected='selected'></option>")

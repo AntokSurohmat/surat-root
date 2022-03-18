@@ -27,20 +27,20 @@ class Noauth implements FilterInterface
     {
         if (session()->get('isLoggedIn')) {
 
-			if (session()->get('level') == "admin") {
+			if (session()->get('level') == "Admin") {
 				return redirect()->to(site_url('admin'));
 			}
 
-			if (session()->get('level') == "kepala") {
+			if (session()->get('level') == "Kepala") {
 				return redirect()->to(site_url('kepala'));
 			}
 
-            if (session()->get('level') == "bendahara") {
+            if (session()->get('level') == "Bendahara") {
 				return redirect()->to(site_url('bendahara'));
 			}
 
-            if (session()->get('level') == "bendahara") {
-				return redirect()->to(site_url('bendahara'));
+            if (session()->get('level') == "Pegawai") {
+				return redirect()->to(site_url('pegawai'));
 			}
         }
     }

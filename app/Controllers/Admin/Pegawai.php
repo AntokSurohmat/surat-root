@@ -20,6 +20,9 @@ class Pegawai extends ResourcePresenter
     protected $helpers = ['form', 'url', 'text'];
     public function __construct()
     {
+        if (session()->get('level') != "Admin") {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
         $this->jabatan = new JabatanModel();
         $this->pangol = new PangolModel();
         $this->pegawai = new PegawaiModel();
@@ -229,7 +232,7 @@ class Pegawai extends ResourcePresenter
             ],
             'lahirAddEditForm' => [
                 'label'     => 'Tanggal lahir',
-                'rules'     => 'required',
+                'rules'     => 'required|valid_date[d/m/Y]',
             ],
             'jabatanAddEditForm' => [
                 'label' => 'Nama Jabatan',
@@ -317,7 +320,7 @@ class Pegawai extends ResourcePresenter
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                'tgl_lahir' => date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm'))),
+                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('lahirAddEditForm'))))),
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
@@ -485,7 +488,7 @@ class Pegawai extends ResourcePresenter
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
                 'nama' => $this->db->escapeString($this->request->getPost('namaAddEditForm')),
-                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime($this->request->getPost('lahirAddEditForm')))),
+                'tgl_lahir' => $this->db->escapeString(date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('lahirAddEditForm'))))),
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),

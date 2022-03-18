@@ -21,11 +21,11 @@
     <div class="row">
             <div class="col-12">
 
-                <?php if (session()->getFlashdata('error')) : ?>
+                <?php if ($errors = session()->getFlashdata('error')) : ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                        <?= session()->getFlashdata('error') ?>
+                        <?=  session()->getFlashdata('error') ?>
                     </div>
                 <?php endif; ?>
 
@@ -190,8 +190,11 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
- /*-- DataTable To Load Data Wilayah --*/
- var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
+        
+        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"]("Error", "Informasi");
+        console.log(terbilang(1800000));
+        /*-- DataTable To Load Data Wilayah --*/
+        var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,

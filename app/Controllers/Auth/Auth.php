@@ -111,13 +111,16 @@ class Auth extends BaseController
         ];
 
         session()->set($data);
-        // d($data);print_r($data);die();
         return true;
     }
 
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('auth');
+        return redirect()->to('/');
+    }
+    public function forbidden()
+    {
+        return view('auth/error_403');
     }
 }

@@ -126,6 +126,8 @@
     <script src="<?= base_url() ?>/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
     <!-- Custom Input File -->
     <script src="<?= base_url() ?>/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+    <script src="<?= base_url() ?>/custom/js/terbilang-js/terbilang.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/custom/js/custom.js"></script>
     <script language="javascript">
