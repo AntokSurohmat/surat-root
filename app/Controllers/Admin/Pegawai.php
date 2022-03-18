@@ -66,7 +66,7 @@ class Pegawai extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->nip;
             $row[] = $key->nama;
-            $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/custom/img/foto/'.$key->foto).'">';
+            $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/uploads/foto/'.$key->foto).'">';
             foreach ($jabatan->getResult() as $jbt ) {
 				if ($jbt->kode == $key->kode_jabatan) {
 					$row[] =  $jbt->nama_jabatan;
@@ -220,7 +220,7 @@ class Pegawai extends ResourcePresenter
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 25 Karakter',
-                    'is_unique' => '{field} NIP Yang Anda masukkan sudah dipakai',
+                    'is_unique' => '{field} Yang Anda masukkan sudah dipakai',
                 ],
             ],
             'namaAddEditForm' => [
@@ -305,17 +305,11 @@ class Pegawai extends ResourcePresenter
             ];
         } else {
 
-            if(!empty($this->request->getFile('fotoAddEditForm'))){
-                $dataBerkas = $this->request->getFile('fotoAddEditForm');
-                $fileName = $dataBerkas->getRandomName();
-                if(!$dataBerkas->move('custom/img/foto/', $fileName)){
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam Upload data');
-                    $foto = 'default.png';
-                }else{
-                    $foto = $fileName;
-                }
+            $file = $this->request->getFile('fotoAddEditForm');
+            if($file->isValid() && !$file->hasMoved()){
+                $imageName = $file->getRandomName();
+                $file->move('uploads/foto/', $imageName);
             }
-            
 
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
@@ -324,7 +318,7 @@ class Pegawai extends ResourcePresenter
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
-                'foto' => $foto,
+                'foto' => $imageName,
                 'username' => $this->db->escapeString($this->request->getPost('usernameAddEditForm')),
                 'password' => password_hash($this->request->getPost('passwordAddEditForm'), PASSWORD_BCRYPT),
                 'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
@@ -397,11 +391,12 @@ class Pegawai extends ResourcePresenter
         }
 
         $validation = \Config\Services::validation();
-
+        $prop_item = $this->pegawai->where('id', $this->request->getVar('hiddenID'))->first();
+        $ids =  $prop_item['id'];
         $valid = $this->validate([
             'nipAddEditForm' => [
                 'label'     => 'Nomer NIP',
-                'rules'     => 'trim|required|numeric|max_length[25]',
+                'rules'     => "trim|required|numeric|max_length[25]",
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 25 Karakter',
@@ -409,7 +404,7 @@ class Pegawai extends ResourcePresenter
             ],
             'namaAddEditForm' => [
                 'label'     => 'Nama Lengkap',
-                'rules'     => 'required|max_length[50]',
+                'rules'     => "required|max_length[50]",
                 'errors' => [
                     'max_length' => '{field} Maksimal 50 Karakter',
                 ],
@@ -420,15 +415,15 @@ class Pegawai extends ResourcePresenter
             ],
             'jabatanAddEditForm' => [
                 'label' => 'Nama Jabatan',
-                'rules'  => 'trim|required|numeric|max_length[20]',
+                'rules'  => "trim|required|numeric|max_length[20]",
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 20 Karakter',
+                    'max_length' => "{field} Maksimal 20 Karakter",
                 ],
             ],
             'pangolAddEditForm' => [
                 'label'     => 'Nama Pangkat & Golongan',
-                'rules'     => 'trim|required|numeric|max_length[20]',
+                'rules'     => "trim|required|numeric|max_length[20]",
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',
@@ -436,18 +431,26 @@ class Pegawai extends ResourcePresenter
             ],
             'pelaksanaAddEditForm' => [
                 'label' => 'Pilih Pelaksana',
-                'rules'     => 'required',
+                'rules'     => "required",
+            ],
+            "fotoAddEditForm" => [
+                'rules' => "mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',
-                'rules'     => 'required|max_length[20]',
+                'rules'     => "required|max_length[20]|is_unique[etbl_pegawai.username,id,$ids]",
                 'errors' => [
+                    'is_unique' => '{field} Yang Anda masukkan sudah dipakai',
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
             ],
             'levelAddEditForm' => [
-                'label' => 'Pilih Level Access',
-                'rules'     => 'required',
+                'label' => "Pilih Level Access",
+                'rules'     => "required",
             ],
         ]);
 
@@ -474,15 +477,16 @@ class Pegawai extends ResourcePresenter
             ];
         } else {
 
-            if(!empty($this->request->getFile('fotoAddEditForm'))){
-                $dataBerkas = $this->request->getFile('fotoAddEditForm');
-                $fileName = $dataBerkas->getRandomName();
-                if(!$dataBerkas->move('custom/img/foto/', $fileName)){
-                    $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam Upload data');
-                    $foto = 'default.png';
-                }else{
-                    $foto = $fileName;
+            $old_image = $prop_item['foto'];
+            $file = $this->request->getFile('fotoAddEditForm');
+            if($file->isValid() && !$file->hasMoved()){
+                if(file_exists("uploads/foto/".$old_image)){
+                    unlink("uploads/foto/".$old_image);
                 }
+                $imageName = $file->getRandomName();
+                $file->move('uploads/foto/', $imageName);
+            }else{
+                $imageName = $old_image;
             }
 
             $data = [
@@ -492,7 +496,7 @@ class Pegawai extends ResourcePresenter
                 'kode_jabatan' => $this->db->escapeString($this->request->getPost('jabatanAddEditForm')),
                 'kode_pangol' => $this->db->escapeString($this->request->getPost('pangolAddEditForm')),
                 'pelaksana' => $this->db->escapeString($this->request->getPost('pelaksanaAddEditForm')),
-                'foto' => $foto,
+                'foto' => $imageName,
                 'username' => $this->db->escapeString($this->request->getPost('usernameAddEditForm')),
                 'password' => password_hash($this->request->getPost('passwordAddEditForm'), PASSWORD_BCRYPT),
                 'level' => $this->db->escapeString($this->request->getPost('levelAddEditForm')),
@@ -535,10 +539,16 @@ class Pegawai extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-
         if ($this->request->getVar('id')) {
+            
             $id = $this->request->getVar('id');
 
+            $prop_item = $this->pegawai->where('id', $id)->first();
+            $imageName = $prop_item['foto'];
+
+            if(file_exists("uploads/foto/".$imageName)){
+                unlink("uploads/foto/".$imageName);
+            }
             if ($this->pegawai->where('id', $id)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
             } else {

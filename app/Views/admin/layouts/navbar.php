@@ -4,7 +4,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li>
-            <ol class="breadcrumb">
+            <ol class="breadcrumb" style="margin-bottom: 0;background-color:#fff;">
                 <li class="breadcrumb-item"><a href="<?= site_url('admin') ?>" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Ke Halaman Dashboard">Home</a></li>
                 <li class="breadcrumb-item active" role="button" data-trigger="hover" data-container="body" data-rel="popover" data-placement="bottom" data-content="Halaman Saat Ini"><?= ucwords(strtolower($title)) ?></li>
             </ol>

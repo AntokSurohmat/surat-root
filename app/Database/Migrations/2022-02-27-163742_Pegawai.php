@@ -77,7 +77,6 @@ class Pegawai extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('nip');
-        $this->forge->addUniqueKey('username');
         $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode');
         $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode');
         $this->forge->createTable('pegawai');
@@ -87,7 +86,6 @@ class Pegawai extends Migration
     {
         $this->forge->dropKey('pegawai', 'id');
         $this->forge->dropKey('pegawai', 'nip');
-        $this->forge->dropKey('pegawai', 'username');
         $this->forge->dropForeignKey('jabatan', 'etbl_pegawai_kode_jabatan_foreign');
         $this->forge->dropForeignKey('pangol', 'etbl_pegawai_kode_pangol_foreign');
         $this->forge->dropTable('pegawai');

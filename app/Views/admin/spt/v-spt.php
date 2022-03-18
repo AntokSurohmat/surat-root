@@ -89,7 +89,7 @@
                                 <div class="invoice p-3 mb-3">
                                     <div class="row invoice-info">
                                         <div class="col-sm-2 invoice-col text-center">
-                                            <img src="<?= base_url() ?>/custom/img/logo/logo.png" alt="" style="height:120px;">
+                                            <img src="<?= base_url() ?>/assets/custom/img/logo.png" alt="" style="height:120px;">
                                         </div>
                                         <div class="col-sm-10 invoice-col">
                                             <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:500" class="mb-0 mr-5">PEMERINTAH KABUPATEN CIREBON</p>
