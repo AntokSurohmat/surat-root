@@ -4,13 +4,6 @@ namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
 use App\Models\Admin\PegawaiModel;
-use CodeIgniter\HTTP\IncomingRequest;
-
-
-/**
- * @property IncomingRequest $request
-*/
-
 
 class Auth extends BaseController
 {
@@ -24,8 +17,11 @@ class Auth extends BaseController
         $this->session->start();
     }
     public function index()
-    {
-        return view('auth/login');
+    {   
+        $data = array(
+            'title' => 'Login',
+        );
+        return view('auth/login', $data);
     }
 
     public function login()
@@ -81,7 +77,7 @@ class Auth extends BaseController
             if($user['level'] == "Admin"){
                 $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('admin'));
 
-            }elseif($user['level'] == "Kepala"){
+            }elseif($user['level'] == "Kepala Bidang"){
                 $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('kepala'));
             }
             elseif($user['level'] == "Bendahara"){
@@ -117,7 +113,7 @@ class Auth extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/');
+        return redirect()->to(site_url('auth'))->with('success', 'You have been logged out!');
     }
     public function forbidden()
     {

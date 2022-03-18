@@ -24,7 +24,7 @@ class Verifikasi extends ResourcePresenter
 {
     protected $helpers = ['form', 'url', 'text'];
     public function __construct(){
-        if (session()->get('level') != "Kepala") {
+        if (session()->get('level') != "Kepala Bidang") {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 

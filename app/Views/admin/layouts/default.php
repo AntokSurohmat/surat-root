@@ -79,7 +79,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"> Close&ensp;<i class="fas fa-times"></i></button>
-                        <a class="btn btn-sm btn-danger" tabindex="1" href="<?= base_url('logout') ;?>">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
+                        <a class="btn btn-sm btn-danger" tabindex="1" href="<?= base_url('auth/logout') ;?>">Logout&ensp;<i class="fas fa-sign-out-alt"></i></a>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -126,7 +126,16 @@
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/assets/custom/js/custom.js"></script>
-    <script language="javascript">
+    <script type="text/javascript">
+        <?php if (session()->getFlashdata('success')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"]('<?= session()->getFlashdata('success') ?>', "Informasi");
+        <?php } else if (session()->getFlashdata('error')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"]('<?= session()->getFlashdata('error')?>', "Informasi");
+        <?php } else if (session()->getFlashdata('warning')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"]('<?= session()->getFlashdata('warnong')?>', "Informasi");
+        <?php } else if (session()->getFlashdata('info')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["info"]('<?= session()->getFlashdata('info')?>', "Informasi");
+        <?php }?>
         // Jquery
         jQuery(function($) {
             $('[data-rel="popover"]').popover()

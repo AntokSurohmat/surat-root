@@ -2,70 +2,61 @@
 
 <?= $this->section('content') ?>
 
-        <?php if (session()->getFlashdata('error')) : ?>
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="<?= base_url() ?>/AdminLTE/index2.html" class="h1"><b>Admin</b>LTE</a>
-            </div>
-            <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
-
-                <form role="form" id="form-login" autocomplete="off" onsubmit="return false" method="post">
-                <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                    <div class="input-group mb-3">
-                        <input type="username" class="form-control" name="username" id="usernameForm" placeholder="username">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
-                            </div>
-                        </div>
-                        <div class="invalid-feedback usernameErrorForm"></div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password" id="passwordForm" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                        <div class="invalid-feedback passwordErrorForm"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" id="submit-btn" class="btn btn-primary btn-block"><i class='fa fa-save'></i>&ensp;Sign In</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
-
-
-                <!-- <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
-                </p> -->
-            </div>
-            <!-- /.card-body -->
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+            <?= session()->getFlashdata('success') ?>
         </div>
-        <!-- /.card -->
+    <?php endif; ?>
+    <!-- /.login-logo -->
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="<?= base_url() ?>/AdminLTE/index2.html" class="h1"><b>Admin</b>LTE</a>
+        </div>
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            <form role="form" id="form-login" autocomplete="off" onsubmit="return false" method="post">
+            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                <div class="input-group mb-3">
+                    <input type="username" class="form-control" name="username" id="usernameForm" placeholder="username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback usernameErrorForm"></div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" name="password" id="passwordForm" placeholder="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback passwordErrorForm"></div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">
+                                Remember Me
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" id="submit-btn" class="btn btn-primary btn-block"><i class='fa fa-save'></i>&ensp;Sign In</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
@@ -86,8 +77,8 @@
         $('#form-login').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('Auth/Auth/Login') ?>";
-            console.log($(this).serialize());
-            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),processData:false,dataType: "JSON",cache:false,async:false,
+            // console.log($(this).serialize());
+            $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn').prop('disabled', true);
                 },
@@ -95,7 +86,7 @@
                     $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Sign In");$('#submit-btn').prop('disabled', false);
                 },
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -113,7 +104,7 @@
                             timer: 2000,timerProgressBar: true,
                         })
                     }
-                    console.log(data.success);
+                    // console.log(data.success);
                     if (data.success == true) {
                         clearform();let timerInterval
                         Swal.fire({

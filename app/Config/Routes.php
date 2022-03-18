@@ -36,7 +36,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Auth\Auth::index', ["filter" => "noauth"]);
 // // $routes->get('/', ["filter" => "noauth"], 'Auth\Auth::index');
 // $routes->match(['get', 'post'], 'login', 'Auth\Auth::index', ["filter" => "noauth"]);
-$routes->get('logout', 'Auth\Auth::logout');
+$routes->get('auth/logout', 'Auth\Auth::logout');
 $routes->get('forbidden', 'Auth\Auth::forbidden');
 $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Admin\Dashboard::index');

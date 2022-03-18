@@ -31,7 +31,7 @@ class Noauth implements FilterInterface
 				return redirect()->to(site_url('admin'));
 			}
 
-			if (session()->get('level') == "Kepala") {
+			if (session()->get('level') == "Kepala Bidang") {
 				return redirect()->to(site_url('kepala'));
 			}
 

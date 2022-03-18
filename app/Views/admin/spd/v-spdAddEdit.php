@@ -599,7 +599,8 @@
                         var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
                         $('#endForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
                         $('#lamaForm').val(data.lama);
-                        $('#rekeningForm').val(data.rekening.nomer_rekening);
+                        if(data.rekening.nomer_rekening != null){$('#rekeningForm').val(data.rekening.nomer_rekening);}else{$('#rekeningForm').val("0")} 
+                        
                         $('#submit-spd').html('<i class="fas fa-save"></i>&ensp;Submit');
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })

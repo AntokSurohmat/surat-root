@@ -17,7 +17,7 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/toastr/toastr.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/dist/css/adminlte.min.css?v=3.2.0">
 </head>
 
 <body class="hold-transition login-page layout-fixed">
@@ -32,14 +32,23 @@
     <!-- Bootstrap 4 -->
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="<?= base_url() ?>/assets/AdminLTE/dist/js/adminlte.min.js"></script>
+    <script src="<?= base_url() ?>/assets/AdminLTE/dist/js/adminlte.min.js?v=3.2.0"></script>
     <!-- SweetAlert2 -->
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/toastr/toastr.min.js"></script>
     <!-- Costum Js -->
-    <!-- <script src="<?= base_url() ?>/custom/js/custom.js"></script> -->
-    <script language="javascript">
+    <!-- <script src="<?= base_url() ?>/assets/custom/js/custom.js"></script> -->
+    <script type="text/javascript">
+        <?php if (session()->getFlashdata('success')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"]('<?= session()->getFlashdata('success') ?>', "Informasi");
+        <?php } else if (session()->getFlashdata('error')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"]('<?= session()->getFlashdata('error')?>', "Informasi");
+        <?php } else if (session()->getFlashdata('warning')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"]('<?= session()->getFlashdata('warnong')?>', "Informasi");
+        <?php } else if (session()->getFlashdata('info')) {?>
+            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["info"]('<?= session()->getFlashdata('info')?>', "Informasi");
+        <?php }?>
         // Jquery
         jQuery(function($) {
             $('[data-rel="popover"]').popover()
@@ -50,13 +59,6 @@
                 selector: '[data-rel="tooltip"]',
                 trigger: 'hover'
             });
-            /*-- Costum Sweetalert2 --*/
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                }
-            })
             // $('[data-rel="tooltip"]').hover(function() {
             //     $('.tooltip').css('top', parseInt($('.tooltip').css('left')) + 15 + 'px')
             // });

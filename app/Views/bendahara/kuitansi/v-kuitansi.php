@@ -191,7 +191,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
         
-        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"]("Error", "Informasi");
         console.log(terbilang(1800000));
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
