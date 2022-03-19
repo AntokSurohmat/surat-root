@@ -345,7 +345,7 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
+                        console.log(data);
                         $('#submit-spt').removeClass("btn-success");
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -357,16 +357,18 @@
                         // // $.each(JSON.parse(data.nama_pegawai), function(i, val) {
                         // //     $('#pegawaiForm').append('<option value="'+i+'">'+val+'</option>').multiselect('refresh');
                         // // });
+                        // $('#pegawaiForm').select2().val(['123456789', '908093824098230']).trigger('change')
+                        // var selectedValuesTest = ["123456789", "908093824098230"];
+                        // $('#pegawaiForm').val(selectedValuesTest).trigger('change');
+                        // $("#pegawaiForm").append($("<option selected='selected'></option>")
+                        // .val(["123456789", "908093824098230"]).text(["Pegawai","Pegawai 03"])).trigger('change');
                         $('#dasarForm').val(data.dasar);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").append($("<option selected='selected'></option>")
                         .val(data.instansi.kode).text(data.instansi.nama_instansi)).trigger('change');
                         $("#diperintahForm").append($("<option selected='selected'></option>")
-                        .val(data.pegawai.nip).text(data.pegawai.nama)).trigger('change');
+                        .val(data.pejabat.nip).text(data.pejabat.nama)).trigger('change');
                         $('#alamatForm').val(data.alamat_instansi);
-                        // $('#startForm' ).datepicker('setDate', '09/03/2022');
-                        // $('#lahirForm').val(data.tgl_lahir);
-                        // $('#lahirForm').val(data.tgl_lahir);
                         var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                         var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
                         $('#startForm').data('daterangepicker').setStartDate(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
