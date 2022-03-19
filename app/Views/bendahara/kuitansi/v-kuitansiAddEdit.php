@@ -194,7 +194,7 @@
         var url_destination = '<?= base_url('Bendahara/Kuitansi/getNoSpd') ?>';
         $("#noSpdKuitansiForm").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Jabatan ---',
+            placeholder: '--- Cari NO SPD ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -210,7 +210,7 @@
         
         $("#noSpdKuitansiForm").change(function() {
             // Initialize select2
-            var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawai') ?>';
+            var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawaiNoSpd') ?>';
             // $("#pegawaiAddEditForm option:selected").text();
             $("#namaPegawaiKuitansiForm").select2({
                 // var pegawai = $('#pegawaiAddEditForm :selected').val();
@@ -229,7 +229,7 @@
 
         $("#namaPegawaiKuitansiForm").change(function() {
             var namaPegawai = $(this).val();var idSpd = $("#noSpdKuitansiForm").val();
-            var url_destination = '<?= base_url('Bendahara/Kuitansi/getDetailPegawai') ?>';
+            var url_destination = '<?= base_url('Bendahara/Kuitansi/getDetailPegawaiNoSpd') ?>';
             $.ajax({
                     url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd ,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",

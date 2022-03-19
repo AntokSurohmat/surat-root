@@ -12,19 +12,16 @@ use App\Models\Admin\SbuhModel;
 use App\Models\Admin\RekeningModel;
 use App\Models\Admin\JenisWilayahModel;
 use App\Models\Bendahara\KuitansiModel;
-
+use \Hermawan\DataTables\DataTable;
 use CodeIgniter\HTTP\IncomingRequest;
-
 
 /**
  * @property IncomingRequest $request
 */
 
-
-
 class Kuitansi extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url', 'text'];
+    protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
         if (session()->get('level') != "Bendahara") {
@@ -60,54 +57,43 @@ class Kuitansi extends ResourcePresenter
         return view('bendahara/kuitansi/v-kuitansi', $data);
     }
 
-    function load_data() {
+    public function load_data() {
+
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
-        }
-        $pegawai = $this->db->table('pegawai')->get();
-        $list = $this->kuitansi->get_datatables();
-        $count_all = $this->kuitansi->count_all();
-        $count_filter = $this->kuitansi->count_filter();
-
-        // d($list);print_r($list);die();
-        $data = array();
-        $no = $this->request->getPost('start');
-        
-        foreach ($list as $key) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $key->kode_spd;
-            foreach ($pegawai->getResult() as $pega ) {
-                if ($pega->nip == $key->nip_pegawai) {
-                    $row[] =  $pega->nama;
-                }
-            };
-            $row[] = $key->untuk;
-            $row[] = $key->lama.' Hari';
-            $row[] = 'Rp. '.$key->jumlah_uang;
-
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-            $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
-            $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-            $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
-            $row[] = $button;
-
-
-            $data[] = $row;
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $output = array(
-            "draw" => $this->request->getPost('draw'),
-            "recordsTotal" => $count_all->total,
-            "recordsFiltered" => $count_filter->total,
-            "data" => $data
-        );
+        $builder = $this->db->table('kuitansi')
+                  ->select('kuitansi.id,kode_spd, pegawai.nama, instansi.nama_instansi, awal, akhir, jumlah_uang')
+                  ->join('pegawai', 'pegawai.nip = kuitansi.pegawai_diperintah')
+                  ->join('instansi', 'instansi.kode = kuitansi.kode_instansi');
 
-        $output[$this->csrfToken] = $this->csrfHash;
-        echo json_encode($output);
+        return DataTable::of($builder)
+        ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+        ->format('awal', function($value){return date('Y-m-d', strtotime($value));})
+        ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
+        ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
+        // ->setSearchableColumns(['kode_spd', 'nama'])
+        ->filter(function ($builder, $request) {
+            if ($request->noSpd)
+                $builder->where('kode_spd', $request->noSpd);
+            if ($request->pegawai)
+                $builder->where('nama', $request->pegawai);
+            elseif($request->awal)
+                $builder->where('awal', date("Y-m-d", strtotime(str_replace('/', '-',$request->awal))));
+
+        })
+        ->add(null, function($row){
+            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+            $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
+            $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+            $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+            return $button;
+        }, 'last')
+        ->hide('id')->addNumbering()
+        ->toJson();
+         
     }
-
 
     public function getNoSpd() {
         if (!$this->request->isAjax()) {
@@ -144,8 +130,7 @@ class Kuitansi extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-
-    public function getPegawai(){
+    public function getPegawaiNoSpd(){
         if (!$this->request->isAjax()) {
             exit('No direct script is allowed');
         }
@@ -167,8 +152,7 @@ class Kuitansi extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-
-    function getDetailPegawai(){
+    function getDetailPegawaiNoSpd(){
 
         if ($this->request->getVar('kode') && $this->request->getVar('id')) {
             $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
@@ -190,7 +174,6 @@ class Kuitansi extends ResourcePresenter
             echo json_encode($data);
         }
     }
-
     public function getPelaksana() {
         if (!$this->request->isAjax()) {
             exit('No direct script is allowed');
@@ -220,6 +203,112 @@ class Kuitansi extends ResourcePresenter
             $data[] = array(
                 "id" => $pegawai['nip'],
                 "text" => $pegawai['nama'],
+            );
+        }
+
+        // $response['count'] = $count;
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getNoSpdTable() {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->orderBy('pegawai_diperintah')
+                ->findAll(10);
+            // $count = $provinsilist->countAllResults();
+            // d($provinsilist);
+            // print_r($provinsilist);
+            // die();
+        } else {
+            $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->like('kode', $this->request->getPost('searchTerm'))
+                ->orderBy('pegawai_diperintah')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($spdlist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['kode'],
+                "text" => $pegawai['kode'],
+            );
+        }
+
+        // $response['count'] = $count;
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getPegawaiTable() {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->orderBy('nama')
+                ->findAll(10);
+            // $count = $provinsilist->countAllResults();
+            // d($provinsilist);
+            // print_r($provinsilist);
+            // die();
+        } else {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->like('nama', $this->request->getPost('searchTerm'))
+                ->orderBy('nama')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($pegawailist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['nama'],
+                "text" => $pegawai['nama'],
+            );
+        }
+
+        // $response['count'] = $count;
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+
+    public function getInstansiTable() {
+        if (!$this->request->isAjax()) {
+            exit('No direct script is allowed');
+        }
+
+        $response = array();
+        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->orderBy('nama_instansi')
+                ->findAll(10);
+            // $count = $provinsilist->countAllResults();
+            // d($provinsilist);
+            // print_r($provinsilist);
+            // die();
+        } else {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->like('nama_instansi', $this->request->getPost('searchTerm'))
+                ->orderBy('nama_instansi')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($instansilist as $instansi) {
+            $data[] = array(
+                "id" => $instansi['kode'],
+                "text" => $instansi['nama_instansi'],
             );
         }
 

@@ -35,30 +35,95 @@
                         <a class="btn btn-sm btn-outline-info float-right" tabindex="1" href="<?= base_url('') ?>/bendahara/kuitansi/new" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Data Baru">
                             <i class="fas fa-plus"></i> Add Data
                         </a>
-                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="card">
+                            <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="noSpdTable" class="col-sm-4 col-form-label">No SPD </label>
+                                        <div class="col-sm-7">
+                                            <select name="noSpdAddEditForm" id="noSpdTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari No SPD ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="namaPegawaiTable" class="col-sm-4 col-form-label">Nama Pegawai </label>
+                                        <div class="col-sm-7">
+                                            <select name="namaPegawaiAddEditForm" id="namaPegawaiTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari Nama Pegawai ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="awalTable" class="col-sm-4 col-form-label">Tanggal Berangkat </label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="akhirTable" class="col-sm-4 col-form-label">Tanggal Kembali </label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
+                                        <div class="col-sm-7">
+                                            <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari Nama Instansi ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer" style="text-align:center;">
+                                <button type="submit" class="btn btn-outline-danger" id="reset"  data-rel="tooltip" data-placement="top" data-container=".content" title="Reset Form"><i class="fas fa-retweet"></i>&ensp;Reset</button>
+                            </div>
+                        <!-- /.card-footer -->
+                        </div>
+                        <!-- /.card -->
 
-                        <div class="input-group ">
+                        <!-- <div class="input-group ">
                             <input class="form-control col-sm-12" name="seachKuit" id="seachKuit" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
+
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>No SPD</th>
+                                    <th>NO</th>
+                                    <th>NO SPD</th>
                                     <th>Nama Pegawai</th>
-                                    <th>Maksud Perjalanan Dinas</th>
-                                    <th>Lama Perjalanan</th>
+                                    <th>Nama Instansi</th>
+                                    <th>Tanggal Berangkat</th>
+                                    <th>Tanggal Kembali</th>
                                     <th>Jumlah</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -222,7 +287,75 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        
+
+        var url_destination = '<?= base_url('Bendahara/Kuitansi/getNoSpdTable') ?>';
+        $("#noSpdTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari No SPD ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawaiTable') ?>';
+        $("#namaPegawaiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Pegawai ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Bendahara/Kuitansi/getInstansiTable') ?>';
+        $("#namaInstansiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Instansi ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+
+        $('#awalTable').daterangepicker({
+            singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+            locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}
+        });
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY'));
+        });
+        $('#akhirTable').daterangepicker({
+            singleDatePicker: true,showDropdowns: true,
+            startDate: moment().add(7, 'days'),locale: {format: 'DD/MM/YYYY'}
+        });
+
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {
+            var new_start =  picker.startDate.clone().add(7, 'days');
+            $('#end-date').daterangepicker({
+                singleDatePicker: true,startDate: new_start,locale: {format: 'DD/MM/YYYY'}
+            });
+        });
+        // console.log($('#namaInstansiTable').val());
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
@@ -234,28 +367,25 @@
             "serverSide": true,
             "ajax": {
                 "url": url_destination,
-                "type": 'POST',
-                "data": {
-                    "csrf_token_name": $('input[name=csrf_token_name]').val()
-                },
-                "data": function(data) {
-                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
-                },
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
-                },
-                "timeout": 15000,
-                "error": handleAjaxError
+                data: function (d) {
+                    d.noSpd = $('#noSpdTable').val();
+                    d.pegawai = $('#namaPegawaiTable').val();
+                    d.awal = $('#awalTable').val();
+                    console.log(d.pegawai);
+                    console.log(d.awal);
+
+                }
             },
-            "columnDefs": [{
-                "targets": [0],
-                "orderable": false
-            }, {
-                "targets": [6],
-                "orderable": false,
-                "class": "text-center",
-            }, ],
+            "columnDefs": [
+                { targets: 0, orderable: false},  
+                { targets: -1, orderable: false, "class": "text-center"},
+        ],
+        });
+        $('#noSpdTable').change(function(event) {
+            kui.ajax.reload();
+        });
+        $('#namaPegawaiTable').change(function(event) {
+            kui.ajax.reload();
         });
 
         function handleAjaxError(xhr, textStatus, error) {
@@ -287,12 +417,16 @@
                 });
             }
         }
-        $('#seachKuit').keyup(function() {
-            kui.search($(this).val()).draw();
-        });
-        $("#refresh").on('click', function() {
-            document.getElementById("seachKuit").value = "";
-            kui.search("").draw();
+        // $('#seachKuit').keyup(function() {
+        //     kui.search($(this).val()).draw();
+        // });
+        $("#reset").on('click', function() {
+            $("#noSpdTable").val('').trigger('change');
+            $("#namaPegawaiTable").val('').trigger('change');
+            document.getElementById("awalTable").value = "";
+            document.getElementById("akhirTable").value = "";
+            $("#namaInstansiTable").val('').trigger('change');
+            kui.ajax.reload();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
