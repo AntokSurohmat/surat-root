@@ -85,6 +85,7 @@ class RekeningModel extends Model
 		// $db = db_connect();
 		$builder = $this->db->table('rekening');
 		$query = $builder->select('rekening.*')
+                ->select('rekening.kode AS kodes')
                 ->select('jenis_wilayah.kode', 'jenis_wilayah.jenis_wilayah')
                 ->join('jenis_wilayah', 'jenis_wilayah.kode = rekening.kode_jenis_wilayah', 'left')
 				->where($attr_order)

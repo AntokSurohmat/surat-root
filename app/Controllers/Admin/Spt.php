@@ -205,7 +205,6 @@ class Spt extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('level', 'Kepala Bidang')
                 ->orderBy('nama')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -214,7 +213,6 @@ class Spt extends ResourcePresenter
             // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('level', 'Kepala Bidang')
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);

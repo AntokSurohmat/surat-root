@@ -15,7 +15,7 @@ class KuitansiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_spd', 'pegawai_all','pegawai_diperintah', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang'];
+    protected $allowedFields    = ['kode_spd', 'pegawai_all','pegawai_diperintah', 'nip_pegawai', 'kode_pangol', 'kode_jabatan', 'untuk', 'kode_instansi', 'awal', 'akhir', 'lama', 'kode_rekening', 'pejabat', 'jumlah_uang','yang_menyetujui','bendahara'];
 
     // Dates
     protected $useTimestamps = true;
@@ -39,7 +39,9 @@ class KuitansiModel extends Model
         'lama' => 'required|numeric|max_length[2]',
         'kode_rekening' => 'required|numeric|max_length[20]',
         'pejabat' => 'required|numeric|max_length[25]',
-        'jumlah_uang' => 'required|max_length[8]'
+        'jumlah_uang' => 'required|max_length[8]',
+        'yang_menyetujui' => 'required|numeric|max_length[25]',
+        'bendahara' => 'required|numeric|max_length[25]',
 
     ];
     protected $validationMessages   = [
@@ -77,6 +79,14 @@ class KuitansiModel extends Model
         'jumlah_uang' => [
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' => '{field} Maksimal 8 Karakter'
+        ],
+        'yang_menyetujui' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 25 Karakter'
+        ],
+        'bendahara' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' => '{field} Maksimal 25 Karakter'
         ],
     ];
     protected $skipValidation       = false;

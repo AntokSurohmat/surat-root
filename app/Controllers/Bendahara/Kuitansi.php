@@ -200,6 +200,7 @@ class Kuitansi extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('nip !=', $this->request->getPost('bendahara'))
                 ->orderBy('nama')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -208,6 +209,7 @@ class Kuitansi extends ResourcePresenter
             // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('nip !=', $this->request->getPost('bendahara'))
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -397,7 +399,7 @@ class Kuitansi extends ResourcePresenter
                 'msg' => '',
             ];
         }else{
-            $kode_spd = $this->spd->select('kode')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+            $kode_spd = $this->spd->select(['kode', 'yang_menyetujui'])->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
             $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
             $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
             $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
@@ -418,6 +420,8 @@ class Kuitansi extends ResourcePresenter
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'pejabat' => $this->db->escapeString($this->request->getVar('pejabatKuitansiAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahAddEditForm')),
+                'yang_menyetujui' => $kode_spd['yang_menyetujui'],
+                'bendahara' => $this->session->get('nip'),
             ];
 
             // d($data);print_r($data);die();
@@ -457,6 +461,11 @@ class Kuitansi extends ResourcePresenter
             
             $wilayah = $this->rekening->select('kode_jenis_wilayah')->where('kode', $data['kode_rekening'])->first();
             $data['wilayah'] = $this->wilayah->where('kode', $wilayah['kode_jenis_wilayah'])->first();
+
+            $data['pejabat'] = $this->pegawai->select(['nip', 'nama'])->where('nip', $data['pejabat'])->first();
+            $data['bendahara'] = $this->pegawai->select(['nip', 'nama'])->where('nip', $data['bendahara'])->first();
+            $data['kepala'] = $this->pegawai->select(['nip', 'nama', 'kode_jabatan'])->where('nip', $data['yang_menyetujui'])->first();
+            $data['jabatan'] = $this->jabatan->where('kode', $data['kepala']['kode_jabatan'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);

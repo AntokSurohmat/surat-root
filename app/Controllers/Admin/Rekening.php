@@ -57,7 +57,7 @@ class Rekening extends BaseController
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $key->kode;
+            $row[] = $key->kodes;
             foreach ($jenis->getResult() as $jen) {
                 if ($jen->kode == $key->kode_jenis_wilayah) {
                     $row[] =  $jen->jenis_wilayah;

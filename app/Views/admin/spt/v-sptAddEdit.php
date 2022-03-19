@@ -121,7 +121,7 @@
                                                 <div class="input-group">
                                                     <input type="number" name="lamaAddEditForm" class="form-control" id="lamaForm" placeholder="Lama Perjalanan" readonly/>
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text"><b>Hari</b></span>
+                                                        <span class="input-group-text">Hari</span>
                                                     </div>
                                                     <div class="invalid-feedback lamaErrorForm"></div>
                                                 </div>

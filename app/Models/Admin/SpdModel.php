@@ -23,7 +23,7 @@ class SpdModel extends Model
         'akhir', 'lama',
         'kode_rekening', 'keterangan',
         'jenis_kendaraan', 'status',
-        'detail'
+        'yang_menyetujui','detail'
     ];
 
     // Dates
