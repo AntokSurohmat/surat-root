@@ -87,9 +87,9 @@ hr {
 
   @media (min-width: 1200px){
     .modal-xl {
-        max-width: 90vw;
+      max-width: 90vw;
     }
     .modal-xlg {
       max-width: 70vw;
-  }
+    }
   }

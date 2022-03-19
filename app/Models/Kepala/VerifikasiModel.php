@@ -15,7 +15,7 @@ class VerifikasiModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['status','keterangan'];
+    protected $allowedFields    = ['status','keterangan', 'yang_menyetujui'];
 
     // Dates
     protected $useTimestamps = true;
@@ -27,12 +27,15 @@ class VerifikasiModel extends Model
     // Validation
     protected $validationRules      = [
         'status' => 'required',
-        'keterangan' => 'max_length[20]',
+        'keterangan' => 'permit_empty|max_length[20]',
+        'yang_menyetujui' => 'required|max_length[25]'
+
     ];
     protected $validationMessages   = [
         'keterangan' => [
             'max_length' => '{field} Maksmimal 20 Karakter'
-        ]
+        ],
+        'yang_menyetujui' => '{field} Maksimal 25 Karakter'
     ];
     protected $skipValidation       = false;
     // protected $cleanValidationRules = true;

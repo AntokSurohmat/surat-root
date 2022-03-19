@@ -214,6 +214,13 @@ class Verifikasi extends ResourcePresenter
                 ],
             ]);
         }
+        $valid = $this->validate([
+            'ketAddEditModalVerifikasi' => [
+                'label'     => 'Keterangan',
+                'rules'     => 'permit_empty|max_length[20]',
+                'errors' => [ 'max_length' => '{field} Maksimal 20 Karakter'],
+            ],
+        ]);
 
 
         if (!$valid) {
@@ -232,6 +239,7 @@ class Verifikasi extends ResourcePresenter
             $data = [
                 'status' => $this->db->escapeString($this->request->getVar('radioAddEditModalVerifikasi')),
                 'keterangan' => $this->db->escapeString($this->request->getVar('ketAddEditModalVerifikasi')),
+                'yang_menyetujui' => $this->db->escapeString($this->session->nip),
             ];
 
             $id = $this->request->getVar('hidden_id');
@@ -242,10 +250,10 @@ class Verifikasi extends ResourcePresenter
                     'pejabat' => $spt['pejabat'],'pegawai_all' => $spt['pegawai_all'],
                     'untuk' => $spt['untuk'],'kode_instansi' => $spt['kode_instansi'],
                     'awal' => $spt['awal'],'akhir' => $spt['akhir'],'lama' => $spt['lama'],
+                    'yang_menyetujui' => $spt['yang_menyetujui'],
                 ];
 
                 if($this->spd->insert($data)){
-
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
                 }else{
                     $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');

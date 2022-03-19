@@ -109,15 +109,15 @@
                                 <table class="table nopadding mt-2">
                                     <tr>
                                         <td style="width: 40%;padding-left: 10px;">Tanggal</td>
-                                        <td id="tglKuitansiModelView">:</td>
+                                        <td id="tglKuitansiModalView">:  </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;padding-left: 10px;">No. BKU</td>
-                                        <td id="bkuKuitansiModelView">:</td>
+                                        <td id="bkuKuitansiModalView">:  </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;padding-left: 10px;">Kode Rekening</td>
-                                        <td id="rekeningKuitansiModelView">:</td>
+                                        <td id="rekeningKuitansiModalView">:  </td>
                                     </tr>
                                 </table>
                             </div>
@@ -137,12 +137,12 @@
                                 <tr>
                                     <td style="width:15%;">BANYAKNYA</td>
                                     <td style="width:1%;">:</td>
-                                    <td style="border: 1px solid;"  id="namaPegawaiModalViewTableLooping"></td>
+                                    <td style="border: 1px solid;"  id="banyaknyaKuitansiModalView"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 15%;">Rp.</td>
                                     <td style="width: 1%;">:</td>
-                                    <td id="untukModalView"></td>
+                                    <td id="nominalKuitansiModalView"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 15%;">Yaitu Untuk</td>
@@ -164,10 +164,10 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td style="height:180px;vertical-align:bottom;text-align:center;">OK</td>
-                                    <td style="height:180px;vertical-align:bottom;text-align:center;">OKI</td>
-                                    <td style="height:180px;vertical-align:bottom;text-align:center;">OKII</td>
-                                    <td style="height:180px;vertical-align:bottom;text-align:center;">OKIII</td>
+                                    <td style="vertical-align:bottom;text-align:center;">OK</td>
+                                    <td style="vertical-align:bottom;text-align:center;">OKI</td>
+                                    <td style="vertical-align:bottom;text-align:center;">OKII</td>
+                                    <td style="vertical-align:bottom;text-align:center;">OKIII</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align:center;">OK</td>
@@ -191,7 +191,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
         
-        console.log(terbilang(1800000));
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
@@ -266,7 +265,7 @@
         /*-- /. DataTable To Load Data Wilayah --*/
 
         $('#modal-viewitem').on('hidden.bs.modal', function() {
-
+            $('#tglKuitansiModalView').empty();$('#rekeningKuitansiModalView').empty();
         });
 
         $(document).on('click', '.view', function() {
@@ -281,8 +280,26 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
+                    console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                    var created = new Date(data.created_at);var curr_date = created.getDate();var curr_month = created.getMonth();var curr_year = created.getFullYear();
+                    $('#tglKuitansiModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    $('#rekeningKuitansiModalView').append(data.kode_rekening);
+                    $('#banyaknyaKuitansiModalView').append(terbilang(data.jumlah_uang));
+                    $('#nominalKuitansiModalView').append(data.jumlah_uang);
+                    $('#jenisWilayahModalView').append(data.wilayah.jenis_wilayah);
+                    $('#untukModalView').append(data.untuk);
+                    $('#namaInstansiModelView').append(data.instansi.nama_instansi);
+                    $('#lamaModalView').append(data.lama);
+                    var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                    $('#tglBerangkatModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                    $('#tglKembaliModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    $('#pegawaiDiperintahModalView').append(data.pegawai.nama);
+                    var created = new Date(data.created_at);var curr_date = created.getDate();var curr_month = created.getMonth();var curr_year = created.getFullYear();
+                    $('#tableCreatedKuitainsiModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    $('#tablePegawaiKuitansiModalView').append(data.pegawai.nama);
                     $('#modal-viewitem').modal('show');
                 }
             })

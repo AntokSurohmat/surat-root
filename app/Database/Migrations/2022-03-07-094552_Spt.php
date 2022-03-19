@@ -59,9 +59,14 @@ class Spt extends Migration
                 'default'           => 'Pending',
             ],
             'keterangan'             => [
-                'type'              => 'varchar',
+                'type'              => 'VARCHAR',
                 'constraint'        => '20',
                 'null'              => true
+            ],
+            'yang_menyetujui' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
+                'null'              => true,
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',

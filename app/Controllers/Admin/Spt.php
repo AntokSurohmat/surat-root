@@ -114,7 +114,7 @@ class Spt extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', NULL)
+                ->where('level', 'Pegawai')
                 ->orderBy('nama')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -123,7 +123,7 @@ class Spt extends ResourcePresenter
             // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', NULL)
+                ->where('level', 'Pegawai')
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -152,7 +152,6 @@ class Spt extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
-                ->where('deleted_at', NULL)
                 ->orderBy('nama_instansi')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -161,7 +160,6 @@ class Spt extends ResourcePresenter
             // die();
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
-                ->where('deleted_at', NULL)
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_instansi')
                 ->findAll(10);
@@ -207,7 +205,7 @@ class Spt extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', NULL)
+                ->where('level', 'Kepala Bidang')
                 ->orderBy('nama')
                 ->findAll(10);
             // $count = $provinsilist->countAllResults();
@@ -216,7 +214,7 @@ class Spt extends ResourcePresenter
             // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', NULL)
+                ->where('level', 'Kepala Bidang')
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -277,16 +275,17 @@ class Spt extends ResourcePresenter
             exit('No direct script is allowed');
         }
 
-        // foreach($this->request->getVar('pegawaiAddEditForm[]') as $nip){
-
-        // }
-
-        // d($this->request->getVar('pegawaiAddEditForm[]'));
-        // print_r($this->request->getVar('pegawaiAddEditForm[]'));
-        // die();
-        // $data = [];
         $validation = \Config\Services::validation();
 
+        if($this->request->getVar('pegawaiAddEditForm[]') == NULL){
+            $valid = $this->validate([
+
+                'pegawaiAddEditForm[]' => [
+                    'label' => 'Nama Pegawai',
+                    'rules' => 'required',
+                ],
+            ]);
+        }
         $valid = $this->validate([
             'kodeAddEditForm' => [
                 'label'     => 'No SPT',
@@ -297,10 +296,6 @@ class Spt extends ResourcePresenter
                     'is_unique'     => '{field} NIP Yang Anda masukkan sudah dipakai',
                 ],
             ],
-            // 'pegawaiAddEditForm' => [
-            //     'label' => 'Nama Pegawai',
-            //     'rules' => 'multiselectValidation[pegawaiAddEditForm]',
-            // ],
             'dasarAddEditForm' => [
                 'label'     => 'Dasar Pengajuan SPT',
                 'rules'     => 'required|max_length[50]',

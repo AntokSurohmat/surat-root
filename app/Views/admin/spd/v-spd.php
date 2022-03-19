@@ -161,17 +161,17 @@
                                             <table class="table table-borderless table-sm ml-4">
                                                 <tbody>
                                                     <tr>
-                                                        <td style="width:5%;">1</td>
+                                                        <th style="width:5%;">1.</th>
                                                         <td style="width:20%;">Pejabat yang memberikan perintah</td>
                                                         <td id="diperintahModalView" colspan="2">: </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">2</td>
+                                                        <th style="width:5%;">2.</th>
                                                         <td style="width:20%;">Nama pegawai yang dipertintah</td>
                                                         <td id="pegawaimodalView" colspan="2">: </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">3</td>
+                                                        <th style="width:5%;">3.</th>
                                                         <td style="width:20%;">
                                                             <ol type="a">
                                                                 <li>Pangkat dan golongan</li>
@@ -188,17 +188,17 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">4</td>
+                                                        <th style="width:5%;">4.</th>
                                                         <td style="width: 40%;">Maksud perjalanan dinas</td>
                                                         <td id="untukModalView" colspan="2">: </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">5</td>
+                                                        <th style="width:5%;">5.</th>
                                                         <td style="width: 40%;">Alat angkutan yang dipergunakan</td>
                                                         <td id="jenisKendaraanModalView" colspan="2">: </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">6</td>
+                                                        <th style="width:5%;">6.</th>
                                                         <td style="width:20%;">
                                                             <ol type="a">
                                                                 <li>Tempat berangkat</li>
@@ -213,7 +213,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">7</td>
+                                                        <th style="width:5%;">7.</th>
                                                         <td style="width:20%;">
                                                             <ol type="a">
                                                                 <li>Lama perjalanan dinas</li>
@@ -230,7 +230,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">8</td>
+                                                        <th style="width:5%;">8.</td>
                                                         <td style="width: 40%;">Pengikut</td>
                                                         <td style="width: 25%">Tanggal Lahir</td>
                                                         <td style="width: 25%">Keterangan</td>
@@ -242,7 +242,7 @@
                                                         <td style="width:25%;" id="ketPengikutModalView"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">9</td>
+                                                        <th style="width:5%;">9.</td>
                                                         <td style="width:20%;">
                                                         <ul class="list-unstyled">
                                                                 <li>
@@ -270,7 +270,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width:5%;">10</td>
+                                                        <th style="width:5%;">10.</th>
                                                         <td style="width:20%;">Keterangan</td>
                                                         <td id="keteranganModalView" colspan="2">: </td>
                                                     </tr>
@@ -340,7 +340,7 @@
                                                             <table class="table table-border minimpadding">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td style="width: 5%;">I.</td>
+                                                                        <th style="width: 5%;">I.</th>
                                                                         <td style="width: 38%;">SPD No</td>
                                                                         <td style="width: 10%;"> : </td>
                                                                         <td id="nospdslide2ModelView"></td>
@@ -382,7 +382,7 @@
                                                             <table class="table table-sm">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td style="width: 5%;">II.</td>
+                                                                        <th style="width: 5%;">II.</th>
                                                                         <td style="width: 38%;">Tiba di</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tibadislide2ModelViewfirst"></td>
@@ -438,7 +438,7 @@
                                                             <table class="table  minimpadding">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td style="width: 5%;">III.</td>
+                                                                        <th style="width: 5%;">III.</th>
                                                                         <td style="width: 38%;">Tiba di</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tibadislide2ModelViewsecond"></td>
@@ -494,7 +494,7 @@
                                                             <table class="table minimpadding">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td style="width: 5%;">VI.</td>
+                                                                        <th style="width: 5%;">VI.</td>
                                                                         <td style="width: 38%;">Tiba di</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tibadislide2ModelViewthird"></td>
@@ -550,7 +550,7 @@
                                                             <table class="table minimpadding">
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td style="width: 5%;">V.</td>
+                                                                        <th style="width: 5%;">V.</td>
                                                                         <td style="width: 38%;">Tiba di</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tibadislide2ModelViewfourth"></td>
@@ -602,10 +602,11 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2">VI. CATATAN LAIN - LAIN</td>
+                                                        <td colspan="2"><b>VI.</b> CATATAN LAIN - LAIN</td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2" class="text-justify"><p>VII. Pejabat yang berwenang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba serta Bendaharawan yang bertanggung jawab, berdasarkan pengaturan-pengaturan Keuangan Negara apabila Negara mendapatkan akibat kesalahan, kelupaannya.</p></td>
+                                                        <td colspan="2" class="text-justify"><p><b>VII.</b> Pejabat yang berwenang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba serta Bendaharawan yang bertanggung jawab, berdasarkan pengaturan-pengaturan Keuangan Negara apabila Negara mendapatkan akibat kesalahan, kelupaannya.</p></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

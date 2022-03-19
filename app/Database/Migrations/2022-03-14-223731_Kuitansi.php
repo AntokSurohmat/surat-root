@@ -71,6 +71,15 @@ class Kuitansi extends Migration
                 'type'              => 'VARCHAR',
                 'constraint'        => '8',
             ],
+            'yang_menyetujui' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
+                'null'              => true,
+            ],
+            'bendahara'         => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25'
+            ],
             'created_at'        => [
                 'type'              => 'DATETIME',
                 'null'              => true,

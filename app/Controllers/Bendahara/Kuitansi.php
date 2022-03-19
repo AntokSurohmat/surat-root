@@ -9,6 +9,8 @@ use App\Models\Admin\PegawaiModel;
 use App\Models\Admin\SpdModel;
 use App\Models\Admin\InstansiModel;
 use App\Models\Admin\SbuhModel;
+use App\Models\Admin\RekeningModel;
+use App\Models\Admin\JenisWilayahModel;
 use App\Models\Bendahara\KuitansiModel;
 
 use CodeIgniter\HTTP\IncomingRequest;
@@ -33,8 +35,10 @@ class Kuitansi extends ResourcePresenter
         $this->pegawai = new PegawaiModel();
         $this->spd = new SpdModel();
         $this->instansi = new InstansiModel();
-        $this->kuitansi = new KuitansiModel();
         $this->sbuh = new SbuhModel();
+        $this->rekening = new RekeningModel();
+        $this->wilayah = new JenisWilayahModel();
+        $this->kuitansi = new KuitansiModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
         $this->session = \Config\Services::session();
@@ -446,7 +450,13 @@ class Kuitansi extends ResourcePresenter
     function view_data() {
 
         if ($this->request->getVar('id')) {
-            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+            $data = $this->kuitansi->where('id', $this->request->getVar('id'))->first();
+
+            $data['instansi'] = $this->instansi->select(['kode', 'nama_instansi'])->where('kode', $data['kode_instansi'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
+            
+            $wilayah = $this->rekening->select('kode_jenis_wilayah')->where('kode', $data['kode_rekening'])->first();
+            $data['wilayah'] = $this->wilayah->where('kode', $wilayah['kode_jenis_wilayah'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);

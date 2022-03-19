@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <!-- Costum CSS -->
-    <link rel="stylesheet" href="<?= base_url() ?>/custom/css/style.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/assets/custom/css/style.css">
 
     <!-- jQuery -->
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/jquery/jquery.min.js"></script>

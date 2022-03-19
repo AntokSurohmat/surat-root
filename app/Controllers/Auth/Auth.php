@@ -102,6 +102,7 @@ class Auth extends BaseController
         $data = [
             'id' => $user['id'],
             'username' => $user['username'],
+            'nip' => $user['nip'],
             'isLoggedIn' => true,
             "level" => $user['level'],
         ];

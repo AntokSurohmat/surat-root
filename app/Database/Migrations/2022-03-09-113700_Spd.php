@@ -77,6 +77,11 @@ class Spd extends Migration
                 'constraint'        => ['true', 'false'],
                 'default'           => 'false',
             ],
+            'yang_menyetujui' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
+                'null'              => true,
+            ],
             'detail'            => [
                 'type'              => 'JSON',
                 'null'              => true,

@@ -116,8 +116,15 @@
                                         <div class="form-group row">
                                             <label for="lamaForm" class="col-sm-3 col-form-label">Lama Perjalan</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="lamaAddEditForm" class="form-control" id="lamaForm" placeholder="Lama Perjalanan" readonly/>
-                                                <div class="invalid-feedback lamaErrorForm"></div>
+                                                <!-- <input type="number" name="lamaAddEditForm" class="form-control" id="lamaForm" placeholder="Lama Perjalanan" readonly/>
+                                                <div class="invalid-feedback lamaErrorForm"></div> -->
+                                                <div class="input-group">
+                                                    <input type="number" name="lamaAddEditForm" class="form-control" id="lamaForm" placeholder="Lama Perjalanan" readonly/>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><b>Hari</b></span>
+                                                    </div>
+                                                    <div class="invalid-feedback lamaErrorForm"></div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -208,7 +215,7 @@
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spt/getPegawai') ?>';
         $("#pegawaiForm").select2({
-            theme: 'bootstrap4',
+            theme: 'bootstrap4',maximumSelectionLength: 7,
             placeholder: '--- Cari Data Pegawai ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
