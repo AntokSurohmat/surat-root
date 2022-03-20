@@ -62,7 +62,7 @@
                                 </div>
                                  <br>
                                  <br>
-                                 <br>               
+                                 <br>
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -207,7 +207,6 @@
             }
         });
 
-        
         $("#noSpdKuitansiForm").change(function() {
             // Initialize select2
             var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawaiNoSpd') ?>';
@@ -226,12 +225,11 @@
             });
         });
 
-
         $("#namaPegawaiKuitansiForm").change(function() {
             var namaPegawai = $(this).val();var idSpd = $("#noSpdKuitansiForm").val();
             var url_destination = '<?= base_url('Bendahara/Kuitansi/getDetailPegawaiNoSpd') ?>';
             $.ajax({
-                    url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd ,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                    url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd, csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
                         // console.log(data);

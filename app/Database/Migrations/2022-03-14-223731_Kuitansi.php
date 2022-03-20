@@ -69,7 +69,7 @@ class Kuitansi extends Migration
             ],
             'jumlah_uang'       => [
                 'type'              => 'VARCHAR',
-                'constraint'        => '8',
+                'constraint'        => '10',
             ],
             'yang_menyetujui' => [
                 'type'              => 'VARCHAR',

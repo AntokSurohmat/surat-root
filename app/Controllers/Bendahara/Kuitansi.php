@@ -96,7 +96,7 @@ class Kuitansi extends ResourcePresenter
             }, 'last')
             ->hide('id')->addNumbering()
             ->toJson();
-         
+
     }
 
     public function getNoSpd() {
@@ -366,7 +366,7 @@ class Kuitansi extends ResourcePresenter
         $validation = \Config\Services::validation();
         $valid = $this->validate([
             'noSpdAddEditForm' => [
-                'label'     => 'No SPT',
+                'label'     => 'No SPD',
                 'rules'     => 'required|numeric|max_length[3]',
                 'errors' => [
                     'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
@@ -551,7 +551,7 @@ class Kuitansi extends ResourcePresenter
 
             $data['instansi'] = $this->instansi->select(['kode', 'nama_instansi'])->where('kode', $data['kode_instansi'])->first();
             $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
-            
+
             $wilayah = $this->rekening->select('kode_jenis_wilayah')->where('kode', $data['kode_rekening'])->first();
             $data['wilayah'] = $this->wilayah->where('kode', $wilayah['kode_jenis_wilayah'])->first();
 
@@ -810,7 +810,7 @@ class Kuitansi extends ResourcePresenter
     }
 
     public function generate(){
-        
+
         // create new PDF document
         $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -844,7 +844,7 @@ class Kuitansi extends ResourcePresenter
         $pdf->AddPage();
 
         $html = '<h4>PDF Example</h4><br><p>Welcome to the Jungle</p>';
-        
+
         $pdf->writeHTML($html, true, false, true, false, '');
         // add a page
         $pdf->AddPage();

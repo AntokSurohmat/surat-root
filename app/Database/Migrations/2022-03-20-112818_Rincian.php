@@ -20,6 +20,22 @@ class Rincian extends Migration
                 'constraint'        => '3',
                 'null'              => true
             ],
+            'rincian_sbuh'       => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '25',
+            ],
+            'jumlah_uang'       => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '8',
+            ],
+            'keterangan_sbuh'   => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
+            ],
+            'jumlah_total'       => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '10',
+            ],
             'awal'              => [
                 'type'              => 'DATE',
             ],
@@ -36,9 +52,14 @@ class Rincian extends Migration
                 'constraint'        => '9',
                 'null'              => true,
             ],
-            'keterangan_1'       => [
+            'bukti_1'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
+                'null'              => true,
+            ],
+            'keterangan_1' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
                 'null'              => true,
             ],
             'rincian_biaya_2'    => [
@@ -51,9 +72,14 @@ class Rincian extends Migration
                 'constraint'        => '9',
                 'null'              => true,
             ],
-            'keterangan_2'       => [
+            'bukti_2'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
+                'null'              => true,
+            ],
+            'keterangan_2' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
                 'null'              => true,
             ],
             'rincian_biaya_3'    => [
@@ -66,9 +92,14 @@ class Rincian extends Migration
                 'constraint'        => '9',
                 'null'              => true,
             ],
-            'keterangan_3'       => [
+            'bukti_3'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
+                'null'              => true,
+            ],
+            'keterangan_3' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
                 'null'              => true,
             ],
             'rincian_biaya_4'    => [
@@ -81,9 +112,14 @@ class Rincian extends Migration
                 'constraint'        => '9',
                 'null'              => true,
             ],
-            'keterangan_4'       => [
+            'bukti_4'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
+                'null'              => true,
+            ],
+            'keterangan_4' => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
                 'null'              => true,
             ],
             'rincian_biaya_5'    => [
@@ -96,33 +132,15 @@ class Rincian extends Migration
                 'constraint'        => '9',
                 'null'              => true,
             ],
-            'keterangan_5'       => [
+            'bukti_5'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
                 'null'              => true,
             ],
-            'rincian_biaya_6'    => [
+            'keterangan_5' => [
                 'type'              => 'VARCHAR',
-                'constraint'        => '25',
+                'constraint'        => '50',
                 'null'              => true,
-            ],
-            'jumlah_biaya_6'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'keterangan_6'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
-            'jumlah_uang'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '8',
-            ],
-            'jumlah_total'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '10',
             ],
             'yang_menyetujui' => [
                 'type'              => 'VARCHAR',

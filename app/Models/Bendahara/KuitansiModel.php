@@ -26,9 +26,9 @@ class KuitansiModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode_spd' => 'required',
-        'pegawai_all' => 'required',
-        'pegawai_diperintah' => 'required',
+        'kode_spd' => 'required|numeric|max_length[3]',
+        'pegawai_all' => 'required|max_length[100]',
+        'pegawai_diperintah' => 'required|numeric|max_length[25]',
         'nip_pegawai' => 'required|numeric|max_length[25]',
         'kode_pangol' => 'required|numeric|max_length[20]',
         'kode_jabatan' => 'required|numeric|max_length[20]',
@@ -45,6 +45,17 @@ class KuitansiModel extends Model
 
     ];
     protected $validationMessages   = [
+        'kode_spd' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' =>  '{field} Maksimal 3 Karakter'
+        ],
+        'pegawai_all' => [
+            'max_length' =>  '{field} Maksimal 100 Karakter'
+        ],
+        'pegawai_diperintah' => [
+            'numeric' => '{field} Hanya Boleh Memasukkan Angka',
+            'max_length' =>  '{field} Maksimal 3 Karakter'
+        ],
         'nip_pegawai' => [
             'numeric' => '{field} Hanya Boleh Memasukkan Angka',
             'max_length' =>  '{field} Maksimal 25 Karakter'
