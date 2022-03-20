@@ -13,6 +13,7 @@ use App\Models\Admin\RekeningModel;
 use App\Models\Admin\JenisWilayahModel;
 use App\Models\Bendahara\KuitansiModel;
 use \Hermawan\DataTables\DataTable;
+use App\Libraries\Pdf;
 use CodeIgniter\HTTP\IncomingRequest;
 
 /**
@@ -69,29 +70,32 @@ class Kuitansi extends ResourcePresenter
                   ->join('instansi', 'instansi.kode = kuitansi.kode_instansi');
 
         return DataTable::of($builder)
-        ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
-        ->format('awal', function($value){return date('Y-m-d', strtotime($value));})
-        ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-        ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-        // ->setSearchableColumns(['kode_spd', 'nama'])
-        ->filter(function ($builder, $request) {
-            if ($request->noSpd)
-                $builder->where('kode_spd', $request->noSpd);
-            if ($request->pegawai)
-                $builder->where('nama', $request->pegawai);
-            elseif($request->awal)
-                $builder->where('awal', date("Y-m-d", strtotime(str_replace('/', '-',$request->awal))));
-
-        })
-        ->add(null, function($row){
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-            $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
-            $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-            $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
-            return $button;
-        }, 'last')
-        ->hide('id')->addNumbering()
-        ->toJson();
+            ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
+            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
+            ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
+            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
+            ->filter(function ($builder, $request) {
+                if ($request->noSpd)
+                    $builder->where('kode_spd', $request->noSpd);
+                if ($request->pegawai)
+                    $builder->where('nama', $request->pegawai);
+                if($request->awal)
+                    $builder->where('awal', date("Y-m-d", strtotime(str_replace('/', '-',$request->awal))));
+                if($request->akhir)
+                    $builder->where('akhir', date("Y-m-d", strtotime(str_replace('/', '-',$request->akhir))));
+                if ($request->instansi)
+                    $builder->where('instansi.nama_instansi', $request->instansi);
+            })
+            ->add(null, function($row){
+                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
+                $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Kuitansi/generate" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                return $button;
+            }, 'last')
+            ->hide('id')->addNumbering()
+            ->toJson();
          
     }
 
@@ -307,7 +311,7 @@ class Kuitansi extends ResourcePresenter
         $data = array();
         foreach ($instansilist as $instansi) {
             $data[] = array(
-                "id" => $instansi['kode'],
+                "id" => $instansi['nama_instansi'],
                 "text" => $instansi['nama_instansi'],
             );
         }
@@ -803,5 +807,56 @@ class Kuitansi extends ResourcePresenter
 
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
+    }
+
+    public function generate(){
+        
+        // create new PDF document
+        $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Our Code World');
+        $pdf->SetTitle('Example Write Html');
+
+        // set default header data
+        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+
+        // set header and footer fonts
+        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // add a page
+        $pdf->AddPage();
+
+        $html = '<h4>PDF Example</h4><br><p>Welcome to the Jungle</p>';
+        
+        $pdf->writeHTML($html, true, false, true, false, '');
+        // add a page
+        $pdf->AddPage();
+
+        $html = '<h1>Hey</h1>';
+        // output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // reset pointer to the last page
+        $pdf->lastPage();
+        $this->response->setContentType('application/pdf');
+        //Close and output PDF document
+        $pdf->Output('example_006.pdf', 'I');
     }
 }

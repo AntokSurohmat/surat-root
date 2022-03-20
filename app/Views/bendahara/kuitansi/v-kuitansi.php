@@ -64,7 +64,7 @@
                                         <label for="awalTable" class="col-sm-4 col-form-label">Tanggal Berangkat </label>
                                         <div class="col-sm-7">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat"/>
+                                                <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat" autocomplete="off"/>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                 </div>
@@ -75,7 +75,7 @@
                                         <label for="akhirTable" class="col-sm-4 col-form-label">Tanggal Kembali </label>
                                         <div class="col-sm-7">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali"/>
+                                                <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali" autocomplete="off"/>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                                 </div>
@@ -102,15 +102,6 @@
                         <!-- /.card-footer -->
                         </div>
                         <!-- /.card -->
-
-                        <!-- <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachKuit" id="seachKuit" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div> -->
 
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
@@ -336,7 +327,6 @@
             }
         });
 
-
         $('#awalTable').daterangepicker({
             singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
             locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}
@@ -345,17 +335,12 @@
             $(this).val(picker.startDate.format('DD/MM/YYYY'));
         });
         $('#akhirTable').daterangepicker({
-            singleDatePicker: true,showDropdowns: true,
-            startDate: moment().add(7, 'days'),locale: {format: 'DD/MM/YYYY'}
+            singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+            startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}
         });
-
-        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {
-            var new_start =  picker.startDate.clone().add(7, 'days');
-            $('#end-date').daterangepicker({
-                singleDatePicker: true,startDate: new_start,locale: {format: 'DD/MM/YYYY'}
-            });
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('DD/MM/YYYY'));
         });
-        // console.log($('#namaInstansiTable').val());
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
@@ -371,22 +356,21 @@
                     d.noSpd = $('#noSpdTable').val();
                     d.pegawai = $('#namaPegawaiTable').val();
                     d.awal = $('#awalTable').val();
-                    console.log(d.pegawai);
-                    console.log(d.awal);
-
-                }
+                    d.akhir = $('#akhirTable').val();
+                    d.instansi = $('#namaInstansiTable').val();
+                },
+                "timeout": 15000,"error": handleAjaxError
             },
             "columnDefs": [
                 { targets: 0, orderable: false},  
                 { targets: -1, orderable: false, "class": "text-center"},
-        ],
+            ],
         });
-        $('#noSpdTable').change(function(event) {
-            kui.ajax.reload();
-        });
-        $('#namaPegawaiTable').change(function(event) {
-            kui.ajax.reload();
-        });
+        $('#noSpdTable').change(function(event) {kui.ajax.reload();});
+        $('#namaPegawaiTable').change(function(event) {kui.ajax.reload();});
+        $('#awalTable').on('apply.daterangepicker', function(ev) {kui.ajax.reload();});
+        $('#akhirTable').on('apply.daterangepicker', function(ev) {kui.ajax.reload();});
+        $('#namaInstansiTable').change(function(event) {kui.ajax.reload();});
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
@@ -398,8 +382,7 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachKuit").value = "";
-                        kui.search("").draw();
+                        location.reload();
                     }
                 });
             } else {
@@ -411,15 +394,11 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachKuit").value = "";
-                        kui.search("").draw();
+                        location.reload();
                     }
                 });
             }
         }
-        // $('#seachKuit').keyup(function() {
-        //     kui.search($(this).val()).draw();
-        // });
         $("#reset").on('click', function() {
             $("#noSpdTable").val('').trigger('change');
             $("#namaPegawaiTable").val('').trigger('change');
