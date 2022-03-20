@@ -1,47 +1,101 @@
-// create new PDF document
-        $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+<!DOCTYPE html>
+<html lang="en">
 
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Our Code World');
-        $pdf->SetTitle('Example Write Html');
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>AdminLTE 3 | Generate</title>
 
-        // set default header data
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/fontawesome-free/css/all.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Tempusdominus Bootstrap 4 -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+	<!-- iCheck -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/dist/css/adminlte.min.css">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+	<!-- Daterange picker -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/daterangepicker/daterangepicker.css">
+	<!-- Datatables -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<!-- SweetAlert2 -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+	<!-- Toastr -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/toastr/toastr.min.css">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	<!-- Costum CSS -->
+	<link rel="stylesheet" href="<?= base_url() ?>/assets/custom/css/style.css">
 
-        // set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+	<!-- jQuery -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/jquery/jquery.min.js"></script>
 
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+</head>
 
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+<body>
 
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+	<div class="row">
+		<div class="col-12 invoice">
+			<table cellspacing="0" cellpadding="1" border="1">
+				<tr>
+					<td rowspan="3" style="width: 10%;"></td>
+					<td>COL 2 - ROW 1</td>
+				</tr>
+				<tr>
+					<td rowspan="2" style="width: 10%;"><td>
+					<td>COL 3 - ROW 2<br />text line<br />text line</td>
+				</tr>
 
-        // add a page
-        $pdf->AddPage();
+			</table>
+		</div> <!-- /.col-12 -->
+	</div>
 
-        $html = '<h4>PDF Example</h4><br><p>Welcome to the Jungle</p>';
-        
-        $pdf->writeHTML($html, true, false, true, false, '');
-        // add a page
-        $pdf->AddPage();
 
-        $html = '<h1>Hey</h1>';
-        // output the HTML content
-        $pdf->writeHTML($html, true, false, true, false, '');
+	<!-- jQuery UI 1.11.4 -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<script>
+		$.widget.bridge('uibutton', $.ui.button)
+	</script>
+	<!-- Bootstrap 4 -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- daterangepicker -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/moment/moment.min.js"></script>
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/dist/js/adminlte.js"></script>
+	<!-- DataTables  & Plugins -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<!-- SweetAlert2 -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
+	<!-- Toastr -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/toastr/toastr.min.js"></script>
+	<!-- Select2 -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+	<!-- Custom Input File -->
+	<script src="<?= base_url() ?>/assets/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+	<!-- Convert Number to word -->
+	<script src="<?= base_url() ?>/assets/custom/js/terbilang-js/terbilang.min.js"></script>
+	<!-- Costum Js -->
+	<script src="<?= base_url() ?>/assets/custom/js/custom.js"></script>
 
-        // reset pointer to the last page
-        $pdf->lastPage();
-        $this->response->setContentType('application/pdf');
-        //Close and output PDF document
-        $pdf->Output('example_006.pdf', 'I');
+
+</body>
+
+</html>

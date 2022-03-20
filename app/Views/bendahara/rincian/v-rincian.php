@@ -39,7 +39,7 @@
                                 </button>
                             </div>
                         </div>
-
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="rcn_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr class="text-center">
