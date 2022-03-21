@@ -480,11 +480,7 @@ class Spt extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             exit('No direct script is allowed');
         }
-
-        // d(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
-        // print_r(json_encode($this->request->getVar('pegawaiAddEditForm[]')));
-        // die();
-        // $data = [];
+        
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
@@ -496,10 +492,6 @@ class Spt extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 3 Karakter',
                 ],
             ],
-            // 'pegawaiAddEditForm' => [
-            //     'label' => 'Nama Pegawai',
-            //     'rules' => 'multiselectValidation[pegawaiAddEditForm]',
-            // ],
             'dasarAddEditForm' => [
                 'label'     => 'Dasar Pengajuan SPT',
                 'rules'     => 'required|max_length[50]',

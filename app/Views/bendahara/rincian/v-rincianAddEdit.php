@@ -48,8 +48,8 @@
                                     <label for="rincianBiayaSpdForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                     <div class="col-sm-7">
                                         <input type="text" name="rincianBiayaSpdAddEditForm" class="form-control" id="rincianBiayaSpdForm" placeholder="Biaya Uang Harian" readonly>
+                                        <div class="invalid-feedback rincianBiayaSpdErrorForm"></div>
                                     </div>
-                                    <div class="invalid-feedback rincianBiayaSpdErrorForm"></div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="jumlahTotalSpdForm" class="col-sm-2 col-form-label">Jumlah </label>
@@ -389,7 +389,7 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            console.log(key);
+                            // console.log(key);
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')

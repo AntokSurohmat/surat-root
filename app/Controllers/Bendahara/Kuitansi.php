@@ -522,7 +522,7 @@ class Kuitansi extends ResourcePresenter
             if ($this->kuitansi->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/kuitansi'));
             } else {
-                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->kuitansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
@@ -761,7 +761,7 @@ class Kuitansi extends ResourcePresenter
             if ($this->kuitansi->update($id, $data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/kuitansi'));
             } else {
-                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->kuitansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 

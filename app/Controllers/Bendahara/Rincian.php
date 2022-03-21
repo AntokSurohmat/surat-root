@@ -53,6 +53,32 @@ class Rincian extends ResourcePresenter
         return view('bendahara/rincian/v-rincian', $data);
     }
 
+    public function load_data() {
+
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $builder = $this->db->table('rincian')
+                  ->select('id,kode_spd, rincian_sbuh, jumlah_uang, jumlah_total');
+
+        return DataTable::of($builder)
+            ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+            ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
+            ->format('jumlah_total', function($value){return 'Rp. '.number_format($value, 0,'','.');})
+            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
+            ->add(null, function($row){
+                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Rincian/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
+                $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Rincian/generate" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                return $button;
+            }, 'last')
+            ->hide('id')->addNumbering()
+            ->toJson();
+
+    }
+
     public function getNoSpd() {
         if (!$this->request->isAjax()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -69,7 +95,6 @@ class Rincian extends ResourcePresenter
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
         }
-
         $data = array();
         foreach ($spdlist as $pegawai) {
             $data[] = array(
@@ -78,7 +103,6 @@ class Rincian extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -162,7 +186,7 @@ class Rincian extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 20 Karakter',
                 ]
             ],
-            'jumlahTotalSpdForm' => [
+            'jumlahTotalSpdAddEditForm' => [
                 'label'     => 'Jumlah Total',
                 'rules'     => 'required|numeric|max_length[8]',
                 'errors'    => [
@@ -295,8 +319,8 @@ class Rincian extends ResourcePresenter
             $data = [
                 'error' => [
                     'noSpd' => $validation->getError('noSpdAddEditForm'),
-                    'rincianBiaya' => $validation->getError('rincianBiayaSpdAddEditForm'),
-                    'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdForm'),
+                    'rincianBiayaSpd' => $validation->getError('rincianBiayaSpdAddEditForm'),
+                    'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdAddEditForm'),
                     'rincianBiayaSatu' => $validation->getError('rincianBiayaSatuAddEditForm'),
                     'jumlahSatu' => $validation->getError('jumlahSatuAddEditForm'),
                     'buktiSatu' => $validation->getError('buktiSatuAddEditForm'),
@@ -316,36 +340,36 @@ class Rincian extends ResourcePresenter
                 'msg' => '',
             ];
         }else{
-            $kode_spd = $this->kuitansi->where('kode', $this->request->getVar('noSpdAddEditForm'))->first();
-            $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
-            $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            $instansi = $this->spd->select('kode_instansi')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+            $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
+            // $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+            // $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
+            // $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
+            // $instansi = $this->spd->select('kode_instansi')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
 
             $data = [
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
-                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdForm')),
+                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
                 //satu
                 'rincian_biaya_1' => $this->db->escapeString($this->request->getVar('rincianBiayaSatuAddEditForm')),
                 'jumlah_biaya_1' => $this->db->escapeString($this->request->getVar('jumlahSatuAddEditForm')),
-                'bukti_1' => $this->db->escapeString($this->request->getVar('buktiSatuAddEditForm')),
+                'bukti_1' => $this->request->getVar('buktiSatuAddEditForm'),
                 //dua
                 'rincian_biaya_2' => $this->db->escapeString($this->request->getVar('rincianBiayaDuaAddEditForm')),
                 'jumlah_biaya_2' => $this->db->escapeString($this->request->getVar('jumlahDuaAddEditForm')),
-                'bukti_2' => $this->db->escapeString($this->request->getVar('buktiDuaAddEditForm')),
+                'bukti_2' => $this->request->getVar('buktiDuaAddEditForm'),
                 //tiga
                 'rincian_biaya_3' => $this->db->escapeString($this->request->getVar('rincianBiayaTigaAddEditForm')),
                 'jumlah_biaya_3' => $this->db->escapeString($this->request->getVar('jumlahTigaAddEditForm')),
-                'bukti_3' => $this->db->escapeString($this->request->getVar('buktiTigaAddEditForm')),
+                'bukti_3' => $this->request->getVar('buktiTigaAddEditForm'),
                 //empat
                 'rincian_biaya_4' => $this->db->escapeString($this->request->getVar('rincianBiayaEmpatAddEditForm')),
                 'jumlah_biaya_4' => $this->db->escapeString($this->request->getVar('jumlahEmpatAddEditForm')),
-                'bukti_4' => $this->db->escapeString($this->request->getVar('buktiEmpatAddEditForm')),
+                'bukti_4' => $this->request->getVar('buktiEmpatAddEditForm'),
                 //lima
                 'rincian_biaya_5' => $this->db->escapeString($this->request->getVar('rincianBiayaLimaAddEditForm')),
                 'jumlah_biaya_5' => $this->db->escapeString($this->request->getVar('jumlahLimaAddEditForm')),
-                'bukti_5' => $this->db->escapeString($this->request->getVar('buktiLimaAddEditForm')),
+                'bukti_5' => $this->request->getVar('buktiLimaAddEditForm'),
 
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
@@ -356,10 +380,10 @@ class Rincian extends ResourcePresenter
 
             // d($data);print_r($data);die();
 
-            if ($this->kuitansi->insert($data)) {
+            if ($this->rincian->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/kuitansi'));
             } else {
-                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                $data = array('success' => false, 'msg' => $this->rincian->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
 
@@ -414,6 +438,21 @@ class Rincian extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            exit('No direct script is allowed');
+        }
+
+        if ($this->request->getVar('id')) {
+            $id = $this->request->getVar('id');
+
+            if ($this->rincian->where('id', $id)->delete($id)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
+            } else {
+                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 }

@@ -57,11 +57,6 @@ class Rincian extends Migration
                 'constraint'        => '255',
                 'null'              => true,
             ],
-            'keterangan_1' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
-                'null'              => true,
-            ],
             'rincian_biaya_2'    => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
@@ -75,11 +70,6 @@ class Rincian extends Migration
             'bukti_2'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
-                'null'              => true,
-            ],
-            'keterangan_2' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
                 'null'              => true,
             ],
             'rincian_biaya_3'    => [
@@ -97,11 +87,6 @@ class Rincian extends Migration
                 'constraint'        => '255',
                 'null'              => true,
             ],
-            'keterangan_3' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
-                'null'              => true,
-            ],
             'rincian_biaya_4'    => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
@@ -117,11 +102,6 @@ class Rincian extends Migration
                 'constraint'        => '255',
                 'null'              => true,
             ],
-            'keterangan_4' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
-                'null'              => true,
-            ],
             'rincian_biaya_5'    => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
@@ -135,11 +115,6 @@ class Rincian extends Migration
             'bukti_5'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
-                'null'              => true,
-            ],
-            'keterangan_5' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
                 'null'              => true,
             ],
             'yang_menyetujui' => [

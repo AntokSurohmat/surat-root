@@ -18,11 +18,11 @@ class RincianModel extends Model
     protected $allowedFields    = [
     'kode_spd', 'rincian_sbuh', 'jumlah_uang', 'keterangan_sbuh',
     'awal', 'akhir', 
-    'rincian_biaya_1', 'jumlah_biaya_1', 'nukti_1', 'keterangan_1',
-    'rincian_biaya_2', 'jumlah_biaya_2', 'nukti_2', 'keterangan_2',
-    'rincian_biaya_3', 'jumlah_biaya_3', 'nukti_3', 'keterangan_3',
-    'rincian_biaya_4', 'jumlah_biaya_4', 'nukti_4', 'keterangan_4',
-    'rincian_biaya_5', 'jumlah_biaya_5', 'nukti_5', 'keterangan_5',
+    'rincian_biaya_1', 'jumlah_biaya_1', 'bukti_1',
+    'rincian_biaya_2', 'jumlah_biaya_2', 'bukti_2',
+    'rincian_biaya_3', 'jumlah_biaya_3', 'bukti_3',
+    'rincian_biaya_4', 'jumlah_biaya_4', 'bukti_4',
+    'rincian_biaya_5', 'jumlah_biaya_5', 'bukti_5',
     'jumlah_total', 'yang_menyetujui', 'bendahara'
 ];
 
@@ -43,39 +43,34 @@ class RincianModel extends Model
         'rincian_biaya_1' => 'permit_empty|max_length[25]',
         'jumlah_biaya_1'  => 'permit_empty|numeric|max_length[8]',
         'bukti_1'   => 'permit_empty',
-        'keterangan_1' => 'permit_empty|max_length[50]',
         'rincian_biaya_2' => 'permit_empty|max_length[25]',
         'jumlah_biaya_2'  => 'permit_empty|numeric|max_length[8]',
         'bukti_2'   => 'permit_empty',
-        'keterangan_2' => 'permit_empty|max_length[50]',
         'rincian_biaya_3' => 'permit_empty|max_length[25]',
         'jumlah_biaya_3'  => 'permit_empty|numeric|max_length[8]',
         'bukti_3'   => 'permit_empty',
-        'keterangan_3' => 'permit_empty|max_length[50]',
         'rincian_biaya_4' => 'permit_empty|max_length[25]',
         'jumlah_biaya_4'  => 'permit_empty|numeric|max_length[8]',
         'bukti_4'   => 'permit_empty',
-        'keterangan_4' => 'permit_empty|max_length[50]',
         'rincian_biaya_5' => 'permit_empty|max_length[25]',
         'jumlah_biaya_5'  => 'permit_empty|numeric|max_length[8]',
         'bukti_5'   => 'permit_empty',
-        'keterangan_5' => 'permit_empty|max_length[50]',
         'jumlah_total'  => 'required|numeric|max_length[10]',
-        'yang_menyetujui' => 'required|numeric|max_lenght[25]',
-        'bendahara' => 'required|numeric|max_lenght[25]'
+        'yang_menyetujui' => 'required|numeric|max_length[25]',
+        'bendahara' => 'required|numeric|max_length[25]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
+    // protected $cleanValidationRules = true;
 
     // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    // protected $allowCallbacks = true;
+    // protected $beforeInsert   = [];
+    // protected $afterInsert    = [];
+    // protected $beforeUpdate   = [];
+    // protected $afterUpdate    = [];
+    // protected $beforeFind     = [];
+    // protected $afterFind      = [];
+    // protected $beforeDelete   = [];
+    // protected $afterDelete    = [];
 }
