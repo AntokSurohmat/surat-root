@@ -249,9 +249,8 @@
                         $("#untukKuitansiForm").val(data.spd.untuk);
                         var jumlah = data.sbuh.jumlah_uang * data.spd.lama;
                         $("#jumlahKuitansiForm").val(jumlah);
-
                     },
-                    // error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
         });
         var bendaharaNip =<?= session()->nip ?>; var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';

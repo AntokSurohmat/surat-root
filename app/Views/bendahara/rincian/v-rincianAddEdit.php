@@ -17,7 +17,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-    <div class="row">
+        <div class="row">
             <div class="col-12">
 
                 <div class="card card-outline card-primary">
@@ -28,7 +28,6 @@
                         </a> -->
                     </div>
                     <!-- /.card-header -->
-
 
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false" enctype="multipart/form-data">
                         <div class="card-body">
@@ -65,7 +64,6 @@
                                     </div>
                                 </div>
                                 <hr class="s9">
-
                                 <!-- /.Satu -->
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -78,27 +76,27 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                    <div class="form-group row">
-                                            <label for="buktiSatuForm" class="col-sm-4 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
-                                                <div class="custom-file">
-                                                    <input type="file" name="buktiSatuAddEditForm" class="custom-file-input" id="buktiSatuForm">
-                                                    <label class="custom-file-label" for="buktiSatuForm">Choose file</label>
-                                                    <div class="invalid-feedback buktiSatuErrorForm"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahSatuForm" class="col-sm-2 col-form-label">Jumlah </label>
+                                            <label for="jumlahSatuForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahAddEditForm" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang">
-                                                    <div class="invalid-feedback jumlahErrorForm"></div>
+                                                    <input type="text" name="jumlahSatuAddEditForm" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <div class="invalid-feedback jumlahSatuErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <div class="form-group row">
+                                            <label for="buktiSatuForm" class="col-sm-2 col-form-label">Bukti Riil</label>
+                                            <div class="col-sm-8">
+                                                <div class="custom-file">
+                                                    <input type="file" name="buktiSatuAddEditForm" class="custom-file-input" id="buktiSatuForm">
+                                                    <label class="custom-file-label" for="buktiSatuForm">Choose file</label>
+                                                    <div class="invalid-feedback buktiSatuErrorForm"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,27 +115,27 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                    <div class="form-group row">
-                                            <label for="buktiDuaForm" class="col-sm-4 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
-                                                <div class="custom-file">
-                                                    <input type="file" name="buktiDuaAddEditForm" class="custom-file-input" id="buktiDuaForm">
-                                                    <label class="custom-file-label" for="buktiDuaForm">Choose file</label>
-                                                    <div class="invalid-feedback buktiDuaErrorForm"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahDuaForm" class="col-sm-2 col-form-label">Jumlah </label>
+                                            <label for="jumlahDuaForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahAddEditForm" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang">
-                                                    <div class="invalid-feedback jumlahErrorForm"></div>
+                                                    <input type="text" name="jumlahDuaAddEditForm" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <div class="invalid-feedback jumlahDuaErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <div class="form-group row">
+                                            <label for="buktiDuaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
+                                            <div class="col-sm-8">
+                                                <div class="custom-file">
+                                                    <input type="file" name="buktiDuaAddEditForm" class="custom-file-input" id="buktiDuaForm">
+                                                    <label class="custom-file-label" for="buktiDuaForm">Choose file</label>
+                                                    <div class="invalid-feedback buktiDuaErrorForm"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,27 +154,27 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                    <div class="form-group row">
-                                            <label for="buktiTigaForm" class="col-sm-4 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
-                                                <div class="custom-file">
-                                                    <input type="file" name="buktiTigaAddEditForm" class="custom-file-input" id="buktiTigaForm">
-                                                    <label class="custom-file-label" for="buktiTigaForm">Choose file</label>
-                                                    <div class="invalid-feedback buktiTigaErrorForm"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahTigaForm" class="col-sm-2 col-form-label">Jumlah </label>
+                                            <label for="jumlahTigaForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahAddEditForm" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang">
-                                                    <div class="invalid-feedback jumlahErrorForm"></div>
+                                                    <input type="text" name="jumlahTigaAddEditForm" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <div class="invalid-feedback jumlahTigaErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <div class="form-group row">
+                                            <label for="buktiTigaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
+                                            <div class="col-sm-8">
+                                                <div class="custom-file">
+                                                    <input type="file" name="buktiTigaAddEditForm" class="custom-file-input" id="buktiTigaForm">
+                                                    <label class="custom-file-label" for="buktiTigaForm">Choose file</label>
+                                                    <div class="invalid-feedback buktiTigaErrorForm"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,27 +193,27 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                    <div class="form-group row">
-                                            <label for="buktiEmpatForm" class="col-sm-4 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
-                                                <div class="custom-file">
-                                                    <input type="file" name="buktiEmpatAddEditForm" class="custom-file-input" id="buktiEmpatForm">
-                                                    <label class="custom-file-label" for="buktiEmpatForm">Choose file</label>
-                                                    <div class="invalid-feedback buktiEmpatErrorForm"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahEmpatForm" class="col-sm-2 col-form-label">Jumlah </label>
+                                            <label for="jumlahEmpatForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahAddEditForm" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang">
-                                                    <div class="invalid-feedback jumlahErrorForm"></div>
+                                                    <input type="text" name="jumlahEmpatAddEditForm" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <div class="invalid-feedback jumlahEmpatErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <div class="form-group row">
+                                            <label for="buktiEmpatForm" class="col-sm-2 col-form-label">Bukti Riil</label>
+                                            <div class="col-sm-8">
+                                                <div class="custom-file">
+                                                    <input type="file" name="buktiEmpatAddEditForm" class="custom-file-input" id="buktiEmpatForm">
+                                                    <label class="custom-file-label" for="buktiEmpatForm">Choose file</label>
+                                                    <div class="invalid-feedback buktiEmpatErrorForm"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -234,8 +232,22 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <label for="jumlahLimaForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Rp.</span>
+                                                    </div>
+                                                    <input type="text" name="jumlahLimaAddEditForm" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <div class="invalid-feedback jumlahLimaErrorForm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
                                     <div class="form-group row">
-                                            <label for="buktiLimaForm" class="col-sm-4 col-form-label">Bukti Riil</label>
+                                            <label for="buktiLimaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiLimaAddEditForm" class="custom-file-input" id="buktiLimaForm">
@@ -245,34 +257,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
-                                            <label for="jumlahLimaForm" class="col-sm-2 col-form-label">Jumlah </label>
-                                            <div class="col-sm-8">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Rp.</span>
-                                                    </div>
-                                                    <input type="text" name="jumlahAddEditForm" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang">
-                                                    <div class="invalid-feedback jumlahErrorForm"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <hr class="s9">
                                 
-                                </div>
                             </div>
-
                         </div>
-
                         <!-- /.card-body -->
                         <div class="card-footer" style="text-align:center;">
                             <a type="button" href="<?= base_url('') ?>/Bendahara/Rincian" class="btn btn-secondary mr-2"><i class="fas fa-arrow-left"></i>&ensp;Back</a>
                             <button type="submit" id="submit-rincian" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
+
                 </div>
                 <!-- /.card -->
 
@@ -376,6 +371,68 @@
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
+        })
+
+        $('#form-addedit').on('submit', function(event) {
+            event.preventDefault();
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Bendahara/Rincian/Create') ?>";
+            } else {var url_destination = "<?= base_url('Bendahara/Rincian/Update') ?>";}
+            // console.log($(this).serialize());
+            $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
+                beforeSend: function() {
+                    $('#submit-rincian').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-rincian').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-rincian').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-rincian').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            console.log(key);
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            // console.log(element);
+                            // console.log(data.error[key].length);
+                        });
+                    }
+                    if (data.success==true) {
+                        clearform();let timerInterval
+                        swalWithBootstrapButtons.fire({
+                            icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: '<b>Otomatis Ke Table Rincian!</b><br>' +
+                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
+                            timer: 3500,timerProgressBar: true,
+                            showCancelButton: true,confirmButtonText: 'Ya, Kembali!',
+                            cancelButtonText: 'No, cancel!',reverseButtons: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {window.location.href = data.redirect;
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                if ($('#methodPage').val() === 'New') {location.reload();
+                                }else{window.location.replace("<?= base_url('Bendahara/Kuitansi/new')?>");}
+                            } else if (result.dismiss === Swal.DismissReason.timer) {
+                                window.location.href = data.redirect;
+                            }
+                        })
+                    } else {
+                        Object.keys(data.msg).forEach((key, index) => {
+                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + key + 'Form');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        if (data.msg != "") {
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        }
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+            });
+            return false;
         })
     })
 </script>

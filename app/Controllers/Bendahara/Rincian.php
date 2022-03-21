@@ -162,90 +162,210 @@ class Rincian extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 20 Karakter',
                 ]
             ],
-            'nipAddEditForm' => [
-                'label'     => 'NIP Pegawai',
-                'rules'     => 'required|numeric|max_length[25]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 25 Karakter',
-                ]
-            ],
-            'namaAddEditForm' => [
-                'label'     => 'Nama Pegawai',
-                'rules'     => 'required|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'pangkatAddEditForm' => [
-                'label'     => 'Pangkat & Golongan Pegawai',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
-            ],
-            'jabatanAddEditForm' => [
-                'label'     => 'Jabatan Pegawai',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
-            ],
-            'tglBerangkatAddEditForm' => [
-                'label'     => 'Tanggal Pergi',
-                'rules'     => 'required|valid_date[d/m/Y]'
-            ],
-            'tglKembaliAddEditForm'   => [
-                'label'     => 'Tanggal Kembali',
-                'rules'     => 'required|valid_date[d/m/Y]'
-            ],
-            'lamaAddEditForm'  => [
-                'label'     => 'Lama Perjalanan',
-                'rules'     => 'required|numeric|max_length[2]',
-                'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 2 Karakter',
-                ]
-            ],
-            'rekeningAddEditForm'  => [
-                'label'     => 'Kode Rekening',
-                'rules'     => 'required|numeric|max_length[20]',
-                'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'instansiAddEditForm'  => [
-                'label'     => 'Nama Instansi',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'untukAddEditForm'  => [
-                'label'     => 'Nama Instansi',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'pejabatKuitansiAddEditForm' => [
-                'label'     => 'Pejabat Pelaksanan Teknis',
-                'rules'     => 'required|numeric|max_length[25]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahAddEditForm'  => [
-                'label'     => 'Jumlah Uang',
+            'jumlahTotalSpdForm' => [
+                'label'     => 'Jumlah Total',
                 'rules'     => 'required|numeric|max_length[8]',
                 'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 8 Karakter',
+                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
+                    'max_length'    => '{field} Maksimal 8 Karakter',
                 ]
             ],
+            //Satu
+            'rincianBiayaSatuAddEditForm' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => 'permit_empty|max_length[25]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahSatuAddEditForm' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|max_length[8]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 8'
+                ]
+            ],
+            'buktiSatuAddEditForm' => [
+                'rules' => "mime_in[buktiSatuAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiSatuAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
+            //Dua
+            'rincianBiayaDuaAddEditForm' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => 'permit_empty|max_length[25]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahDuaAddEditForm' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|max_length[8]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 8'
+                ]
+            ],
+            'buktiDuaAddEditForm' => [
+                'label' => 'Bukti Riil',
+                'rules' => "mime_in[buktiDuaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiDuaAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
+            //Tiga
+            'rincianBiayaTigaAddEditForm' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => 'permit_empty|max_length[25]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahTigaAddEditForm' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|max_length[8]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 8'
+                ]
+            ],
+            'buktiTigaAddEditForm' => [
+                'label' => 'Bukti Riil',
+                'rules' => "mime_in[buktiTigaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiTigaAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
+            //Empat
+            'rincianBiayaEmpatAddEditForm' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => 'permit_empty|max_length[25]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahEmpatAddEditForm' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|max_length[8]',
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 8'
+                ]
+            ],
+            'buktiEmpatAddEditForm' => [
+                'label' => 'Bukti Riil',
+                'rules' => "mime_in[buktiEmpatAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiEmpatAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
+            //Lima
+            'rincianBiayaLimaAddEditForm' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => "permit_empty|max_length[25]",
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 25 Karakter'
+                ]
+            ],
+            'jumlahLimaAddEditForm' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => "permit_empty|max_length[8]",
+                'errors'    => [
+                    'max_length'    => '{field} Maksimal 8'
+                ]
+            ],
+            'buktiLimaAddEditForm' => [
+                'label' => 'Bukti Riil',
+                'rules' => "mime_in[buktiLimaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiLimaAddEditForm,2048]",
+				'errors' => [
+					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
+                ],
+            ],
         ]);
+
+        if (!$valid) {
+            /**
+             *'kode' => $validation->getError('kodeAddEdit'),
+             * 'kode' -> id or class to display error
+             * 'kodeAddEdit' -> name field that ajax send
+             */
+            $data = [
+                'error' => [
+                    'noSpd' => $validation->getError('noSpdAddEditForm'),
+                    'rincianBiaya' => $validation->getError('rincianBiayaSpdAddEditForm'),
+                    'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdForm'),
+                    'rincianBiayaSatu' => $validation->getError('rincianBiayaSatuAddEditForm'),
+                    'jumlahSatu' => $validation->getError('jumlahSatuAddEditForm'),
+                    'buktiSatu' => $validation->getError('buktiSatuAddEditForm'),
+                    'rincianBiayaDua' => $validation->getError('rincianBiayaDuaAddEditForm'),
+                    'jumlahDua' => $validation->getError('jumlahDuaAddEditForm'),
+                    'buktiDua' => $validation->getError('buktiDuaAddEditForm'),
+                    'rincianBiayaTiga' => $validation->getError('rincianBiayaTigaAddEditForm'),
+                    'jumlahTiga' => $validation->getError('jumlahTigaAddEditForm'),
+                    'buktiTiga' => $validation->getError('buktiTigaAddEditForm'),
+                    'rincianBiayaEmpat' => $validation->getError('rincianBiayaEmpatAddEditForm'),
+                    'jumlahEmpat' => $validation->getError('jumlahEmpatAddEditForm'),
+                    'buktiEmpat' => $validation->getError('buktiEmpatAddEditForm'),
+                    'rincianBiayaLima' => $validation->getError('rincianBiayaLimaAddEditForm'),
+                    'jumlahLima' => $validation->getError('jumlahLimaAddEditForm'),
+                    'buktiLima' => $validation->getError('buktiLimaAddEditForm'),
+                ],
+                'msg' => '',
+            ];
+        }else{
+            $kode_spd = $this->kuitansi->where('kode', $this->request->getVar('noSpdAddEditForm'))->first();
+            $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+            $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
+            $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
+            $instansi = $this->spd->select('kode_instansi')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+
+            $data = [
+                'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
+                'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
+                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdForm')),
+                //satu
+                'rincian_biaya_1' => $this->db->escapeString($this->request->getVar('rincianBiayaSatuAddEditForm')),
+                'jumlah_biaya_1' => $this->db->escapeString($this->request->getVar('jumlahSatuAddEditForm')),
+                'bukti_1' => $this->db->escapeString($this->request->getVar('buktiSatuAddEditForm')),
+                //dua
+                'rincian_biaya_2' => $this->db->escapeString($this->request->getVar('rincianBiayaDuaAddEditForm')),
+                'jumlah_biaya_2' => $this->db->escapeString($this->request->getVar('jumlahDuaAddEditForm')),
+                'bukti_2' => $this->db->escapeString($this->request->getVar('buktiDuaAddEditForm')),
+                //tiga
+                'rincian_biaya_3' => $this->db->escapeString($this->request->getVar('rincianBiayaTigaAddEditForm')),
+                'jumlah_biaya_3' => $this->db->escapeString($this->request->getVar('jumlahTigaAddEditForm')),
+                'bukti_3' => $this->db->escapeString($this->request->getVar('buktiTigaAddEditForm')),
+                //empat
+                'rincian_biaya_4' => $this->db->escapeString($this->request->getVar('rincianBiayaEmpatAddEditForm')),
+                'jumlah_biaya_4' => $this->db->escapeString($this->request->getVar('jumlahEmpatAddEditForm')),
+                'bukti_4' => $this->db->escapeString($this->request->getVar('buktiEmpatAddEditForm')),
+                //lima
+                'rincian_biaya_5' => $this->db->escapeString($this->request->getVar('rincianBiayaLimaAddEditForm')),
+                'jumlah_biaya_5' => $this->db->escapeString($this->request->getVar('jumlahLimaAddEditForm')),
+                'bukti_5' => $this->db->escapeString($this->request->getVar('buktiLimaAddEditForm')),
+
+                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
+                'awal' =>  $this->db->escapeString($kode_spd['awal']),
+                'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
+                'yang_menyetujui' => $kode_spd['yang_menyetujui'],
+                'bendahara' => $this->session->get('nip'),
+            ];
+
+            // d($data);print_r($data);die();
+
+            if ($this->kuitansi->insert($data)) {
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/kuitansi'));
+            } else {
+                $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
+
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($data);
     }
 
     /**

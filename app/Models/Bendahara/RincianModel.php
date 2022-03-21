@@ -38,7 +38,6 @@ class RincianModel extends Model
         'kode_spd' => 'required|numeric|max_length[3]',
         'rincian_sbuh' => 'required|max_length[25]',
         'jumlah_uang'   => 'required|numeric|max_length[8]',
-        'keterangan_sbuh' => 'permit_empty|max_length[50]',
         'awal' => 'required',
         'akhir' => 'required',
         'rincian_biaya_1' => 'permit_empty|max_length[25]',
