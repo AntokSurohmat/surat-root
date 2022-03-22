@@ -196,7 +196,8 @@
             $("#levelForm").empty();$("#levelForm").removeClass('is-valid');$("#levelForm").removeClass('is-invalid');
         }
 
-        $("#pelaksanaForm").select2({theme: 'bootstrap4'});$("#levelForm").select2({theme: 'bootstrap4'});bsCustomFileInput.init();
+        bsCustomFileInput.init();
+        $("#pelaksanaForm").select2({theme: 'bootstrap4'});$("#levelForm").select2({theme: 'bootstrap4'});
         $('input[name="lahirAddEditForm"]').daterangepicker({
             autoApply: true,singleDatePicker: true,
             showDropdowns: true,startDate:moment(),    

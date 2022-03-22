@@ -537,7 +537,7 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spd/Create') ?>";
         } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";}
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
                     $('#submit-spd').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spd').prop('disabled', true);
@@ -622,7 +622,7 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data.json);
+                        // console.log(data.json);
                         $('#submit-spd').removeClass("btn-success");
                         $('#submit-spd').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -649,7 +649,7 @@
                             // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                console.log(prop + " = " + obj[prop] + ' '+ urutan);
+                                // console.log(prop + " = " + obj[prop] + ' '+ urutan);
                                 $('#'+ prop +'Form' + urutan).val(obj[prop]);
                                 var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
 

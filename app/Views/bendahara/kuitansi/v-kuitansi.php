@@ -288,8 +288,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
                 },
                 cache: true
             }
@@ -304,8 +303,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
                 },
                 cache: true
             }
@@ -320,27 +318,17 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
                 },
                 cache: true
             }
         });
 
-        $('#awalTable').daterangepicker({
-            singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
-            locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}
-        });
-        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY'));
-        });
-        $('#akhirTable').daterangepicker({
-            singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
-            startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}
-        });
-        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('DD/MM/YYYY'));
-        });
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Bendahara/Kuitansi/load_data') ?>";
         var kui = $('#kui_data').DataTable({
@@ -353,18 +341,12 @@
             "ajax": {
                 "url": url_destination,
                 data: function (d) {
-                    d.noSpd = $('#noSpdTable').val();
-                    d.pegawai = $('#namaPegawaiTable').val();
-                    d.awal = $('#awalTable').val();
-                    d.akhir = $('#akhirTable').val();
-                    d.instansi = $('#namaInstansiTable').val();
+                    d.noSpd = $('#noSpdTable').val();d.pegawai = $('#namaPegawaiTable').val();
+                    d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();d.instansi = $('#namaInstansiTable').val();
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [
-                { targets: 0, orderable: false},  
-                { targets: -1, orderable: false, "class": "text-center"},
-            ],
+            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
         });
         $('#noSpdTable').change(function(event) {kui.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {kui.ajax.reload();});
@@ -375,37 +357,22 @@
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
         $("#reset").on('click', function() {
-            $("#noSpdTable").val('').trigger('change');
-            $("#namaPegawaiTable").val('').trigger('change');
-            document.getElementById("awalTable").value = "";
-            document.getElementById("akhirTable").value = "";
-            $("#namaInstansiTable").val('').trigger('change');
-            kui.ajax.reload();
+            $("#noSpdTable").val('').trigger('change');$("#namaPegawaiTable").val('').trigger('change');
+            document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";
+            $("#namaInstansiTable").val('').trigger('change');kui.ajax.reload();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
@@ -427,13 +394,8 @@
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Bendahara/Kuitansi/view_data') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    id: id,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
-                dataType: "JSON",
+                url: url_destination,type: "POST",
+                data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
                     console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -512,9 +474,7 @@
                                 $('#kui_data').DataTable().ajax.reload(null, false);
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
+                        error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                     });
                 }
             })

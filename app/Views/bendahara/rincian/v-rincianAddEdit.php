@@ -83,7 +83,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahSatuAddEditForm" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <input type="number" name="jumlahSatuAddEditForm" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahSatuErrorForm"></div>
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahDuaAddEditForm" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <input type="number" name="jumlahDuaAddEditForm" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahDuaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -161,7 +161,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahTigaAddEditForm" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <input type="number" name="jumlahTigaAddEditForm" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahTigaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -200,7 +200,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahEmpatAddEditForm" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <input type="number" name="jumlahEmpatAddEditForm" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahEmpatErrorForm"></div>
                                                 </div>
                                             </div>
@@ -239,7 +239,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="text" name="jumlahLimaAddEditForm" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang">
+                                                    <input type="number" name="jumlahLimaAddEditForm" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahLimaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -288,26 +288,22 @@
         //Satu
         $('#rincianBiayaSatuForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahSatuForm').focus();}});
         $('#jumlahSatuForm').keydown(function(event){if(event.keyCode == 13){$('#buktiSatuForm').focus();}});
-        $('#buktiSatuForm').keydown(function(event){if(event.keyCode == 13){$('#keteranganBuktiSatuForm').focus();}});
         //Dua
         $('#rincianBiayaDuaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahDuaForm').focus();}});
         $('#jumlahDuaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiDuaForm').focus();}});
-        $('#buktiDuaForm').keydown(function(event){if(event.keyCode == 13){$('#keteranganBuktiDuaForm').focus();}});
         //Tiga
         $('#rincianBiayaTigaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahTigaForm').focus();}});
         $('#jumlahTigaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiTigaForm').focus();}});
-        $('#buktiTigaForm').keydown(function(event){if(event.keyCode == 13){$('#keteranganBuktiTigaForm').focus();}});
         //Empat
         $('#rincianBiayaEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahEmpatForm').focus();}});
         $('#jumlahEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#buktiEmpatForm').focus();}});
-        $('#buktiEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#keteranganBuktiEmpatForm').focus();}});
         //Lima
         $('#rincianBiayaLimaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahLimaForm').focus();}});
         $('#jumlahLimaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiLimaForm').focus();}});
-        $('#buktiLimaForm').keydown(function(event){if(event.keyCode == 13){$('#keteranganBuktiLimaForm').focus();}});
 
         $('#keteranganBuktiLimaForm').keydown(function(event){if(event.keyCode == 13){$('#submit-rincian').focus();}});
 
+        update();bsCustomFileInput.init();
 
         function clearform() {
             $('#form-addedit')[0].reset();
@@ -316,7 +312,6 @@
             $("#rincianBiayaSatuForm").empty();$("#rincianBiayaSatuForm").removeClass('is-valid');$("#rincianBiayaSatuForm").removeClass('is-invalid');
             $("#jumlahSatuForm").empty();$("#jumlahSatuForm").removeClass('is-valid');$("#jumlahSatuForm").removeClass('is-invalid');
             $("#buktiSatuForm").empty();$("#buktiSatuForm").removeClass('is-valid');$("#buktiSatuForm").removeClass('is-invalid');
-            $("#keteranganBuktiSatuForm").empty();$("#keteranganBuktiSatuForm").removeClass('is-valid');$("#keteranganBuktiSatuForm").removeClass('is-invalid');
             //Dua
             $("#rincianBiayaDuaForm").empty();$("#rincianBiayaDuaForm").removeClass('is-valid');$("#rincianBiayaDuaForm").removeClass('is-invalid');
             $("#jumlahDuaForm").empty();$("#jumlahDuaForm").removeClass('is-valid');$("#jumlahDuaForm").removeClass('is-invalid');
@@ -412,7 +407,7 @@
                             if (result.isConfirmed) {window.location.href = data.redirect;
                             } else if (result.dismiss === Swal.DismissReason.cancel) {
                                 if ($('#methodPage').val() === 'New') {location.reload();
-                                }else{window.location.replace("<?= base_url('Bendahara/Kuitansi/new')?>");}
+                                }else{window.location.replace("<?= base_url('Bendahara/Rincian/new')?>");}
                             } else if (result.dismiss === Swal.DismissReason.timer) {
                                 window.location.href = data.redirect;
                             }
@@ -433,7 +428,35 @@
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
-        })
+        });
+
+        function update() {
+            if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
+                var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Bendahara/Rincian/single_data') ?>";
+                $.ajax({
+                    url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                    dataType: "JSON",
+                    success: function(data) {
+                        // console.log(data);
+                        $('#submit-rincian').removeClass("btn-success");
+                        $('#submit-rincian').addClass("btn-warning text-white");
+                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                        $("#noSpdForm").append($("<option selected='selected'></option>")
+                        .val(data.kode_spd).text(data.kode_spd)).trigger('change');
+                        $('#rincianBiayaSatuForm').val(data.rincian_biaya_1);
+                        $('#jumlahSatuForm').val(data.jumlah_biaya_1);
+                        $('#rincianBiayaDuaForm').val(data.rincian_biaya_2);
+                        $('#jumlahDuaForm').val(data.jumlah_biaya_2);
+                        $('#rincianBiayaTigaForm').val(data.rincian_biaya_3);
+                        $('#jumlahTigaForm').val(data.jumlah_biaya_3);
+                        $('#rincianBiayaEmpatForm').val(data.rincian_biaya_4);
+                        $('#jumlahEmpatForm').val(data.jumlah_biaya_4);
+                        $('#rincianBiayaLimaForm').val(data.rincian_biaya_5);
+                        $('#jumlahLimaForm').val(data.jumlah_biaya_5);
+                    },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                })
+            }
+        }
     })
 </script>
 <?= $this->endSection() ?>
