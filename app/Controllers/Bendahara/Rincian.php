@@ -340,6 +340,14 @@ class Rincian extends ResourcePresenter
                 'msg' => '',
             ];
         }else{
+
+
+            $file = $this->request->getFile('buktiSatuAddEditForm');
+            if($file->isValid() && !$file->hasMoved()){
+                $imageName = $file->getRandomName();
+                $file->move('uploads/foto/', $imageName);
+            }
+
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
             // $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
             // $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();

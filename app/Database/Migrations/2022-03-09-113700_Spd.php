@@ -21,6 +21,10 @@ class Spd extends Migration
                 'constraint'        => '3',
                 'null'              => true
             ],
+            'kode_spt'              => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '3',
+            ],
             'pejabat'        => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
@@ -102,6 +106,7 @@ class Spd extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
+        $this->forge->addForeignKey('kode_spt', 'spt', 'kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
         $this->forge->addForeignKey('pejabat', 'pegawai', 'nip');
         $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode');
@@ -111,6 +116,7 @@ class Spd extends Migration
     public function down()
     {
         $this->forge->dropKey('spd', 'kode');
+        $this->forge->dropForeignKey('spt', 'etbl_spd_kode_spt_foreign');
         $this->forge->dropForeignKey('instansi', 'etbl_spd_kode_instansi_foreign');
         $this->forge->dropForeignKey('pegawai', 'etbl_spd_diperintah_foreign');
         $this->forge->dropForeignKey('rekening', 'etbl_spd_kode_rekening_foreign');

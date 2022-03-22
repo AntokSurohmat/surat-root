@@ -114,7 +114,7 @@ class Spd extends ResourcePresenter
         }
 
         $response = array();
-        $pegawailist = $this->spd->select('pegawai_all')->first();
+        $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getVar('id'))->first();
 
         $data = array();
         $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->get();
@@ -285,38 +285,38 @@ class Spd extends ResourcePresenter
             $detail_array = array(
                 "first" => array(
                     "tibadi" => $this->request->getVar('tibadiAddEditFirst'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))),
+                    "tanggaltiba" =>  ($this->request->getVar('tanggalTibaAddEditFormFirst') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))) : ''),
                     "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFirst'),
                     "berangkatdari" => $this->request->getVar('berangkatAddEditFormFirst'),
                     "tujuan" => $this->request->getVar('tujuanAddEditFormFirst'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFirst')))),
+                    "tanggalberangkat" => ($this->request->getVar('tanggalTibaAddEditFormFirst') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))) : ''),
                     "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFirst'),
                 ),
                 "second" => array(
                     "tibadi" => $this->request->getVar('tibadiAddEditSecond'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormSecond')))),
+                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormSecond') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormSecond')))) : ''),
                     "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormSecond'),
                     "berangkatdari" => $this->request->getVar('berangkatAddEditFormSecond'),
                     "tujuan" => $this->request->getVar('tujuanAddEditFormSecond'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormSecond')))),
+                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormSecond') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormSecond')))) : ''),
                     "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormSecond'),
                 ),
                 "third" => array(
                     "tibadi" => $this->request->getVar('tibadiAddEditThird'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormThrid')))),
+                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormThird') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormThird')))) : ''),
                     "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormThird'),
                     "berangkatdari" => $this->request->getVar('berangkatAddEditFormThird'),
                     "tujuan" => $this->request->getVar('tujuanAddEditFormThird'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormThird')))),
+                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormThird') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormThird')))) : ''),
                     "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormThird'),
                 ),
                 "fourth" => array(
                     "tibadi" => $this->request->getVar('tibadiAddEditFourth'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFourth')))),
+                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormFourth') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFourth')))) : ''),
                     "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFourth'),
                     "berangkatdari" => $this->request->getVar('berangkatAddEditFormFourth'),
                     "tujuan" => $this->request->getVar('tujuanAddEditFormFourth'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFourth')))),
+                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormFourth') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFourth')))) : ''),
                     "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFourth'),
                 )
             );

@@ -16,7 +16,7 @@ class SpdModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'kode', 'pejabat',
+        'kode', 'kode_spt', 'pejabat',
         'pegawai_all', 'pegawai_diperintah',
         'tingkat_biaya', 'untuk',
         'kode_instansi', 'awal',
@@ -36,6 +36,7 @@ class SpdModel extends Model
     // Validation
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[3]',
+        'kode_spt' => 'required|numeric|max_length[3]',
         'pegawai_all' => 'required|max_length[100]',
         'untuk' => 'required|max_length[50]',
         'kode_instansi' => 'required|max_length[20]',

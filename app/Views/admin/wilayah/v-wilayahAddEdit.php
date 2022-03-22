@@ -727,7 +727,7 @@
             // Initialize select2
             $("#kabupatenModalZona").select2({
                 dropdownParent: $('#modal-zona'),
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kabupaten ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
@@ -746,7 +746,7 @@
             // Initialize select2
             $("#kecamatanModalZona").select2({
                 dropdownParent: $('#modal-zona'),
-                theme: 'bootstrap4',tags: true,
+                theme: 'bootstrap4',
                 placeholder: '--- Cari Kecamatan ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {

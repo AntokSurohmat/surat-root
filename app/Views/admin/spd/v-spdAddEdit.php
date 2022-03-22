@@ -179,9 +179,9 @@
                                         <div class="invalid-feedback tujuanErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalBerangkatFormfirst">Tanggal Berangkat</label>
+                                        <label for="tanggalberangkatFormfirst">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormfirst" id="tanggalBerangkatFormfirst" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFirst" id="tanggalberangkatFormfirst" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -189,8 +189,8 @@
                                         <div class="invalid-feedback tanggalBerangkatErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaBerangkatFormfirst">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFirst" id="kepalaBerangkatFormfirst" placeholder="Kepala Pada Saat Tiba">
+                                        <label for="kepalaberangkatFormfirst">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFirst" id="kepalaberangkatFormfirst" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormFirst"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
@@ -200,9 +200,9 @@
                                         <div class="invalid-feedback tibadiErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalTibaFormfirst">Tanggal Tiba</label>
+                                        <label for="tanggaltibaFormfirst">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFirst" id="tanggalTibaFormfirst" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFirst" id="tanggaltibaFormfirst" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -210,8 +210,8 @@
                                         <div class="invalid-feedback tanggalTibaErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaTibaFormfirst">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFirst" id="kepalaTibaFormfirst" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <label for="kepalatibaFormfirst">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFirst" id="kepalatibaFormfirst" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormFirst"></div>
                                     </div>
                                 </div>
@@ -234,9 +234,9 @@
                                         <div class="invalid-feedback tujuanErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalBerangkatFormsecond">Tanggal Berangkat</label>
+                                        <label for="tanggalberangkatFormsecond">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormSecond" id="tanggalBerangkatFormsecond" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormSecond" id="tanggalberangkatFormsecond" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -244,8 +244,8 @@
                                         <div class="invalid-feedback tanggalBerangkatErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaBerangkatFormsecond">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormSecond" id="kepalaBerangkatFormsecond" placeholder="Kepala Pada Saat Tiba">
+                                        <label for="kepalaberangkatFormsecond">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormSecond" id="kepalaberangkatFormsecond" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormSecond"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
@@ -255,9 +255,9 @@
                                         <div class="invalid-feedback tibadiErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalTibaFormsecond">Tanggal Tiba</label>
+                                        <label for="tanggaltibaFormsecond">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormSecond" id="tanggalTibaFormsecond" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormSecond" id="tanggaltibaFormsecond" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -265,8 +265,8 @@
                                         <div class="invalid-feedback tanggalTibaErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaTibaFormsecond">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormSecond" id="kepalaTibaFormsecond" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <label for="kepalatibaFormsecond">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormSecond" id="kepalatibaFormsecond" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormSecond"></div>
                                     </div>
                                 </div>
@@ -289,9 +289,9 @@
                                         <div class="invalid-feedback tujuanErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalBerangkatFormthird">Tanggal Berangkat</label>
+                                        <label for="tanggalberangkatFormthird">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormThird" id="tanggalBerangkatFormthird" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormThird" id="tanggalberangkatFormthird" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -299,8 +299,8 @@
                                         <div class="invalid-feedback tanggalBerangkatErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaBerangkatFormthird">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormThird" id="kepalaBerangkatFormthird" placeholder="Kepala Pada Saat Tiba">
+                                        <label for="kepalaberangkatFormthird">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormThird" id="kepalaberangkatFormthird" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormThird"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
@@ -310,9 +310,9 @@
                                         <div class="invalid-feedback tibadiErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalTibaFormthird">Tanggal Tiba</label>
+                                        <label for="tanggaltibaFormthird">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormThird" id="tanggalTibaFormthird" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormThird" id="tanggaltibaFormthird" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -320,8 +320,8 @@
                                         <div class="invalid-feedback tanggalTibaErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaTibaFormthird">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormThird" id="kepalaTibaFormthird" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <label for="kepalatibaFormthird">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormThird" id="kepalatibaFormthird" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormThird"></div>
                                     </div>
                                 </div>
@@ -344,9 +344,9 @@
                                         <div class="invalid-feedback tujuanErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalBerangkatFormfourth">Tanggal Berangkat</label>
+                                        <label for="tanggalberangkatFormfourth">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFourth" id="tanggalBerangkatFormfourth" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFourth" id="tanggalberangkatFormfourth" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -354,8 +354,8 @@
                                         <div class="invalid-feedback tanggalBerangkatErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaBerangkatFormfourth">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFourth" id="kepalaBerangkatFormfourth" placeholder="Kepala Pada Saat Tiba">
+                                        <label for="kepalaberangkatFormfourth">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFourth" id="kepalaberangkatFormfourth" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormFourth"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
@@ -365,9 +365,9 @@
                                         <div class="invalid-feedback tibadiErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tanggalTibaFormfourth">Tanggal Tiba</label>
+                                        <label for="tanggaltibaFormfourth">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFourth" id="tanggalTibaFormfourth" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFourth" id="tanggaltibaFormfourth" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -375,8 +375,8 @@
                                         <div class="invalid-feedback tanggalTibaErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kepalaTibaFormfourth">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFourth" id="kepalaTibaFormfourth" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <label for="kepalatibaFormfourth">Kepala Saat Tiba</label>
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFourth" id="kepalatibaFormfourth" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormFourth"></div>
                                     </div>
                                 </div>
@@ -413,36 +413,36 @@
         $('#kendaraanForm').on('select2:select', function(e) {$('#berangkatdariFormfirst').focus();});
         //Form first
         $('#berangkatdariFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tujuanFormfirst').focus();}});
-        $('#tujuanFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalBerangkatFormfirst').focus();}});
-        $('#tanggalBerangkatFormfirst').on('apply.daterangepicker', function(ev) {$('#kepalaBerangkatFormfirst').focus();});
-        $('#kepalaBerangkatFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormfirst').focus();}});
-        $('#tibadiFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalTibaFormfirst').focus();}});
-        $('#tanggalTibaFormfirst').on('apply.daterangepicker', function(ev) {$('#kepalaTibaFormfirst').focus();});
-        $('#kepalaTibaFormFirst').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormsecond').focus();}});
+        $('#tujuanFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalberangkatFormfirst').focus();}});
+        $('#tanggalberangkatFormfirst').on('apply.daterangepicker', function(ev) {$('#kepalaberangkatFormfirst').focus();});
+        $('#kepalaberangkatFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormfirst').focus();}});
+        $('#tibadiFormfirst').keydown(function(event) {if (event.keyCode == 13) {$('#tanggaltibaFormfirst').focus();}});
+        $('#tanggaltibaFormfirst').on('apply.daterangepicker', function(ev) {$('#kepalatibaFormfirst').focus();});
+        $('#kepalatibaFormFirst').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormsecond').focus();}});
         //Form second
         $('#berangkatdariFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tujuanFormsecond').focus();}});
-        $('#tujuanFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalBerangkatFormsecond').focus();}});
-        $('#tanggalBerangkatFormsecond').on('apply.daterangepicker', function(ev) {$('#kepalaBerangkatFormsecond').focus();});
-        $('#kepalaBerangkatFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormsecond').focus();}});
-        $('#tibadiFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalTibaFormsecond').focus();}});
-        $('#tanggalTibaFormsecond').on('apply.daterangepicker', function(ev) {$('#kepalaTibaFormsecond').focus();});
-        $('#kepalaTibaFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormthird').focus();}});
+        $('#tujuanFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalberangkatFormsecond').focus();}});
+        $('#tanggalberangkatFormsecond').on('apply.daterangepicker', function(ev) {$('#kepalaberangkatFormsecond').focus();});
+        $('#kepalaberangkatFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormsecond').focus();}});
+        $('#tibadiFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#tanggaltibaFormsecond').focus();}});
+        $('#tanggaltibaFormsecond').on('apply.daterangepicker', function(ev) {$('#kepalatibaFormsecond').focus();});
+        $('#kepalatibaFormsecond').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormthird').focus();}});
         //Form third
         $('#berangkatdariFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tujuanFormthird').focus();}});
-        $('#tujuanFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalBerangkatFormthird').focus();}});
-        $('#tanggalBerangkatFormthird').on('apply.daterangepicker', function(ev) {$('#kepalaBerangkatFormthird').focus();});
-        $('#kepalaBerangkatFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormthird').focus();}});
-        $('#tibadiFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalTibaFormthird').focus();}});
-        $('#tanggalTibaFormthird').on('apply.daterangepicker', function(ev) {$('#kepalaTibaFormthird').focus();});
-        $('#kepalaTibaFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormfourth').focus();}});
+        $('#tujuanFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalberangkatFormthird').focus();}});
+        $('#tanggalberangkatFormthird').on('apply.daterangepicker', function(ev) {$('#kepalaberangkatFormthird').focus();});
+        $('#kepalaberangkatFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormthird').focus();}});
+        $('#tibadiFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#tanggaltibaFormthird').focus();}});
+        $('#tanggaltibaFormthird').on('apply.daterangepicker', function(ev) {$('#kepalatibaFormthird').focus();});
+        $('#kepalatibaFormthird').keydown(function(event) {if (event.keyCode == 13) {$('#berangkatdariFormfourth').focus();}});
         //Form third
         $('#berangkatdariFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tujuanFormfourth').focus();}});
-        $('#tujuanFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalBerangkatFormfourth').focus();}});
-        $('#tanggalBerangkatFormfourth').on('apply.daterangepicker', function(ev) {$('#kepalaBerangkatFormfourth').focus();});
-        $('#kepalaBerangkatFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormfourth').focus();}});
-        $('#tibadiFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalTibaFormfourth').focus();}});
-        $('#tanggalTibaFormfourth').on('apply.daterangepicker', function(ev) {$('#kepalaTibaFormfourth').focus();});
-        $('#kepalaTibaFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#submit-spd').focus();}});
+        $('#tujuanFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tanggalberangkatFormfourth').focus();}});
+        $('#tanggalberangkatFormfourth').on('apply.daterangepicker', function(ev) {$('#kepalaberangkatFormfourth').focus();});
+        $('#kepalaberangkatFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormfourth').focus();}});
+        $('#tibadiFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tanggaltibaFormfourth').focus();}});
+        $('#tanggaltibaFormfourth').on('apply.daterangepicker', function(ev) {$('#kepalatibaFormfourth').focus();});
+        $('#kepalatibaFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#submit-spd').focus();}});
 
         newupdate();realupdate();
 
@@ -463,55 +463,63 @@
             //Form first
             $("#berangkatdariFormfirst").empty();$("#berangkatdariFormfirst").removeClass('is-valid');$("#berangkatdariFormfirst").removeClass('is-invalid');
             $("#tujuanFormfirst").empty();$("#tujuanFormfirst").removeClass('is-valid');$("#tujuanFormfirst").removeClass('is-invalid');
-            $("#tanggalBerangkatFormfirst").empty();$("#tanggalBerangkatFormfirst").removeClass('is-valid');$("#tanggalBerangkatFormfirst").removeClass('is-invalid');
-            $("#kepalaBerangkatFormfirst").empty();$("#kepalaBerangkatFormfirst").removeClass('is-valid');$("#kepalaBerangkatFormfirst").removeClass('is-invalid');
+            $("#tanggalberangkatFormfirst").empty();$("#tanggalberangkatFormfirst").removeClass('is-valid');$("#tanggalberangkatFormfirst").removeClass('is-invalid');
+            $("#kepalaberangkatFormfirst").empty();$("#kepalaberangkatFormfirst").removeClass('is-valid');$("#kepalaberangkatFormfirst").removeClass('is-invalid');
             $("#tibadiFormfirst").empty();$("#tibadiFormfirst").removeClass('is-valid');$("#tibadiFormfirst").removeClass('is-invalid');
-            $("#tanggalTibaFormfirst").empty();$("#tanggalTibaFormfirst").removeClass('is-valid');$("#tanggalTibaFormfirst").removeClass('is-invalid');
-            $("#kepalaTibaFormfirst").empty();$("#kepalaTibaFormfirst").removeClass('is-valid');$("#kepalaTibaFormfirst").removeClass('is-invalid');
+            $("#tanggaltibaFormfirst").empty();$("#tanggaltibaFormfirst").removeClass('is-valid');$("#tanggaltibaFormfirst").removeClass('is-invalid');
+            $("#kepalatibaFormfirst").empty();$("#kepalatibaFormfirst").removeClass('is-valid');$("#kepalatibaFormfirst").removeClass('is-invalid');
             //Form second
             $("#berangkatdariFormsecond").empty();$("#berangkatdariFormsecond").removeClass('is-valid');$("#berangkatdariFormsecond").removeClass('is-invalid');
             $("#tujuanFormsecond").empty();$("#tujuanFormsecond").removeClass('is-valid');$("#tujuanFormsecond").removeClass('is-invalid');
-            $("#tanggalBerangkatFormsecond").empty();$("#tanggalBerangkatFormsecond").removeClass('is-valid');$("#tanggalBerangkatFormsecond").removeClass('is-invalid');
-            $("#kepalaBerangkatFormsecond").empty();$("#kepalaBerangkatFormsecond").removeClass('is-valid');$("#kepalaBerangkatFormsecond").removeClass('is-invalid');
+            $("#tanggalberangkatFormsecond").empty();$("#tanggalberangkatFormsecond").removeClass('is-valid');$("#tanggalberangkatFormsecond").removeClass('is-invalid');
+            $("#kepalaberangkatFormsecond").empty();$("#kepalaberangkatFormsecond").removeClass('is-valid');$("#kepalaberangkatFormsecond").removeClass('is-invalid');
             $("#tibadiFormsecond").empty();$("#tibadiFormsecond").removeClass('is-valid');$("#tibadiFormsecond").removeClass('is-invalid');
-            $("#tanggalTibaFormsecond").empty();$("#tanggalTibaFormsecond").removeClass('is-valid');$("#tanggalTibaFormsecond").removeClass('is-invalid');
-            $("#kepalaTibaFormsecond").empty();$("#kepalaTibaFormsecond").removeClass('is-valid');$("#kepalaTibaFormsecond").removeClass('is-invalid');
+            $("#tanggaltibaFormsecond").empty();$("#tanggaltibaFormsecond").removeClass('is-valid');$("#tanggaltibaFormsecond").removeClass('is-invalid');
+            $("#kepalatibaFormsecond").empty();$("#kepalatibaFormsecond").removeClass('is-valid');$("#kepalatibaFormsecond").removeClass('is-invalid');
             //Form third
             $("#berangkatdariFormthird").empty();$("#berangkatdariFormthird").removeClass('is-valid');$("#berangkatdariFormthird").removeClass('is-invalid');
             $("#tujuanFormthird").empty();$("#tujuanFormthird").removeClass('is-valid');$("#tujuanFormthird").removeClass('is-invalid');
-            $("#tanggalBerangkatFormthird").empty();$("#tanggalBerangkatFormthird").removeClass('is-valid');$("#tanggalBerangkatFormthird").removeClass('is-invalid');
-            $("#kepalaBerangkatFormthird").empty();$("#kepalaBerangkatFormthird").removeClass('is-valid');$("#kepalaBerangkatFormthird").removeClass('is-invalid');
+            $("#tanggalberangkatFormthird").empty();$("#tanggalberangkatFormthird").removeClass('is-valid');$("#tanggalberangkatFormthird").removeClass('is-invalid');
+            $("#kepalaberangkatFormthird").empty();$("#kepalaberangkatFormthird").removeClass('is-valid');$("#kepalaberangkatFormthird").removeClass('is-invalid');
             $("#tibadiFormthird").empty();$("#tibadiFormthird").removeClass('is-valid');$("#tibadiFormthird").removeClass('is-invalid');
-            $("#tanggalTibaFormthird").empty();$("#tanggalTibaFormthird").removeClass('is-valid');$("#tanggalTibaFormthird").removeClass('is-invalid');
-            $("#kepalaTibaFormthird").empty();$("#kepalaTibaFormthird").removeClass('is-valid');$("#kepalaTibaFormthird").removeClass('is-invalid');
+            $("#tanggaltibaFormthird").empty();$("#tanggaltibaFormthird").removeClass('is-valid');$("#tanggaltibaFormthird").removeClass('is-invalid');
+            $("#kepalatibaFormthird").empty();$("#kepalatibaFormthird").removeClass('is-valid');$("#kepalatibaFormthird").removeClass('is-invalid');
             //Form fourth
             $("#berangkatdariFormfourth").empty();$("#berangkatdariFormfourth").removeClass('is-valid');$("#berangkatdariFormfourth").removeClass('is-invalid');
             $("#tujuanFormfourth").empty();$("#tujuanFormfourth").removeClass('is-valid');$("#tujuanFormfourth").removeClass('is-invalid');
-            $("#tanggalBerangkatFormfourth").empty();$("#tanggalBerangkatFormfourth").removeClass('is-valid');$("#tanggalBerangkatFormfourth").removeClass('is-invalid');
-            $("#kepalaBerangkatFormfourth").empty();$("#kepalaBerangkatFormfourth").removeClass('is-valid');$("#kepalaBerangkatFormfourth").removeClass('is-invalid');
+            $("#tanggalberangkatFormfourth").empty();$("#tanggalberangkatFormfourth").removeClass('is-valid');$("#tanggalberangkatFormfourth").removeClass('is-invalid');
+            $("#kepalaberangkatFormfourth").empty();$("#kepalaberangkatFormfourth").removeClass('is-valid');$("#kepalaberangkatFormfourth").removeClass('is-invalid');
             $("#tibadiFormfourth").empty();$("#tibadiFormfourth").removeClass('is-valid');$("#tibadiFormfourth").removeClass('is-invalid');
-            $("#tanggalTibaFormfourth").empty();$("#tanggalTibaFormfourth").removeClass('is-valid');$("#tanggalTibaFormfourth").removeClass('is-invalid');
-            $("#kepalaTibaFormfourth").empty();$("#kepalaTibaFormfourth").removeClass('is-valid');$("#kepalaTibaFormfourth").removeClass('is-invalid');
+            $("#tanggaltibaFormfourth").empty();$("#tanggaltibaFormfourth").removeClass('is-valid');$("#tanggaltibaFormfourth").removeClass('is-invalid');
+            $("#kepalatibaFormfourth").empty();$("#kepalatibaFormfourth").removeClass('is-valid');$("#kepalatibaFormfourth").removeClass('is-invalid');
 
         }
 
         $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'});
         //Form first
-        $('#tanggalBerangkatFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
-        $('#tanggalTibaFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalberangkatFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggalberangkatFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false,startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggaltibaFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
         //Form second
-        $('#tanggalBerangkatFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
-        $('#tanggalTibaFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalberangkatFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggalberangkatFormsecond').on('apply.daterangepicker', function(ev, picker) { $(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggaltibaFormsecond').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
         //Form third
-        $('#tanggalBerangkatFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
-        $('#tanggalTibaFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalberangkatFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggalberangkatFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggaltibaFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
         //Form fourth
-        $('#tanggalBerangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
-        $('#tanggalTibaFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, startDate: moment(), locale: {format: 'DD/MM/YYYY',firstDay: 1}});
+        $('#tanggalberangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggalberangkatFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
+        $('#tanggaltibaFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getPegawai') ?>';
-        // $("#pegawaiAddEditForm option:selected").text();
+        var id = $('#hiddenIDPage').val();
         $("#pegawaiForm").select2({
             // var pegawai = $('#pegawaiAddEditForm :selected').val();
             // console.log(pegawai);
@@ -519,7 +527,7 @@
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Pegawai ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()}},
+                data: function(params) {return {searchTerm: params.term, id:id, csrf_token_name: $('input[name=csrf_token_name]').val()}},
                 processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,}},
                 cache: true
             }
@@ -641,7 +649,74 @@
                             // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
+                                console.log(prop + " = " + obj[prop] + ' '+ urutan);
                                 $('#'+ prop +'Form' + urutan).val(obj[prop]);
+                                var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+
+                                if(prop = 'tanggalberangkat' && urutan == 'first'){
+                                    if(obj['tanggalberangkat'] != ''){
+                                        var first = new Date(obj['tanggalberangkat']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
+                                        $('#tanggalberangkatFormfirst').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggalberangkatFormfirst').val('');
+                                    }
+                                }
+                                if(prop = 'tanggaltiba' && urutan == 'first'){
+                                    if(obj['tanggaltiba'] != ''){                                     
+                                        var first = new Date(obj['tanggaltiba']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
+                                        $('#tanggaltibaFormfirst').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggaltibaFormfirst').val('');
+                                    }
+                                }
+                                if(prop = 'tanggalberangkat' && urutan == 'second'){
+                                    if(obj['tanggalberangkat'] != ''){
+                                    var second = new Date(obj['tanggalberangkat']);var curr_date = second.getDate();var curr_month = second.getMonth();var curr_year = second.getFullYear();
+                                    $('#tanggalberangkatFormsecond').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggalberangkatFormsecond').val('');
+                                    }
+                                }
+                                if(prop = 'tanggaltiba' && urutan == 'second'){
+                                    if(obj['tanggaltiba'] != ''){   
+                                    var second = new Date(obj['tanggaltiba']);var curr_date = second.getDate();var curr_month = second.getMonth();var curr_year = second.getFullYear();
+                                    $('#tanggaltibaFormsecond').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggaltibaFormsecond').val('');
+                                    }
+                                }
+                                if(prop = 'tanggalberangkat' && urutan == 'third'){
+                                    if(obj['tanggalberangkat'] != ''){
+                                    var third = new Date(obj['tanggalberangkat']);var curr_date = third.getDate();var curr_month = third.getMonth();var curr_year = third.getFullYear();
+                                    $('#tanggalberangkatFormthird').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggalberangkatFormthird').val('');
+                                    }
+                                }
+                                if(prop = 'tanggaltiba' && urutan == 'third'){
+                                    if(obj['tanggaltiba'] != ''){   
+                                        var third = new Date(obj['tanggaltiba']);var curr_date = third.getDate();var curr_month = third.getMonth();var curr_year = third.getFullYear();
+                                        $('#tanggaltibaFormthird').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggaltibaFormthird').val('');
+                                    }
+                                }
+                                if(prop = 'tanggalberangkat' && urutan == 'fourth'){
+                                    if(obj['tanggalberangkat'] != ''){
+                                        var fourth = new Date(obj['tanggalberangkat']);var curr_date = fourth.getDate();var curr_month = fourth.getMonth();var curr_year = fourth.getFullYear();
+                                        $('#tanggalberangkatFormfourth').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggalberangkatFormfourth').val('');
+                                    }
+                                }
+                                if(prop = 'tanggaltiba' && urutan == 'fourth'){
+                                    if(obj['tanggaltiba'] != ''){   
+                                    var fourth = new Date(obj['tanggaltiba']);var curr_date = fourth.getDate();var curr_month = fourth.getMonth();var curr_year = fourth.getFullYear();
+                                    $('#tanggaltibaFormfourth').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                                    }else{
+                                        $('#tanggaltibaFormfourth').val('');
+                                    }
+                                }
                             }
                         }
 

@@ -126,7 +126,7 @@
                                                             <td>090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>                                                
+                                                </table>
                                             </div>
                                         </div><br>
                                         <div class="row">
@@ -323,8 +323,7 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachVerifi").value = "";
-                        veri.search("").draw();
+                        location.reload();
                     }
                 });
             } else {
@@ -336,8 +335,7 @@
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("seachVerifi").value = "";
-                        veri.search("").draw();
+                        location.reload();
                     }
                 });
             }
@@ -399,7 +397,7 @@
             $('#createdatModalView').empty();$('#diperintahModalView').empty();$('#diperintahNIPModalView').empty();
             $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
         });
-        
+
         $(document).on('click', '.verifikasi', function() {
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Kepala/Verifikasi/view_data') ?>";

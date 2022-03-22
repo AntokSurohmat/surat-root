@@ -247,6 +247,7 @@ class Verifikasi extends ResourcePresenter
 
                 $spt = $this->spt->where('id', $id)->first();
                 $data = [
+                    'kode_spt' => $spt['kode'],
                     'pejabat' => $spt['pejabat'],'pegawai_all' => $spt['pegawai_all'],
                     'untuk' => $spt['untuk'],'kode_instansi' => $spt['kode_instansi'],
                     'awal' => $spt['awal'],'akhir' => $spt['akhir'],'lama' => $spt['lama'],
