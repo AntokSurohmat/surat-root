@@ -431,6 +431,16 @@ class Rincian extends ResourcePresenter
         }
     }
 
+    function view_data() {
+
+        if ($this->request->getVar('id')) {
+            $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
+    }
+
     /**
      * Present a view to edit the properties of a specific resource object
      *
