@@ -203,45 +203,24 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": url_destination,
-                "timeout": 15000,
-                "error": handleAjaxError
+                "url": url_destination,"timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{
-                targets: 0,
-                orderable: false
-            }, {
-                targets: -1,
-                orderable: false,
-                "class": "text-center"
-            }, ],
+            "columnDefs": [{targets: 0,orderable: false}, {targets: -1,orderable: false,"class": "text-center"}, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         };
         $('#seachRcn').keyup(function() {

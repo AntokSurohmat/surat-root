@@ -194,115 +194,18 @@ class Rincian extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 8 Karakter',
                 ]
             ],
-            //Satu
-            'rincianBiayaSatuAddEditForm' => [
+            'rincianBiayaAddEditForm[]' => [
                 'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
+                'rules'     => 'permit_empty',
             ],
-            'jumlahSatuAddEditForm' => [
+            'jumlahAddEditForm[]' => [
                 'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
+                'rules'     => 'permit_empty'
             ],
-            'buktiSatuAddEditForm' => [
-                'rules' => "mime_in[buktiSatuAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiSatuAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Dua
-            'rincianBiayaDuaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahDuaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiDuaAddEditForm' => [
+            'buktiAddEditForm[]' => [
                 'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiDuaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiDuaAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Tiga
-            'rincianBiayaTigaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahTigaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiTigaAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiTigaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiTigaAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Empat
-            'rincianBiayaEmpatAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahEmpatAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiEmpatAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiEmpatAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiEmpatAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Lima
-            'rincianBiayaLimaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => "permit_empty|max_length[25]",
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahLimaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => "permit_empty|max_length[8]",
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiLimaAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiLimaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiLimaAddEditForm,2048]",
+                'rules' => "mime_in[buktiAddEditForm,image/jpg,image/jpeg,image/gif,image/png]"
+                ."|max_size[buktiAddEditForm,2048]",
 				'errors' => [
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
@@ -321,89 +224,42 @@ class Rincian extends ResourcePresenter
                     'noSpd' => $validation->getError('noSpdAddEditForm'),
                     'rincianBiayaSpd' => $validation->getError('rincianBiayaSpdAddEditForm'),
                     'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdAddEditForm'),
-                    'rincianBiayaSatu' => $validation->getError('rincianBiayaSatuAddEditForm'),
-                    'jumlahSatu' => $validation->getError('jumlahSatuAddEditForm'),
-                    'buktiSatu' => $validation->getError('buktiSatuAddEditForm'),
-                    'rincianBiayaDua' => $validation->getError('rincianBiayaDuaAddEditForm'),
-                    'jumlahDua' => $validation->getError('jumlahDuaAddEditForm'),
-                    'buktiDua' => $validation->getError('buktiDuaAddEditForm'),
-                    'rincianBiayaTiga' => $validation->getError('rincianBiayaTigaAddEditForm'),
-                    'jumlahTiga' => $validation->getError('jumlahTigaAddEditForm'),
-                    'buktiTiga' => $validation->getError('buktiTigaAddEditForm'),
-                    'rincianBiayaEmpat' => $validation->getError('rincianBiayaEmpatAddEditForm'),
-                    'jumlahEmpat' => $validation->getError('jumlahEmpatAddEditForm'),
-                    'buktiEmpat' => $validation->getError('buktiEmpatAddEditForm'),
-                    'rincianBiayaLima' => $validation->getError('rincianBiayaLimaAddEditForm'),
-                    'jumlahLima' => $validation->getError('jumlahLimaAddEditForm'),
-                    'buktiLima' => $validation->getError('buktiLimaAddEditForm'),
+                    // 'rincianBiayaSatu' => $validation->getError('rincianBiayaAddEditForm[]'),
+                    // 'jumlahSatu' => $validation->getError('jumlahAddEditForm[]'),
+                    // 'buktiSatu' => $validation->getError('buktiAddEditForm[]'),
                 ],
                 'msg' => '',
             ];
         }else{
-
-
-            $buktiSatu = $this->request->getFile('buktiSatuAddEditForm');
-            if($buktiSatu->isValid() && !$buktiSatu->hasMoved()){
-                $imageName_1 = $buktiSatu->getRandomName();
-                $buktiSatu->move('uploads/rincian/'.date('d-m-Y').'/', $imageName_1);
-            }
-            $buktiDua = $this->request->getFile('buktiDuaAddEditForm');
-            if($buktiDua->isValid() && !$buktiDua->hasMoved()){
-                $imageName_2 = $buktiDua->getRandomName();
-                $buktiDua->move('uploads/rincian/'.date('d-m-Y').'/', $imageName_2);
-            }
-            $buktiTiga = $this->request->getFile('buktiTigaAddEditForm');
-            if($buktiTiga->isValid() && !$buktiTiga->hasMoved()){
-                $imageName_3 = $buktiTiga->getRandomName();
-                $buktiTiga->move('uploads/rincian/'.date('d-m-Y').'/', $imageName_3);
-            }
-            $buktiEmpat = $this->request->getFile('buktiEmpatAddEditForm');
-            if($buktiEmpat->isValid() && !$buktiEmpat->hasMoved()){
-                $imageName_4 = $buktiEmpat->getRandomName();
-                $buktiEmpat->move('uploads/rincian/'.date('d-m-Y').'/', $imageName_4);
-            }
-            $buktiLima = $this->request->getFile('buktiLimaAddEditForm');
-            if($buktiLima->isValid() && !$buktiLima->hasMoved()){
-                $imageName_5 = $buktiLima->getRandomName();
-                $buktiLima->move('uploads/rincian/'.date('d-m-Y').'/', $imageName_5);
-            }
-
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
-            // $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
-            // $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            // $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            // $instansi = $this->spd->select('kode_instansi')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
+
+            $image = array();
+            if ($imagefile = $this->request->getFiles()) {
+                foreach($imagefile['buktiAddEditForm'] as $img) {
+                    if ($img->isValid() && ! $img->hasMoved()) {
+                        $newName = $img->getRandomName();
+                        $img->move('uploads/rincian/'.date('d-m-Y').'/', $newName);
+                        $image[] = $newName;
+                    } elseif ($img->getName() == NULL) {
+                        $newName = '';
+                        $image[] = $newName;
+                    }
+                }
+            }
 
             $data = [
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                //satu
-                'rincian_biaya_1' => $this->db->escapeString($this->request->getVar('rincianBiayaSatuAddEditForm')),
-                'jumlah_biaya_1' => $this->db->escapeString($this->request->getVar('jumlahSatuAddEditForm')),
-                'bukti_1' => ($this->request->getFile('buktiSatuAddEditForm') != NULL ? $imageName_1 : ''),
-                //dua
-                'rincian_biaya_2' => $this->db->escapeString($this->request->getVar('rincianBiayaDuaAddEditForm')),
-                'jumlah_biaya_2' => $this->db->escapeString($this->request->getVar('jumlahDuaAddEditForm')),
-                'bukti_2' => ($this->request->getFile('buktiDuaAddEditForm') != NULL ? $imageName_2 : ''),
-                //tiga
-                'rincian_biaya_3' => $this->db->escapeString($this->request->getVar('rincianBiayaTigaAddEditForm')),
-                'jumlah_biaya_3' => $this->db->escapeString($this->request->getVar('jumlahTigaAddEditForm')),
-                'bukti_3' => ($this->request->getFile('buktiTigaAddEditForm') != NULL ? $imageName_3 : ''),
-                //empat
-                'rincian_biaya_4' => $this->db->escapeString($this->request->getVar('rincianBiayaEmpatAddEditForm')),
-                'jumlah_biaya_4' => $this->db->escapeString($this->request->getVar('jumlahEmpatAddEditForm')),
-                'bukti_4' => ($this->request->getFile('buktiEmpatAddEditForm') != NULL ? $imageName_4 : ''),
-                //lima
-                'rincian_biaya_5' => $this->db->escapeString($this->request->getVar('rincianBiayaLimaAddEditForm')),
-                'jumlah_biaya_5' => $this->db->escapeString($this->request->getVar('jumlahLimaAddEditForm')),
-                'bukti_5' => ($this->request->getFile('buktiLimaAddEditForm') != NULL ? $imageName_5 : ''),
-
+                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
+                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
+                'bukti' => json_encode($image),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
                 'yang_menyetujui' => $kode_spd['yang_menyetujui'],
                 'bendahara' => $this->session->get('nip'),
+                // 'detail' => json_encode($detail_array),
             ];
 
             // d($data);print_r($data);die();
@@ -425,6 +281,9 @@ class Rincian extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
+            $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+            $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
+            $data['bukti'] = json_decode($data['bukti']);
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -504,115 +363,18 @@ class Rincian extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 8 Karakter',
                 ]
             ],
-            //Satu
-            'rincianBiayaSatuAddEditForm' => [
+            'rincianBiayaAddEditForm[]' => [
                 'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
+                'rules'     => 'permit_empty',
             ],
-            'jumlahSatuAddEditForm' => [
+            'jumlahAddEditForm[]' => [
                 'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
+                'rules'     => 'permit_empty'
             ],
-            'buktiSatuAddEditForm' => [
-                'rules' => "mime_in[buktiSatuAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiSatuAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Dua
-            'rincianBiayaDuaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahDuaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiDuaAddEditForm' => [
+            'buktiAddEditForm[]' => [
                 'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiDuaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiDuaAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Tiga
-            'rincianBiayaTigaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahTigaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiTigaAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiTigaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiTigaAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Empat
-            'rincianBiayaEmpatAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahEmpatAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty|max_length[8]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiEmpatAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiEmpatAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiEmpatAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-            //Lima
-            'rincianBiayaLimaAddEditForm' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => "permit_empty|max_length[25]",
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahLimaAddEditForm' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => "permit_empty|max_length[8]",
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 8'
-                ]
-            ],
-            'buktiLimaAddEditForm' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiLimaAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[buktiLimaAddEditForm,2048]",
+                'rules' => "mime_in[buktiAddEditForm,image/jpg,image/jpeg,image/gif,image/png]"
+                ."|max_size[buktiAddEditForm,2048]",
 				'errors' => [
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
@@ -631,85 +393,41 @@ class Rincian extends ResourcePresenter
                     'noSpd' => $validation->getError('noSpdAddEditForm'),
                     'rincianBiayaSpd' => $validation->getError('rincianBiayaSpdAddEditForm'),
                     'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdAddEditForm'),
-                    'rincianBiayaSatu' => $validation->getError('rincianBiayaSatuAddEditForm'),
-                    'jumlahSatu' => $validation->getError('jumlahSatuAddEditForm'),
-                    'buktiSatu' => $validation->getError('buktiSatuAddEditForm'),
-                    'rincianBiayaDua' => $validation->getError('rincianBiayaDuaAddEditForm'),
-                    'jumlahDua' => $validation->getError('jumlahDuaAddEditForm'),
-                    'buktiDua' => $validation->getError('buktiDuaAddEditForm'),
-                    'rincianBiayaTiga' => $validation->getError('rincianBiayaTigaAddEditForm'),
-                    'jumlahTiga' => $validation->getError('jumlahTigaAddEditForm'),
-                    'buktiTiga' => $validation->getError('buktiTigaAddEditForm'),
-                    'rincianBiayaEmpat' => $validation->getError('rincianBiayaEmpatAddEditForm'),
-                    'jumlahEmpat' => $validation->getError('jumlahEmpatAddEditForm'),
-                    'buktiEmpat' => $validation->getError('buktiEmpatAddEditForm'),
-                    'rincianBiayaLima' => $validation->getError('rincianBiayaLimaAddEditForm'),
-                    'jumlahLima' => $validation->getError('jumlahLimaAddEditForm'),
-                    'buktiLima' => $validation->getError('buktiLimaAddEditForm'),
                 ],
                 'msg' => '',
             ];
         }else{
 
             $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
-            $old_image_1 = $prop_item['bukti_1'];
-            $file = $this->request->getFile('buktiSatuAddEditForm');
-            if($file->isValid() && !$file->hasMoved()){
-                if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image_1)){
-                    unlink("uploads/rincian/".date('d-m-Y')."/".$old_image_1);
-                }
-                $imageName_1 = $file->getRandomName();
-                $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName_1);
-            }else{
-                $imageName_1 = $old_image_1;
-            }
+            $olds = json_decode($prop_item['bukti']);
+            // $file = $this->request->getFile('buktiSatuAddEditForm');
+            // if($file->isValid() && !$file->hasMoved()){
+            //     if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image)){
+            //         unlink("uploads/rincian/".date('d-m-Y')."/".$old_image);
+            //     }
+            //     $imageName = $file->getRandomName();
+            //     $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName);
+            // }else{
+            //     $imageName = $old_image;
+            // }
+            // d($olds);print($olds);die();
 
-            $old_image_2 = $prop_item['bukti_2'];
-            $file = $this->request->getFile('buktiDuaAddEditForm');
-            if($file->isValid() && !$file->hasMoved()){
-                if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image_2)){
-                    unlink("uploads/rincian/".date('d-m-Y')."/".$old_image_2);
+            $image = array();
+            if ($imagefile = $this->request->getFiles()) {
+                foreach($imagefile['buktiAddEditForm'] as $img) {
+                    d($this->request->getFiles('buktiAddEditForm'));print($this->request->getFiles('buktiAddEditForm'));die();
+                    if ($img->isValid() && ! $img->hasMoved()) {
+                        // if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old)){
+                        //     unlink("uploads/rincian/".date('d-m-Y')."/".$old);
+                        // }
+                        $newName = $img->getRandomName();
+                        $img->move('uploads/rincian/'.date('d-m-Y').'/', $newName);
+                        $image[] = $newName;
+                    } else {
+                        $newName = 'ok';
+                        $image[] = $newName;
+                    }
                 }
-                $imageName_2 = $file->getRandomName();
-                $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName_2);
-            }else{
-                $imageName_2 = $old_image_2;
-            }
-
-            $old_image_3 = $prop_item['bukti_3'];
-            $file = $this->request->getFile('buktiTigaAddEditForm');
-            if($file->isValid() && !$file->hasMoved()){
-                if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image_3)){
-                    unlink("uploads/rincian/".date('d-m-Y')."/".$old_image_3);
-                }
-                $imageName_3 = $file->getRandomName();
-                $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName_3);
-            }else{
-                $imageName_3 = $old_image_3;
-            }
-
-            $old_image_4 = $prop_item['bukti_4'];
-            $file = $this->request->getFile('buktiEmpatAddEditForm');
-            if($file->isValid() && !$file->hasMoved()){
-                if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image_4)){
-                    unlink("uploads/rincian/".date('d-m-Y')."/".$old_image_4);
-                }
-                $imageName_4 = $file->getRandomName();
-                $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName_4);
-            }else{
-                $imageName_4 = $old_image_4;
-            }
-
-            $old_image_5 = $prop_item['bukti_5'];
-            $file = $this->request->getFile('buktiLimaAddEditForm');
-            if($file->isValid() && !$file->hasMoved()){
-                if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image_5)){
-                    unlink("uploads/rincian/".date('d-m-Y')."/".$old_image_5);
-                }
-                $imageName_5 = $file->getRandomName();
-                $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName_5);
-            }else{
-                $imageName_5 = $old_image_5;
             }
 
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
@@ -718,27 +436,9 @@ class Rincian extends ResourcePresenter
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                //satu
-                'rincian_biaya_1' => $this->db->escapeString($this->request->getVar('rincianBiayaSatuAddEditForm')),
-                'jumlah_biaya_1' => $this->db->escapeString($this->request->getVar('jumlahSatuAddEditForm')),
-                'bukti_1' => ($this->request->getFile('buktiSatuAddEditForm') != NULL ? $imageName_1 : ''),
-                //dua
-                'rincian_biaya_2' => $this->db->escapeString($this->request->getVar('rincianBiayaDuaAddEditForm')),
-                'jumlah_biaya_2' => $this->db->escapeString($this->request->getVar('jumlahDuaAddEditForm')),
-                'bukti_2' => ($this->request->getFile('buktiDuaAddEditForm') != NULL ? $imageName_2 : ''),
-                //tiga
-                'rincian_biaya_3' => $this->db->escapeString($this->request->getVar('rincianBiayaTigaAddEditForm')),
-                'jumlah_biaya_3' => $this->db->escapeString($this->request->getVar('jumlahTigaAddEditForm')),
-                'bukti_3' => ($this->request->getFile('buktiTigaAddEditForm') != NULL ? $imageName_3 : ''),
-                //empat
-                'rincian_biaya_4' => $this->db->escapeString($this->request->getVar('rincianBiayaEmpatAddEditForm')),
-                'jumlah_biaya_4' => $this->db->escapeString($this->request->getVar('jumlahEmpatAddEditForm')),
-                'bukti_4' => ($this->request->getFile('buktiEmpatAddEditForm') != NULL ? $imageName_4 : ''),
-                //lima
-                'rincian_biaya_5' => $this->db->escapeString($this->request->getVar('rincianBiayaLimaAddEditForm')),
-                'jumlah_biaya_5' => $this->db->escapeString($this->request->getVar('jumlahLimaAddEditForm')),
-                'bukti_5' => ($this->request->getFile('buktiLimaAddEditForm') != NULL ? $imageName_5 : ''),
-
+                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
+                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
+                'bukti' => json_encode($image),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),

@@ -18,12 +18,8 @@ class RincianModel extends Model
     protected $allowedFields    = [
     'kode_spd', 'rincian_sbuh', 'jumlah_uang', 'keterangan_sbuh',
     'awal', 'akhir', 
-    'rincian_biaya_1', 'jumlah_biaya_1', 'bukti_1',
-    'rincian_biaya_2', 'jumlah_biaya_2', 'bukti_2',
-    'rincian_biaya_3', 'jumlah_biaya_3', 'bukti_3',
-    'rincian_biaya_4', 'jumlah_biaya_4', 'bukti_4',
-    'rincian_biaya_5', 'jumlah_biaya_5', 'bukti_5',
-    'jumlah_total', 'yang_menyetujui', 'bendahara'
+    'rincian_biaya', 'jumlah_biaya', 'bukti',
+    'jumlah_total', 'yang_menyetujui', 'bendahara', 'detail'
 ];
 
     // Dates
@@ -40,21 +36,9 @@ class RincianModel extends Model
         'jumlah_uang'   => 'required|numeric|max_length[8]',
         'awal' => 'required',
         'akhir' => 'required',
-        'rincian_biaya_1' => 'permit_empty|max_length[25]',
-        'jumlah_biaya_1'  => 'permit_empty|numeric|max_length[8]',
-        'bukti_1'   => 'permit_empty',
-        'rincian_biaya_2' => 'permit_empty|max_length[25]',
-        'jumlah_biaya_2'  => 'permit_empty|numeric|max_length[8]',
-        'bukti_2'   => 'permit_empty',
-        'rincian_biaya_3' => 'permit_empty|max_length[25]',
-        'jumlah_biaya_3'  => 'permit_empty|numeric|max_length[8]',
-        'bukti_3'   => 'permit_empty',
-        'rincian_biaya_4' => 'permit_empty|max_length[25]',
-        'jumlah_biaya_4'  => 'permit_empty|numeric|max_length[8]',
-        'bukti_4'   => 'permit_empty',
-        'rincian_biaya_5' => 'permit_empty|max_length[25]',
-        'jumlah_biaya_5'  => 'permit_empty|numeric|max_length[8]',
-        'bukti_5'   => 'permit_empty',
+        'rincian_biaya' => 'permit_empty',
+        'jumlah_biaya'  => 'permit_empty',
+        'bukti'   => 'permit_empty',
         'jumlah_total'  => 'required|numeric|max_length[10]',
         'yang_menyetujui' => 'required|numeric|max_length[25]',
         'bendahara' => 'required|numeric|max_length[25]'

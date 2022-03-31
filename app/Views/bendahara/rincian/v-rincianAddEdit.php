@@ -70,7 +70,7 @@
                                         <div class="form-group row">
                                             <label for="rincianBiayaSatuForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaSatuAddEditForm" id="rincianBiayaSatuForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaSatuForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaSatuErrorForm"></div>
                                             </div>
                                         </div>
@@ -83,7 +83,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahSatuAddEditForm" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahSatuErrorForm"></div>
                                                 </div>
                                             </div>
@@ -94,7 +94,7 @@
                                             <label for="buktiSatuForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
-                                                    <input type="file" name="buktiSatuAddEditForm" class="custom-file-input" id="buktiSatuForm">
+                                                    <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiSatuForm">
                                                     <label class="custom-file-label" for="buktiSatuForm">Choose file</label>
                                                     <div class="invalid-feedback buktiSatuErrorForm"></div>
                                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="form-group row">
                                             <label for="rincianBiayaDuaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaDuaAddEditForm" id="rincianBiayaDuaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaDuaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaDuaErrorForm"></div>
                                             </div>
                                         </div>
@@ -122,7 +122,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahDuaAddEditForm" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahDuaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -133,7 +133,7 @@
                                             <label for="buktiDuaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
-                                                    <input type="file" name="buktiDuaAddEditForm" class="custom-file-input" id="buktiDuaForm">
+                                                    <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiDuaForm">
                                                     <label class="custom-file-label" for="buktiDuaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiDuaErrorForm"></div>
                                                 </div>
@@ -148,7 +148,7 @@
                                         <div class="form-group row">
                                             <label for="rincianBiayaTigaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaTigaAddEditForm" id="rincianBiayaTigaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaTigaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaTigaErrorForm"></div>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahTigaAddEditForm" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahTigaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -172,7 +172,7 @@
                                             <label for="buktiTigaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
-                                                    <input type="file" name="buktiTigaAddEditForm" class="custom-file-input" id="buktiTigaForm">
+                                                    <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiTigaForm">
                                                     <label class="custom-file-label" for="buktiTigaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiTigaErrorForm"></div>
                                                 </div>
@@ -187,7 +187,7 @@
                                         <div class="form-group row">
                                             <label for="rincianBiayaEmpatForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaEmpatAddEditForm" id="rincianBiayaEmpatForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaEmpatForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaEmpatErrorForm"></div>
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahEmpatAddEditForm" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahEmpatErrorForm"></div>
                                                 </div>
                                             </div>
@@ -211,7 +211,7 @@
                                             <label for="buktiEmpatForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
-                                                    <input type="file" name="buktiEmpatAddEditForm" class="custom-file-input" id="buktiEmpatForm">
+                                                    <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiEmpatForm">
                                                     <label class="custom-file-label" for="buktiEmpatForm">Choose file</label>
                                                     <div class="invalid-feedback buktiEmpatErrorForm"></div>
                                                 </div>
@@ -226,7 +226,7 @@
                                         <div class="form-group row">
                                             <label for="rincianBiayaLimaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaLimaAddEditForm" id="rincianBiayaLimaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaLimaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaLimaErrorForm"></div>
                                             </div>
                                         </div>
@@ -239,7 +239,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahLimaAddEditForm" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahLimaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -250,7 +250,7 @@
                                             <label for="buktiLimaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
                                             <div class="col-sm-8">
                                                 <div class="custom-file">
-                                                    <input type="file" name="buktiLimaAddEditForm" class="custom-file-input" id="buktiLimaForm">
+                                                    <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiLimaForm">
                                                     <label class="custom-file-label" for="buktiLimaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiLimaErrorForm"></div>
                                                 </div>
@@ -437,22 +437,15 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
+                        console.log(data);
                         $('#submit-rincian').removeClass("btn-success");
                         $('#submit-rincian').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $("#noSpdForm").append($("<option selected='selected'></option>")
                         .val(data.kode_spd).text(data.kode_spd)).trigger('change');
-                        $('#rincianBiayaSatuForm').val(data.rincian_biaya_1);
-                        $('#jumlahSatuForm').val(data.jumlah_biaya_1);
-                        $('#rincianBiayaDuaForm').val(data.rincian_biaya_2);
-                        $('#jumlahDuaForm').val(data.jumlah_biaya_2);
-                        $('#rincianBiayaTigaForm').val(data.rincian_biaya_3);
-                        $('#jumlahTigaForm').val(data.jumlah_biaya_3);
-                        $('#rincianBiayaEmpatForm').val(data.rincian_biaya_4);
-                        $('#jumlahEmpatForm').val(data.jumlah_biaya_4);
-                        $('#rincianBiayaLimaForm').val(data.rincian_biaya_5);
-                        $('#jumlahLimaForm').val(data.jumlah_biaya_5);
+                        var m_names = new Array("Satu","Dua","Tiga","Empat","Lima");
+                        data.rincian_biaya.forEach(function (item, index) {$('#rincianBiaya'+m_names[index]+'Form').val(item);});
+                        data.jumlah_biaya.forEach(function (item, index) {$('#jumlah'+m_names[index]+'Form').val(item);});
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
             }

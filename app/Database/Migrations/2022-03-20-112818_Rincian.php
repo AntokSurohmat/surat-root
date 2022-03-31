@@ -24,6 +24,20 @@ class Rincian extends Migration
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
             ],
+            'rincian_biaya'    => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '255',
+                'null'              => true,
+            ],
+            'jumlah_biaya'     => [
+                'type'              => 'VARCHAR',
+                'constraint'        => '255',
+                'null'              => true,
+            ],
+            'bukti'       => [
+                'type'              => 'LONGTEXT',
+                'null'              => true,
+            ],
             'jumlah_uang'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '8',
@@ -42,81 +56,6 @@ class Rincian extends Migration
             'akhir'             => [
                 'type'              => 'DATE',
             ],
-            'rincian_biaya_1'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '25',
-                'null'              => true,
-            ],
-            'jumlah_biaya_1'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'bukti_1'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
-            'rincian_biaya_2'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '25',
-                'null'              => true,
-            ],
-            'jumlah_biaya_2'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'bukti_2'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
-            'rincian_biaya_3'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '25',
-                'null'              => true,
-            ],
-            'jumlah_biaya_3'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'bukti_3'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
-            'rincian_biaya_4'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '25',
-                'null'              => true,
-            ],
-            'jumlah_biaya_4'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'bukti_4'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
-            'rincian_biaya_5'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '25',
-                'null'              => true,
-            ],
-            'jumlah_biaya_5'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '9',
-                'null'              => true,
-            ],
-            'bukti_5'       => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'null'              => true,
-            ],
             'yang_menyetujui' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
@@ -125,6 +64,11 @@ class Rincian extends Migration
             'bendahara'         => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '25'
+            ],
+            'detail'            => [
+                'type'              => 'JSON',
+                'null'              => true,
+                'defaul'            => '{}',
             ],
             'created_at'        => [
                 'type'              => 'DATETIME',
