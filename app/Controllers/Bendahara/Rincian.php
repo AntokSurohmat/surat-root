@@ -239,7 +239,7 @@ class Rincian extends ResourcePresenter
                     if ($img->isValid() && ! $img->hasMoved()) {
                         $newName = $img->getRandomName();
                         $img->move('uploads/rincian/'.date('d-m-Y').'/', $newName);
-                        $image[] = $newName;
+                        $image[] = date('d-m-Y').'/'.$newName;
                     } elseif ($img->getName() == NULL) {
                         $newName = '';
                         $image[] = $newName;
@@ -253,7 +253,7 @@ class Rincian extends ResourcePresenter
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
                 'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
                 'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
-                'bukti' => json_encode($image),
+                'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
@@ -399,7 +399,7 @@ class Rincian extends ResourcePresenter
         }else{
 
             $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
-            $olds = json_decode($prop_item['bukti']);
+            // $olds = $prop_item['bukti'];
             // $file = $this->request->getFile('buktiSatuAddEditForm');
             // if($file->isValid() && !$file->hasMoved()){
             //     if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image)){
@@ -410,21 +410,38 @@ class Rincian extends ResourcePresenter
             // }else{
             //     $imageName = $old_image;
             // }
-            // d($olds);print($olds);die();
-
+            // foreach($olds as $old){
+                // d(json_decode($prop_item['bukti']));print(json_decode($prop_item['bukti']));die();
+                // dd(json_decode($prop_item['bukti']));
+            // }
+            // die();
+            // foreach(json_decode($prop_item['bukti']) as $old){
+            //     if(file_exists("uploads/rincian/".$old)){
+            //         // unlink("uploads/rincian/".$old);
+            //         d($old);print($old);die();
+            //     }
+            // }
             $image = array();
             if ($imagefile = $this->request->getFiles()) {
-                foreach($imagefile['buktiAddEditForm'] as $img) {
-                    d($this->request->getFiles('buktiAddEditForm'));print($this->request->getFiles('buktiAddEditForm'));die();
-                    if ($img->isValid() && ! $img->hasMoved()) {
-                        // if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old)){
-                        //     unlink("uploads/rincian/".date('d-m-Y')."/".$old);
-                        // }
+                foreach ($imagefile['buktiAddEditForm'] as $img) {
+                    if ($img->isValid() && !$img->hasMoved()) {
+                        foreach (json_decode($prop_item['bukti']) as $old) {
+                            // d( unlink("uploads/rincian/". $old));print( unlink("uploads/rincian/". $old));die();
+                            if (file_exists("uploads/rincian/".$old)) {
+                                unlink("uploads/rincian/". $old);
+                                // rmdir("uploads/rincian/". $old);
+                                // d("uploads/rincian/" . $old);print("uploads/rincian/" . $old);
+                            }
+                        }
+
+                        // d("OK");print_r("ok");die();
                         $newName = $img->getRandomName();
-                        $img->move('uploads/rincian/'.date('d-m-Y').'/', $newName);
-                        $image[] = $newName;
+                        $img->move('uploads/rincian/' . date('d-m-Y') . '/', $newName);
+                        $image[] = date('d-m-Y') . '/' . $newName;
                     } else {
-                        $newName = 'ok';
+                        foreach (json_decode($prop_item['bukti']) as $old) {
+                            $newName = $old;
+                        }
                         $image[] = $newName;
                     }
                 }
@@ -438,7 +455,7 @@ class Rincian extends ResourcePresenter
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
                 'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
                 'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
-                'bukti' => json_encode($image),
+                'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
