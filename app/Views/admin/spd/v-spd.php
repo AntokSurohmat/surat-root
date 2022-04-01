@@ -774,25 +774,24 @@
                     $('#diperintahslide2ModelView').append(data.diperintah.nama);
                     $('#nipslide2ModelView').append(data.diperintah.nip);
                     for (var urutan in data.json) { //json
-                            // console.log(urutan);
-                            var obj = data.json[urutan];
-                            for (var prop in obj) {
-                                // // your code
-                                // console.log(prop + " = " + obj[prop]);
-                                $('#'+ prop +'slide2ModelView' + urutan).append(obj[prop]);
-
-                                // if(prop = 'tanggalberangkat' && urutan == 'first'){
-                                //     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                                //     var first = new Date(obj['tanggalberangkat']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
-                                //     $('#tanggalberangkatslide2ModelViewfirst').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
-                                // }
-                                // if(prop = 'tanggaltiba' && urutan == 'first'){
-                                //     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                                //     var first = new Date(obj['tanggaltiba']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
-                                //     $('#tanggaltibaslide2ModelViewfirst').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
-                                // }
-                            }
+                        // console.log(urutan);
+                        var obj = data.json[urutan];
+                        for (var prop in obj) {
+                            // // your code
+                            // console.log(prop + " = " + obj[prop]);
+                            $('#'+ prop +'slide2ModelView' + urutan).append(obj[prop]);
+                            // if(prop = 'tanggalberangkat' && urutan == 'first'){
+                            //     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                            //     var first = new Date(obj['tanggalberangkat']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
+                            //     $('#tanggalberangkatslide2ModelViewfirst').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                            // }
+                            // if(prop = 'tanggaltiba' && urutan == 'first'){
+                            //     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                            //     var first = new Date(obj['tanggaltiba']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
+                            //     $('#tanggaltibaslide2ModelViewfirst').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                            // }
                         }
+                    }
                     $('#modal-viewitem').modal('show');
                 }
             })

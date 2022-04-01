@@ -7,6 +7,7 @@ use App\Models\Admin\SpdModel;
 use App\Models\Admin\InstansiModel;
 use App\Models\Admin\SbuhModel;
 use App\Models\Admin\RekeningModel;
+use App\Models\Admin\PegawaiModel;
 use App\Models\Bendahara\KuitansiModel;
 use App\Models\Bendahara\RincianModel;
 use \Hermawan\DataTables\DataTable;
@@ -30,6 +31,7 @@ class Rincian extends ResourcePresenter
         $this->instansi = new InstansiModel();
         $this->sbuh = new SbuhModel();
         $this->rekening = new RekeningModel();
+        $this->pegawai = new PegawaiModel();
         $this->kuitansi = new KuitansiModel();
         $this->rincian = new RincianModel();
         $this->csrfToken = csrf_token();
@@ -294,6 +296,15 @@ class Rincian extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
+            $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
+            $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
+            $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+            $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
+            $data['sum'] = $sum;
+            $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
+            $data['bukti'] = json_decode($data['bukti']);
+            $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
+            // d($data['looping']);print_R($data['looping']);die();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
