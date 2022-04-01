@@ -39,6 +39,71 @@
                     <!-- /.card-header -->
                     <div class="card-body">
 
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="noSpdTable" class="col-sm-4 col-form-label">No SPD </label>
+                                        <div class="col-sm-7">
+                                            <select name="noSpdAddEditForm" id="noSpdTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari No SPD ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="namaPegawaiTable" class="col-sm-4 col-form-label">Nama Pegawai </label>
+                                        <div class="col-sm-7">
+                                            <select name="namaPegawaiAddEditForm" id="namaPegawaiTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari Nama Pegawai ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="awalTable" class="col-sm-4 col-form-label">Tanggal Berangkat </label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat" autocomplete="off"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="akhirTable" class="col-sm-4 col-form-label">Tanggal Kembali </label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali" autocomplete="off"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
+                                        <div class="col-sm-7">
+                                            <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
+                                                <option value="">--- Cari Nama Instansi ---</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer" style="text-align:center;">
+                            <button type="submit" class="btn btn-outline-danger" id="reset"  data-rel="tooltip" data-placement="top" data-container=".content" title="Reset Form"><i class="fas fa-retweet"></i>&ensp;Reset</button>
+                        </div>
+                    <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+
                         <div class="input-group ">
                             <input class="form-control col-sm-12" name="seachSPT" id="seachSPT" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
                             <div class="input-group-append">
@@ -56,10 +121,11 @@
                                     <th style="width: 100px">Nama</th>
                                     <th>Dasar Perjalanan Dinas</th>
                                     <th>Maksud Perjalanan Dinas</th>
+                                    <th>Awal</th>
+                                    <th>Akhir</th>
                                     <th>Pejabat Yang Memberikan Perintah</th>
-                                    <th style="width: 10%;">Aksi</th>
                                     <th>Status</th>
-                                    <th>Keterangan</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

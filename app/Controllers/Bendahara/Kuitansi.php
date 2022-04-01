@@ -59,7 +59,6 @@ class Kuitansi extends ResourcePresenter
     }
 
     public function load_data() {
-
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -96,7 +95,6 @@ class Kuitansi extends ResourcePresenter
             }, 'last')
             ->hide('id')->addNumbering()
             ->toJson();
-
     }
 
     public function getNoSpd() {
