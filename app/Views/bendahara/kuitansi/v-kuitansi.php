@@ -176,7 +176,7 @@
                                                 <table class="table nopadding mt-2">
                                                     <tr>
                                                         <td style="width: 40%;padding-left: 10px;">Tanggal</td>
-                                                        <td id="tglKuitansiModalView">:  </td>
+                                                        <td id="tglKuitansiModalView"></td>
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 40%;padding-left: 10px;">No. BKU</td>
@@ -184,7 +184,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 40%;padding-left: 10px;">Kode Rekening</td>
-                                                        <td id="rekeningKuitansiModalView">:  </td>
+                                                        <td id="rekeningKuitansiModalView"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -397,12 +397,12 @@
                 url: url_destination,type: "POST",
                 data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                     var created = new Date(data.created_at);var curr_date = created.getDate();var curr_month = created.getMonth();var curr_year = created.getFullYear();
-                    $('#tglKuitansiModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
-                    $('#rekeningKuitansiModalView').append(data.kode_rekening);
+                    $('#tglKuitansiModalView').append(': '+ curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    $('#rekeningKuitansiModalView').append(': '+ data.kode_rekening);
                     $('#banyaknyaKuitansiModalView').append(terbilang(data.jumlah_uang));
                     $('#nominalKuitansiModalView').append(data.jumlah_uang);
                     $('#jenisWilayahModalView').append(data.wilayah.jenis_wilayah);

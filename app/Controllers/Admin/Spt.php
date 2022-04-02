@@ -360,7 +360,6 @@ class Spt extends ResourcePresenter
 
         if($this->request->getVar('pegawaiAddEditForm[]') == NULL){
             $valid = $this->validate([
-
                 'pegawaiAddEditForm[]' => [
                     'label' => 'Nama Pegawai',
                     'rules' => 'required',

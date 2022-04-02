@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c556fe82aa75172d7659ebbe8d95c4f",
+    "content-hash": "34a9d219a527e7b662af7c8596654cb5",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -63,6 +63,73 @@
                 "source": "https://github.com/codeigniter4/CodeIgniter4"
             },
             "time": "2022-02-26T00:51:52+00:00"
+        },
+        {
+            "name": "dompdf/dompdf",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/dompdf.git",
+                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/c6dfd9bb8b0040609f04754f729d4cb3016e0575",
+                "reference": "c6dfd9bb8b0040609f04754f729d4cb3016e0575",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-mbstring": "*",
+                "phenx/php-font-lib": "^0.5.4",
+                "phenx/php-svg-lib": "^0.3.3 || ^0.4.0",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "phpunit/phpunit": "^7.5 || ^8 || ^9",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "suggest": {
+                "ext-gd": "Needed to process images",
+                "ext-gmagick": "Improves image processing performance",
+                "ext-imagick": "Improves image processing performance",
+                "ext-zlib": "Needed for pdf stream compression"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dompdf\\": "src/"
+                },
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                },
+                {
+                    "name": "Brian Sweeney",
+                    "email": "eclecticgeek@gmail.com"
+                },
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com"
+                }
+            ],
+            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
+            "homepage": "https://github.com/dompdf/dompdf",
+            "support": {
+                "issues": "https://github.com/dompdf/dompdf/issues",
+                "source": "https://github.com/dompdf/dompdf/tree/v1.2.1"
+            },
+            "time": "2022-03-24T12:57:42+00:00"
         },
         {
             "name": "greenlion/php-sql-parser",
@@ -294,6 +361,160 @@
             "time": "2022-03-08T20:15:36+00:00"
         },
         {
+            "name": "nasution/terbilang",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mul14/terbilang-php.git",
+                "reference": "bd6b8153575b22fe21627f1475d68f0f372173ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mul14/terbilang-php/zipball/bd6b8153575b22fe21627f1475d68f0f372173ef",
+                "reference": "bd6b8153575b22fe21627f1475d68f0f372173ef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3.3"
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7",
+                "phpunit/phpunit": "4.8.34"
+            },
+            "type": "library",
+            "extra": {
+                "composer-exit-on-patch-failure": true,
+                "patches": {
+                    "phpunit/phpunit-mock-objects": {
+                        "Fix PHP 7 and 8 compatibility": "https://cdn.jsdelivr.net/gh/esyede/phpunit-patches/phpunit_mock_objects.patch"
+                    },
+                    "phpunit/phpunit": {
+                        "Fix PHP 7 compatibility": "https://cdn.jsdelivr.net/gh/esyede/phpunit-patches/phpunit_php7.patch",
+                        "Fix PHP 8 compatibility": "https://cdn.jsdelivr.net/gh/esyede/phpunit-patches/phpunit_php8.patch"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/terbilang.php"
+                ],
+                "psr-4": {
+                    "Nasution\\": "src/Nasution"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "WTFPL"
+            ],
+            "authors": [
+                {
+                    "name": "Mulia Arifandi Nasution",
+                    "email": "mul14.net@gmail.com"
+                }
+            ],
+            "description": "Convert numbers into words (and vice-versa) in Indonesian language",
+            "homepage": "https://github.com/mul14/terbilang-php",
+            "keywords": [
+                "indonesia",
+                "terbilang"
+            ],
+            "support": {
+                "issues": "https://github.com/mul14/terbilang-php/issues",
+                "source": "https://github.com/mul14/terbilang-php/tree/v0.1.0"
+            },
+            "time": "2022-03-25T11:41:11+00:00"
+        },
+        {
+            "name": "phenx/php-font-lib",
+            "version": "0.5.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/php-font-lib.git",
+                "reference": "dd448ad1ce34c63d09baccd05415e361300c35b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/php-font-lib/zipball/dd448ad1ce34c63d09baccd05415e361300c35b4",
+                "reference": "dd448ad1ce34c63d09baccd05415e361300c35b4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3 || ^4 || ^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FontLib\\": "src/FontLib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse, export and make subsets of different types of font files.",
+            "homepage": "https://github.com/PhenX/php-font-lib",
+            "support": {
+                "issues": "https://github.com/dompdf/php-font-lib/issues",
+                "source": "https://github.com/dompdf/php-font-lib/tree/0.5.4"
+            },
+            "time": "2021-12-17T19:44:54+00:00"
+        },
+        {
+            "name": "phenx/php-svg-lib",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dompdf/php-svg-lib.git",
+                "reference": "4498b5df7b08e8469f0f8279651ea5de9626ed02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dompdf/php-svg-lib/zipball/4498b5df7b08e8469f0f8279651ea5de9626ed02",
+                "reference": "4498b5df7b08e8469f0f8279651ea5de9626ed02",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.1 || ^7.2 || ^7.3 || ^7.4 || ^8.0",
+                "sabberworm/php-css-parser": "^8.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Svg\\": "src/Svg"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Ménager",
+                    "email": "fabien.menager@gmail.com"
+                }
+            ],
+            "description": "A library to read, parse and export to PDF SVG files.",
+            "homepage": "https://github.com/PhenX/php-svg-lib",
+            "support": {
+                "issues": "https://github.com/dompdf/php-svg-lib/issues",
+                "source": "https://github.com/dompdf/php-svg-lib/tree/0.4.1"
+            },
+            "time": "2022-03-07T12:52:04+00:00"
+        },
+        {
             "name": "psr/log",
             "version": "1.1.4",
             "source": {
@@ -344,76 +565,57 @@
             "time": "2021-05-03T11:20:27+00:00"
         },
         {
-            "name": "tecnickcom/tcpdf",
-            "version": "6.4.4",
+            "name": "sabberworm/php-css-parser",
+            "version": "8.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "42cd0f9786af7e5db4fcedaa66f717b0d0032320"
+                "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/42cd0f9786af7e5db4fcedaa66f717b0d0032320",
-                "reference": "42cd0f9786af7e5db4fcedaa66f717b0d0032320",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/e41d2140031d533348b2192a83f02d8dd8a71d30",
+                "reference": "e41d2140031d533348b2192a83f02d8dd8a71d30",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "ext-iconv": "*",
+                "php": ">=5.6.20"
+            },
+            "require-dev": {
+                "codacy/coverage": "^1.4",
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "suggest": {
+                "ext-mbstring": "for parsing UTF-8 CSS"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "config",
-                    "include",
-                    "tcpdf.php",
-                    "tcpdf_parser.php",
-                    "tcpdf_import.php",
-                    "tcpdf_barcodes_1d.php",
-                    "tcpdf_barcodes_2d.php",
-                    "include/tcpdf_colors.php",
-                    "include/tcpdf_filters.php",
-                    "include/tcpdf_font_data.php",
-                    "include/tcpdf_fonts.php",
-                    "include/tcpdf_images.php",
-                    "include/tcpdf_static.php",
-                    "include/barcodes/datamatrix.php",
-                    "include/barcodes/pdf417.php",
-                    "include/barcodes/qrcode.php"
-                ]
+                "psr-4": {
+                    "Sabberworm\\CSS\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-3.0-only"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Nicola Asuni",
-                    "email": "info@tecnick.com",
-                    "role": "lead"
+                    "name": "Raphael Schweikert"
                 }
             ],
-            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
-            "homepage": "http://www.tcpdf.org/",
+            "description": "Parser for CSS Files written in PHP",
+            "homepage": "https://www.sabberworm.com/blog/2010/6/10/php-css-parser",
             "keywords": [
-                "PDFD32000-2008",
-                "TCPDF",
-                "barcodes",
-                "datamatrix",
-                "pdf",
-                "pdf417",
-                "qrcode"
+                "css",
+                "parser",
+                "stylesheet"
             ],
             "support": {
-                "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.4.4"
+                "issues": "https://github.com/sabberworm/PHP-CSS-Parser/issues",
+                "source": "https://github.com/sabberworm/PHP-CSS-Parser/tree/8.4.0"
             },
-            "funding": [
-                {
-                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&currency_code=GBP&business=paypal@tecnick.com&item_name=donation%20for%20tcpdf%20project",
-                    "type": "custom"
-                }
-            ],
-            "time": "2021-12-31T08:39:24+00:00"
+            "time": "2021-12-11T13:40:54+00:00"
         }
     ],
     "packages-dev": [

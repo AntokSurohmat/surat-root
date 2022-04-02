@@ -13,7 +13,8 @@ use App\Models\Admin\RekeningModel;
 use App\Models\Admin\JenisWilayahModel;
 use App\Models\Bendahara\KuitansiModel;
 use \Hermawan\DataTables\DataTable;
-use App\Libraries\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
 
 /**
@@ -90,7 +91,7 @@ class Kuitansi extends ResourcePresenter
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
                 $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Kuitansi/generate" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Kuitansi/print/'. $row->id .'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 return $button;
             }, 'last')
             ->hide('id')->addNumbering()
@@ -99,19 +100,14 @@ class Kuitansi extends ResourcePresenter
 
     public function getNoSpd() {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spd->select('id,kode') // Fetch record
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
                 ->like('kode', $this->request->getPost('searchTerm'))
@@ -127,17 +123,15 @@ class Kuitansi extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
     public function getPegawaiNoSpd(){
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        // d($this->request->getPost('spd'));print_r($this->request->getPost('spd'));die();
         $response = array();
         $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getPost('spd'))->first();
 
@@ -178,20 +172,15 @@ class Kuitansi extends ResourcePresenter
     }
     public function getPelaksana() {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('nip !=', $this->request->getPost('bendahara'))
                 ->orderBy('nama')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('nip !=', $this->request->getPost('bendahara'))
@@ -208,26 +197,20 @@ class Kuitansi extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
     public function getNoSpdTable() {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spd->select('id,kode') // Fetch record
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
                 ->like('kode', $this->request->getPost('searchTerm'))
@@ -243,26 +226,20 @@ class Kuitansi extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
     public function getPegawaiTable() {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->orderBy('nama')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->like('nama', $this->request->getPost('searchTerm'))
@@ -278,26 +255,20 @@ class Kuitansi extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
     public function getInstansiTable() {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
                 ->orderBy('nama_instansi')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
@@ -313,7 +284,6 @@ class Kuitansi extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -357,7 +327,7 @@ class Kuitansi extends ResourcePresenter
     public function create()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -514,8 +484,6 @@ class Kuitansi extends ResourcePresenter
                 'bendahara' => $this->session->get('nip'),
             ];
 
-            // d($data);print_r($data);die();
-
             if ($this->kuitansi->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/kuitansi'));
             } else {
@@ -529,6 +497,11 @@ class Kuitansi extends ResourcePresenter
     }
 
     function single_data() {
+
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
         if ($this->request->getVar('id')) {
             $data = $this->kuitansi->where('id', $this->request->getVar('id'))->first();
 
@@ -542,6 +515,10 @@ class Kuitansi extends ResourcePresenter
     }
 
     function view_data() {
+
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->kuitansi->where('id', $this->request->getVar('id'))->first();
@@ -572,7 +549,6 @@ class Kuitansi extends ResourcePresenter
     public function edit($id = null)
     {
         if (!$id) {
-            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
@@ -597,7 +573,7 @@ class Kuitansi extends ResourcePresenter
     public function update($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -789,7 +765,7 @@ class Kuitansi extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {
@@ -806,54 +782,47 @@ class Kuitansi extends ResourcePresenter
         echo json_encode($data);
     }
 
-    public function generate(){
+    public function print($id = null){
 
-        // create new PDF document
-        $pdf = new Pdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Our Code World');
-        $pdf->SetTitle('Example Write Html');
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
-        // set default header data
-        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+        $data = $this->kuitansi->where('id',$id)->first();
 
-        // set header and footer fonts
-        $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $data['instansi'] = $this->instansi->select(['kode', 'nama_instansi'])->where('kode', $data['kode_instansi'])->first();
+        $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
 
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $wilayah = $this->rekening->select('kode_jenis_wilayah')->where('kode', $data['kode_rekening'])->first();
+        $data['wilayah'] = $this->wilayah->where('kode', $wilayah['kode_jenis_wilayah'])->first();
 
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+        $data['pejabat'] = $this->pegawai->select(['nip', 'nama'])->where('nip', $data['pejabat'])->first();
+        $data['bendahara'] = $this->pegawai->select(['nip', 'nama'])->where('nip', $data['bendahara'])->first();
+        $data['kepala'] = $this->pegawai->select(['nip', 'nama', 'kode_jabatan'])->where('nip', $data['yang_menyetujui'])->first();
+        $data['jabatan'] = $this->jabatan->where('kode', $data['kepala']['kode_jabatan'])->first();
 
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        // d($data);print_r($data);die();
 
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $filename = 'Spd_No_'.$data['kode_spd'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
 
-        // add a page
-        $pdf->AddPage();
+        // load HTML content
+        $dompdf->loadHtml(view('bendahara/kuitansi/p-kuitansi', $data));
 
-        $html = '<h4>PDF Example</h4><br><p>Welcome to the Jungle</p>';
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
 
-        $pdf->writeHTML($html, true, false, true, false, '');
-        // add a page
-        $pdf->AddPage();
+        // render html as PDF
+        $dompdf->render();
 
-        $html = '<h1>Hey</h1>';
-        // output the HTML content
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        // reset pointer to the last page
-        $pdf->lastPage();
-        $this->response->setContentType('application/pdf');
-        //Close and output PDF document
-        $pdf->Output('example_006.pdf', 'I');
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
     }
 }

@@ -105,11 +105,11 @@
                                                     <table class="table nopadding mt-2">
                                                         <tr>
                                                             <td style="width: 30%;padding-left: 10px;">Lampiran SPD Nomor</td>
-                                                            <td id="lampiranSpdNomor">: </td>
+                                                            <td id="lampiranSpdNomor"></td>
                                                         </tr>
                                                         <tr>
                                                             <td style="width: 30%;padding-left: 10px;">Tanggal</td>
-                                                            <td id="tanggalBepergian">: </td>
+                                                            <td id="tanggalBepergian"></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -311,11 +311,11 @@
                 success: function(data) {
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#lampiranSpdNomor').append(data.kode_spd);
+                    $('#lampiranSpdNomor').append(': '+data.kode_spd);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                     var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
                     var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
-                    $('#tanggalBepergian').append(awal_curr_date + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ akhir_curr_date + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
+                    $('#tanggalBepergian').append(': '+awal_curr_date + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ akhir_curr_date + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
                     $('#indexDataTableRincianModalView1').append("1");
                     $('#jumlahDataTableRincianModalView1').append('Rp. '+ numberWithDot(data.jumlah_uang)+ ' ,-');
                     $('#rincianDataTableRincianModalView1').append(data.rincian_sbuh);

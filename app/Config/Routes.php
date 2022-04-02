@@ -55,7 +55,7 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
 $routes->group('bendahara', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Bendahara\Dashboard::index',);
     $routes->presenter('Kuitansi', ['except' => 'show,remove']);
-    $routes->get('generate', 'Bendahara\Kuitansi::generate');
+    $routes->get('print/(:num)', 'Bendahara\Kuitansi::print');
     $routes->presenter('Rincian', ['except' => 'show,remove']);
 });
 $routes->group('kepala', ["filter" => "auth"], function ($routes) {

@@ -226,9 +226,9 @@ class Rincian extends ResourcePresenter
                     'noSpd' => $validation->getError('noSpdAddEditForm'),
                     'rincianBiayaSpd' => $validation->getError('rincianBiayaSpdAddEditForm'),
                     'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdAddEditForm'),
-                    // 'rincianBiayaSatu' => $validation->getError('rincianBiayaAddEditForm[]'),
-                    // 'jumlahSatu' => $validation->getError('jumlahAddEditForm[]'),
-                    // 'buktiSatu' => $validation->getError('buktiAddEditForm[]'),
+                    'rincianBiayaSatu' => $validation->getError('rincianBiayaAddEditForm[]'),
+                    'jumlahSatu' => $validation->getError('jumlahAddEditForm[]'),
+                    'buktiSatu' => $validation->getError('buktiAddEditForm[]'),
                 ],
                 'msg' => '',
             ];
@@ -253,8 +253,8 @@ class Rincian extends ResourcePresenter
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
-                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
+                'rincian_biaya' => json_encode(!empty($this->request->getVar('rincianBiayaAddEditForm')) ? ["0"] : $this->request->getVar('rincianBiayaAddEditForm')),
+                'jumlah_biaya' => json_encode(!empty($this->request->getVar('jumlahAddEditForm')) ? ["0"] : $this->request->getVar('jumlahAddEditForm')),
                 'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
@@ -280,6 +280,9 @@ class Rincian extends ResourcePresenter
 
     function single_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
@@ -294,6 +297,10 @@ class Rincian extends ResourcePresenter
 
     function view_data() {
 
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
             $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
@@ -304,7 +311,7 @@ class Rincian extends ResourcePresenter
             $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
             $data['bukti'] = json_decode($data['bukti']);
             $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
-            
+
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -509,7 +516,7 @@ class Rincian extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {
