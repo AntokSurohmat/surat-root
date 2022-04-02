@@ -11,7 +11,7 @@ use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\SptModel;
 use \Hermawan\DataTables\DataTable;
 use CodeIgniter\HTTP\IncomingRequest;
-
+use PHPUnit\Util\Json;
 
 /**
  * @property IncomingRequest $request
@@ -19,7 +19,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Spt extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url', 'text'];
+    protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
         if (session()->get('level') != "Admin") {
@@ -52,28 +52,29 @@ class Spt extends ResourcePresenter
         return view('admin/spt/v-spt', $data);
     }
 
-    
     public function load_data() {
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $builder = $this->db->table('spt')
-                  ->select('spt.id, kode, pegawai_all, dasar, untuk, instansi.nama_instansi, awal, akhir, pegawai.nama, status')
+                  ->select('spt.id, spt.kode, pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
                   ->join('pegawai', 'pegawai.nip = spt.pejabat')
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-            ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
+            ->format('pegawai_all', function($value){
+                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
+                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+            })
             ->filter(function ($builder, $request) {
-                if ($request->noSpd)
-                    $builder->where('kode_spd', $request->noSpd);
+                if ($request->noSpt)
+                    $builder->where('spt.kode', $request->noSpt);
                 if ($request->pegawai)
-                    $builder->where('nama', $request->pegawai);
+                    $builder->like('pegawai_all', $request->pegawai);
                 if($request->awal)
                     $builder->where('awal', date("Y-m-d", strtotime(str_replace('/', '-',$request->awal))));
                 if($request->akhir)
@@ -82,73 +83,114 @@ class Spt extends ResourcePresenter
                     $builder->where('instansi.nama_instansi', $request->instansi);
             })
             ->add(null, function($row){
-                $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
-                $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Kuitansi/generate" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                if($row->status == 'Disetujui'){
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+                }else{
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                    $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spt/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+                }
                 return $button;
             }, 'last')
-            ->hide('id')->addNumbering()
+            ->hide('id')
+            ->addNumbering()
             ->toJson();
     }
+    public function getNoSptTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
-    // function load_data() {
-    //     if (!$this->request->isAJAX()) {
-    //         exit('No direct script is allowed');
-    //     }
-    //     $pegawai = $this->db->table('pegawai')->get();
-    //     $list = $this->spt->get_datatables();
-    //     $count_all = $this->spt->count_all();
-    //     $count_filter = $this->spt->count_filter();
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $spdlist = $this->spt->select('id,kode') // Fetch record
+                ->orderBy('kode')
+                ->findAll(10);
 
-    //     // d($list);print_r($list);die();
-    //     $data = array();
-    //     $no = $this->request->getPost('start');
-    //     foreach ($list as $key) {
-    //         $no++;
-    //         $row = array();
-    //         $row[] = $no;
-    //         $row[] = $key->kodes;
-    //         $row[] = $key->pegawai_all;
-    //         $row[] = $key->dasar;
-    //         $row[] = $key->untuk;
-    //         foreach ($pegawai->getResult() as $pega ) {
-	// 			if ($pega->nip == $key->pejabat) {
-	// 				$row[] =  $pega->nama;
-	// 			}
-	// 		};
-            
-    //         if($key->status == 'Disetujui'){
-    //             $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-    //             $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
-    //             $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-    //         }else{
-    //             $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-    //             $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spt/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>';
-    //             $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-    //         }
+        } else {
+            $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->like('kode', $this->request->getPost('searchTerm'))
+                ->orderBy('kode')
+                ->findAll(10);
+        }
 
-    //         $row[] = $button;
-    //         $row[] = $key->status;
-    //         $row[] = $key->keterangan;
-    //         $data[] = $row;
-    //     }
+        $data = array();
+        foreach ($spdlist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['kode'],
+                "text" => $pegawai['kode'],
+            );
+        }
 
-    //     $output = array(
-    //         "draw" => $this->request->getPost('draw'),
-    //         "recordsTotal" => $count_all->total,
-    //         "recordsFiltered" => $count_filter->total,
-    //         "data" => $data
-    //     );
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getPegawaiTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
-    //     $output[$this->csrfToken] = $this->csrfHash;
-    //     echo json_encode($output);
-    // }
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->orderBy('nama')
+                ->findAll(10);
+        } else {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->like('nama', $this->request->getPost('searchTerm'))
+                ->orderBy('nama')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($pegawailist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['nip'],
+                "text" => $pegawai['nama'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getInstansiTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->orderBy('nama_instansi')
+                ->findAll(10);;
+        } else {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->like('nama_instansi', $this->request->getPost('searchTerm'))
+                ->orderBy('nama_instansi')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($instansilist as $instansi) {
+            $data[] = array(
+                "id" => $instansi['nama_instansi'],
+                "text" => $instansi['nama_instansi'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
 
     public function getPegawai()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -186,7 +228,7 @@ class Spt extends ResourcePresenter
     public function getInstansi()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -239,7 +281,7 @@ class Spt extends ResourcePresenter
     public function getDiperintah()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -311,7 +353,7 @@ class Spt extends ResourcePresenter
     public function create()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -519,7 +561,7 @@ class Spt extends ResourcePresenter
     public function update($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         
         $validation = \Config\Services::validation();
@@ -664,7 +706,7 @@ class Spt extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {

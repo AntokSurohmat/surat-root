@@ -37,14 +37,71 @@
                     <!-- /.card-header -->
                     <div class="card-body">
 
-                        <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachVerifi" id="seachVerifi" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="noSptTable" class="col-sm-4 col-form-label">No SPT </label>
+                                            <div class="col-sm-7">
+                                                <select name="noSpdAddEditForm" id="noSptTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari No SPT ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="namaPegawaiTable" class="col-sm-4 col-form-label">Nama Pegawai </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaPegawaiAddEditForm" id="namaPegawaiTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Pegawai ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="awalTable" class="col-sm-4 col-form-label">Tanggal Berangkat </label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat" autocomplete="off"/>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="akhirTable" class="col-sm-4 col-form-label">Tanggal Kembali </label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali" autocomplete="off"/>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Instansi ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer" style="text-align:center;">
+                                <button type="submit" class="btn btn-outline-danger" id="reset"  data-rel="tooltip" data-placement="top" data-container=".content" title="Reset Form"><i class="fas fa-retweet"></i>&ensp;Reset</button>
+                            </div>
+                        <!-- /.card-footer -->
                         </div>
+                        <!-- /.card -->
+
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="veri_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
@@ -52,12 +109,13 @@
                                     <th>No</th>
                                     <th>No SPT</th>
                                     <th>Nama Pegawai</th>
-                                    <th>Dasar Perjalanan Dinas</th>
-                                    <th>Maksud Perjalanan Dinas</th>
-                                    <th>Pejabat Yang Memberikan Perintah</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Instansi</th>
+                                    <th>Awal</th>
+                                    <th>Akhir</th>
+                                    <th style="width: 10%;">Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,36 +200,6 @@
                                                             <td style="width:15%;">Kepada</td>
                                                             <td style="width:1%;">:</td>
                                                             <td id="namaPegawaiModalViewTableLooping">
-                                                                <!-- <table class="table table-bordered table-striped">
-                                                                    <tbody>
-
-                                                                        <tr>
-                                                                            <td style="width:2%;">1</td>
-                                                                            <td style="width:15%;">Nama</td>
-                                                                            <td style="width:1%;">:</td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">Pangkat Golongan</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>Pangkat Golongan</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">NIP</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>NIP</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td style="width:2%;"></td>
-                                                                            <td style="width:15%;">Jabatan</td>
-                                                                            <td style="width: 1%;">:</td>
-                                                                            <td>Jabatan</td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table> -->
-
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -294,7 +322,57 @@
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        /*-- DataTable To Load Data Mahasiswa --*/
+        var url_destination = '<?= base_url('Kepala/Verifikasi/getNoSptTable') ?>';
+        $("#noSptTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari No SPT ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Kepala/Verifikasi/getPegawaiTable') ?>';
+        $("#namaPegawaiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Pegawai ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Kepala/Verifikasi/getInstansiTable') ?>';
+        $("#namaInstansiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Instansi ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+
+        /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Kepala/Verifikasi/load_data') ?>";
         var veri = $('#veri_data').DataTable({
             "sDom": 'lrtip',
@@ -304,50 +382,49 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": url_destination,"type": 'POST',
-                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
-                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
-                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
+                "url": url_destination,
+                data: function (d) {
+                    d.noSpt = $('#noSptTable').val();d.pegawai = $('#namaPegawaiTable').val();
+                    d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();d.instansi = $('#namaInstansiTable').val();
+                },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{"targets":[0],"orderable":false},{"targets":[6],"orderable":false,"class":"text-center"},{"targets":[7],"class":"text-center"}],
+            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
         });
+        $('#noSptTable').change(function(event) {veri.ajax.reload();});
+        $('#namaPegawaiTable').change(function(event) {veri.ajax.reload();});
+        $('#awalTable').on('apply.daterangepicker', function(ev) {veri.ajax.reload();});
+        $('#akhirTable').on('apply.daterangepicker', function(ev) {veri.ajax.reload();});
+        $('#namaInstansiTable').change(function(event) {veri.ajax.reload();});
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#seachVerifi').keyup(function() {
-            veri.search($(this).val()).draw();
+        $("#reset").on('click', function() {
+            $("#noSptTable").val('').trigger('change');$("#namaPegawaiTable").val('').trigger('change');
+            document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";
+            $("#namaInstansiTable").val('').trigger('change');veri.ajax.reload();
         });
-        $("#refresh").on('click', function() {
-            document.getElementById("seachVerifi").value = "";
-            veri.search("").draw();
+        /*-- /. DataTable To Load Data Wilayah --*/
+
+        $('#modal-viewitem').on('hidden.bs.modal', function() {
+            $('#no_sptModalView').empty();$('#dasarModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#untukModalView').empty();
+            $('#createdatModalView').empty();$('#diperintahModalView').empty();$('#diperintahNIPModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
         });
-        /*-- /. DataTable To Load Data Mahasiswa --*/
 
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');

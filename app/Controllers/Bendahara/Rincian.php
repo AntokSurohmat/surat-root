@@ -300,12 +300,11 @@ class Rincian extends ResourcePresenter
             $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
             $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
             $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
-            $data['sum'] = $sum;
+            $sum = $sum + $data['jumlah_uang'];$data['sum'] = $sum;
             $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
             $data['bukti'] = json_decode($data['bukti']);
             $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
-            // d($data['looping']);print_R($data['looping']);die();
-
+            
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }

@@ -43,7 +43,7 @@ class Rekening extends BaseController
     {
 
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $jenis = $this->db->table('jenis_wilayah')->get();
@@ -84,7 +84,7 @@ class Rekening extends BaseController
 
     function generator(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $data['kode'] = random_string('numeric');
         $data[$this->csrfToken] = $this->csrfHash;
@@ -94,7 +94,7 @@ class Rekening extends BaseController
     public function getJenis()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -131,7 +131,7 @@ class Rekening extends BaseController
     function single_data()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {
@@ -146,7 +146,7 @@ class Rekening extends BaseController
     function save()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -265,7 +265,7 @@ class Rekening extends BaseController
 
     function delete(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')){

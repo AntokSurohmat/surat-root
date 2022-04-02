@@ -31,7 +31,7 @@ class Jabatan extends BaseController
 
     function load_data(){
         if(!$this->request->isAJAX()){
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $list = $this->jabatan->get_datatables();
@@ -66,7 +66,7 @@ class Jabatan extends BaseController
 
     function single_data() {
         if(!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         if($this->request->getVar('id')) {
             $data = $this->jabatan->where('id', $this->request->getVar('id'))->first();
@@ -78,7 +78,7 @@ class Jabatan extends BaseController
 
     function generator(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $data['kode'] = random_string('numeric');
         $data[$this->csrfToken] = $this->csrfHash;
@@ -88,7 +88,7 @@ class Jabatan extends BaseController
     function save()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -185,7 +185,7 @@ class Jabatan extends BaseController
 
     function delete(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')){

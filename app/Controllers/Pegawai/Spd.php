@@ -11,7 +11,7 @@ use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\WilayahModel;
 use App\Models\Admin\RekeningModel;
 use App\Models\Pegawai\SpdModel;
-
+use \Hermawan\DataTables\DataTable;
 use CodeIgniter\HTTP\IncomingRequest;
 
 
@@ -21,7 +21,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Spd extends BaseController
 {
-    protected $helpers = ['form', 'url', 'text'];
+    protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
 
@@ -55,54 +55,224 @@ class Spd extends BaseController
         );
         return view('pegawai/spd/v-spd', $data);
     }
-    function load_data() {
+
+    public function load_data() {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pegawai = $this->db->table('pegawai')->get();
-        $list = $this->spd->get_datatables();
-        $count_all = $this->spd->count_all();
-        $count_filter = $this->spd->count_filter();
 
-        // d($list);print_r($list);die();
-        $data = array();
-        $no = $this->request->getPost('start');
-        foreach ($list as $key) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $key->kodes;
-            foreach ($pegawai->getResult() as $pega ) {
-                if ($pega->nip == $key->diperintah) {
-                    $row[] =  $pega->nama;
+        $builder = $this->db->table('spd')
+                  ->select('spd.id, spd.kode, pegawai_diperintah, pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status')
+                  ->join('pegawai', 'pegawai.nip = spd.pejabat')
+                  ->join('instansi', 'instansi.kode = spd.kode_instansi');
+
+        return DataTable::of($builder)
+            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
+            ->format('pegawai_diperintah', function($value){
+                $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();return $pegawai['nama'];
+            })
+            ->format('pegawai_all', function($value){                
+                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
+                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+            })
+            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
+            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
+            ->format('status', function($value){if($value == 'false'){$status = 'SPD Belum Dibuat';}else{$status = 'SPD Sudah Dibuat';}return $status;})
+            ->filter(function ($builder, $request) {
+                if ($request->noSpd)
+                    $builder->where('spd.kode', $request->noSpd);
+                if ($request->pegawai)
+                    $builder->where('pegawai_diperintah', $request->pegawai);
+                if ($request->pengikut)
+                    $builder->like('pegawai_all', $request->pengikut);
+                if($request->awal)
+                    $builder->where('awal', date("Y-m-d", strtotime(str_replace('/', '-',$request->awal))));
+                if($request->akhir)
+                    $builder->where('akhir', date("Y-m-d", strtotime(str_replace('/', '-',$request->akhir))));
+                if ($request->instansi)
+                    $builder->where('instansi.nama_instansi', $request->instansi);
+            })
+            ->add(null, function($row){
+                if($row->status == 'false'){
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                }else{
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                    $button .='<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>';
                 }
-            };
-            $row[] = $key->nama_pegawai;
-            $row[] = $key->untuk;
-            $row[] = $key->jenis_kendaraan;
-            $row[] = $key->keterangan;
-
-            $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-            $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
-            $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>' : '' ;
-
-            $row[] = $button;
-            if($key->status == 'false'){$status = 'SPD Belum Dibuat';
-            }else{$status = 'SPD Sudah Dibuat';}
-            $row[] = $status;
-
-            $data[] = $row;
+                return $button;
+            }, 'last')
+            ->hide('id')
+            ->addNumbering()
+            ->toJson();
+    }
+    public function getNoSpdTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $output = array(
-            "draw" => $this->request->getPost('draw'),
-            "recordsTotal" => $count_all->total,
-            "recordsFiltered" => $count_filter->total,
-            "data" => $data
-        );
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->orderBy('kode')
+                ->findAll(10);
 
-        $output[$this->csrfToken] = $this->csrfHash;
-        echo json_encode($output);
+        } else {
+            $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->like('kode', $this->request->getPost('searchTerm'))
+                ->orderBy('kode')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($spdlist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['kode'],
+                "text" => $pegawai['kode'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getPegawaiTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->orderBy('nama')
+                ->findAll(10);
+        } else {
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->like('nama', $this->request->getPost('searchTerm'))
+                ->orderBy('nama')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($pegawailist as $pegawai) {
+            $data[] = array(
+                "id" => $pegawai['nip'],
+                "text" => $pegawai['nama'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+    public function getInstansiTable() {
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->orderBy('nama_instansi')
+                ->findAll(10);;
+        } else {
+            $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->like('nama_instansi', $this->request->getPost('searchTerm'))
+                ->orderBy('nama_instansi')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($instansilist as $instansi) {
+            $data[] = array(
+                "id" => $instansi['nama_instansi'],
+                "text" => $instansi['nama_instansi'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+
+    // function load_data() {
+    //     if (!$this->request->isAJAX()) {
+    //         exit('No direct script is allowed');
+    //     }
+    //     $pegawai = $this->db->table('pegawai')->get();
+    //     $list = $this->spd->get_datatables();
+    //     $count_all = $this->spd->count_all();
+    //     $count_filter = $this->spd->count_filter();
+
+    //     // d($list);print_r($list);die();
+    //     $data = array();
+    //     $no = $this->request->getPost('start');
+    //     foreach ($list as $key) {
+    //         $no++;
+    //         $row = array();
+    //         $row[] = $no;
+    //         $row[] = $key->kodes;
+    //         foreach ($pegawai->getResult() as $pega ) {
+    //             if ($pega->nip == $key->diperintah) {
+    //                 $row[] =  $pega->nama;
+    //             }
+    //         };
+    //         $row[] = $key->nama_pegawai;
+    //         $row[] = $key->untuk;
+    //         $row[] = $key->jenis_kendaraan;
+    //         $row[] = $key->keterangan;
+
+    //         $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $key->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+    //         $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>' : '' ;
+    //         $button .= $key->status == 'true' ? '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>' : '' ;
+
+    //         $row[] = $button;
+    //         if($key->status == 'false'){$status = 'SPD Belum Dibuat';
+    //         }else{$status = 'SPD Sudah Dibuat';}
+    //         $row[] = $status;
+
+    //         $data[] = $row;
+    //     }
+
+    //     $output = array(
+    //         "draw" => $this->request->getPost('draw'),
+    //         "recordsTotal" => $count_all->total,
+    //         "recordsFiltered" => $count_filter->total,
+    //         "data" => $data
+    //     );
+
+    //     $output[$this->csrfToken] = $this->csrfHash;
+    //     echo json_encode($output);
+    // }
+
+    function view_data() {
+
+        if ($this->request->getVar('id')) {
+            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+
+            $data['pegawai'] = $query->getResult();
+
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+
+            $data['looping'] = $query->getResult();
+            $data['json'] = json_decode($data['detail'], true);
+            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+
+            $data[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($data);
+        }
     }
 
 }

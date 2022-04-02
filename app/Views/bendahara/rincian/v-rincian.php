@@ -89,9 +89,9 @@
                                         <div class="p-3 mb-3">
                                             <div class="invoice-info">
                                                 <div class="col-sm-12 invoice-col">
-                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800" class="mb-0 mr-5">RINCIAN BIAYA PERJALANAN DINAS</p>
-                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class="mb-0 mr-5">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
-                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;" class="mb-3 mr-5">KABUPATEN CIREBON</p>
+                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800" class="mb-0">RINCIAN BIAYA PERJALANAN DINAS</p>
+                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class="mb-0">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
+                                                    <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;" class="mb-3">KABUPATEN CIREBON</p>
                                                     <hr class="s5 mb-3 mt-0">
                                                 </div>
                                             </div>
@@ -104,11 +104,11 @@
                                                 <div class="col-sm-12 invoice-col">
                                                     <table class="table nopadding mt-2">
                                                         <tr>
-                                                            <td style="width: 40%;padding-left: 10px;">Lampiran SPD Nomor</td>
+                                                            <td style="width: 30%;padding-left: 10px;">Lampiran SPD Nomor</td>
                                                             <td id="lampiranSpdNomor">: </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="width: 40%;padding-left: 10px;">Tanggal</td>
+                                                            <td style="width: 30%;padding-left: 10px;">Tanggal</td>
                                                             <td id="tanggalBepergian">: </td>
                                                         </tr>
                                                     </table>
@@ -161,12 +161,12 @@
                                                                 <td id="jumlahDataTableRincianModalView5"></td>
                                                                 <td id="keteranganDataTableRincianModalView5"></td>
                                                             </tr>
-                                                            <!-- <tr>
-                                                                <td id="indexDataTableRincianModalView6"></td>
+                                                            <tr>
+                                                                <td id="indexDataTableRincianModalView6" class="text-center"></td>
                                                                 <td id="rincianDataTableRincianModalView6"></td>
                                                                 <td id="jumlahDataTableRincianModalView6"></td>
                                                                 <td id="keteranganDataTableRincianModalView6"></td>
-                                                            </tr> -->
+                                                            </tr>
                                                             <tr>
                                                                 <td style="padding-left:10px;font-weight:800;">TOTAL</td>
                                                                 <td colspan="3" id="totalTableRincianModalView">: </td>
@@ -284,8 +284,19 @@
 
         $('#modal-viewitem').on('hidden.bs.modal', function() {
             $('#lampiranSpdNomor').empty();$('#tanggalBepergian').empty();
-            $('#indexDataTableRincianModalView').empty();$('#jumlahDataTableRincianModalView').empty();
-            $('#rincianDataTableRincianModalView').empty();$('#keteranganDataTableRincianModalView').empty();$('#totalTableRincianModalView').empty();
+            $('#indexDataTableRincianModalView1').empty();$('#jumlahDataTableRincianModalView1').empty();
+            $('#rincianDataTableRincianModalView1').empty();$('#keteranganDataTableRincianModalView1').empty();
+            $('#indexDataTableRincianModalView2').empty();$('#jumlahDataTableRincianModalView2').empty();
+            $('#rincianDataTableRincianModalView2').empty();$('#keteranganDataTableRincianModalView2').empty();
+            $('#indexDataTableRincianModalView3').empty();$('#jumlahDataTableRincianModalView3').empty();
+            $('#rincianDataTableRincianModalView3').empty();$('#keteranganDataTableRincianModalView3').empty();
+            $('#indexDataTableRincianModalView4').empty();$('#jumlahDataTableRincianModalView4').empty();
+            $('#rincianDataTableRincianModalView4').empty();$('#keteranganDataTableRincianModalView4').empty();
+            $('#indexDataTableRincianModalView5').empty();$('#jumlahDataTableRincianModalView5').empty();
+            $('#rincianDataTableRincianModalView5').empty();$('#keteranganDataTableRincianModalView5').empty();
+            $('#indexDataTableRincianModalView6').empty();$('#jumlahDataTableRincianModalView6').empty();
+            $('#rincianDataTableRincianModalView6').empty();$('#keteranganDataTableRincianModalView6').empty();
+            $('#totalTableRincianModalView').empty();
             $('#bendaharaNamaTTD').empty();$('#bendahraNipTTD').empty();
             $('#kepalaBidangNamaTTD').empty();$('#kepalaBidangNipTTD').empty();
         });
@@ -298,25 +309,28 @@
                 url: url_destination,type: "POST",
                 data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#lampiranSpdNomor').append(data.kode_spd);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                     var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
                     var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
                     $('#tanggalBepergian').append(awal_curr_date + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ akhir_curr_date + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
-                    let sum = 0;
+                    $('#indexDataTableRincianModalView1').append("1");
+                    $('#jumlahDataTableRincianModalView1').append('Rp. '+ numberWithDot(data.jumlah_uang)+ ' ,-');
+                    $('#rincianDataTableRincianModalView1').append(data.rincian_sbuh);
+                    $('#keteranganDataTableRincianModalView1').append("Kwitansi");
                     data.looping.forEach((items, index) => {
                         items.forEach((content, row) => {
                             if(index == 0){
-                                $('#indexDataTableRincianModalView'+(row+1)).append(row+1);
-                                $('#jumlahDataTableRincianModalView'+(row+1)).append('Rp. '+ numberWithDot(content)+ ' ,-');
+                                $('#indexDataTableRincianModalView'+(row+2)).append(row+2);
+                                $('#jumlahDataTableRincianModalView'+(row+2)).append('Rp. '+ numberWithDot(content)+ ' ,-');
                             }else if(index == 1){
-                                $('#rincianDataTableRincianModalView'+(row+1)).append(content);
+                                $('#rincianDataTableRincianModalView'+(row+2)).append(content);
                             }else{
-                                console.log(content == '')
+                                // console.log(content == '')
                                 if(content == ''){var keterangan = 'Kosong'}else{var keterangan = 'Lembar Bukti'}
-                                $('#keteranganDataTableRincianModalView'+(row+1)).append(keterangan);
+                                $('#keteranganDataTableRincianModalView'+(row+2)).append(keterangan);
                             }
                         })
                     })

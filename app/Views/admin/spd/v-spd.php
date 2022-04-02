@@ -33,32 +33,98 @@
                     <div class="card-header">
                     <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
                     <button type="button" class="btn btn-sm btn-outline-info float-right mr-1" tabindex="1" id="print" data-rel="tooltip" data-placement="top" data-container=".content" title="Print Format"><i class="fa fa-print"></i>&ensp;Print</button>
-                        <button type="button" class="btn btn-sm btn-outline-primary float-right mr-1" tabindex="2" id="refresh" data-rel="tooltip" data-placement="top" data-container=".content" title="Reload Tabel"><i class="fa fa-retweet"></i>&ensp;Reload</button>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
 
-                        <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachSpd" id="seachSpd" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="noSpdTable" class="col-sm-4 col-form-label">No SPD </label>
+                                            <div class="col-sm-7">
+                                                <select name="noSpdAddEditForm" id="noSpdTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari No SPD ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="namaPegawaiTable" class="col-sm-4 col-form-label">Nama Pegawai </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaPegawaiAddEditForm" id="namaPegawaiTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Pegawai ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="pengikutTable" class="col-sm-4 col-form-label">Pengikut </label>
+                                            <div class="col-sm-7">
+                                                <select name="pengikutAddEditForm" id="pengikutTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Pilih Pengikut ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Instansi ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="awalTable" class="col-sm-4 col-form-label">Tanggal Berangkat </label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="startAddEditForm" id="awalTable" placeholder="Tanggal Berangkat" autocomplete="off"/>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="akhirTable" class="col-sm-4 col-form-label">Tanggal Kembali </label>
+                                            <div class="col-sm-7">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" name="endAddEditForm"  id="akhirTable" placeholder="Tanggal Kembali" autocomplete="off"/>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer" style="text-align:center;">
+                                <button type="submit" class="btn btn-outline-danger" id="reset"  data-rel="tooltip" data-placement="top" data-container=".content" title="Reset Form"><i class="fas fa-retweet"></i>&ensp;Reset</button>
+                            </div>
+                        <!-- /.card-footer -->
                         </div>
+                        <!-- /.card -->
+
                         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                         <table id="spd_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>No SPD</th>
-                                    <th >Pejabat Yang Memberikan Perintah</th>
                                     <th>Pegawai Yang Diperintah</th>
-                                    <th>Maksud Perjalanan Dinas</th>
-                                    <th>Kendaraan</th>
-                                    <th>Keterangan</th>
-                                    <th style="width: 12%;">Aksi</th>
+                                    <th>Pengikut</th>
+                                    <th>Instansi</th>
+                                    <th>Awal</th>
+                                    <th>Akhir</th>
+                                    <th>Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
+                                    <th style="width: 12%;">Aksi</th>
                                 </tr>
                                 </tr>
                             </thead>
@@ -632,65 +698,119 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(function() {
-        /*-- DataTable To Load Data Mahasiswa --*/
+
+        var url_destination = '<?= base_url('Admin/Spd/getNoSpdTable') ?>';
+        $("#noSpdTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari No SPD ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Admin/Spd/getPegawaiTable') ?>';
+        $("#namaPegawaiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Pegawai ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Admin/Spd/getPegawaiTable') ?>';
+        $("#pengikutTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Pengikut ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Admin/Spd/getInstansiTable') ?>';
+        $("#namaInstansiTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Instansi ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+
+        /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Spd/load_data') ?>";
         var spd = $('#spd_data').DataTable({
-            "sDom": 'lrtip',"lengthChange": false,"order": [],
-            "processing": true,"responsive": true,"serverSide": true,
-            "ajax": {"url": url_destination,"type": 'POST',
-                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
-                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
+            "sDom": 'lrtip',
+            "lengthChange": false,
+            "order": [],
+            "processing": true,
+            "responsive": true,
+            "serverSide": true,
+            "ajax": {
+                "url": url_destination,
+                data: function (d) {
+                    d.noSpd = $('#noSpdTable').val();d.pegawai = $('#namaPegawaiTable').val();d.pengikut = $('#pengikutTable').val();
+                    d.instansi = $('#namaInstansiTable').val();d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [
-                {"targets": [0],"orderable": false},
-                {"targets": [6],"orderable": false,"class": "text-center"},
-                {"targets": [7],"class": "text-center"}
-            ],
+            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
         });
+        $('#noSpdTable').change(function(event) {spd.ajax.reload();});
+        $('#namaPegawaiTable').change(function(event) {spd.ajax.reload();});
+        $('#pengikutTable').change(function(event) {spd.ajax.reload();});
+        $('#namaInstansiTable').change(function(event) {spd.ajax.reload();});
+        $('#awalTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
+        $('#akhirTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachSpd").value = "";
-                        spd.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachSpd").value = "";
-                        spd.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#seachSpd').keyup(function() {
-            spd.search($(this).val()).draw();
+        $("#reset").on('click', function() {
+            $("#noSpdTable").val('').trigger('change');$("#namaPegawaiTable").val('').trigger('change');
+            $("#pengikutTable").val('').trigger('change');$("#namaInstansiTable").val('').trigger('change');
+            document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";spd.ajax.reload();
         });
-                $("#refresh").on('click', function() {
-            document.getElementById("seachSpd").value = "";
-            spd.search("").draw();
-        });
-        /*-- /. DataTable To Load Data Mahasiswa --*/
-
+        /*-- /. DataTable To Load Data Wilayah --*/
 
         $('#modal-viewitem').on('hidden.bs.modal', function() {
             $('#no_sptModalView').empty();$('#diperintahModalView').empty();

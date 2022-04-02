@@ -56,7 +56,7 @@ class Sbuh extends ResourcePresenter
     function load_data()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $provinsi = $this->db->table('provinsi')->get();
         $kabupaten = $this->db->table('kabupaten')->get();
@@ -126,7 +126,7 @@ class Sbuh extends ResourcePresenter
 
     function generator(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $data['kode'] = random_string('numeric');
         $data[$this->csrfToken] = $this->csrfHash;
@@ -136,7 +136,7 @@ class Sbuh extends ResourcePresenter
     public function getProvinsi()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -172,7 +172,7 @@ class Sbuh extends ResourcePresenter
     public function getKabupaten()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -204,7 +204,7 @@ class Sbuh extends ResourcePresenter
     public function getJenis()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten')) {
@@ -217,7 +217,7 @@ class Sbuh extends ResourcePresenter
     public function getKecamatan()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -249,7 +249,7 @@ class Sbuh extends ResourcePresenter
     public function getZonasi()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten') && $this->request->getVar('kecamatan')) {
@@ -262,7 +262,7 @@ class Sbuh extends ResourcePresenter
     public function getpangol()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -330,7 +330,7 @@ class Sbuh extends ResourcePresenter
     public function create()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -499,7 +499,7 @@ class Sbuh extends ResourcePresenter
     public function update($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -635,7 +635,7 @@ class Sbuh extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {

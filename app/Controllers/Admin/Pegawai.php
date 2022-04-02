@@ -49,7 +49,7 @@ class Pegawai extends ResourcePresenter
 
     function load_data() {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $jabatan = $this->db->table('jabatan')->get();
         $pangol = $this->db->table('pangol')->get();
@@ -100,7 +100,7 @@ class Pegawai extends ResourcePresenter
     public function getJabatan()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -136,7 +136,7 @@ class Pegawai extends ResourcePresenter
     public function getPangol()
     {
         if (!$this->request->isAjax()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
@@ -208,7 +208,7 @@ class Pegawai extends ResourcePresenter
     public function create()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -387,7 +387,7 @@ class Pegawai extends ResourcePresenter
     public function update($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -537,7 +537,7 @@ class Pegawai extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         if ($this->request->getVar('id')) {
             

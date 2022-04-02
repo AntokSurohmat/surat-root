@@ -283,7 +283,6 @@ class Kuitansi extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-
     public function getInstansiTable() {
         if (!$this->request->isAjax()) {
             exit('No direct script is allowed');

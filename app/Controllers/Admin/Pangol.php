@@ -41,7 +41,7 @@ class Pangol extends BaseController
     {
 
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $list = $this->pangol->get_datatables();
@@ -77,7 +77,7 @@ class Pangol extends BaseController
     function single_data()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')) {
@@ -90,7 +90,7 @@ class Pangol extends BaseController
 
     function generator(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $data['kode'] = random_string('numeric');
         $data[$this->csrfToken] = $this->csrfHash;
@@ -100,7 +100,7 @@ class Pangol extends BaseController
     function save()
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $validation = \Config\Services::validation();
@@ -196,7 +196,7 @@ class Pangol extends BaseController
 
     function delete(){
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         if ($this->request->getVar('id')){
