@@ -121,7 +121,7 @@
                                         <div class="p-3 mb-3">
                                             <div class="invoice-info">
                                                 <div class="col-sm-12 invoice-col">
-                                                    <table class="table nopadding mt-2">
+                                                    <table class="table table-bordered nopadding mt-2">
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: 5%;" class="text-center">No</th>
@@ -133,44 +133,42 @@
                                                         <tbody id="dataTableRincianModalView">
                                                             <tr>
                                                                 <td id="indexDataTableRincianModalView1" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView1"></td>
-                                                                <td id="jumlahDataTableRincianModalView1"></td>
-                                                                <td id="keteranganDataTableRincianModalView1"></td>
+                                                                <td id="rincianDataTableRincianModalView1" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahDataTableRincianModalView1" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganDataTableRincianModalView1" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td id="indexDataTableRincianModalView2" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView2"></td>
-                                                                <td id="jumlahDataTableRincianModalView2"></td>
-                                                                <td id="keteranganDataTableRincianModalView2"></td>
+                                                                <td id="indexSatuDataTableRincianModalView" class="text-center"></td>
+                                                                <td id="rincian_biayaSatuDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahSatuDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganSatuDataTableRincianModalView" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td id="indexDataTableRincianModalView3" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView3"></td>
-                                                                <td id="jumlahDataTableRincianModalView3"></td>
-                                                                <td id="keteranganDataTableRincianModalView3"></td>
+                                                                <td id="indexDuaDataTableRincianModalView" class="text-center"></td>
+                                                                <td id="rincian_biayaDuaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahDuaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganDuaDataTableRincianModalView" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td id="indexDataTableRincianModalView4" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView4"></td>
-                                                                <td id="jumlahDataTableRincianModalView4"></td>
-                                                                <td id="keteranganDataTableRincianModalView4"></td>
+                                                                <td id="indexTigaDataTableRincianModalView" class="text-center"></td>
+                                                                <td id="rincian_biayaTigaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahTigaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganTigaDataTableRincianModalView" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td id="indexDataTableRincianModalView5" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView5"></td>
-                                                                <td id="jumlahDataTableRincianModalView5"></td>
-                                                                <td id="keteranganDataTableRincianModalView5"></td>
+                                                                <td id="indexEmpatDataTableRincianModalView" class="text-center"></td>
+                                                                <td id="rincian_biayaEmpatDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahEmpatDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganEmpatDataTableRincianModalView" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td id="indexDataTableRincianModalView6" class="text-center"></td>
-                                                                <td id="rincianDataTableRincianModalView6"></td>
-                                                                <td id="jumlahDataTableRincianModalView6"></td>
-                                                                <td id="keteranganDataTableRincianModalView6"></td>
+                                                                <td id="indexLimaDataTableRincianModalView" class="text-center"></td>
+                                                                <td id="rincian_biayaLimaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="jumlahLimaDataTableRincianModalView" style="padding: 0 10px;"></td>
+                                                                <td id="keteranganLimaDataTableRincianModalView" style="padding: 0 10px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="padding-left:10px;font-weight:800;">TOTAL</td>
-                                                                <td colspan="3" id="totalTableRincianModalView">: </td>
-                                                                <td></td>
+                                                                <td colspan="4" style="padding-left: 10px;font-weight:800;">TOTAL : <span id="totalTableRincianModalView"></span></td>
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="4" style="padding-left: 10px;font-weight:800;">TERBILANG : <span style="font-size:14px;" id="terbilangTableRincianModalView"></span></td>
@@ -194,10 +192,7 @@
                                                             <td style="text-align:center;height:100px;"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center" id="bendaharaNamaTTD"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align:center" id="bendahraNipTTD"></td>
+                                                            <td style="text-align:center"><b id="bendaharaNamaTTD" style="text-decoration: underline;"></b><br><span id="bendahraNipTTD"></span></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -210,10 +205,7 @@
                                                             <td style="text-align:center;height:100px;"></td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="text-align:center" id="kepalaBidangNamaTTD"></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align:center" id="kepalaBidangNipTTD"></td>
+                                                            <td style="text-align:center"><b id="kepalaBidangNamaTTD" style="text-decoration: underline;"></b><br><span id="kepalaBidangNipTTD"></span></td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -286,16 +278,16 @@
             $('#lampiranSpdNomor').empty();$('#tanggalBepergian').empty();
             $('#indexDataTableRincianModalView1').empty();$('#jumlahDataTableRincianModalView1').empty();
             $('#rincianDataTableRincianModalView1').empty();$('#keteranganDataTableRincianModalView1').empty();
-            $('#indexDataTableRincianModalView2').empty();$('#jumlahDataTableRincianModalView2').empty();
-            $('#rincianDataTableRincianModalView2').empty();$('#keteranganDataTableRincianModalView2').empty();
-            $('#indexDataTableRincianModalView3').empty();$('#jumlahDataTableRincianModalView3').empty();
-            $('#rincianDataTableRincianModalView3').empty();$('#keteranganDataTableRincianModalView3').empty();
-            $('#indexDataTableRincianModalView4').empty();$('#jumlahDataTableRincianModalView4').empty();
-            $('#rincianDataTableRincianModalView4').empty();$('#keteranganDataTableRincianModalView4').empty();
-            $('#indexDataTableRincianModalView5').empty();$('#jumlahDataTableRincianModalView5').empty();
-            $('#rincianDataTableRincianModalView5').empty();$('#keteranganDataTableRincianModalView5').empty();
-            $('#indexDataTableRincianModalView6').empty();$('#jumlahDataTableRincianModalView6').empty();
-            $('#rincianDataTableRincianModalView6').empty();$('#keteranganDataTableRincianModalView6').empty();
+            $('#indexSatuDataTableRincianModalView').empty();$('#jumlahSatuDataTableRincianModalView').empty();
+            $('#rincian_biayaSatuDataTableRincianModalView').empty();$('#keteranganSatuDataTableRincianModalView').empty();
+            $('#indexDuaDataTableRincianModalView').empty();$('#jumlahSatuDataTableRincianModalView').empty();
+            $('#rincian_biayaDuaDataTableRincianModalView').empty();$('#keteranganDataTableRincianModalView3').empty();
+            $('#indexTigaDataTableRincianModalView').empty();$('#jumlahTigaDataTableRincianModalView').empty();
+            $('#rincian_biayaTigaDataTableRincianModalView').empty();$('#keteranganTigaDataTableRincianModalView').empty();
+            $('#indexEmpatDataTableRincianModalView').empty();$('#jumlahEmpatDataTableRincianModalView').empty();
+            $('#rincian_biayaEmpatDataTableRincianModalView').empty();$('#keteranganEmpatDataTableRincianModalView').empty();
+            $('#indexLimaDataTableRincianModalView').empty();$('#jumlahLimaDataTableRincianModalView').empty();
+            $('#rincian_biayaLimaDataTableRincianModalView').empty();$('#keteranganLimaDataTableRincianModalView').empty();
             $('#totalTableRincianModalView').empty();
             $('#bendaharaNamaTTD').empty();$('#bendahraNipTTD').empty();
             $('#kepalaBidangNamaTTD').empty();$('#kepalaBidangNipTTD').empty();
@@ -317,29 +309,55 @@
                     var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
                     $('#tanggalBepergian').append(': '+awal_curr_date + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ akhir_curr_date + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
                     $('#indexDataTableRincianModalView1').append("1");
-                    $('#jumlahDataTableRincianModalView1').append('Rp. '+ numberWithDot(data.jumlah_uang)+ ' ,-');
+                    $('#jumlahDataTableRincianModalView1').append('Rp. '+ numberWithDot(data.jumlah_uang)+ ', -');
                     $('#rincianDataTableRincianModalView1').append(data.rincian_sbuh);
                     $('#keteranganDataTableRincianModalView1').append("Kwitansi");
-                    data.looping.forEach((items, index) => {
-                        items.forEach((content, row) => {
-                            if(index == 0){
-                                $('#indexDataTableRincianModalView'+(row+2)).append(row+2);
-                                $('#jumlahDataTableRincianModalView'+(row+2)).append('Rp. '+ numberWithDot(content)+ ' ,-');
-                            }else if(index == 1){
-                                $('#rincianDataTableRincianModalView'+(row+2)).append(content);
-                            }else{
-                                // console.log(content == '')
-                                if(content == ''){var keterangan = 'Kosong'}else{var keterangan = 'Lembar Bukti'}
-                                $('#keteranganDataTableRincianModalView'+(row+2)).append(keterangan);
+                    var m_namess = new Array("Satu","Dua","Tiga","Empat","Lima");var m_angka = new Array("2","3","4","5","6");
+                        for (var urutan in data.json) { //json
+                            var obj = data.json[urutan];
+                            for (var prop in obj) {
+                                $('#'+ prop + m_namess[urutan] +'DataTableRincianModalView').append(obj[prop]);
+                            
+                                if(prop == 'jumlah_biaya'){
+                                    $('#index' + m_namess[urutan] +'DataTableRincianModalView').append(m_angka[urutan]);
+                                    if(!!obj[prop]){
+                                        $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('Rp. '+ numberWithDot(obj[prop]) + ', -');
+                                    }else if (obj[prop].length === 0){
+                                        $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('');
+                                    }
+                                }
+                                if(prop == 'bukti_riil'){
+                                    if(!!obj[prop]){
+                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Lembar Bukti');
+                                    }else if(obj[prop].length === 0){
+                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('');
+                                    }else{
+                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Kosong');
+                                    }
+                                } 
+                                // $('#rincian_biayaSatuDataTableRincianModalView').empty();
                             }
-                        })
-                    })
+                        }
+                    // data.looping.forEach((items, index) => {
+                    //     items.forEach((content, row) => {
+                    //         if(index == 0){
+                    //             $('#indexDataTableRincianModalView'+(row+2)).append(row+2);
+                    //             $('#jumlahDataTableRincianModalView'+(row+2)).append('Rp. '+ numberWithDot(content)+ ' ,-');
+                    //         }else if(index == 1){
+                    //             $('#rincianDataTableRincianModalView'+(row+2)).append(content);
+                    //         }else{
+                    //             // console.log(content == '')
+                    //             if(content == ''){var keterangan = 'Kosong'}else{var keterangan = 'Lembar Bukti'}
+                    //             $('#keteranganDataTableRincianModalView'+(row+2)).append(keterangan);
+                    //         }
+                    //     })
+                    // })
                     $('#totalTableRincianModalView').append('Rp. ' + numberWithDot(data.sum) + ' ,-');
                     $('#terbilangTableRincianModalView').append(terbilang(data.sum));
                     $('#bendaharaNamaTTD').append(data.bendahara.nama);
-                    $('#bendahraNipTTD').append(data.bendahara.nip);
+                    $('#bendahraNipTTD').append('('+data.bendahara.nip+')');
                     $('#kepalaBidangNamaTTD').append(data.kepala.nama);
-                    $('#kepalaBidangNipTTD').append(data.kepala.nip);
+                    $('#kepalaBidangNipTTD').append('('+data.kepala.nip+')');
                     $('#modal-viewitem').modal('show');
                 }
             })

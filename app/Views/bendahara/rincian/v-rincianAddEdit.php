@@ -68,22 +68,22 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group row">
-                                            <label for="rincianBiayaSatuForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
+                                            <label for="rincian_biayaSatuForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaSatuForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincian_biayaSatuForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaSatuErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahSatuForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <label for="jumlah_biayaSatuForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahSatuForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlah_biayaSatuForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahSatuErrorForm"></div>
                                                 </div>
                                             </div>
@@ -107,22 +107,22 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group row">
-                                            <label for="rincianBiayaDuaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
+                                            <label for="rincian_biayaDuaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaDuaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincian_biayaDuaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaDuaErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahDuaForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <label for="jumlah_biayaDuaForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahDuaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlah_biayaDuaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahDuaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -146,22 +146,22 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group row">
-                                            <label for="rincianBiayaTigaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
+                                            <label for="rincian_biayaTigaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaTigaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincian_biayaTigaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaTigaErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahTigaForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <label for="jumlah_biayaTigaForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahTigaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlah_biayaTigaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahTigaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -185,22 +185,22 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group row">
-                                            <label for="rincianBiayaEmpatForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
+                                            <label for="rincian_biayaEmpatForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaEmpatForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincian_biayaEmpatForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaEmpatErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahEmpatForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <label for="jumlah_biayaEmpatForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahEmpatForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlah_biayaEmpatForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahEmpatErrorForm"></div>
                                                 </div>
                                             </div>
@@ -224,22 +224,22 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group row">
-                                            <label for="rincianBiayaLimaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
+                                            <label for="rincian_biayaLimaForm" class="col-sm-2 col-form-label">Rincian Biaya </label>
                                             <div class="col-sm-9">
-                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincianBiayaLimaForm" class="form-control" placeholder="Rincian Biaya">
+                                                <input type="text" name="rincianBiayaAddEditForm[]" id="rincian_biayaLimaForm" class="form-control" placeholder="Rincian Biaya">
                                                 <div class="invalid-feedback rincianBiayaLimaErrorForm"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group row">
-                                            <label for="jumlahLimaForm" class="col-sm-4 col-form-label">Jumlah </label>
+                                            <label for="jumlah_biayaLimaForm" class="col-sm-4 col-form-label">Jumlah </label>
                                             <div class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">Rp.</span>
                                                     </div>
-                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlahLimaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
+                                                    <input type="number" name="jumlahAddEditForm[]" id="jumlah_biayaLimaForm" class="form-control" placeholder="Jumlah Uang" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="8">
                                                     <div class="invalid-feedback jumlahLimaErrorForm"></div>
                                                 </div>
                                             </div>
@@ -284,22 +284,22 @@
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#noSpdForm').on('select2:select', function(e) {$('#rincianBiayaSatuForm').focus();});
+        $('#noSpdForm').on('select2:select', function(e) {$('#rincian_biayaSatuForm').focus();});
         //Satu
-        $('#rincianBiayaSatuForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahSatuForm').focus();}});
-        $('#jumlahSatuForm').keydown(function(event){if(event.keyCode == 13){$('#buktiSatuForm').focus();}});
+        $('#rincian_biayaSatuForm').keydown(function(event){if(event.keyCode == 13){$('#jumlah_biayaSatuForm').focus();}});
+        $('#jumlah_biayaSatuForm').keydown(function(event){if(event.keyCode == 13){$('#buktiSatuForm').focus();}});
         //Dua
-        $('#rincianBiayaDuaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahDuaForm').focus();}});
-        $('#jumlahDuaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiDuaForm').focus();}});
+        $('#rincian_biayaDuaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlah_biayaDuaForm').focus();}});
+        $('#jumlah_biayaDuaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiDuaForm').focus();}});
         //Tiga
-        $('#rincianBiayaTigaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahTigaForm').focus();}});
-        $('#jumlahTigaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiTigaForm').focus();}});
+        $('#rincian_biayaTigaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlah_biayaTigaForm').focus();}});
+        $('#jumlah_biayaTigaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiTigaForm').focus();}});
         //Empat
-        $('#rincianBiayaEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahEmpatForm').focus();}});
-        $('#jumlahEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#buktiEmpatForm').focus();}});
+        $('#rincian_biayaEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#jumlah_biayaEmpatForm').focus();}});
+        $('#jumlah_biayaEmpatForm').keydown(function(event){if(event.keyCode == 13){$('#buktiEmpatForm').focus();}});
         //Lima
-        $('#rincianBiayaLimaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlahLimaForm').focus();}});
-        $('#jumlahLimaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiLimaForm').focus();}});
+        $('#rincian_biayaLimaForm').keydown(function(event){if(event.keyCode == 13){$('#jumlah_biayaLimaForm').focus();}});
+        $('#jumlah_biayaLimaForm').keydown(function(event){if(event.keyCode == 13){$('#buktiLimaForm').focus();}});
 
         $('#keteranganBuktiLimaForm').keydown(function(event){if(event.keyCode == 13){$('#submit-rincian').focus();}});
 
@@ -309,27 +309,27 @@
             $('#form-addedit')[0].reset();
             $("#noSpdForm").empty();$("#noSpdForm").removeClass('is-valid');$("#noSpdForm").removeClass('is-invalid');
             //Satu
-            $("#rincianBiayaSatuForm").empty();$("#rincianBiayaSatuForm").removeClass('is-valid');$("#rincianBiayaSatuForm").removeClass('is-invalid');
-            $("#jumlahSatuForm").empty();$("#jumlahSatuForm").removeClass('is-valid');$("#jumlahSatuForm").removeClass('is-invalid');
+            $("#rincian_biayaSatuForm").empty();$("#rincian_biayaSatuForm").removeClass('is-valid');$("#rincian_biayaSatuForm").removeClass('is-invalid');
+            $("#jumlah_biayaSatuForm").empty();$("#jumlah_biayaSatuForm").removeClass('is-valid');$("#jumlah_biayaSatuForm").removeClass('is-invalid');
             $("#buktiSatuForm").empty();$("#buktiSatuForm").removeClass('is-valid');$("#buktiSatuForm").removeClass('is-invalid');
             //Dua
-            $("#rincianBiayaDuaForm").empty();$("#rincianBiayaDuaForm").removeClass('is-valid');$("#rincianBiayaDuaForm").removeClass('is-invalid');
-            $("#jumlahDuaForm").empty();$("#jumlahDuaForm").removeClass('is-valid');$("#jumlahDuaForm").removeClass('is-invalid');
+            $("#rincian_biayaDuaForm").empty();$("#rincian_biayaDuaForm").removeClass('is-valid');$("#rincian_biayaDuaForm").removeClass('is-invalid');
+            $("#jumlah_biayaDuaForm").empty();$("#jumlah_biayaDuaForm").removeClass('is-valid');$("#jumlah_biayaDuaForm").removeClass('is-invalid');
             $("#buktiDuaForm").empty();$("#buktiDuaForm").removeClass('is-valid');$("#buktiDuaForm").removeClass('is-invalid');
             $("#keteranganBuktiDuaForm").empty();$("#keteranganBuktiDuaForm").removeClass('is-valid');$("#keteranganBuktiDuaForm").removeClass('is-invalid');
             //Tiga
-            $("#rincianBiayaTigaForm").empty();$("#rincianBiayaTigaForm").removeClass('is-valid');$("#rincianBiayaTigaForm").removeClass('is-invalid');
-            $("#jumlahTigaForm").empty();$("#jumlahTigaForm").removeClass('is-valid');$("#jumlahTigaForm").removeClass('is-invalid');
+            $("#rincian_biayaTigaForm").empty();$("#rincian_biayaTigaForm").removeClass('is-valid');$("#rincian_biayaTigaForm").removeClass('is-invalid');
+            $("#jumlah_biayaTigaForm").empty();$("#jumlah_biayaTigaForm").removeClass('is-valid');$("#jumlah_biayaTigaForm").removeClass('is-invalid');
             $("#buktiTigaForm").empty();$("#buktiTigaForm").removeClass('is-valid');$("#buktiTigaForm").removeClass('is-invalid');
             $("#keteranganBuktiTigaForm").empty();$("#keteranganBuktiTigaForm").removeClass('is-valid');$("#keteranganBuktiTigaForm").removeClass('is-invalid');
             //Empat
-            $("#rincianBiayaEmpatForm").empty();$("#rincianBiayaEmpatForm").removeClass('is-valid');$("#rincianBiayaEmpatForm").removeClass('is-invalid');
-            $("#jumlahEmpatForm").empty();$("#jumlahEmpatForm").removeClass('is-valid');$("#jumlahEmpatForm").removeClass('is-invalid');
+            $("#rincian_biayaEmpatForm").empty();$("#rincian_biayaEmpatForm").removeClass('is-valid');$("#rincian_biayaEmpatForm").removeClass('is-invalid');
+            $("#jumlah_biayaEmpatForm").empty();$("#jumlah_biayaEmpatForm").removeClass('is-valid');$("#jumlah_biayaEmpatForm").removeClass('is-invalid');
             $("#buktiEmpatForm").empty();$("#buktiEmpatForm").removeClass('is-valid');$("#buktiEmpatForm").removeClass('is-invalid');
             $("#keteranganBuktiEmpatForm").empty();$("#keteranganBuktiEmpatForm").removeClass('is-valid');$("#keteranganBuktiEmpatForm").removeClass('is-invalid');
             //Lima
-            $("#rincianBiayaLimaForm").empty();$("#rincianBiayaLimaForm").removeClass('is-valid');$("#rincianBiayaLimaForm").removeClass('is-invalid');
-            $("#jumlahLimaForm").empty();$("#jumlahLimaForm").removeClass('is-valid');$("#jumlahLimaForm").removeClass('is-invalid');
+            $("#rincian_biayaLimaForm").empty();$("#rincian_biayaLimaForm").removeClass('is-valid');$("#rincian_biayaLimaForm").removeClass('is-invalid');
+            $("#jumlah_biayaLimaForm").empty();$("#jumlah_biayaLimaForm").removeClass('is-valid');$("#jumlah_biayaLimaForm").removeClass('is-invalid');
             $("#buktiLimaForm").empty();$("#buktiLimaForm").removeClass('is-valid');$("#buktiLimaForm").removeClass('is-invalid');
             $("#keteranganBuktiLimaForm").empty();$("#keteranganBuktiLimaForm").removeClass('is-valid');$("#keteranganBuktiLimaForm").removeClass('is-invalid');
         }
@@ -444,8 +444,15 @@
                         $("#noSpdForm").append($("<option selected='selected'></option>")
                         .val(data.kode_spd).text(data.kode_spd)).trigger('change');
                         var m_names = new Array("Satu","Dua","Tiga","Empat","Lima");
-                        data.rincian_biaya.forEach(function (item, index) {$('#rincianBiaya'+m_names[index]+'Form').val(item);});
-                        data.jumlah_biaya.forEach(function (item, index) {$('#jumlah'+m_names[index]+'Form').val(item);});
+                        for (var urutan in data.json) { //json
+                            // console.log(urutan);
+                            var obj = data.json[urutan];
+                            for (var prop in obj) {
+                                // console.log(prop + " = " + obj[prop] + ' ++++++ ' );
+                                // console.log('#'+ prop + m_names[urutan] + 'Form');
+                                $('#'+ prop + m_names[urutan] +'Form').val(obj[prop]);
+                            }
+                        }
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
             }

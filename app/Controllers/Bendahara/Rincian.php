@@ -234,6 +234,7 @@ class Rincian extends ResourcePresenter
                 'msg' => '',
             ];
         }else{
+
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
 
             $image = array();
@@ -250,22 +251,31 @@ class Rincian extends ResourcePresenter
                 }
             }
 
+            $a = $this->request->getVar('rincianBiayaAddEditForm[]');
+            $b = $this->request->getVar('jumlahAddEditForm[]');
+            $c = $image;
+
+
+            for($i=0;$i<count($a);$i++){
+                $detail_array[$i]["rincian_biaya"]=$a[$i];
+                $detail_array[$i]["jumlah_biaya"]=$b[$i];
+                $detail_array[$i]["bukti_riil"]=$c[$i];
+            }
+             
             $data = [
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm[]')),
-                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm[]')),
-                'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
+                // 'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm[]')),
+                // 'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm[]')),
+                // 'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
                 'yang_menyetujui' => $kode_spd['yang_menyetujui'],
                 'bendahara' => $this->session->get('nip'),
-                // 'detail' => json_encode($detail_array),
+                'detail' => json_encode($detail_array, JSON_UNESCAPED_SLASHES),
             ];
-
-            // d($data);print_r($data);die();
 
             if ($this->rincian->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('bendahara/rincian'));
@@ -287,9 +297,7 @@ class Rincian extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
-            $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
-            $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
-            $data['bukti'] = json_decode($data['bukti']);
+            $data['json'] = json_decode($data['detail']);
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -307,14 +315,20 @@ class Rincian extends ResourcePresenter
 
             $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
             $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
-            $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+            $data['json'] = json_decode($data['detail']);
+            $jml_biaya = array();
+            foreach($data['json'] as $json){
+                foreach($json as $row => $jumlah){
+                    if($row == 'jumlah_biaya'){
+                        $jml_biaya[] = ($jumlah != '') ? $jumlah : 0;
+                    }
+                }
+            }
 
-            $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
+            $data['json'] = json_decode($data['detail']);
+
+            $sum = array_reduce( $jml_biaya, function($carry, $item){return $carry + $item;});
             $sum = $sum + $data['jumlah_uang'];$data['sum'] = $sum;
-
-            $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
-            $data['bukti'] = json_decode($data['bukti']);
-            $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -420,52 +434,47 @@ class Rincian extends ResourcePresenter
         }else{
 
             $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
-            // $olds = $prop_item['bukti'];
-            // $file = $this->request->getFile('buktiSatuAddEditForm');
-            // if($file->isValid() && !$file->hasMoved()){
-            //     if(file_exists("uploads/rincian/".date('d-m-Y')."/".$old_image)){
-            //         unlink("uploads/rincian/".date('d-m-Y')."/".$old_image);
-            //     }
-            //     $imageName = $file->getRandomName();
-            //     $file->move('uploads/rincian/'.date('d-m-Y')."/", $imageName);
-            // }else{
-            //     $imageName = $old_image;
-            // }
-            // foreach($olds as $old){
-                // d(json_decode($prop_item['bukti']));print(json_decode($prop_item['bukti']));die();
-                // dd(json_decode($prop_item['bukti']));
-            // }
-            // die();
-            // foreach(json_decode($prop_item['bukti']) as $old){
-            //     if(file_exists("uploads/rincian/".$old)){
-            //         // unlink("uploads/rincian/".$old);
-            //         d($old);print($old);die();
-            //     }
-            // }
+            $olds = json_decode($prop_item['detail']);
+
             $image = array();
             if ($imagefile = $this->request->getFiles()) {
                 foreach ($imagefile['buktiAddEditForm'] as $img) {
                     if ($img->isValid() && !$img->hasMoved()) {
-                        foreach (json_decode($prop_item['bukti']) as $old) {
-                            // d( unlink("uploads/rincian/". $old));print( unlink("uploads/rincian/". $old));die();
-                            if (file_exists("uploads/rincian/".$old)) {
-                                unlink("uploads/rincian/". $old);
-                                // rmdir("uploads/rincian/". $old);
-                                // d("uploads/rincian/" . $old);print("uploads/rincian/" . $old);
+                        foreach($olds as  $imgs){
+                            foreach($imgs as $row =>  $content){
+                                if($row == 'bukti_riil'){
+                                    $myArray = explode('/', $content);
+                                    if (file_exists("uploads/rincian/".$myArray[0]."/".$myArray[1])) {
+                                        unlink("uploads/rincian/".$myArray[0]."/".$myArray[1]);
+                                    }
+                                }
                             }
                         }
 
-                        // d("OK");print_r("ok");die();
                         $newName = $img->getRandomName();
                         $img->move('uploads/rincian/' . date('d-m-Y') . '/', $newName);
                         $image[] = date('d-m-Y') . '/' . $newName;
                     } else {
-                        foreach (json_decode($prop_item['bukti']) as $old) {
-                            $newName = $old;
+                        foreach($olds as  $imgs){
+                            foreach($imgs as $row =>  $content){
+                                if($row == 'bukti_riil'){
+                                    $image[] = $content;
+                                }
+                            }
                         }
-                        $image[] = $newName;
                     }
                 }
+            }
+
+            $a = $this->request->getVar('rincianBiayaAddEditForm[]');
+            $b = $this->request->getVar('jumlahAddEditForm[]');
+            $c = $image;
+
+
+            for($i=0;$i<count($a);$i++){
+                $detail_array[$i]["rincian_biaya"]=$a[$i];
+                $detail_array[$i]["jumlah_biaya"]=$b[$i];
+                $detail_array[$i]["bukti_riil"]=$c[$i];
             }
 
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
@@ -474,14 +483,15 @@ class Rincian extends ResourcePresenter
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
-                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
-                'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
+                // 'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm')),
+                // 'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm')),
+                // 'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES ,),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
                 'yang_menyetujui' => $kode_spd['yang_menyetujui'],
                 'bendahara' => $this->session->get('nip'),
+                'detail' => json_encode($detail_array, JSON_UNESCAPED_SLASHES),
             ];
 
             // d($data);print_r($data);die();
@@ -547,14 +557,20 @@ class Rincian extends ResourcePresenter
 
         $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
         $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
-        $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+        $data['json'] = json_decode($data['detail']);
+        $jml_biaya = array();
+        foreach($data['json'] as $json){
+            foreach($json as $row => $jumlah){
+                if($row == 'jumlah_biaya'){
+                    $jml_biaya[] = ($jumlah != '') ? $jumlah : 0;
+                }
+            }
+        }
 
-        $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
+        $data['json'] = json_decode($data['detail']);
+
+        $sum = array_reduce( $jml_biaya, function($carry, $item){return $carry + $item;});
         $sum = $sum + $data['jumlah_uang'];$data['sum'] = $sum;
-        
-        $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
-        $data['bukti'] = json_decode($data['bukti']);
-        $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
 
         // d($data);print_r($data);die();
 

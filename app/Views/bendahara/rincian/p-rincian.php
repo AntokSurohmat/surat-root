@@ -10,14 +10,14 @@
 	<link type="text/css" href="assets/custom/css/style.css" rel="stylesheet">
 	<style>
 		body {
-		margin: 0;
-		font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-		font-size: 1rem;
-		font-weight: 400;
-		line-height: 1.5;
-		color: #212529;
-		text-align: left;
-		background-color: #fff;
+			margin: 0;
+			font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #212529;
+			text-align: left;
+			background-color: #fff;
 		}
 
 		.mb-0,
@@ -89,11 +89,11 @@
 	<table border="0" class="table nopadding">
 		<tr>
 			<td style="width: 30%;padding-left: 10px;">Lampiran SPD Nomor</td>
-			<td id="lampiranSpdNomor">: <?= $kode_spd?></td>
+			<td id="lampiranSpdNomor">: <?= $kode_spd ?></td>
 		</tr>
 		<tr>
 			<td style="width: 30%;padding-left: 10px;">Tanggal</td>
-			<td id="tanggalBepergian">: <?= date('d-m-Y', strtotime($awal))?> s/d  <?= date('d-m-Y', strtotime($akhir))?></td>
+			<td id="tanggalBepergian">: <?= date('d-m-Y', strtotime($awal)) ?> s/d <?= date('d-m-Y', strtotime($akhir)) ?></td>
 		</tr>
 	</table>
 	<br>
@@ -102,7 +102,7 @@
 		<thead>
 			<tr>
 				<th style="width: 5%;" style="text-align:center;">No</th>
-				<th >Rincian Biaya</th>
+				<th>Rincian Biaya</th>
 				<th>Jumlah</th>
 				<th style="width: 30%;">Keteranganan</th>
 			</tr>
@@ -110,56 +110,82 @@
 		<tbody id="dataTableRincianModalView">
 			<tr>
 				<td style="text-align:center;">1</td>
-				<td style="padding: 0 10px;"><?= $rincian_sbuh?></td>
-				<td style="padding: 0 10px;">Rp. <?= $jumlah_uang?> ,-</td>
+				<td style="padding: 0 10px;"><?= $rincian_sbuh ?></td>
+				<td style="padding: 0 10px;">Rp. <?= $jumlah_uang ?> ,-</td>
 				<td style="padding: 0 10px;">Kwitansi</td>
 			</tr>
-			<?php foreach($looping as $index => $items) :?>
-				<?php foreach($items as $row => $content):?>
-					<?php if($index == 0) :?>
-							<td><?= ($row+2)?></td>
-						<?php elseif($index == 1) :?>
-							<td><?= $content?></td>
-							<td><?= $content?></td>
-						<?php else :?>
-							<td><?= $content?></td>
-						<?php endif;?>
 
-						<?php endforeach;?>
-			<?php endforeach;?>
-			<!-- <tr>
-				<td id="indexDataTableRincianModalView3" style="text-align:center;"></td>
-				<td id="rincianDataTableRincianModalView3"></td>
-				<td id="jumlahDataTableRincianModalView3"></td>
-				<td id="keteranganDataTableRincianModalView3"></td>
+			<?php foreach ($json as $index => $items) : ?>
+				<tr>
+					<?php
+					$m_angka = array("2", "3", "4", "5", "6");
+					foreach ($items as $row => $content) : ?>
+						<?php if ($row == 'rincian_biaya') : ?>
+							<td style="text-align:center;"><?= $m_angka[$index] ?></td>
+							<?php if ($content != NULL) : ?>
+								<td style="padding: 0 10px;"><?= $content ?></td>
+							<?php else : ?>
+								<td></td>
+							<?php endif ?>
+						<?php elseif ($row == 'jumlah_biaya') : ?>
+							<?php if ($content != NULL) : ?>
+								<td style="padding: 0 10px;">Rp. <?= number_format($content) ?> , -</td>
+							<?php else : ?>
+								<td></td>
+							<?php endif ?>
+						<?php else : ?>
+							<?php if ($content != NULL) : ?>
+								<td style="padding: 0 10px;">Lembar Bukti</td>
+							<?php elseif (strlen($content) == 0) : ?>
+								<td></td>
+							<?php else : ?>
+								<td>Kosong</td>
+							<?php endif; ?>
+						<?php endif; ?>
+						<!-- <td id="jumlahDataTableRincianModalView3"></td>
+						<td id="keteranganDataTableRincianModalView3"></td> -->
+					<?php endforeach; ?>
+				</tr>
+			<?php endforeach; ?>
+
+			<tr>
+				<td colspan="4" style="padding: 0 10px;font-weight:800;">TOTAL : Rp. <?= number_format($sum) ?>, -</td>
 			</tr>
 			<tr>
-				<td id="indexDataTableRincianModalView4" style="text-align:center;"></td>
-				<td id="rincianDataTableRincianModalView4"></td>
-				<td id="jumlahDataTableRincianModalView4"></td>
-				<td id="keteranganDataTableRincianModalView4"></td>
+				<td colspan="4" style="padding: 0 10px;font-weight:800;">TERBILANG : <span style="font-size:14px;"> <?= ucwords(terbilang($sum)) ?></span></td>
 			</tr>
-			<tr>
-				<td id="indexDataTableRincianModalView5" style="text-align:center;"></td>
-				<td id="rincianDataTableRincianModalView5"></td>
-				<td id="jumlahDataTableRincianModalView5"></td>
-				<td id="keteranganDataTableRincianModalView5"></td>
-			</tr>
-			<tr>
-				<td id="indexDataTableRincianModalView6" style="text-align:center;"></td>
-				<td id="rincianDataTableRincianModalView6"></td>
-				<td id="jumlahDataTableRincianModalView6"></td>
-				<td id="keteranganDataTableRincianModalView6"></td>
-			</tr> -->
-			<!-- <tr>
-				<td style="padding-left:10px;font-weight:800;">TOTAL</td>
-				<td colspan="3" id="totalTableRincianModalView">: </td>
-				<td></td>
-			</tr>
-			<tr>
-				<td colspan="4" style="padding-left: 10px;font-weight:800;">TERBILANG : <span style="font-size:14px;" id="terbilangTableRincianModalView"></span></td>
-			</tr> -->
 		</tbody>
+	</table>
+
+	<table border="0" class="table nopadding mt-2">
+		<tr>
+			<td width=50%>
+				<table class="table nopadding mt-2">
+					<tr>
+						<td style="text-align:center;font-weight:800;height:80px; vertical-align:bottom;">Bendahara</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;height:100px;"></td>
+					</tr>
+					<tr>
+						<td style="text-align:center" id="bendaharaNamaTTD"><b style="text-decoration:underline"><?= $bendahara['nama']?></b><br>(<?= $bendahara['nip']?>)</td>
+					</tr>
+				</table>
+			</td>
+			<td width=50%>
+				<table class="table nopadding mt-2">
+					<tr>
+						<td style="text-align:center;font-weight:800;height:80px; vertical-align:bottom;">Kuasa Penggunaan Anggaran,<br>Kepala Bidang Metrologi Legal<br>Kabupaten Cirebon</td>
+					</tr>
+					<tr>
+						<td style="text-align:center;height:100px;"></td>
+					</tr>
+					<tr>
+						<td style="text-align:center" id="kepalaBidangNamaTTD"><b style="text-decoration:underline"><?= $kepala['nama']?></b><br>(<?= $kepala['nip']?>)</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 	</table>
 
 </body>
