@@ -431,6 +431,22 @@
             })
         })
 
+        // $(document).on('click', '.print', function() {
+        //     var id = $(this).data('id');
+        //     var url_destination = "<?= base_url('Bendahara/Kuitansi/print') ?>";
+        //     $.ajax({
+        //         async: false, // <<<----------- add this
+        //         url: url_destination,type: "POST",
+        //         data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
+        //         success: function(data) {
+        //             // console.log(data);
+        //             $('input[name=csrf_token_name]').val(data.csrf_token_name);
+        //             url = '<?php echo base_url(); ?>Bendahara/Kuitansi/Print';
+		// 		    window.open(url ,'_blank');
+        //         }
+        //     })
+        // })
+
         $(document).on('click', '.delete', function() {
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',

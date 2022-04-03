@@ -86,13 +86,13 @@
                             <div class="col-12 invoice">
                                 <div class="row">
                                     <div class="col-12" style="padding:0">
-                                        <div class="p-3 mb-3">
+                                        <div class="p-3 mb-0">
                                             <div class="invoice-info">
                                                 <div class="col-sm-12 invoice-col">
                                                     <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800" class="mb-0">RINCIAN BIAYA PERJALANAN DINAS</p>
                                                     <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class="mb-0">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
                                                     <p style="font-size:25px;text-align:center;line-height: 1em;font-weight:800;" class="mb-3">KABUPATEN CIREBON</p>
-                                                    <hr class="s5 mb-3 mt-0">
+                                                    <hr class="s5 mb-0 mt-0">
                                                 </div>
                                             </div>
                                         </div>

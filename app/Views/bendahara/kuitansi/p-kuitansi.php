@@ -75,7 +75,7 @@
 </head>
 
 <body>
-
+	<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 	<table border="0" width=100% cellpadding=2 cellspacing=0 style="margin-top: 5px; text-align:center">
 		<tr>
 			<td width=10%>

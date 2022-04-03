@@ -27,12 +27,12 @@ class Rincian extends Migration
             'rincian_biaya'    => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
-                'null'              => true,
+                'default'           => '["0"]',
             ],
             'jumlah_biaya'     => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255',
-                'null'              => true,
+                'default'           => '["0"]',
             ],
             'bukti'       => [
                 'type'              => 'LONGTEXT',

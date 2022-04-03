@@ -11,7 +11,8 @@ use App\Models\Admin\PegawaiModel;
 use App\Models\Bendahara\KuitansiModel;
 use App\Models\Bendahara\RincianModel;
 use \Hermawan\DataTables\DataTable;
-use App\Libraries\Pdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
 
 /**
@@ -73,7 +74,7 @@ class Rincian extends ResourcePresenter
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Rincian/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
                 $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Rincian/generate" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Bendahara/Rincian/print/' . $row->id . '" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 return $button;
             }, 'last')
             ->hide('id')->addNumbering()
@@ -253,8 +254,8 @@ class Rincian extends ResourcePresenter
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'rincian_biaya' => json_encode(!empty($this->request->getVar('rincianBiayaAddEditForm')) ? ["0"] : $this->request->getVar('rincianBiayaAddEditForm')),
-                'jumlah_biaya' => json_encode(!empty($this->request->getVar('jumlahAddEditForm')) ? ["0"] : $this->request->getVar('jumlahAddEditForm')),
+                'rincian_biaya' => json_encode($this->request->getVar('rincianBiayaAddEditForm[]')),
+                'jumlah_biaya' => json_encode($this->request->getVar('jumlahAddEditForm[]')),
                 'bukti' => json_encode($image, JSON_UNESCAPED_SLASHES),
                 'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
@@ -303,11 +304,14 @@ class Rincian extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
+
             $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
             $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
             $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+
             $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
             $sum = $sum + $data['jumlah_uang'];$data['sum'] = $sum;
+
             $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
             $data['bukti'] = json_decode($data['bukti']);
             $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
@@ -531,5 +535,48 @@ class Rincian extends ResourcePresenter
 
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
+    }
+
+    public function print($id = null){
+
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $data = $this->rincian->where('id', $id)->first();
+
+        $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();
+        $data['kepala'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['yang_menyetujui'])->first();
+        $data['jumlah_biaya'] = json_decode($data['jumlah_biaya']);
+
+        $sum = array_reduce( $data['jumlah_biaya'], function($carry, $item){return $carry + $item;});
+        $sum = $sum + $data['jumlah_uang'];$data['sum'] = $sum;
+        
+        $data['rincian_biaya'] = json_decode($data['rincian_biaya']);
+        $data['bukti'] = json_decode($data['bukti']);
+        $data['looping'] = array($data['jumlah_biaya'] , $data['rincian_biaya'] , $data['bukti']);
+
+        // d($data);print_r($data);die();
+
+        $filename = 'Rincian_Spd_No_'.$data['kode_spd'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('bendahara/rincian/p-rincian', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
     }
 }
