@@ -12,6 +12,8 @@ use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
 use App\Models\Kepala\VerifikasiModel;
 use \Hermawan\DataTables\DataTable;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
 
 
@@ -92,7 +94,7 @@ class Verifikasi extends ResourcePresenter
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
             }elseif($row->status == 'Disetujui'){
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                $button .= '<a type="button"class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                $button .= '<a type="button"class="btn btn-xs btn-success mr-1 mb-1 print" href="/Kepala/Verifikasi/print/' .$row->id. '" target="_blank" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
             }else{
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 $button .= '<a type="button" class="btn btn-xs btn-primary mr-1 mb-1 verifikasi" href="javascript:void(0)" name="verifikasi" data-id="'. $row->id .'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Verifikasi Data ]"><i class="fas fa-check text-white"></i></a>' ;
@@ -221,7 +223,7 @@ class Verifikasi extends ResourcePresenter
      */
     public function show($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -231,7 +233,7 @@ class Verifikasi extends ResourcePresenter
      */
     public function new()
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -242,7 +244,7 @@ class Verifikasi extends ResourcePresenter
      */
     public function create()
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -254,7 +256,7 @@ class Verifikasi extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -268,7 +270,7 @@ class Verifikasi extends ResourcePresenter
     public function update($id = null)
     {
         if (!$this->request->isAJAX()) {
-            exit('No direct script is allowed');
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         // $id = $this->request->getVar('hidden_id');
         // $builder = $this->db->table('spt');
@@ -360,7 +362,7 @@ class Verifikasi extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -372,6 +374,50 @@ class Verifikasi extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+    }
+    public function print($id = null){
+
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $data = $this->spt->where('id',$id)->first();
+
+        $builder = $this->db->table('pegawai');
+        $query = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+
+        $data['looping'] = $query->getResult();
+        $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // d($data);print_r($data);die();
+
+        $filename = 'Spt_No_'.$data['kode'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('kepala/verifikasi/p-verifikasi', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
     }
 }

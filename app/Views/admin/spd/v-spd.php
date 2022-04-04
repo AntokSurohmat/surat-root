@@ -166,7 +166,7 @@
                                             <p style="font-size:16px;text-align:center;line-height: 16px;margin-bottom:8px;" class="mr-5">Pusat Pemerintah Cirebon Telp.(0231) 321495 - 321073</p>
                                             <div class="row">
                                             <div class="col-sm-10 invoice-col">
-                                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:800" class="mr-5">SUMBER</p>
+                                            <p style="font-size:20px;text-align:center;line-height: 1em;font-weight:800" class="ml-5">SUMBER</p>
                                             </div>
                                             <div class="col-sm-1">
                                                 45611
@@ -233,7 +233,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th style="width:5%;">2.</th>
-                                                        <td style="width:20%;">Nama pegawai yang dipertintah</td>
+                                                        <td style="width:20%;">Nama pegawai yang diperintah</td>
                                                         <td id="pegawaimodalView" colspan="2">: </td>
                                                     </tr>
                                                     <tr>
@@ -312,7 +312,7 @@
                                                         <td style="width:20%;">
                                                         <ul class="list-unstyled">
                                                                 <li>
-                                                                Pembebanana anggaran
+                                                                Pembebanan anggaran
                                                                 </li>
                                                                 <li>
                                                                     <ol type="a">
@@ -398,12 +398,12 @@
                                 <div class="invoice p-3 mb-3">
                                     <div class="row invoice-info">
                                         <div class="col-sm-12 invoice-col">
-                                            <table class="table table-sm table-borderless">
+                                            <table class="table table-sm table-bordered">
                                                 <tbody>
                                                     <tr>
                                                         <td style="width: 50%;"></td>
                                                         <td>
-                                                            <table class="table table-border minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <th style="width: 5%;">I.</th>
@@ -430,14 +430,11 @@
                                                                         <td id="tujuanslide2ModelView"></td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td colspan="4" class="text-center">Pejabat yang memberikan perintah<br><br><br><br>
+                                                                        <td colspan="4" class="text-center" style="height: 100px;">Pejabat yang memberikan perintah
                                                                         </td>
                                                                     </tr>
                                                                     <tr class="mt-5">
-                                                                        <td colspan="4" class="text-center" id="diperintahslide2ModelView"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td colspan="4" class="text-center" id="nipslide2ModelView"></td>
+                                                                        <td colspan="4" class="text-center"><span id="diperintahslide2ModelView" style="font-weight: 800;"></span><br><span id="nipslide2ModelView"></span></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -445,7 +442,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 50%;">
-                                                            <table class="table table-sm">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <th style="width: 5%;">II.</th>
@@ -469,7 +466,7 @@
                                                             </table>
                                                         </td>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
@@ -479,7 +476,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
-                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 38%;">Tujuan</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tujuanslide2ModelViewfirst"></td>
                                                                     </tr>
@@ -501,7 +498,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 50%;">
-                                                            <table class="table  minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <th style="width: 5%;">III.</th>
@@ -525,7 +522,7 @@
                                                             </table>
                                                         </td>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
@@ -535,7 +532,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
-                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 38%;">Tujuan</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tujuanslide2ModelViewsecond"></td>
                                                                     </tr>
@@ -557,7 +554,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <th style="width: 5%;">VI.</th>
@@ -581,7 +578,7 @@
                                                             </table>
                                                         </td>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
@@ -591,7 +588,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
-                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 38%;">Tujuan</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tujuanslide2ModelViewthird"></td>
                                                                     </tr>
@@ -613,7 +610,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <th style="width: 5%;">V.</td>
@@ -637,7 +634,7 @@
                                                             </table>
                                                         </td>
                                                         <td style="width: 50%;">
-                                                            <table class="table minimpadding">
+                                                            <table class="table table-borderless minimpadding">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
@@ -647,7 +644,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td style="width: 5%;"></td>
-                                                                        <td style="width: 38%;">Berangkat dari</td>
+                                                                        <td style="width: 38%;">Tujuan</td>
                                                                         <td style="width: 5%;"> : </td>
                                                                         <td id="tujuanslide2ModelViewfourth"></td>
                                                                     </tr>
@@ -668,8 +665,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>VI.</b> CATATAN LAIN - LAIN</td>
-                                                        <td></td>
+                                                        <td colspan="2" style="height: 164px;"><b>VI.</b> CATATAN LAIN - LAIN</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2" class="text-justify"><p><b>VII.</b> Pejabat yang berwenang menerbitkan SPD, pegawai yang melakukan perjalanan dinas, para pejabat yang mengesahkan tanggal berangkat/tiba serta Bendaharawan yang bertanggung jawab, berdasarkan pengaturan-pengaturan Keuangan Negara apabila Negara mendapatkan akibat kesalahan, kelupaannya.</p></td>
@@ -867,19 +863,20 @@
                     $('#tujuanModalView').append(data.instansi.nama_instansi);
                     $('#lamaModalView').append(data.lama+' Hari');
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                    var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
-                    $('#awalmodalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
-                    var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
-                    $('#akhirModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    var m_awal = new Array("01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+                    var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
+                    $('#awalmodalView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
+                    var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
+                    $('#akhirModalView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
                     $('#untukModalView').append(data.untuk);
                     var month_fullnames = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
-                    var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + month_fullnames[curr_month] + " " + curr_year);
+                    var d = new Date(data.created_at);var full_curr_date = d.getDate();var full_curr_month = d.getMonth();var full_curr_year = d.getFullYear();
+                    $('#createdatModalView').text(m_awal[full_curr_date] + " " + month_fullnames[full_curr_month] + " " + full_curr_year);
                     data.looping.forEach((pegawailoop, index) => {
                         // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
-                        var lahir = new Date(pegawailoop.tgl_lahir);var curr_date = lahir.getDate();var curr_month = lahir.getMonth();var curr_year = lahir.getFullYear();
+                        var lahir = new Date(pegawailoop.tgl_lahir);var lahir_curr_date = lahir.getDate();var lahir_curr_month = lahir.getMonth();var lahir_curr_year = lahir.getFullYear();
                         $('#pengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama+'</li></ul>');
-                        $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+curr_date + "-" + m_names[curr_month] + "-" + curr_year+'</li></ul>');
+                        $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+m_awal[lahir_curr_date] + "-" + m_names[lahir_curr_month] + "-" + lahir_curr_year+'</li></ul>');
                         $('#ketPengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama_jabatan+'</li></ul>');
                     });
                     $('#biayaInstansiModalViews').append('--');
@@ -892,14 +889,15 @@
                     $('#tglberangkatslide2ModelView').append(data.awal);
                     $('#tujuanslide2ModelView').append('');
                     $('#diperintahslide2ModelView').append(data.diperintah.nama);
-                    $('#nipslide2ModelView').append(data.diperintah.nip);
+                    $('#nipslide2ModelView').append('('+data.diperintah.nip+')');
+                    var u_namess = new Array("first","second","third","fourth");
                     for (var urutan in data.json) { //json
                         // console.log(urutan);
                         var obj = data.json[urutan];
                         for (var prop in obj) {
                             // // your code
                             // console.log(prop + " = " + obj[prop]);
-                            $('#'+ prop +'slide2ModelView' + urutan).append(obj[prop]);
+                            $('#'+ prop +'slide2ModelView' +u_namess[urutan]).append(obj[prop]);
                             // if(prop = 'tanggalberangkat' && urutan == 'first'){
                             //     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                             //     var first = new Date(obj['tanggalberangkat']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();

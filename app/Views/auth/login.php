@@ -76,7 +76,7 @@
 
         $('#form-login').on('submit', function(event) {
             event.preventDefault();
-            var url_destination = "<?= base_url('Auth/Auth/Login') ?>";
+            var url_destination = "<?= base_url('auth/auth/login') ?>";
             // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {

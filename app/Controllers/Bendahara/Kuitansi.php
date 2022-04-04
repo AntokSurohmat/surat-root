@@ -298,7 +298,7 @@ class Kuitansi extends ResourcePresenter
      */
     public function show($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -752,7 +752,7 @@ class Kuitansi extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**

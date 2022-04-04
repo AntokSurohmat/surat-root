@@ -33,35 +33,40 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Auth\Auth::index', ["filter" => "noauth"]);
+$routes->group('/', ["filter" => "noauth"], function ($routes) {
+    // $routes->get('', 'Auth\Auth::index');
+    $routes->get('auth', 'Auth\Auth::index');
+    $routes->get('auth/login', 'Auth\Auth::login');
+    $routes->get('auth/logout', 'Auth\Auth::logout');
+});
 // // $routes->get('/', ["filter" => "noauth"], 'Auth\Auth::index');
 // $routes->match(['get', 'post'], 'login', 'Auth\Auth::index', ["filter" => "noauth"]);
-$routes->get('auth/logout', 'Auth\Auth::logout');
 $routes->get('forbidden', 'Auth\Auth::forbidden');
 $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Admin\Dashboard::index');
-    $routes->presenter('Pegawai', ['except' => 'show,remove']);
+    $routes->presenter('Pegawai', ['controller' =>'Admin\Pegawai', 'except' => 'show,remove']);
     $routes->get('pangol', 'Admin\Pangol::index');
     $routes->get('jabatan', 'Admin\Jabatan::index');
-    $routes->presenter('Wilayah', ['except' => 'show,remove']);
-    $routes->presenter('Instansi', ['except' => 'show,remove']);
+    $routes->presenter('Wilayah', ['controller' =>'Admin\Wilayah', 'except' => 'show,remove']);
+    $routes->presenter('Instansi', ['controller' =>'Admin\Instansi', 'except' => 'show,remove']);
     $routes->presenter('Sbuh', ['except' => 'show,remove']);
     $routes->get('rekening', 'Admin\Rekening::index');
-    $routes->presenter('Spt', ['except' => 'show,remove']);
-    $routes->presenter('Spd', ['except' => 'show,remove']);
+    $routes->presenter('spt', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
+    $routes->get('spt/print/(:num)', 'Admin\Spt::print');
+    $routes->presenter('Spd', ['controller' =>'Admin\Spd', 'except' => 'show,remove']);
     $routes->get('lapspt', 'Admin\Lapspt::index');
     $routes->get('lapspd', 'Admin\Lapspd::index');
 });
-$routes->group('bendahara', ["filter" => "auth"], function ($routes) {
+$routes->group('bendahara', ["filter" => "auth", "filter" => "auth"], function ($routes) {
     $routes->get('', 'Bendahara\Dashboard::index',);
-    $routes->presenter('Kuitansi', ['except' => 'show,remove']);
+    $routes->presenter('Kuitansi', ['controller' =>'Bendahara\Spt', 'except' => 'show,remove']);
     $routes->get('Kuitansi/print/(:num)', 'Bendahara\Kuitansi::print');
-    $routes->presenter('Rincian', ['except' => 'show,remove']);
+    $routes->presenter('Rincian', ['controller' =>'Bendahara\Spt', 'except' => 'show,remove']);
     $routes->get('Rincian/print/(:num)', 'Bendahara\Rincian::print');
 });
 $routes->group('kepala', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
-    $routes->presenter('Verifikasi', ['only' => ['index', 'update']]);
+    $routes->presenter('Verifikasi', ['controller' =>'Kepala\Verifikasi', 'only' => ['index', 'update']]);
 });
 $routes->group('pegawai', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Pegawai\Dashboard::index');

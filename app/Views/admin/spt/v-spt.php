@@ -173,14 +173,12 @@
                                             <table style="margin: 0 auto;">
                                                 <tbody>
                                                     <tr>
-                                                        <td colspan="3"  class="text-center">
+                                                        <td class="text-center">
                                                             <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;text-decoration: underline;" class="mb-0">SURAT PERINTAH TUGAS</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td  class="text-center">Nomer</td>
-                                                        <td> : </td>
-                                                        <td>090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
+                                                        <td  class="text-center">Nomer : 090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -248,7 +246,7 @@
                                         <div class="col-6"></div>
                                         <div class="col-6">
                                             <br><br>
-                                            <p style="font-size: 16px;text-align:center;text-decoration: underline;" class="mb-0" id="diperintahModalView"></p>
+                                            <p style="font-size: 16px;text-align:center;text-decoration: underline;font-weight:800;" class="mb-0" id="diperintahModalView"></p>
                                             <p style="font-size: 16px;text-align:center" class="mb-0" id="diperintahNIPModalView"></p>
                                         </div>
                                     </div>
@@ -398,10 +396,10 @@
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
                     $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
-                    $('#diperintahNIPModalView').text(data.pegawai.nip);
+                    $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {
                         // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
-                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:2%;">' + (index + 1) + '.' +'</td><td style="width:30%;">Nama</td><td style="width:1%;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Pangkat Golongan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_pangol +'</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">NIP</td><td style="width: 1%;">:</td><td>' + pegawailoop.nip + '</td></tr><tr><td style="width:2%;"></td><td style="width:30%;">Jabatan</td><td style="width: 1%;">:</td><td>' + pegawailoop.nama_jabatan + '</td></tr></tbody></table>');
+                        $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:5%;font-weight:600;text-align:center">' + (index + 1) + '.' +'</td><td style="width:30%;font-weight:600;">Nama</td><td style="width:1%;font-weight:600;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Pangkat Golongan</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nama_pangol +'</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">NIP</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nip + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Jabatan</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nama_jabatan + '</td></tr></tbody></table>');
                     });
                     $('#modal-viewitem').modal('show');
                 }

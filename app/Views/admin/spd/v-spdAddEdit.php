@@ -170,18 +170,18 @@
 
                                     <div class="form-group">
                                         <label for="berangkatdariFormfirst">Berangkat Dari</label>
-                                        <input type="text" class="form-control" name="berangkatAddEditFormFirst" id="berangkatdariFormfirst" placeholder="Berangkat Dari">
+                                        <input type="text" class="form-control" name="berangkatAddEditForm[]" id="berangkatdariFormfirst" placeholder="Berangkat Dari">
                                         <div class="invalid-feedback berangkatErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tujuanFormfirst">Tujuan Instansi</label>
-                                        <input type="text" class="form-control" name="tujuanAddEditFormFirst" id="tujuanFormfirst" placeholder="tujuan Dari">
+                                        <input type="text" class="form-control" name="tujuanAddEditForm[]" id="tujuanFormfirst" placeholder="tujuan Dari">
                                         <div class="invalid-feedback tujuanErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggalberangkatFormfirst">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFirst" id="tanggalberangkatFormfirst" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditForm[]" id="tanggalberangkatFormfirst" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -190,19 +190,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalaberangkatFormfirst">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFirst" id="kepalaberangkatFormfirst" placeholder="Kepala Pada Saat Tiba">
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditForm[]" id="kepalaberangkatFormfirst" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormFirst"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
                                     <div class="form-group">
                                         <label for="tibadiFormfirst">Tiba Di</label>
-                                        <input type="text" class="form-control" name="tibadiAddEditFirst" id="tibadiFormfirst" placeholder="Tiba Di">
+                                        <input type="text" class="form-control" name="tibadiAddEditForm[]" id="tibadiFormfirst" placeholder="Tiba Di">
                                         <div class="invalid-feedback tibadiErrorFormFirst"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggaltibaFormfirst">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFirst" id="tanggaltibaFormfirst" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditForm[]" id="tanggaltibaFormfirst" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -211,7 +211,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalatibaFormfirst">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFirst" id="kepalatibaFormfirst" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditForm[]" id="kepalatibaFormfirst" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormFirst"></div>
                                     </div>
                                 </div>
@@ -225,18 +225,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="berangkatdariFormsecond">Berangkat Dari</label>
-                                        <input type="text" class="form-control" name="berangkatAddEditFormSecond" id="berangkatdariFormsecond" placeholder="Berangkat Dari">
+                                        <input type="text" class="form-control" name="berangkatAddEditForm[]" id="berangkatdariFormsecond" placeholder="Berangkat Dari">
                                         <div class="invalid-feedback berangkatErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tujuanFormsecond">Tujuan Instansi</label>
-                                        <input type="text" class="form-control" name="tujuanAddEditFormSecond" id="tujuanFormsecond" placeholder="tujuan Dari">
+                                        <input type="text" class="form-control" name="tujuanAddEditForm[]" id="tujuanFormsecond" placeholder="tujuan Dari">
                                         <div class="invalid-feedback tujuanErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggalberangkatFormsecond">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormSecond" id="tanggalberangkatFormsecond" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditForm[]" id="tanggalberangkatFormsecond" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -245,19 +245,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalaberangkatFormsecond">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormSecond" id="kepalaberangkatFormsecond" placeholder="Kepala Pada Saat Tiba">
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditForm[]" id="kepalaberangkatFormsecond" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormSecond"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
                                     <div class="form-group">
                                         <label for="tibadiFormsecond">Tiba Di</label>
-                                        <input type="text" class="form-control" name="tibadiAddEditSecond" id="tibadiFormsecond" placeholder="Tiba Di">
+                                        <input type="text" class="form-control" name="tibadiAddEditForm[]" id="tibadiFormsecond" placeholder="Tiba Di">
                                         <div class="invalid-feedback tibadiErrorFormSecond"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggaltibaFormsecond">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormSecond" id="tanggaltibaFormsecond" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditForm[]" id="tanggaltibaFormsecond" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -266,7 +266,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalatibaFormsecond">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormSecond" id="kepalatibaFormsecond" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditForm[]" id="kepalatibaFormsecond" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormSecond"></div>
                                     </div>
                                 </div>
@@ -280,18 +280,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="berangkatdariFormthird">Berangkat Dari</label>
-                                        <input type="text" class="form-control" name="berangkatAddEditFormThird" id="berangkatdariFormthird" placeholder="Berangkat Dari">
+                                        <input type="text" class="form-control" name="berangkatAddEditForm[]" id="berangkatdariFormthird" placeholder="Berangkat Dari">
                                         <div class="invalid-feedback berangkatErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tujuanFormthird">Tujuan Instansi</label>
-                                        <input type="text" class="form-control" name="tujuanAddEditFormThird" id="tujuanFormthird" placeholder="tujuan Dari">
+                                        <input type="text" class="form-control" name="tujuanAddEditForm[]" id="tujuanFormthird" placeholder="tujuan Dari">
                                         <div class="invalid-feedback tujuanErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggalberangkatFormthird">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormThird" id="tanggalberangkatFormthird" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditForm[]" id="tanggalberangkatFormthird" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -300,19 +300,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalaberangkatFormthird">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormThird" id="kepalaberangkatFormthird" placeholder="Kepala Pada Saat Tiba">
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditForm[]" id="kepalaberangkatFormthird" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormThird"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
                                     <div class="form-group">
                                         <label for="tibadiFormthird">Tiba Di</label>
-                                        <input type="text" class="form-control" name="tibadiAddEditThird" id="tibadiFormthird" placeholder="Tiba Di">
+                                        <input type="text" class="form-control" name="tibadiAddEditForm[]" id="tibadiFormthird" placeholder="Tiba Di">
                                         <div class="invalid-feedback tibadiErrorFormThird"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggaltibaFormthird">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormThird" id="tanggaltibaFormthird" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditForm[]" id="tanggaltibaFormthird" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -321,7 +321,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalatibaFormthird">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormThird" id="kepalatibaFormthird" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditForm[]" id="kepalatibaFormthird" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormThird"></div>
                                     </div>
                                 </div>
@@ -335,18 +335,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="berangkatdariFormfourth">Berangkat Dari</label>
-                                        <input type="text" class="form-control" name="berangkatAddEditFormFourth" id="berangkatdariFormfourth" placeholder="Berangkat Dari">
+                                        <input type="text" class="form-control" name="berangkatAddEditForm[]" id="berangkatdariFormfourth" placeholder="Berangkat Dari">
                                         <div class="invalid-feedback berangkatErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tujuanFormfourth">Tujuan Instansi</label>
-                                        <input type="text" class="form-control" name="tujuanAddEditFormFourth" id="tujuanFormfourth" placeholder="tujuan Dari">
+                                        <input type="text" class="form-control" name="tujuanAddEditForm[]" id="tujuanFormfourth" placeholder="tujuan Dari">
                                         <div class="invalid-feedback tujuanErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggalberangkatFormfourth">Tanggal Berangkat</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditFormFourth" id="tanggalberangkatFormfourth" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalBerangkatAddEditForm[]" id="tanggalberangkatFormfourth" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -355,19 +355,19 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalaberangkatFormfourth">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditFormFourth" id="kepalaberangkatFormfourth" placeholder="Kepala Pada Saat Tiba">
+                                        <input type="text" class="form-control" name="kepalaBerangkatAddEditForm[]" id="kepalaberangkatFormfourth" placeholder="Kepala Pada Saat Tiba">
                                         <div class="invalid-feedback kepalaBerangkatErrorFormFourth"></div>
                                     </div>
                                     <hr class="s9" style="margin: 0;">
                                     <div class="form-group">
                                         <label for="tibadiFormfourth">Tiba Di</label>
-                                        <input type="text" class="form-control" name="tibadiAddEditFourth" id="tibadiFormfourth" placeholder="Tiba Di">
+                                        <input type="text" class="form-control" name="tibadiAddEditForm[]" id="tibadiFormfourth" placeholder="Tiba Di">
                                         <div class="invalid-feedback tibadiErrorFormFourth"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggaltibaFormfourth">Tanggal Tiba</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="tanggalTibaAddEditFormFourth" id="tanggaltibaFormfourth" placeholder="Dari Tanggal" />
+                                            <input type="text" class="form-control" name="tanggalTibaAddEditForm[]" id="tanggaltibaFormfourth" placeholder="Dari Tanggal" />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                             </div>
@@ -376,7 +376,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="kepalatibaFormfourth">Kepala Saat Tiba</label>
-                                        <input type="text" class="form-control" name="kepalaTibaAddEditFormFourth" id="kepalatibaFormfourth" placeholder="Kepala Pada Tiba Di Lokasi">
+                                        <input type="text" class="form-control" name="kepalaTibaAddEditForm[]" id="kepalatibaFormfourth" placeholder="Kepala Pada Tiba Di Lokasi">
                                         <div class="invalid-feedback kepalaTibaErrorFormFourth"></div>
                                     </div>
                                 </div>
@@ -548,12 +548,12 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
+                        console.log(data.error);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
                             // console.log(data.error[key].length);
                         });
                     }
@@ -645,78 +645,14 @@
                         $('#lamaForm').val(data.lama);
                         $('#keteranganForm').val(data.keterangan);
                         $('#rekeningForm').val(data.rekening.nomer_rekening);
+                        var u_names = new Array("first","second","third","fourth");
                         for (var urutan in data.json) { //json
                             // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
                                 // console.log(prop + " = " + obj[prop] + ' '+ urutan);
-                                $('#'+ prop +'Form' + urutan).val(obj[prop]);
-                                var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                                $('#'+ prop +'Form' + u_names[urutan]).val(obj[prop]);
 
-                                if(prop = 'tanggalberangkat' && urutan == 'first'){
-                                    if(obj['tanggalberangkat'] != ''){
-                                        var first = new Date(obj['tanggalberangkat']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
-                                        $('#tanggalberangkatFormfirst').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggalberangkatFormfirst').val('');
-                                    }
-                                }
-                                if(prop = 'tanggaltiba' && urutan == 'first'){
-                                    if(obj['tanggaltiba'] != ''){                                     
-                                        var first = new Date(obj['tanggaltiba']);var curr_date = first.getDate();var curr_month = first.getMonth();var curr_year = first.getFullYear();
-                                        $('#tanggaltibaFormfirst').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggaltibaFormfirst').val('');
-                                    }
-                                }
-                                if(prop = 'tanggalberangkat' && urutan == 'second'){
-                                    if(obj['tanggalberangkat'] != ''){
-                                    var second = new Date(obj['tanggalberangkat']);var curr_date = second.getDate();var curr_month = second.getMonth();var curr_year = second.getFullYear();
-                                    $('#tanggalberangkatFormsecond').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggalberangkatFormsecond').val('');
-                                    }
-                                }
-                                if(prop = 'tanggaltiba' && urutan == 'second'){
-                                    if(obj['tanggaltiba'] != ''){   
-                                    var second = new Date(obj['tanggaltiba']);var curr_date = second.getDate();var curr_month = second.getMonth();var curr_year = second.getFullYear();
-                                    $('#tanggaltibaFormsecond').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggaltibaFormsecond').val('');
-                                    }
-                                }
-                                if(prop = 'tanggalberangkat' && urutan == 'third'){
-                                    if(obj['tanggalberangkat'] != ''){
-                                    var third = new Date(obj['tanggalberangkat']);var curr_date = third.getDate();var curr_month = third.getMonth();var curr_year = third.getFullYear();
-                                    $('#tanggalberangkatFormthird').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggalberangkatFormthird').val('');
-                                    }
-                                }
-                                if(prop = 'tanggaltiba' && urutan == 'third'){
-                                    if(obj['tanggaltiba'] != ''){   
-                                        var third = new Date(obj['tanggaltiba']);var curr_date = third.getDate();var curr_month = third.getMonth();var curr_year = third.getFullYear();
-                                        $('#tanggaltibaFormthird').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggaltibaFormthird').val('');
-                                    }
-                                }
-                                if(prop = 'tanggalberangkat' && urutan == 'fourth'){
-                                    if(obj['tanggalberangkat'] != ''){
-                                        var fourth = new Date(obj['tanggalberangkat']);var curr_date = fourth.getDate();var curr_month = fourth.getMonth();var curr_year = fourth.getFullYear();
-                                        $('#tanggalberangkatFormfourth').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggalberangkatFormfourth').val('');
-                                    }
-                                }
-                                if(prop = 'tanggaltiba' && urutan == 'fourth'){
-                                    if(obj['tanggaltiba'] != ''){   
-                                    var fourth = new Date(obj['tanggaltiba']);var curr_date = fourth.getDate();var curr_month = fourth.getMonth();var curr_year = fourth.getFullYear();
-                                    $('#tanggaltibaFormfourth').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                                    }else{
-                                        $('#tanggaltibaFormfourth').val('');
-                                    }
-                                }
                             }
                         }
 

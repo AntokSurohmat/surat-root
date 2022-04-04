@@ -10,9 +10,9 @@ use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\SptModel;
 use \Hermawan\DataTables\DataTable;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
-use PHPUnit\Util\Json;
-
 /**
  * @property IncomingRequest $request
 */
@@ -85,11 +85,11 @@ class Spt extends ResourcePresenter
             ->add(null, function($row){
                 if($row->status == 'Disetujui'){
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Admin/Spt/print/' . $row->id . '" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
                 }else{
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                    $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/spt/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>';
+                    $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Spt/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
                 }
                 return $button;
@@ -324,7 +324,7 @@ class Spt extends ResourcePresenter
      */
     public function show($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -692,7 +692,7 @@ class Spt extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -720,5 +720,50 @@ class Spt extends ResourcePresenter
 
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
+    }
+
+    public function print($id = null){
+
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $data = $this->spt->where('id',$id)->first();
+
+        $builder = $this->db->table('pegawai');
+        $query = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+
+        $data['looping'] = $query->getResult();
+        $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // d($data);print_r($data);die();
+
+        $filename = 'Spt_No_'.$data['kode'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/spt/p-spt', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
     }
 }

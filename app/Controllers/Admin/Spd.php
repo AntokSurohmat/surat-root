@@ -12,8 +12,9 @@ use App\Models\Admin\WilayahModel;
 use App\Models\Admin\RekeningModel;
 use App\Models\Admin\SpdModel;
 use \Hermawan\DataTables\DataTable;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
-
 
 /**
  * @property IncomingRequest $request
@@ -69,7 +70,11 @@ class Spd extends ResourcePresenter
         return DataTable::of($builder)
             ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
             ->format('pegawai_diperintah', function($value){
-                $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();return $pegawai['nama'];
+                if($value == null){
+                    return $value;
+                }else{
+                    $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();return $pegawai['nama'];
+                }
             })
             ->format('pegawai_all', function($value){                
                 $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
@@ -101,7 +106,7 @@ class Spd extends ResourcePresenter
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Spd/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Admin/Spd/print/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Detail Only ]"><i class="fas fa-file-alt text-white"></i></a>';
                 }
                 return $button;
@@ -230,7 +235,7 @@ class Spd extends ResourcePresenter
      */
     public function show($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -240,7 +245,7 @@ class Spd extends ResourcePresenter
      */
     public function new($id = null)
     {
-        if (!$this->request->isAJAX()) {
+        if (!$id) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
@@ -351,6 +356,34 @@ class Spd extends ResourcePresenter
                 'label'     => 'Jenis Kendaraan',
                 'rules'     => 'required',
             ],
+            'berangkatAddEditForm[]' => [
+                'label'     => 'Berangkat Dari',
+                'rules'     => 'permit_empty',
+            ],
+            'tujuanAddEditForm[]' => [
+                'label'     => 'Tujuan',
+                'rules'     => 'permit_empty'
+            ],
+            'tanggalBerangkatAddEditForm[]' => [
+                'label'     => 'Tanggal Berangkat',
+                'rules'     => 'permit_empty|valid_date[d/m/Y]'
+            ],
+            'kepalaBerangkatAddEditForm[]' => [
+                'label'     => 'Kepala Berangkat',
+                'rules'     => 'permit_empty'
+            ],
+            'tibadiAddEditForm[]' => [
+                'label'     => 'Tiba di',
+                'rules'     => 'permit_empty'
+            ],
+            'tanggalTibaAddEditForm[]' => [
+                'label'     => 'Tanggal Tiba',
+                'rules'     => 'permit_empty|valid_date[d/m/Y]'
+            ],
+            'kepalaTibaAddEditForm[]' => [
+                'label'     => 'Kepala Tiba',
+                'rules'     => 'permit_empty'
+            ],
         ]);
 
         if (!$valid) {
@@ -373,49 +406,36 @@ class Spd extends ResourcePresenter
                     'rekening' => $validation->getError('rekeningAddEditForm'),
                     'keterangan' => $validation->getError('keteranganAddEditForm'),
                     'kendaraan' => $validation->getError('kendaraanAddEditForm'),
+                    'berangkatdariFormfirst' => $validation->getError('berangkatAddEditForm[]'),
+                    'tujuanFormfirst' => $validation->getError('tujuanAddEditForm[]'),
+                    'tanggalberangkatFormfirst' => $validation->getError('tanggalBerangkatAddEditForm[]'),
+                    'kepalaberangkatFormfirst' => $validation->getError('kepalaBerangkatAddEditForm[]'),
+                    'tibadiFormfirst' => $validation->getError('tibadiAddEditForm[]'),
+                    'tanggaltibaFormfirst' => $validation->getError('tanggalTibaAddEditForm[]'),
+                    'kepalatibaFormfirst' => $validation->getError('kepalaTibaAddEditForm[]'),
                 ],
                 'msg' => '',
             ];
         }else{
 
-            $detail_array = array(
-                "first" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditFirst'),
-                    "tanggaltiba" =>  ($this->request->getVar('tanggalTibaAddEditFormFirst') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))) : ''),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFirst'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFirst'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormFirst'),
-                    "tanggalberangkat" => ($this->request->getVar('tanggalTibaAddEditFormFirst') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))) : ''),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFirst'),
-                ),
-                "second" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditSecond'),
-                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormSecond') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormSecond')))) : ''),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormSecond'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormSecond'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormSecond'),
-                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormSecond') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormSecond')))) : ''),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormSecond'),
-                ),
-                "third" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditThird'),
-                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormThird') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormThird')))) : ''),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormThird'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormThird'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormThird'),
-                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormThird') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormThird')))) : ''),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormThird'),
-                ),
-                "fourth" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditFourth'),
-                    "tanggaltiba" => ($this->request->getVar('tanggalTibaAddEditFormFourth') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFourth')))) : ''),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFourth'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFourth'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormFourth'),
-                    "tanggalberangkat" => ($this->request->getVar('tanggalBerangkatAddEditFormFourth') != NULL  ? date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFourth')))) : ''),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFourth'),
-                )
-            );
+
+            $a = $this->request->getVar('tibadiAddEditForm[]');
+            $b = $this->request->getVar('tanggalTibaAddEditForm[]');
+            $c = $this->request->getVar('kepalaTibaAddEditForm[]');
+            $d = $this->request->getVar('berangkatAddEditForm[]');
+            $e = $this->request->getVar('tujuanAddEditForm[]');
+            $f = $this->request->getVar('tanggalBerangkatAddEditForm[]');
+            $g = $this->request->getVar('kepalaBerangkatAddEditForm[]');
+
+            for($i=0;$i<count($a);$i++){
+                $detail_array[$i]["tibadi"]=$a[$i];
+                $detail_array[$i]["tanggaltiba"]=$b[$i];
+                $detail_array[$i]["kepalatiba"]=$c[$i];
+                $detail_array[$i]["berangkatdari"]=$d[$i];
+                $detail_array[$i]["tujuan"]=$e[$i];
+                $detail_array[$i]["tanggalberangkat"]=$f[$i];
+                $detail_array[$i]["kepalaberangkat"]=$g[$i];
+            }
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
@@ -429,7 +449,7 @@ class Spd extends ResourcePresenter
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
                 'keterangan' => $this->db->escapeString($this->request->getVar('keteranganAddEditForm')),
                 'jenis_kendaraan' => $this->db->escapeString($this->request->getVar('kendaraanAddEditForm')),
-                'detail' => json_encode($detail_array),
+                'detail' => json_encode($detail_array, JSON_UNESCAPED_SLASHES),
                 'status' => 'true',
 
             ];
@@ -503,9 +523,7 @@ class Spd extends ResourcePresenter
             $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
             $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
             $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode', $data['kode_rekening'])->first();
-            $data['json'] = json_decode($data['detail'], true);
-            // d(json_decode($data['detail']));print_r(json_decode($data['detail']));die();
-            // d($data['json']);print_r($data['json']);die();
+            $data['json'] = json_decode($data['detail']);
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -635,6 +653,34 @@ class Spd extends ResourcePresenter
                 'label'     => 'Jenis Kendaraan',
                 'rules'     => 'required',
             ],
+            'berangkatAddEditForm[]' => [
+                'label'     => 'Rincian Biaya',
+                'rules'     => 'permit_empty',
+            ],
+            'tujuanAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty'
+            ],
+            'tanggalBerangkatAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|valid_date[d/m/Y]'
+            ],
+            'kepalaBerangkatAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty'
+            ],
+            'tibadiAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty'
+            ],
+            'tanggalTibaAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty|valid_date[d/m/Y]'
+            ],
+            'kepalaTibaAddEditForm[]' => [
+                'label'     => 'Jumlah Rincian',
+                'rules'     => 'permit_empty'
+            ],
         ]);
 
         if (!$valid) {
@@ -657,49 +703,36 @@ class Spd extends ResourcePresenter
                     'rekening' => $validation->getError('rekeningAddEditForm'),
                     'keterangan' => $validation->getError('keteranganAddEditForm'),
                     'kendaraan' => $validation->getError('kendaraanAddEditForm'),
+                    'berangkatdariFormfirst' => $this->validation->getError('berangkatAddEditForm[]'),
+                    'tujuanFormfirst' => $this->validation->getError('tujuanAddEditForm[]'),
+                    'tanggalberangkatFormfirst' => $this->validation->getError('tanggalBerangkatAddEditForm[]'),
+                    'kepalaberangkatFormfirst' => $this->validation->getError('kepalaBerangkatAddEditForm[]'),
+                    'tibadiFormfirst' => $this->validation->getError('tibadiAddEditForm[]'),
+                    'tanggaltibaFormfirst' => $this->validation->getError('tanggalTibaAddEditForm[]'),
+                    'kepalatibaFormfirst' => $this->validation->getError('kepalaTibaAddEditForm[]'),
                 ],
                 'msg' => '',
             ];
         }else{
 
-            $detail_array = array(
-                "first" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditFirst'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFirst')))),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFirst'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFirst'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormFirst'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFirst')))),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFirst'),
-                ),
-                "second" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditSecond'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormSecond')))),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormSecond'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormSecond'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormSecond'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormSecond')))),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormSecond'),
-                ),
-                "third" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditThird'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormThrid')))),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormThird'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormThird'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormThird'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormThird')))),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormThird'),
-                ),
-                "fourth" => array(
-                    "tibadi" => $this->request->getVar('tibadiAddEditFourth'),
-                    "tanggaltiba" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalTibaAddEditFormFourth')))),
-                    "kepalatiba" => $this->request->getVar('kepalaTibaAddEditFormFourth'),
-                    "berangkatdari" => $this->request->getVar('berangkatAddEditFormFourth'),
-                    "tujuan" => $this->request->getVar('tujuanAddEditFormFourth'),
-                    "tanggalberangkat" => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tanggalBerangkatAddEditFormFourth')))),
-                    "kepalaberangkat" => $this->request->getVar('kepalaBerangkatAddEditFormFourth'),
-                )
-            );
+            $a = $this->request->getVar('tibadiAddEditForm[]');
+            $b = $this->request->getVar('tanggalTibaAddEditForm[]');
+            $c = $this->request->getVar('kepalaTibaAddEditForm[]');
+            $d = $this->request->getVar('berangkatAddEditForm[]');
+            $e = $this->request->getVar('tujuanAddEditForm[]');
+            $f = $this->request->getVar('tanggalBerangkatAddEditForm[]');
+            $g = $this->request->getVar('kepalaBerangkatAddEditForm[]');
+
+
+            for($i=0;$i<count($a);$i++){
+                $detail_array[$i]["tibadi"]=$a[$i];
+                $detail_array[$i]["tanggaltiba"]=$b[$i];
+                $detail_array[$i]["kepalatiba"]=$c[$i];
+                $detail_array[$i]["berangkatdari"]=$d[$i];
+                $detail_array[$i]["tujuan"]=$e[$i];
+                $detail_array[$i]["tanggalberangkat"]=$f[$i];
+                $detail_array[$i]["kepalaberangkat"]=$g[$i];
+            }
 
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
@@ -713,7 +746,7 @@ class Spd extends ResourcePresenter
                 'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
                 'keterangan' => $this->db->escapeString($this->request->getVar('keteranganAddEditForm')),
                 'jenis_kendaraan' => $this->db->escapeString($this->request->getVar('kendaraanAddEditForm')),
-                'detail' => json_encode($detail_array),
+                'detail' => json_encode($detail_array, JSON_UNESCAPED_SLASHES),
                 'status' => 'true',
 
             ];
@@ -740,7 +773,7 @@ class Spd extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -768,5 +801,60 @@ class Spd extends ResourcePresenter
 
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
+    }
+
+    public function print($id = null){
+
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $data = $this->spd->where('id', $id)->first();
+
+        $builder = $this->db->table('pegawai');
+        $query = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+        ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+
+        $data['pegawai'] = $query->getResult();
+
+        $query = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+
+        $data['looping'] = $query->getResult();
+        $data['json'] = json_decode($data['detail'], true);
+        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // d($data);print_r($data);die();
+
+        $filename = 'Spd_No_'.$data['kode'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/spd/p-spd', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
     }
 }

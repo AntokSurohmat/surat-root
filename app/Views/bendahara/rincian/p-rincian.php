@@ -12,7 +12,7 @@
 		body {
 			margin: 0;
 			font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-			font-size: 1rem;
+			font-size: 15px;
 			font-weight: 400;
 			line-height: 1.5;
 			color: #212529;
@@ -149,10 +149,11 @@
 			<?php endforeach; ?>
 
 			<tr>
-				<td colspan="4" style="padding: 0 10px;font-weight:800;">TOTAL : Rp. <?= number_format($sum) ?>, -</td>
+				<td></td>
+				<td colspan="3" style="padding: 0 10px;font-weight:800;">TOTAL : Rp. <?= number_format($sum) ?>, -</td>
 			</tr>
-			<tr>
-				<td colspan="4" style="padding: 0 10px;font-weight:800;">TERBILANG : <span style="font-size:14px;"> <?= ucwords(terbilang($sum)) ?></span></td>
+			<tr><td></td>
+				<td colspan="3" style="padding: 0 10px;font-weight:800;">TERBILANG : <span style="font-size:14px;"> <?= ucwords(terbilang($sum)) ?></span></td>
 			</tr>
 		</tbody>
 	</table>

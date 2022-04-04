@@ -19,7 +19,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Sbuh extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url', 'text'];
+    protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
         if (session()->get('level') != "Admin") {
