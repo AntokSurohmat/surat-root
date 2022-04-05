@@ -309,18 +309,14 @@ class Lapspt extends BaseController
             $pegawai = $this->pegawai->where('nip', $data->pejabat)->first();
 
         }
+        $filename = 'Spt_No_' ;
         $hasil['spt'] = $spt;
         $hasil['looping'] = $looping;
         $hasil['pegawai'] = $pegawai;
-        echo "<pre>";
-        print_r($hasil);
-        echo "</pre>";
-        die();
 
-        $data[$this->csrfToken] = $this->csrfHash;
+        $hasil[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
 
-        $filename = 'Spt_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
@@ -332,7 +328,7 @@ class Lapspt extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspt/p-spt', $data));
+        $dompdf->loadHtml(view('admin/lapspt/p-sptall', $hasil));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait

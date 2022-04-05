@@ -24,20 +24,6 @@ class Rincian extends Migration
                 'type'              => 'VARCHAR',
                 'constraint'        => '25',
             ],
-            'rincian_biaya'    => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'default'           => '["0"]',
-            ],
-            'jumlah_biaya'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '255',
-                'default'           => '["0"]',
-            ],
-            'bukti'       => [
-                'type'              => 'LONGTEXT',
-                'null'              => true,
-            ],
             'jumlah_uang'       => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '8',
@@ -84,7 +70,7 @@ class Rincian extends Migration
             ]
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('kode_spd', 'spd', 'kode');
+        $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('rincian');
     }
 

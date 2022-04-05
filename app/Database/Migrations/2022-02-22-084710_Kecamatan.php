@@ -43,7 +43,7 @@ class Kecamatan extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('kode');
-        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode');
+        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('kecamatan');
     }
 

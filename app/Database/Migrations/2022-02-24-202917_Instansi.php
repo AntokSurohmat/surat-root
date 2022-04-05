@@ -52,9 +52,9 @@ class Instansi extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('kode');
-        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode');
-        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode');
-        $this->forge->addForeignKey('kode_kecamatan', 'kecamatan', 'kode');
+        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_kecamatan', 'kecamatan', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('instansi');
     }
 

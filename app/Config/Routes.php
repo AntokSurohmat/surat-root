@@ -53,7 +53,7 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->get('rekening', 'Admin\Rekening::index');
     $routes->presenter('spt', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
     $routes->get('spt/print/(:num)', 'Admin\Spt::print');
-    $routes->presenter('Spd', ['controller' =>'Admin\Spd', 'except' => 'show,remove']);
+    $routes->presenter('Spd', ['controller' =>'Admin\Spd', 'except' => 'show,remove,edit,update']);
     $routes->get('lapspt', 'Admin\Lapspt::index');
     $routes->get('lapspd', 'Admin\Lapspd::index');
 });

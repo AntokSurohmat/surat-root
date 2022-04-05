@@ -63,12 +63,12 @@ class Sbuh extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('kode');
-        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode');
-        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode');
-        $this->forge->addForeignKey('kode_jenis_wilayah', 'jenis_wilayah', 'kode');
-        $this->forge->addForeignKey('kode_kecamatan', 'kecamatan', 'kode');
-        $this->forge->addForeignKey('kode_zonasi', 'zonasi', 'kode');
-        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode');
+        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_kabupaten', 'kabupaten', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_jenis_wilayah', 'jenis_wilayah', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_kecamatan', 'kecamatan', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_zonasi', 'zonasi', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('sbuh');
     }
 

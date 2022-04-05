@@ -83,8 +83,8 @@ class Spt extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
-        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode');
-        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip');
+        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('spt');
     }
 

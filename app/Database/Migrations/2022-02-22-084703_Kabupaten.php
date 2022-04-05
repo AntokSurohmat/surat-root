@@ -43,7 +43,7 @@ class Kabupaten extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('kode');
-        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode');
+        $this->forge->addForeignKey('kode_provinsi', 'provinsi', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('kabupaten');
     }
 

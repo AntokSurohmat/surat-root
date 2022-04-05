@@ -18,7 +18,6 @@ class RincianModel extends Model
     protected $allowedFields    = [
     'kode_spd', 'rincian_sbuh', 'jumlah_uang', 'keterangan_sbuh',
     'awal', 'akhir', 
-    'rincian_biaya', 'jumlah_biaya', 'bukti',
     'jumlah_total', 'yang_menyetujui', 'bendahara', 'detail'
 ];
 
