@@ -5,9 +5,6 @@ namespace App\Controllers\Admin;
 use CodeIgniter\RESTful\ResourcePresenter;
 use App\Models\Admin\PegawaiModel;
 use App\Models\Admin\InstansiModel;
-use App\Models\Admin\ProvinsiModel;
-use App\Models\Admin\KabupatenModel;
-use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\WilayahModel;
 use App\Models\Admin\RekeningModel;
 use App\Models\Admin\SpdModel;
@@ -30,9 +27,6 @@ class Spd extends ResourcePresenter
         }
         $this->pegawai = new PegawaiModel();
         $this->instansi = new instansiModel();
-        $this->provinsi = new ProvinsiModel();
-        $this->kabupaten = new KabupatenModel();
-        $this->kecamatan = new KecamatanModel();
         $this->wilayah = new WilayahModel();
         $this->rekening = new RekeningModel();
         $this->spd = new SpdModel();
@@ -86,6 +80,8 @@ class Spd extends ResourcePresenter
             ->filter(function ($builder, $request) {
                 if ($request->noSpd)
                     $builder->where('spd.kode', $request->noSpd);
+                if ($request->pejabat)
+                    $builder->where('pejabat', $request->pejabat);
                 if ($request->pegawai)
                     $builder->where('pegawai_diperintah', $request->pegawai);
                 if ($request->pengikut)

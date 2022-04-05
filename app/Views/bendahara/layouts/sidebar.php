@@ -14,7 +14,7 @@
     with font-awesome or any other icon font library -->
             <li class="nav-header">NAVIGATIONS</li>
             <li class="nav-item">
-                <a href="<?= route_to('bendahara.index') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
+                <a href="<?= site_url('bendahara') ?>" class="nav-link <?= $parent=='1' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard

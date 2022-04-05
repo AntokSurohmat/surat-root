@@ -15,6 +15,7 @@ use CodeIgniter\HTTP\IncomingRequest;
  */
 class Dashboard extends BaseController
 {
+    protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
         if (session()->get('level') != "Admin") {

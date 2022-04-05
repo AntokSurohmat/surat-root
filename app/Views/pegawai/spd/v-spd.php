@@ -49,6 +49,24 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Instansi ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group row">
+                                            <label for="namaPejabatTable" class="col-sm-4 col-form-label">Nama Pejabat </label>
+                                            <div class="col-sm-7">
+                                                <select name="namaPejabatAddEditForm" id="namaPejabatTable" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Cari Nama Pejabat ---</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label for="namaPegawaiTable" class="col-sm-4 col-form-label">Nama Pegawai </label>
                                             <div class="col-sm-7">
                                                 <select name="namaPegawaiAddEditForm" id="namaPegawaiTable" class="form-control " style="width: 100%;">
@@ -56,21 +74,11 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
                                         <div class="form-group row">
                                             <label for="pengikutTable" class="col-sm-4 col-form-label">Pengikut </label>
                                             <div class="col-sm-7">
                                                 <select name="pengikutAddEditForm" id="pengikutTable" class="form-control " style="width: 100%;">
                                                     <option value="">--- Pilih Pengikut ---</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="namaInstansiTable" class="col-sm-4 col-form-label">Nama Instansi </label>
-                                            <div class="col-sm-7">
-                                                <select name="namaInstansiAddEditForm" id="namaInstansiTable" class="form-control " style="width: 100%;">
-                                                    <option value="">--- Cari Nama Instansi ---</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -712,6 +720,21 @@
         });
 
         var url_destination = '<?= base_url('Pegawai/Spd/getPegawaiTable') ?>';
+        $("#namaPejabatTable").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Cari Nama Pejabat ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
+        var url_destination = '<?= base_url('Pegawai/Spd/getPegawaiTable') ?>';
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Pegawai ---',
@@ -773,7 +796,8 @@
             "ajax": {
                 "url": url_destination,
                 data: function (d) {
-                    d.noSpd = $('#noSpdTable').val();d.pegawai = $('#namaPegawaiTable').val();d.pengikut = $('#pengikutTable').val();
+                    d.noSpd = $('#noSpdTable').val();d.pejabat = $('#namaPejabatTable').val();
+                    d.pegawai = $('#namaPegawaiTable').val();d.pengikut = $('#pengikutTable').val();
                     d.instansi = $('#namaInstansiTable').val();d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();
                 },
                 "timeout": 15000,"error": handleAjaxError
@@ -781,6 +805,7 @@
             "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
         });
         $('#noSpdTable').change(function(event) {spd.ajax.reload();});
+        $('#namaPejabatTable').change(function(event) {spd.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spd.ajax.reload();});
         $('#pengikutTable').change(function(event) {spd.ajax.reload();});
         $('#namaInstansiTable').change(function(event) {spd.ajax.reload();});
@@ -803,8 +828,8 @@
             }
         }
         $("#reset").on('click', function() {
-            $("#noSpdTable").val('').trigger('change');$("#namaPegawaiTable").val('').trigger('change');
-            $("#pengikutTable").val('').trigger('change');$("#namaInstansiTable").val('').trigger('change');
+            $("#noSpdTable").val('').trigger('change');$("#namaPejabatTable").val('').trigger('change');
+            $("#namaPegawaiTable").val('').trigger('change');$("#pengikutTable").val('').trigger('change');$("#namaInstansiTable").val('').trigger('change');
             document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";spd.ajax.reload();
         });
         /*-- /. DataTable To Load Data Wilayah --*/

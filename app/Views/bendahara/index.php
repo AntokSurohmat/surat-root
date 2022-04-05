@@ -25,13 +25,13 @@
     <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-6 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3><?= $kuitansi?></h3>
 
-                        <p>New Orders</p>
+                        <p>Kuitansi</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -40,46 +40,16 @@
                 </div>
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-6 col-6">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3><?= $rincian ?></h3>
 
-                        <p>Bounce Rate</p>
+                        <p>Rincian Biaya</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
                     </div>
                     <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -105,7 +75,7 @@
                         </div>
                     </div>
                     <div class="card-body text-center">
-                      <h2 style="margin-top: 7%;">Selamat datang di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
+                      <h2 style="margin-top: 7%;">Selamat datang  <span style="font-weight:800"><?= ucwords($username)  ?></span> di Sistem Informasi Manajemen Surat<br> Perintah Perjalanan Metrologi Legal Kabupaten Cirebon</h2>
                     </div>
 
 

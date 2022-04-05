@@ -64,7 +64,7 @@ class Spt extends BaseController
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
+            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');$builder->like('pegawai_all', $this->session->get('nip'));})
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
@@ -87,7 +87,7 @@ class Spt extends BaseController
                 if($row->status == 'Disetujui'){
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Pegawai/Spt/print/' . $row->id . '" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="javascript:void(0)" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 download" href="/Pegawai/Spt/download/' . $row->id . '" name="download" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>';
                 }else{
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 }
@@ -250,6 +250,51 @@ class Spt extends BaseController
 
         // output the generated pdf
         $dompdf->stream($filename, array("Attachment" => false));
+    }
+
+    public function download($id = null){
+
+        if (!$id) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $data = $this->spt->where('id',$id)->first();
+
+        $builder = $this->db->table('pegawai');
+        $query = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+
+        $data['looping'] = $query->getResult();
+        $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // d($data);print_r($data);die();
+
+        $filename = 'Spt_No_'.$data['kode'] ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('pegawai/spt/p-spt', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename);
     }
 
 }
