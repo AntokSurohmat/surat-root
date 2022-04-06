@@ -14,11 +14,21 @@ class Dashboard extends BaseController
     }
     public function index()
     {
+
+        $revisi = $this->db->table('spt')->like('status', 'Revisi');
+        $disetujui = $this->db->table('spt')->like('status', 'Disetujui');
+        $pending = $this->db->table('spt')->like('status', 'Pending');
+
+
         $data = array(
             'title' => 'DASHBOARD',
             'parent' => 1,
             'pmenu' => 1.1,
-            'session' => $this->session->username
+            'username' => $this->session->get('username'),
+            'revisi' => $revisi->countAllResults(),
+            'disetujui' => $disetujui->countAllResults(),
+            'pending' => $pending->countAllResults(),
+
         );
         return view('kepala/index', $data);
     }

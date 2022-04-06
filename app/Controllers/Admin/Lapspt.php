@@ -300,39 +300,29 @@ class Lapspt extends BaseController
         $dompdf->stream($filename);
     }
 
-    public function print_all($id = null){
+    public function print_all(){
 
         // if (!$id) {
         //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         // }
-
-        // $data = $this->spt->where('id',$id)->first();
         $spt = $this->spt->get();
 
-        // d(strlen($spt->getResult()));print_r(strlen($spt->getResult()));die();
-        $hasil = array();
-        foreach($spt->getResult() as $data){
+        $data['spt'] =  $spt->getResult();
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data->pegawai_all))->get();
-    
-            $spt = $data;
-            $looping = $query->getResult();
-            $pegawai = $this->pegawai->where('nip', $data->pejabat)->first();
+        $builder = $this->db->table('pegawai');
+        $looping = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')->get();
 
-        }
-        $filename = 'Spt_No_' ;
-        $hasil['spt'] = $spt;
-        $hasil['looping'] = $looping;
-        $hasil['pegawai'] = $pegawai;
-
-        $hasil[$this->csrfToken] = $this->csrfHash;
+        $data['looping'] = $looping->getResult();
+        $pegawai = $this->pegawai->get();
+        $data['pegawai'] = $pegawai->getResult();
+        
+        $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
-
+        
+        $filename = 'All_Spt' ;
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
@@ -344,15 +334,63 @@ class Lapspt extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspt/p-sptall', $hasil));
+        $dompdf->loadHtml(view('admin/lapspt/p-sptall', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
 
         // render html as PDF
         $dompdf->render();
+   
 
         // output the generated pdf
         $dompdf->stream($filename, array("Attachment" => false));
+    }
+
+    public function download_all(){
+
+        // if (!$id) {
+        //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        // }
+        $spt = $this->spt->get();
+
+        $data['spt'] =  $spt->getResult();
+
+        $builder = $this->db->table('pegawai');
+        $looping = $builder->select('pegawai.*')
+        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')->get();
+
+        $data['looping'] = $looping->getResult();
+        $pegawai = $this->pegawai->get();
+        $data['pegawai'] = $pegawai->getResult();
+        
+        $data[$this->csrfToken] = $this->csrfHash;
+        // d($data);print_r($data);die();
+        
+        $filename = 'All_Spt' ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/lapspt/p-sptall', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+   
+
+        // output the generated pdf
+        $dompdf->stream($filename);
     }
 }

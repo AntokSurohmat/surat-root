@@ -388,8 +388,9 @@
                     $('#dasarModalView').append(data.dasar);
                     $('#untukModalView').append(data.untuk);
                     var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
+                    $('#createdatModalView').text(m_awal[curr_date] + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {

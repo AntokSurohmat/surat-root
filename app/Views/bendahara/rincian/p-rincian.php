@@ -182,7 +182,7 @@
 						<td style="text-align:center;height:100px;"></td>
 					</tr>
 					<tr>
-						<td style="text-align:center" id="kepalaBidangNamaTTD"><b style="text-decoration:underline"><?= $kepala['nama']?></b><br>(<?= $kepala['nip']?>)</td>
+						<td style="text-align:center" id="kepalaBidangNamaTTD"><b style="text-decoration:underline;"><?= $kepala['nama']?></b><br>(<?= $kepala['nip']?>)</td>
 					</tr>
 				</table>
 			</td>

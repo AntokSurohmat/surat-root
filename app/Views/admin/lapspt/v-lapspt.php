@@ -142,7 +142,7 @@
                                             <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
                                             <div class="col-sm-3">
                                                 <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
-                                                <a href="<?= base_url('admin/lapspt/print_all')?>" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                <a href="<?= base_url('admin/lapspt/print_all')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -156,13 +156,13 @@
                                         <div class="form-group row">
                                             <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="downSeSurat" data-rel="tooltip" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></button>
+                                                <a href="<?= base_url('admin/lapspt/download_all')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="downReSurat" data-rel="tooltip" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></button>
+                                            <button class="btn btn-default" id="downSeSurat" data-rel="tooltip" data-placement="top" title="Download Recap Surat"><i class="fas fa-download"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -438,8 +438,9 @@
                     $('#dasarModalView').append(data.dasar);
                     $('#untukModalView').append(data.untuk);
                     var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
+                    $('#createdatModalView').text(m_awal[curr_date] + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {

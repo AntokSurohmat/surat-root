@@ -202,8 +202,8 @@
 			</tr>
 			<tr>
 				<td>
-					<p style="font-size: 16px;text-align:center;text-decoration: underline;font-weight:800;" class="mb-0"><?= $pegawai['nama']?></p>
-					<p style="font-size: 16px;text-align:center;" class="mb-0">(<?= $pegawai['nip']?>)</p>
+					<p style="font-size: 16px;text-align:center;text-decoration: underline;font-weight:800;padding-top:2px;" class="mb-0"><?= $pegawai['nama']?></p>
+					<p style="font-size: 16px;text-align:center;padding-top:2px;" class="mb-0">(<?= $pegawai['nip']?>)</p>
 				</td>
 			</tr>
 		</table>

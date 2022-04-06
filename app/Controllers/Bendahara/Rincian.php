@@ -117,15 +117,21 @@ class Rincian extends ResourcePresenter
         }
 
         if ($this->request->getVar('kode')) {
-            $data = $this->kuitansi->where('kode_spd', $this->request->getVar('kode'))->first();
 
-            $instansi = $this->instansi->where('kode', $data['kode_instansi'])->first();
-            $data['sbuh'] = $this->sbuh
-                            ->where('kode_provinsi', $instansi['kode_provinsi'])
-                            ->where('kode_kabupaten', $instansi['kode_kabupaten'])
-                            ->where('kode_kecamatan', $instansi['kode_kecamatan'])
-                            ->first();
-
+            $kuitansi = $this->kuitansi->where('kode_spd', $this->request->getVar('kode'))->first();
+            if($kuitansi == null){
+                $data = array('success' => false, 'msg' => 'Kuitansi Dengan NO SPD '.$this->request->getVar('kode').' Tidak Ada, Silahkan Membuat Terlebih Dahulu', 'isi' => '');
+            }else{
+                $instansi = $this->instansi->where('kode', $kuitansi['kode_instansi'])->first();
+                $sbuh = $this->sbuh
+                ->where('kode_provinsi', $instansi['kode_provinsi'])
+                ->where('kode_kabupaten', $instansi['kode_kabupaten'])
+                ->where('kode_kecamatan', $instansi['kode_kecamatan'])
+                ->first();
+    
+                $data = array('success' => true, 'msg' => '', 'rincian' => $sbuh , 'isi' => $kuitansi );
+            }
+            
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }

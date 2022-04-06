@@ -280,8 +280,8 @@
             $('#rincianDataTableRincianModalView1').empty();$('#keteranganDataTableRincianModalView1').empty();
             $('#indexSatuDataTableRincianModalView').empty();$('#jumlahSatuDataTableRincianModalView').empty();
             $('#rincian_biayaSatuDataTableRincianModalView').empty();$('#keteranganSatuDataTableRincianModalView').empty();
-            $('#indexDuaDataTableRincianModalView').empty();$('#jumlahSatuDataTableRincianModalView').empty();
-            $('#rincian_biayaDuaDataTableRincianModalView').empty();$('#keteranganDataTableRincianModalView3').empty();
+            $('#indexDuaDataTableRincianModalView').empty();$('#jumlahDuaDataTableRincianModalView').empty();
+            $('#rincian_biayaDuaDataTableRincianModalView').empty();$('#keteranganDuaDataTableRincianModalView').empty();
             $('#indexTigaDataTableRincianModalView').empty();$('#jumlahTigaDataTableRincianModalView').empty();
             $('#rincian_biayaTigaDataTableRincianModalView').empty();$('#keteranganTigaDataTableRincianModalView').empty();
             $('#indexEmpatDataTableRincianModalView').empty();$('#jumlahEmpatDataTableRincianModalView').empty();
@@ -305,53 +305,39 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#lampiranSpdNomor').append(': '+data.kode_spd);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
                     var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
                     var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
-                    $('#tanggalBepergian').append(': '+awal_curr_date + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ akhir_curr_date + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
+                    $('#tanggalBepergian').append(': '+m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year +" s/d "+ m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
                     $('#indexDataTableRincianModalView1').append("1");
                     $('#jumlahDataTableRincianModalView1').append('Rp. '+ numberWithDot(data.jumlah_uang)+ ', -');
                     $('#rincianDataTableRincianModalView1').append(data.rincian_sbuh);
                     $('#keteranganDataTableRincianModalView1').append("Kwitansi");
                     var m_namess = new Array("Satu","Dua","Tiga","Empat","Lima");var m_angka = new Array("2","3","4","5","6");
-                        for (var urutan in data.json) { //json
-                            var obj = data.json[urutan];
-                            for (var prop in obj) {
-                                $('#'+ prop + m_namess[urutan] +'DataTableRincianModalView').append(obj[prop]);
-                            
-                                if(prop == 'jumlah_biaya'){
-                                    $('#index' + m_namess[urutan] +'DataTableRincianModalView').append(m_angka[urutan]);
-                                    if(!!obj[prop]){
-                                        $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('Rp. '+ numberWithDot(obj[prop]) + ', -');
-                                    }else if (obj[prop].length === 0){
-                                        $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('');
-                                    }
+                    for (var urutan in data.json) { //json
+                        var obj = data.json[urutan];
+                        for (var prop in obj) {
+                            $('#'+ prop + m_namess[urutan] +'DataTableRincianModalView').append(obj[prop]);
+                        
+                            if(prop == 'jumlah_biaya'){
+                                $('#index' + m_namess[urutan] +'DataTableRincianModalView').append(m_angka[urutan]);
+                                if(!!obj[prop]){
+                                    $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('Rp. '+ numberWithDot(obj[prop]) + ', -');
+                                }else if (obj[prop].length === 0){
+                                    $('#jumlah' + m_namess[urutan] +'DataTableRincianModalView').append('');
                                 }
-                                if(prop == 'bukti_riil'){
-                                    if(!!obj[prop]){
-                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Lembar Bukti');
-                                    }else if(obj[prop].length === 0){
-                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('');
-                                    }else{
-                                        $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Kosong');
-                                    }
-                                } 
-                                // $('#rincian_biayaSatuDataTableRincianModalView').empty();
                             }
+                            if(prop == 'bukti_riil'){
+                                if(!!obj[prop]){
+                                    $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Lembar Bukti');
+                                }else if(obj[prop].length == 0){
+                                    $('#keterangan' + m_namess[urutan] +'DataTableRincianModalView').append('Kosong');
+                                }
+                            } 
+                            // $('#rincian_biayaSatuDataTableRincianModalView').empty();
                         }
-                    // data.looping.forEach((items, index) => {
-                    //     items.forEach((content, row) => {
-                    //         if(index == 0){
-                    //             $('#indexDataTableRincianModalView'+(row+2)).append(row+2);
-                    //             $('#jumlahDataTableRincianModalView'+(row+2)).append('Rp. '+ numberWithDot(content)+ ' ,-');
-                    //         }else if(index == 1){
-                    //             $('#rincianDataTableRincianModalView'+(row+2)).append(content);
-                    //         }else{
-                    //             // console.log(content == '')
-                    //             if(content == ''){var keterangan = 'Kosong'}else{var keterangan = 'Lembar Bukti'}
-                    //             $('#keteranganDataTableRincianModalView'+(row+2)).append(keterangan);
-                    //         }
-                    //     })
-                    // })
+                    }
+
                     $('#totalTableRincianModalView').append('Rp. ' + numberWithDot(data.sum) + ' ,-');
                     $('#terbilangTableRincianModalView').append(terbilang(data.sum));
                     $('#bendaharaNamaTTD').append(data.bendahara.nama);

@@ -358,11 +358,17 @@
                     url: url_destination,type: "POST",data: {kode: noSpd,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                        $("#rincianBiayaSpdForm").val(data.untuk);
-                        var jumlah = data.sbuh.jumlah_uang * data.lama;
-                        $("#jumlahTotalSpdForm").val(jumlah);
+                        if(data.success){
+                            // console.log(data);
+                            $("#rincianBiayaSpdForm").val(data.isi.untuk);
+                            var jumlah = data.rincian.jumlah_uang * data.isi.lama;
+                            $("#jumlahTotalSpdForm").val(jumlah);
+                        }else{
+                            if (data.msg != "") {
+                                toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"](data.msg, "Informasi");
+                            }
+                        }
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })

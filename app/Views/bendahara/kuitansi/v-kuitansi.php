@@ -212,7 +212,7 @@
                                                 <tr>
                                                     <td style="width: 20%;">Yaitu Untuk</td>
                                                     <td style="width: 1%;">:</td>
-                                                    <td ><p>Biaya Perjalanan Dinas <span id="jenisWilayahModalView"></span> dalam rangka <span id="untukModalView"></span> di <span id="namaInstansiModelView"></span> selama <span id="lamaModalView"></span> hari pada tanggal <span id="tglBerangkatModalView"></span> sampai <span id="tglKembaliModalView"></span> a/n <span id="pegawaiDiperintahModalView"></span> </p></td>
+                                                    <td ><p>Biaya Perjalanan Dinas <span id="jenisWilayahModalView"></span> dalam rangka <span id="untukModalView"></span> di <span id="namaInstansiModelView"></span> selama <span id="lamaModalView"></span> hari <br> pada tanggal <span id="tglBerangkatModalView"></span> sampai <span id="tglKembaliModalView"></span> a/n <span id="pegawaiDiperintahModalView"></span> </p></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -400,8 +400,9 @@
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                    var created = new Date(data.created_at);var curr_date = created.getDate();var curr_month = created.getMonth();var curr_year = created.getFullYear();
-                    $('#tglKuitansiModalView').append(': '+ curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+                    var created = new Date(data.created_at);var created_curr_date = created.getDate();var created_curr_month = created.getMonth();var created_curr_year = created.getFullYear();
+                    $('#tglKuitansiModalView').append(': '+ m_awal[created_curr_date] + "-" + m_names[created_curr_month] + "-" + created_curr_year);
                     $('#rekeningKuitansiModalView').append(': '+ data.kode_rekening);
                     $('#banyaknyaKuitansiModalView').append(terbilang(data.jumlah_uang));
                     $('#nominalKuitansiModalView').append(data.jumlah_uang);
@@ -409,13 +410,12 @@
                     $('#untukModalView').append(data.untuk);
                     $('#namaInstansiModelView').append(data.instansi.nama_instansi);
                     $('#lamaModalView').append(data.lama);
-                    var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
-                    $('#tglBerangkatModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
-                    var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
-                    $('#tglKembaliModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
+                    $('#tglBerangkatModalView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
+                    var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
+                    $('#tglKembaliModalView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
                     $('#pegawaiDiperintahModalView').append(data.pegawai.nama);
-                    var created = new Date(data.created_at);var curr_date = created.getDate();var curr_month = created.getMonth();var curr_year = created.getFullYear();
-                    $('#tableCreatedKuitainsiModalView').append(curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+                    $('#tableCreatedKuitainsiModalView').append(m_awal[created_curr_date] + "-" + m_names[created_curr_month] + "-" + created_curr_year);
                     $('#tableYangMenerimaKuitansiModalView').append(data.pegawai.nama);
                     $('#tablekepalaJabatanKuitansiModalView').append(data.jabatan.nama_jabatan);
                     $('#tableKuasaNamaKuitansiModalView').append(data.bendahara.nama);
@@ -430,22 +430,6 @@
                 }
             })
         })
-
-        // $(document).on('click', '.print', function() {
-        //     var id = $(this).data('id');
-        //     var url_destination = "<?= base_url('Bendahara/Kuitansi/print') ?>";
-        //     $.ajax({
-        //         async: false, // <<<----------- add this
-        //         url: url_destination,type: "POST",
-        //         data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
-        //         success: function(data) {
-        //             // console.log(data);
-        //             $('input[name=csrf_token_name]').val(data.csrf_token_name);
-        //             url = '<?php echo base_url(); ?>Bendahara/Kuitansi/Print';
-		// 		    window.open(url ,'_blank');
-        //         }
-        //     })
-        // })
 
         $(document).on('click', '.delete', function() {
             swalWithBootstrapButtons.fire({
@@ -472,20 +456,14 @@
                             $('input[name=csrf_token_name]').val(data.csrf_token_name)
                             if (data.success) {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'success',title: 'Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#kui_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'error',title: 'Not Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#kui_data').DataTable().ajax.reload(null, false);
                             }
