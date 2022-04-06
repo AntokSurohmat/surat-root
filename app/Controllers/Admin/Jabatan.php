@@ -65,9 +65,16 @@ class Jabatan extends BaseController
     }
 
     function single_data() {
-        if(!$this->request->isAJAX()) {
-           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->get();
+         if($jabatan_id->getRow() == null){
+              return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+              return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
         if($this->request->getVar('id')) {
             $data = $this->jabatan->where('id', $this->request->getVar('id'))->first();
 
@@ -88,8 +95,8 @@ class Jabatan extends BaseController
     function save()
     {
         if (!$this->request->isAJAX()) {
-           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
 
         $validation = \Config\Services::validation();
 
@@ -119,7 +126,8 @@ class Jabatan extends BaseController
                     'error' => [
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'jabatan' => $validation->getError('jabatanAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
 
@@ -127,8 +135,6 @@ class Jabatan extends BaseController
                     'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
                     'nama_jabatan' => $this->db->escapeString($this->request->getVar('jabatanAddEditForm')),
                 ];
-
-                
 
                 if ($this->jabatan->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
@@ -139,6 +145,15 @@ class Jabatan extends BaseController
         }
 
         if ($this->request->getVar('method') == 'Edit') {
+
+            $jabatan_id = $this->jabatan->where('id', $this->request->getVar('hidden_id'))->get();
+            if($jabatan_id->getRow() == null){
+                 return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+            }
+            if (!$this->request->getVar('hidden_id')) {
+                 return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+            }
+   
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode Jabatan',
@@ -162,7 +177,8 @@ class Jabatan extends BaseController
                     'error' => [
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'jabatan' => $validation->getError('jabatanAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
                 $id = $this->request->getVar('hidden_id');
@@ -178,7 +194,8 @@ class Jabatan extends BaseController
                 }
             }
         }
-
+        
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -186,6 +203,13 @@ class Jabatan extends BaseController
     function delete(){
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->get();
+        if($jabatan_id->getRow() == null){
+             return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')){

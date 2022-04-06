@@ -37,9 +37,7 @@ class Pangol extends BaseController
         return view('admin/pangol/v-pangol', $data);
     }
 
-    function load_data()
-    {
-
+    function load_data(){
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -79,6 +77,13 @@ class Pangol extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->get();
+        if($pangol_id->getRow() == null){
+             return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->pangol->where('id', $this->request->getVar('id'))->first();
@@ -104,8 +109,6 @@ class Pangol extends BaseController
         }
 
         $validation = \Config\Services::validation();
-
-
 
         if ($this->request->getVar('method') == 'New') {
 
@@ -133,7 +136,8 @@ class Pangol extends BaseController
                     'error' => [
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'pangol' => $validation->getError('pangolAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
 
@@ -151,6 +155,15 @@ class Pangol extends BaseController
         }
 
         if ($this->request->getVar('method') == 'Edit') {
+
+            $pangol_id = $this->pangol->where('id', $this->request->getVar('hidden_id'))->get();
+            if($pangol_id->getRow() == null){
+                 return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+            }
+            if (!$this->request->getVar('hidden_id')) {
+                 return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+            }
+
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode Pangkat & Golongan',
@@ -174,7 +187,8 @@ class Pangol extends BaseController
                     'error' => [
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'pangol' => $validation->getError('pangolAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
                 $id = $this->request->getVar('hidden_id');
@@ -190,6 +204,7 @@ class Pangol extends BaseController
             }
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -197,6 +212,13 @@ class Pangol extends BaseController
     function delete(){
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->get();
+        if($pangol_id->getRow() == null){
+             return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')){

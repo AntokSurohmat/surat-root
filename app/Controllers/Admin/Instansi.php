@@ -6,7 +6,7 @@ use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\InstansiModel;
-
+use \Hermawan\DataTables\DataTable;
 use CodeIgniter\HTTP\IncomingRequest;
 
 /**
@@ -111,8 +111,7 @@ class Instansi extends ResourcePresenter
         echo json_encode($data);
     }
 
-    public function getProvinsi()
-    {
+    public function getProvinsi(){
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -142,14 +141,13 @@ class Instansi extends ResourcePresenter
         return $this->response->setJSON($response);
     }
 
-    public function getKabupaten()
-    {
+    public function getKabupaten(){
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if ($this->request->getPost('searchTerm') == NULL) {            
+        if ($this->request->getPost('searchTerm') == NULL) {
             $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->orderBy('nama_kabupaten')
@@ -174,14 +172,13 @@ class Instansi extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-    public function getKecamatan()
-    {
+    public function getKecamatan(){
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if ($this->request->getPost('searchTerm') == NULL) {            
+        if ($this->request->getPost('searchTerm') == NULL) {
             $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
                 ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->orderBy('nama_kecamatan')
@@ -300,7 +297,8 @@ class Instansi extends ResourcePresenter
                     'kecamatan' => $validation->getError('kecamatanAddEditForm'),
                     'kode' => $validation->getError('kodeAddEditForm'),
                     'instansi' => $validation->getError('instansiAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -317,13 +315,23 @@ class Instansi extends ResourcePresenter
                 $data = array('success' => false, 'msg' => $this->instansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
-
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
 
-    function single_data()
-    {
+    function single_data(){
+
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $instansi_id = $this->instansi->where('id', $this->request->getVar('id'))->get();
+        if($instansi_id->getRow() == null){
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->instansi->where('id', $this->request->getVar('id'))->first();
@@ -346,8 +354,11 @@ class Instansi extends ResourcePresenter
      */
     public function edit($id = null)
     {
+        $instansi_id = $this->instansi->where('id', $id)->get();
+        if($instansi_id->getRow() == null){
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
@@ -373,6 +384,13 @@ class Instansi extends ResourcePresenter
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $instansi_id = $this->instansi->where('id', $this->request->getVar('hiddenID'))->get();
+        if($instansi_id->getRow() == null){
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $validation = \Config\Services::validation();
@@ -427,7 +445,8 @@ class Instansi extends ResourcePresenter
                     'kecamatan' => $validation->getError('kecamatanAddEditForm'),
                     'kode' => $validation->getError('kodeAddEditForm'),
                     'instansi' => $validation->getError('instansiAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
             $id = $this->request->getVar('hiddenID');
@@ -444,7 +463,7 @@ class Instansi extends ResourcePresenter
                 $data = array('success' => false, 'msg' => $this->instansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
-
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -471,7 +490,14 @@ class Instansi extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $instansi_id = $this->instansi->where('id', $this->request->getVar('id'))->get();
+        if($instansi_id->getRow() == null){
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {

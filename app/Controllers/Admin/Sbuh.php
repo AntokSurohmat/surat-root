@@ -140,15 +140,10 @@ class Sbuh extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
@@ -164,7 +159,6 @@ class Sbuh extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -206,10 +200,17 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $getjenis = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->get();
+        if($getjenis->getRow() == null){
+             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('provinsi') || !$this->request->getVar('kabupaten')) {
+             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten')) {
             $data = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->first();
-            // d($data['id']);print_r($data);die();
+
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -252,9 +253,17 @@ class Sbuh extends ResourcePresenter
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
+        $getzonasi = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->where('kode_kecamatan', $this->request->getVar('kecamatan'))->get();
+        if($getzonasi->getRow() == null){
+             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('provinsi') || !$this->request->getVar('kabupaten') || !$this->request->getVar('ekcamatan')) {
+             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }        
+
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten') && $this->request->getVar('kecamatan')) {
             $data = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->where('kode_kecamatan', $this->request->getVar('kecamatan'))->first();
-            // d($data);print_r($data);die();
+
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -266,7 +275,6 @@ class Sbuh extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
                 ->orderBy('nama_pangol')
@@ -286,7 +294,6 @@ class Sbuh extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -301,7 +308,7 @@ class Sbuh extends ResourcePresenter
      */
     public function show($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -417,7 +424,8 @@ class Sbuh extends ResourcePresenter
                     'zonasi' => $validation->getError('zonasiAddEditForm'),
                     'pangol' => $validation->getError('pangolAddEditForm'),
                     'jumlahUang' => $validation->getError('jumlahUangAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -442,12 +450,23 @@ class Sbuh extends ResourcePresenter
             }
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
 
     function single_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        if($sbuh_id->getRow() == null){
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->sbuh->where('id', $this->request->getVar('id'))->first();
@@ -473,8 +492,12 @@ class Sbuh extends ResourcePresenter
      */
     public function edit($id = null)
     {
+
+        $sbuh_id = $this->sbuh->where('id', $id)->get();
+        if($sbuh_id->getRow() == null){
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
@@ -500,6 +523,16 @@ class Sbuh extends ResourcePresenter
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('hiddenID'))->get();
+        if($sbuh_id->getRow() == null){
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $validation = \Config\Services::validation();
@@ -585,7 +618,8 @@ class Sbuh extends ResourcePresenter
                     'zonasi' => $validation->getError('zonasiAddEditForm'),
                     'pangol' => $validation->getError('pangolAddEditForm'),
                     'jumlahUang' => $validation->getError('jumlahUangAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -609,6 +643,7 @@ class Sbuh extends ResourcePresenter
             }
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -622,7 +657,7 @@ class Sbuh extends ResourcePresenter
      */
     public function remove($id = null)
     {
-        //
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -636,6 +671,13 @@ class Sbuh extends ResourcePresenter
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        if($sbuh_id->getRow() == null){
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {

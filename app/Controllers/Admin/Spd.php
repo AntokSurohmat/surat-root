@@ -209,6 +209,14 @@ class Spd extends ResourcePresenter
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
+        $getpegawai = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        if($getpegawai->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
         $response = array();
         $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getVar('id'))->first();
 
@@ -269,8 +277,6 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-
-        // d($this->request->getVar('pegawaiAddEditForm'));print_r($this->request->getVar('pegawaiAddEditForm'));die();
 
         $validation = \Config\Services::validation();
 
@@ -468,6 +474,16 @@ class Spd extends ResourcePresenter
     }
 
     function view_data() {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         if($spd_id->getRow() == null){
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
@@ -498,6 +514,17 @@ class Spd extends ResourcePresenter
     }
 
     function new_update() {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         if($spd_id->getRow() == null){
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
@@ -515,6 +542,17 @@ class Spd extends ResourcePresenter
     }
 
     function real_update() {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         if($spd_id->getRow() == null){
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+        
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
@@ -530,8 +568,12 @@ class Spd extends ResourcePresenter
     }
 
     public function edit_depan($id = null){
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = array(
@@ -548,7 +590,14 @@ class Spd extends ResourcePresenter
 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-         }
+        }
+        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         $validation = \Config\Services::validation();
 
@@ -690,10 +739,13 @@ class Spd extends ResourcePresenter
     }
 
     public function edit_belakang($id = null){
-        if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-
+        if (!$id) {
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         $data = array(
             'title' => 'Edit Data Surat Perjalanan Dinas',
             'parent' => 3,
@@ -708,7 +760,14 @@ class Spd extends ResourcePresenter
 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-         }
+        }
+        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         $validation = \Config\Services::validation();
 
@@ -751,13 +810,13 @@ class Spd extends ResourcePresenter
              */
             $data = [
                 'error' => [
-                    'tibadiFormfirst' => $this->validation->getError('tibadiAddEditForm[]'),
-                    'tanggaltibaFormfirst' => $this->validation->getError('tanggalTibaAddEditForm[]'),
-                    'kepalatibaFormfirst' => $this->validation->getError('kepalaTibaAddEditForm[]'),
-                    'berangkatdariFormfirst' => $this->validation->getError('berangkatAddEditForm[]'),
-                    'tujuanFormfirst' => $this->validation->getError('tujuanAddEditForm[]'),
-                    'tanggalberangkatFormfirst' => $this->validation->getError('tanggalBerangkatAddEditForm[]'),
-                    'kepalaberangkatFormfirst' => $this->validation->getError('kepalaBerangkatAddEditForm[]'),
+                    'tibadiFormfirst' => $validation->getError('tibadiAddEditForm[]'),
+                    'tanggaltibaFormfirst' => $validation->getError('tanggalTibaAddEditForm[]'),
+                    'kepalatibaFormfirst' => $validation->getError('kepalaTibaAddEditForm[]'),
+                    'berangkatdariFormfirst' => $validation->getError('berangkatAddEditForm[]'),
+                    'tujuanFormfirst' => $validation->getError('tujuanAddEditForm[]'),
+                    'tanggalberangkatFormfirst' => $validation->getError('tanggalBerangkatAddEditForm[]'),
+                    'kepalaberangkatFormfirst' => $validation->getError('kepalaBerangkatAddEditForm[]'),
                 ],
                 'msg' => '',
             ];
@@ -848,6 +907,13 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $id = $this->request->getVar('id');
@@ -866,8 +932,12 @@ class Spd extends ResourcePresenter
 
     public function print_depan($id = null){
 
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -921,8 +991,12 @@ class Spd extends ResourcePresenter
 
     public function print_belakang($id = null){
 
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -976,8 +1050,12 @@ class Spd extends ResourcePresenter
 
     public function print_template($id = null){
 
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -1031,8 +1109,12 @@ class Spd extends ResourcePresenter
 
     public function print($id = null){
 
+        $spd_id = $this->spd->where('id', $id)->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();

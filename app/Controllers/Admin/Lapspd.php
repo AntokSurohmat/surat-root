@@ -191,7 +191,17 @@ class Lapspd extends BaseController
         return $this->response->setJSON($response);
     }
     function view_data() {
-
+        if (!$this->request->isAjax()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $psd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+        if($psd_id->getRow() == null){
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+ 
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
@@ -222,8 +232,12 @@ class Lapspd extends BaseController
 
     public function print($id = null){
 
+        $psd_id = $this->spd->where('id', $id)->get();
+        if($psd_id->getRow() == null){
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -277,8 +291,12 @@ class Lapspd extends BaseController
 
     public function download($id = null){
 
+        $psd_id = $this->spd->where('id', $id)->get();
+        if($psd_id->getRow() == null){
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();

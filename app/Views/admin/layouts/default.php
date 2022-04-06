@@ -127,6 +127,7 @@
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/assets/custom/js/custom.js"></script>
     <script type="text/javascript">
+        //toastr
         <?php if (session()->getFlashdata('success')) {?>
             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"]('<?= session()->getFlashdata('success') ?>', "Informasi");
         <?php } else if (session()->getFlashdata('error')) {?>

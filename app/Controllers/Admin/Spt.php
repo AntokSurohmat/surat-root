@@ -194,16 +194,11 @@ class Spt extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('level', 'Pegawai')
                 ->orderBy('nama')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('level', 'Pegawai')
@@ -220,7 +215,6 @@ class Spt extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -232,15 +226,10 @@ class Spt extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
                 ->orderBy('nama_instansi')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
@@ -256,7 +245,6 @@ class Spt extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -264,6 +252,16 @@ class Spt extends ResourcePresenter
 
     function getAlamatInstansi()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $getalamatinstansi = $this->instansi->where('kode', $this->request->getVar('instansi'))->get();
+         if($getalamatinstansi->getRow() == null){
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('instansi')) {
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         if ($this->request->getVar('instansi')) {
             $data = $this->instansi->where('kode', $this->request->getVar('instansi'))->first();
@@ -285,15 +283,10 @@ class Spt extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->orderBy('nama')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->like('nama', $this->request->getPost('searchTerm'))
@@ -309,7 +302,6 @@ class Spt extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -485,6 +477,16 @@ class Spt extends ResourcePresenter
 
     function view_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+         if($spt_id->getRow() == null){
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
@@ -506,6 +508,17 @@ class Spt extends ResourcePresenter
 
     function single_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+         if($spt_id->getRow() == null){
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
@@ -534,10 +547,14 @@ class Spt extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        if (!$id) {
-            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
+
+         $spt_id = $this->spt->where('id', $id)->get();
+         if($spt_id->getRow() == null){
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$id) {
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         $data = array(
             'title' => 'Edit Surat Perintah Tugas',
@@ -562,6 +579,13 @@ class Spt extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+         $spt_id = $this->spt->where('id', $this->request->getVar('hiddenID'))->get();
+         if($spt_id->getRow() == null){
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('hiddenID')) {
+             return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
         
         $validation = \Config\Services::validation();
 
@@ -705,7 +729,14 @@ class Spt extends ResourcePresenter
     public function delete($id = null)
     {
         if (!$this->request->isAJAX()) {
-           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {
@@ -724,8 +755,12 @@ class Spt extends ResourcePresenter
 
     public function print($id = null){
 
+        $spt_id = $this->spt->where('id', $id)->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('admin/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spt->where('id',$id)->first();

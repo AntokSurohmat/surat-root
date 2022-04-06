@@ -122,7 +122,7 @@
                         <table id="spd_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>No SPD</th>
                                     <th>Pegawai Yang Diperintah</th>
                                     <th>Pengikut</th>
@@ -131,7 +131,7 @@
                                     <th>Akhir</th>
                                     <th>Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
-                                    <th style="width: 12%;">Aksi</th>
+                                    <th style="width: 10%;">Aksi</th>
                                 </tr>
                                 </tr>
                             </thead>
@@ -920,12 +920,7 @@
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Spd/view_data') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    id: id,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
                     // console.log(data);
@@ -1004,31 +999,20 @@
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Spd/Delete') ?>";
                     $.ajax({
-                        url: url_destination,
-                        method: "POST",
-                        data: {
-                            id: id,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        },
+                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                         dataType: "JSON",
                         success: function(data) {
                             $('input[name=csrf_token_name]').val(data.csrf_token_name)
                             if (data.success) {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'success',title: 'Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#spd_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'error',title: 'Not Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#spd_data').DataTable().ajax.reload(null, false);
                             }

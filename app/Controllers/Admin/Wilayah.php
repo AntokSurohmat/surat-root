@@ -172,7 +172,6 @@ class Wilayah extends ResourcePresenter
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
                 ->where('deleted_at', NULL)
@@ -194,7 +193,6 @@ class Wilayah extends ResourcePresenter
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -349,10 +347,6 @@ class Wilayah extends ResourcePresenter
 
         $validation = \Config\Services::validation();
 
-        // d($this->request->getVar());
-        // print_r($this->request->getVar());
-        // die();
-
         switch ($this->request->getVar('method')) {
             case 'Prov':
                 $valid = $this->validate([
@@ -379,7 +373,8 @@ class Wilayah extends ResourcePresenter
                         'error' => [
                             'kode' => $validation->getError('kodeAddEditModalProv'),
                             'provinsi' => $validation->getError('provinsiAddEditModalProv')
-                        ]
+                        ],
+                        'msg' => '',
                     ];
                 } else {
                     $data = [
@@ -427,7 +422,8 @@ class Wilayah extends ResourcePresenter
                             'kode' => $validation->getError('kodeAddEditModalKab'),
                             'provinsi' => $validation->getError('provinsiAddEditModalKab'),
                             'kabupaten' => $validation->getError('kabupatenAddEditModalKab')
-                        ]
+                        ],
+                        'msg' => '',
                     ];
                 } else {
                     $data = [
@@ -476,7 +472,8 @@ class Wilayah extends ResourcePresenter
                             'kode' => $validation->getError('kodeAddEditModalKec'),
                             'kabupaten' => $validation->getError('kabupatenAddEditModalKec'),
                             'kecamatan' => $validation->getError('kecamatanAddEditModalKec')
-                        ]
+                        ],
+                        'msg' => '',
                     ];
                 } else {
                     $data = [
@@ -533,7 +530,8 @@ class Wilayah extends ResourcePresenter
                             'provinsi' => $validation->getError('provinsiAddEditModalJenis'),
                             'kabupaten' => $validation->getError('kabupatenAddEditModalJenis'),
                             'jenisWilayah' => $validation->getError('jenisWilayahAddEditModalJenis')
-                        ]
+                        ],
+                        'msg' => '',
                     ];
                 } else {
                     $data = [
@@ -600,7 +598,8 @@ class Wilayah extends ResourcePresenter
                             'kabupaten' => $validation->getError('kabupatenAddEditModalZona'),
                             'kecamatan' => $validation->getError('kecamatanAddEditModalZona'),
                             'zonasi' => $validation->getError('zonasiAddEditModalZona')
-                        ]
+                        ],
+                        'msg' => '',
                     ];
                 } else {
                     $data = [
@@ -623,6 +622,7 @@ class Wilayah extends ResourcePresenter
                 break;
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -738,7 +738,8 @@ class Wilayah extends ResourcePresenter
                     'kecamatan' => $validation->getError('kecamatanAddEditForm'),
                     'jenisWilayah' => $validation->getError('jenisWilayahAddEditForm'),
                     'zonasi' => $validation->getError('zonasiAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -757,12 +758,23 @@ class Wilayah extends ResourcePresenter
             }
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
 
     function single_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $wilayah_id = $this->wilayah->where('id', $this->request->getVar('id'))->get();
+         if($wilayah_id->getRow() == null){
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         if ($this->request->getVar('id')) {
             $data = $this->wilayah->where('id', $this->request->getVar('id'))->first();
@@ -787,10 +799,16 @@ class Wilayah extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        if (!$id) {
-            // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+         $wilayah_id = $this->wilayah->where('id', $id)->get();
+         if($wilayah_id->getRow() == null){
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$id) {
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         $data = array(
             'title' => 'Edit Wilayah',
@@ -815,6 +833,13 @@ class Wilayah extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+         $wilayah_id = $this->wilayah->where('id', $this->request->getVar('hiddenID'))->get();
+         if($wilayah_id->getRow() == null){
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('hiddenID')) {
+             return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
 
         $validation = \Config\Services::validation();
 
@@ -878,7 +903,8 @@ class Wilayah extends ResourcePresenter
                     'kecamatan' => $validation->getError('kecamatanAddEditForm'),
                     'jenisWilayah' => $validation->getError('jenisWilayahAddEditForm'),
                     'zonasi' => $validation->getError('zonasiAddEditForm'),
-                ]
+                ],
+                'msg' => '',
             ];
         } else {
 
@@ -898,6 +924,7 @@ class Wilayah extends ResourcePresenter
             }
         }
 
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
@@ -925,6 +952,13 @@ class Wilayah extends ResourcePresenter
     {
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $wilayah_id = $this->wilayah->where('id', $this->request->getVar('hiddenID'))->get();
+        if($wilayah_id->getRow() == null){
+            return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {

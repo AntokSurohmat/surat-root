@@ -112,6 +112,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
+        // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
         /*-- DataTable To Load Data --*/
         var url_destination = "<?= base_url('Admin/Pangol/load_data') ?>";
@@ -123,114 +124,57 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": url_destination,
-                "type": 'POST',
-                "data": {
-                    "csrf_token_name": $('input[name=csrf_token_name]').val()
-                },
-                "data": function(data) {
-                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
-                },
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
-                },
-                "timeout": 15000,
-                "error": handleAjaxError
+                "url": url_destination,"type": 'POST',
+                "data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
+                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
+                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
+                "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{
-                "targets": [0],
-                "orderable": false
-                }, {
-                    "targets": [3],
-                    "orderable": false,
-                    "class": "text-center",
-                },],
+            "columnDefs": [{"targets": 0,"orderable": false}, {"targets": -1,"orderable": false,"class": "text-center",},],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachPangol").value = "";
-                        pangol.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachPangol").value = "";
-                        pangol.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#seachPangol').keyup(function() {
-            pangol.search($(this).val()).draw();
-        });
-        $("#refresh").on('click', function() {
-            document.getElementById("seachPangol").value = "";
-            pangol.search("").draw();
-        });
+        $('#seachPangol').keyup(function() {pangol.search($(this).val()).draw();});
+        $("#refresh").on('click', function() {document.getElementById("seachPangol").value = "";pangol.search("").draw();});
         /*-- /. DataTable To Load Data  --*/
 
         $('#modal-newitem').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kodeForm").empty();
-            $("#pangolForm").empty();
-            $("#kodeForm").removeClass('is-valid');
-            $("#kodeForm").removeClass('is-invalid');
-            $("#pangolForm").removeClass('is-valid');
-            $("#pangolForm").removeClass('is-invalid');
+            $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
+            $("#pangolForm").empty();$("#pangolForm").removeClass('is-valid');$("#pangolForm").removeClass('is-invalid');
         });
         $('#modal-newitem').on('shown.bs.modal', function() {
             $('#kodeForm').focus();
-            $('#kodeForm').keydown(function(event) {
-                if (event.keyCode == 13) {
-                    $('#pangolForm').focus();
-                }
-            });
-            $('#pangolForm').keydown(function(event) {
-                if (event.keyCode == 13) {
-                    $('#submit-btn').focus();
-                }
-            });
+            $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#pangolForm').focus();}});
+            $('#pangolForm').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn').focus();}});
         });
 
         $('#add-data').click(function() {
-            var option = {
-                backdrop: 'static',
-                keyboard: true
-            };
+            var option = {backdrop: 'static',keyboard: true};
             $('#modal-newitem').modal(option);
-            $('#form-addedit')[0].reset();
-            $('#method').val('New');
-            $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');
-            $('#modal-newitem').modal('show');
+            $('#form-addedit')[0].reset();$('#method').val('New');
+            $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');$('#modal-newitem').modal('show');
         });
 
         $(document).on('click', '.edit', function() {
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Pangol/single_data') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    id: id,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -262,38 +206,25 @@
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Pangol/Delete') ?>";
                     $.ajax({
-                        url: url_destination,
-                        method: "POST",
-                        data: {
-                            id: id,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        },
+                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                         dataType: "JSON",
                         success: function(data) {
                             $('input[name=csrf_token_name]').val(data.csrf_token_name)
                             if (data.success) {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'success',title: 'Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#pangol_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'error',title: 'Not Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#pangol_data').DataTable().ajax.reload(null, false);
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
+                        error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                     });
                 }
             })
@@ -308,12 +239,10 @@
                 data: $(this).serialize(),
                 dataType: "JSON",
                 beforeSend: function() {
-                    $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");
-                    $('#submit-btn').prop('disabled', true);
+                    $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");
-                    $('#submit-btn').prop('disabled', false);
+                    $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn').prop('disabled', false);
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
@@ -329,11 +258,8 @@
                     if (data.success==true) {
                         $("#modal-newitem").modal('hide');
                         Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil..',
-                            text: data.msg,
-                            showConfirmButton: false,
-                            timer: 3000
+                            icon: 'success',title: 'Berhasil..',text: data.msg,
+                            showConfirmButton: false,timer: 3000
                         });
                         $('#pangol_data').DataTable().ajax.reload(null, false);
                     } else {
@@ -344,12 +270,12 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
-                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        if (data.msg != "") {
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })

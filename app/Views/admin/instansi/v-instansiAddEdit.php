@@ -205,8 +205,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     } 
                     if (data.success==true) {
@@ -271,15 +269,10 @@
         $('#generate-kode').click(function() {
             var url_destination = "<?= base_url('Admin/Instansi/generator') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#kodeForm').val(data.kode);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
                 }
             })
         })

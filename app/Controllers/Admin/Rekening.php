@@ -98,15 +98,10 @@ class Rekening extends BaseController
         }
 
         $response = array();
-        // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->jenis->select('kode,jenis_wilayah') // Fetch record
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
-            // $count = $provinsilist->countAllResults();
-            // d($provinsilist);
-            // print_r($provinsilist);
-            // die();
         } else {
             $provinsilist = $this->provinsi->select('kode,jenis_wilayah') // Fetch record
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
@@ -122,7 +117,6 @@ class Rekening extends BaseController
             );
         }
 
-        // $response['count'] = $count;
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -132,6 +126,13 @@ class Rekening extends BaseController
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->get();
+        if($rekening_id->getRow() == null){
+            return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {
@@ -150,8 +151,6 @@ class Rekening extends BaseController
         }
 
         $validation = \Config\Services::validation();
-
-
 
         if ($this->request->getVar('method') == 'New') {
 
@@ -189,7 +188,8 @@ class Rekening extends BaseController
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'jenisWilayah' => $validation->getError('jenisWilayahAddEditForm'),
                         'rekening' => $validation->getError('rekeningAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
 
@@ -198,7 +198,6 @@ class Rekening extends BaseController
                     'kode_jenis_wilayah' => $this->db->escapeString($this->request->getVar('jenisWilayahAddEditForm')),
                     'nomer_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
                 ];
-                // d($data);print_r($data);die();
 
                 if ($this->rekening->insert($data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
@@ -209,6 +208,17 @@ class Rekening extends BaseController
         }
 
         if ($this->request->getVar('method') == 'Edit') {
+            if (!$this->request->isAJAX()) {
+                throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+             }
+             $rekening_id = $this->rekening->where('id', $this->request->getVar('hidden_id'))->get();
+             if($rekening_id->getRow() == null){
+                 return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             }
+             if (!$this->request->getVar('hidden_id')) {
+                 return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             }
+
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode',
@@ -242,7 +252,8 @@ class Rekening extends BaseController
                         'kode' => $validation->getError('kodeAddEditForm'),
                         'jenisWilayah' => $validation->getError('jenisWilayahAddEditForm'),
                         'rekening' => $validation->getError('rekeningAddEditForm'),
-                    ]
+                    ],
+                    'msg' => '',
                 ];
             } else {
                 $id = $this->request->getVar('hidden_id');
@@ -258,7 +269,7 @@ class Rekening extends BaseController
                 }
             }
         }
-
+        $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data); return false; 
     }
@@ -266,6 +277,13 @@ class Rekening extends BaseController
     function delete(){
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->get();
+        if($rekening_id->getRow() == null){
+            return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')){
