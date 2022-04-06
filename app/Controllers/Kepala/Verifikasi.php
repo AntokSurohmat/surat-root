@@ -332,16 +332,20 @@ class Verifikasi extends ResourcePresenter
                 $spt = $this->spt->where('id', $id)->first();
                 $data = [
                     'kode_spt' => $spt['kode'],
-                    'pejabat' => $spt['pejabat'],'pegawai_all' => $spt['pegawai_all'],
-                    'untuk' => $spt['untuk'],'kode_instansi' => $spt['kode_instansi'],
-                    'awal' => $spt['awal'],'akhir' => $spt['akhir'],'lama' => $spt['lama'],
+                    'pejabat' => $spt['pejabat'],
+                    'pegawai_all' => $spt['pegawai_all'],
+                    'untuk' => $spt['untuk'],
+                    'kode_instansi' => $spt['kode_instansi'],
+                    'awal' => $spt['awal'],
+                    'akhir' => $spt['akhir'],
+                    'lama' => $spt['lama'],
                     'yang_menyetujui' => $spt['yang_menyetujui'],
                 ];
 
                 if($this->spd->insert($data)){
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
                 }else{
-                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data spd');
                 }
             } else {
                 $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');

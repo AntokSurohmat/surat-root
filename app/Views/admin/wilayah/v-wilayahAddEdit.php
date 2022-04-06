@@ -534,8 +534,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             },
@@ -551,8 +550,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: false
                 }
@@ -569,8 +567,7 @@
                         return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -588,8 +585,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -607,8 +603,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,kabupaten: kabupatenID,kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -625,8 +620,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             }
@@ -642,8 +636,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             }
@@ -661,8 +654,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -679,8 +671,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             }
@@ -698,8 +689,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: false
                 }
@@ -716,8 +706,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             }
@@ -734,8 +723,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: false
                 }
@@ -753,8 +741,7 @@
                         return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: false
                 }
@@ -788,8 +775,10 @@
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.msg[key]);
-                            var element = $('#' + key + 'ModalProv');
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'ModalProv').addClass('is-invalid');
+                            $("." + remove + "ErrorModalProv").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalProv');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -828,8 +817,10 @@
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'ModalKab').addClass('is-invalid');$("." + key + "ErrorModalKab").html(data.msg[key]);
-                            var element = $('#' + key + 'ModalKab');
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'ModalKab').addClass('is-invalid');
+                            $("." + remove + "ErrorModalKab").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalKab');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -868,8 +859,10 @@
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'ModalKec').addClass('is-invalid');$("." + key + "ErrorModalKec").html(data.msg[key]);
-                            var element = $('#' + key + 'ModalKec');
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'ModalKec').addClass('is-invalid');
+                            $("." + remove + "ErrorModalKec").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalKec');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -896,7 +889,7 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.error[key]);
+                            $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.msg[key]);
                             var element = $('#' + key + 'ModalJenis');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
@@ -909,8 +902,11 @@
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'ModalJenis').addClass('is-invalid');$("." + key + "ErrorModalJenis").html(data.msg[key]);
-                            var element = $('#' + key + 'ModalJenis');
+                            var remove = key.replace("kode_", "");
+                            var remove = key.replace("jenis_wilayah", "jenisWilayah");
+                            $("#" + remove + 'ModalJenis').addClass('is-invalid');
+                            $("." + remove + "ErrorModalJenis").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalJenis');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -950,8 +946,11 @@
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'ModalZona').addClass('is-invalid');$("." + key + "ErrorModalZona").html(data.msg[key]);
-                            var element = $('#' + key + 'ModalZona');
+                            var remove = key.replace("kode_", "");
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'ModalZona').addClass('is-invalid');
+                            $("." + remove + "ErrorModalZona").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalZona');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
@@ -1008,8 +1007,11 @@
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                            var element = $('#' + key + 'Form');
+                            var remove = key.replace("kode_", "");
+                            var remove = key.replace("jenis_wilayah", "jenisWilayah");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');

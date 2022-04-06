@@ -177,16 +177,11 @@
                 dataType: "JSON",
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#kodeForm').val(data.kode);
-                    $('#jabatanForm').val(data.nama_jabatan);
-                    $('.modal-title').text('Edit Data ' + data.nama_jabatan);
-                    $('.modal-title').css("font-weight", "900");
-                    $('#method').val('Edit');
-                    $('#hidden_id').val(id);
-                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
-                    $('#submit-btn').removeClass("btn-success");
-                    $('#submit-btn').addClass("btn-warning text-white");
-                    $('#modal-newitem').modal('show');
+                    $('#kodeForm').val(data.kode);$('#jabatanForm').val(data.nama_jabatan);
+                    $('.modal-title').text('Edit Data ' + data.nama_jabatan);$('.modal-title').css("font-weight", "900");
+                    $('#method').val('Edit');$('#hidden_id').val(id);
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');$('#submit-btn').removeClass("btn-success");
+                    $('#submit-btn').addClass("btn-warning text-white");$('#modal-newitem').modal('show');
                 }
             })
         })
@@ -271,17 +266,13 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log("#"+remove+"Form");
-                            // console.log(index);
                         });
                         if (data.msg != "") {
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                }
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })

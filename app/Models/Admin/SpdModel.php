@@ -37,11 +37,17 @@ class SpdModel extends Model
     protected $validationRules      = [
         'kode' => 'required|numeric|max_length[3]',
         'kode_spt' => 'required|numeric|max_length[3]',
+        'pejabat' => 'required|max_length[20]',
         'pegawai_all' => 'required|max_length[100]',
+        'tingkat_biaya' => 'required|max_length[10]',
         'untuk' => 'required|max_length[50]',
         'kode_instansi' => 'required|max_length[20]',
+        'awal' => 'required',
+        'akhir' => 'required',
         'lama'  => 'required|numeric|max_length[2]',
         'kode_rekening' => 'required|max_length[20]',
+        'keterangan' => 'required|max_length[20]',
+        'jenis_kendaraan' => 'required',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = true;

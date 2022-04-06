@@ -412,8 +412,7 @@
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                         if (data.msg != "") {
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-                            toastr["warning"](data.error, "Informasi");
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },

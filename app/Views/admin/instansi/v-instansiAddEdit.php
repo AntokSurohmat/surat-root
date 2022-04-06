@@ -139,8 +139,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                 },
                 cache: true
             }
@@ -157,8 +156,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: false
                 }
@@ -176,8 +174,7 @@
                         return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -228,13 +225,18 @@
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                            var element = $('#' + key + 'Form');
+                            var remove = key.replace("kode_", "");
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
-                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        if(data.msg != ""){
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        }
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

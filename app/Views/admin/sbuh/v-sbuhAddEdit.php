@@ -133,30 +133,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-    // var rupiah = document.getElementById('jumlahUangForm');
-    //         rupiah.addEventListener('keyup', function(e){
-    //         // tambahkan 'Rp.' pada saat form di ketik
-    //         // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    //         rupiah.value = formatRupiah(this.value);
-    //     });
-
-    //   /* Fungsi formatRupiah */
-    // function formatRupiah(angka, prefix){
-    //     var number_string = angka.replace(/[^,\d]/g, '').toString(),
-    //     split       = number_string.split(','),
-    //     sisa        = split[0].length % 3,
-    //     rupiah        = split[0].substr(0, sisa),
-    //     ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
-
-    //   // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    //     if(ribuan){
-    //         separator = sisa ? '.' : '';
-    //         rupiah += separator + ribuan.join('.');
-    //     }
-
-    //     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-    //     return prefix != undefined ? rupiah  : (rupiah ? 'Rp. ' + rupiah : '');
-    // }
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
@@ -192,8 +168,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
                 },
                 cache: true
             }
@@ -209,8 +184,7 @@
                         return {searchTerm: params.term,provinsi: provinsiID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -224,12 +198,9 @@
                 url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#jenisWilayahForm').val(data.jenis_wilayah);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#jenisWilayahForm').val(data.jenis_wilayah);
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
             })
         });
         $("#kabupatenForm").change(function() {
@@ -243,8 +214,7 @@
                         return {searchTerm: params.term,kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()};
                     },
                     processResults: function(response) {
-                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                        return {results: response.data};
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data};
                     },
                     cache: true
                 }
@@ -258,8 +228,7 @@
                 url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID, kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
                     // console.log(data);
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#zonasiForm').val(data.nama_zonasi);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#zonasiForm').val(data.nama_zonasi);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
             })
@@ -274,8 +243,7 @@
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
                 },
                 processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,};
                 },
                 cache: true
             }
@@ -325,15 +293,19 @@
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                            var element = $('#' + key + 'Form');
+                            var remove = key.replace("kode_jenis_wilayah", "jenisWilayah");
+                            var remove = key.replace("kode_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                     }
-                },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
             });
             return false;
         })
@@ -369,15 +341,10 @@
         $('#generate-kode').click(function() {
             var url_destination = "<?= base_url('Admin/Sbuh/generator') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#kodeForm').val(data.kode);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
                 }
             })
         })

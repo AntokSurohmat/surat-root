@@ -379,12 +379,7 @@
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Spt/view_data') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    id: id,
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
                     // console.log(data);
@@ -420,38 +415,26 @@
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Spt/Delete') ?>";
                     $.ajax({
-                        url: url_destination,
-                        method: "POST",
-                        data: {
-                            id: id,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        },
+                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                         dataType: "JSON",
                         success: function(data) {
                             $('input[name=csrf_token_name]').val(data.csrf_token_name)
                             if (data.success) {
                                 swalWithBootstrapButtons.fire({
                                     icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    title: 'Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#spt_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'error',title: 'Not Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#spt_data').DataTable().ajax.reload(null, false);
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
+                        error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                     });
                 }
             })

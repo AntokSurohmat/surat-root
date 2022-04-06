@@ -202,7 +202,6 @@
             $("#rekeningForm").empty();$("#rekeningForm").removeClass('is-valid');$("#rekeningForm").removeClass('is-invalid');
             $("#keteranganForm").empty();$("#keteranganForm").removeClass('is-valid');$("#keteranganForm").removeClass('is-invalid');
             $("#kendaraanForm").empty();$("#kendaraanForm").removeClass('is-valid');$("#kendaraanForm").removeClass('is-invalid');
-           
         }
 
         $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'});
@@ -263,14 +262,20 @@
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.msg[key]);
-                            var element = $('#' + key + 'Form');
+                            var remove = key.replace("pejabat", "diperintah");
+                            var remove = key.replace("pegawai_all", "pegawai");
+                            var remove = key.replace("tingkat_biaya", "tingkatBiaya");
+                            var remove = key.replace("awal", "start");
+                            var remove = key.replace("akhir", "end");
+                            var remove = key.replace("kode_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                         if (data.msg != "") {
-                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};
-                            toastr["warning"](data.error, "Informasi");
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
                         }
                     }
                 },

@@ -499,7 +499,7 @@
 
         $('#form-verfikasi').on('submit', function(event) {
             event.preventDefault();
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({
                 url: "<?= base_url('Kepala/Verifikasi/update') ?>",
                 type: "POST",
@@ -533,7 +533,6 @@
                         });
                         $('#veri_data').DataTable().ajax.reload(null, false);
                     } else {
-                        // console.log(data.msg);
                         Object.keys(data.msg).forEach((key, index) => {
                             // var remove = key.replace("nama_", "");
                             $("#" + key + 'ModalVerifikasi').addClass('is-invalid');$("." + key + "ErrorModalVerifikasi").html(data.msg[key]);
@@ -541,7 +540,7 @@
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             // console.log("#"+remove+"Form");
-                            // console.log(index);
+                            console.log(key + ' => '+index );
                         });
                         if(data.msg != ""){
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");

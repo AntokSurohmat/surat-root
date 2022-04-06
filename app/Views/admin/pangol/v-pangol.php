@@ -33,7 +33,7 @@
                     <div class="card-body">
 
                         <div class="input-group mb-2">
-                            <input class="form-control col-sm-12" name="seachPangol" id="seachPangol" type="text" placeholder="Search By Kode / Nama Pangkat & Golongan" aria-label="Search" autocomplete="off">
+                            <input class="form-control col-sm-12" name="seachPangol" id="seachPangol" type="text" placeholder="Search" aria-label="Search" autocomplete="off">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -178,16 +178,11 @@
                 dataType: "JSON",
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#kodeForm').val(data.kode);
-                    $('#pangolForm').val(data.nama_pangol);
-                    $('.modal-title').text('Edit Data ' + data.nama_pangol);
-                    $('.modal-title').css("font-weight:", "900");
-                    $('#method').val('Edit');
-                    $('#hidden_id').val(id);
-                    $('#submit-btn').removeClass("btn-success");
-                    $('#submit-btn').addClass("btn-warning text-white");
-                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');
-                    $('#modal-newitem').modal('show');
+                    $('#kodeForm').val(data.kode);$('#pangolForm').val(data.nama_pangol);
+                    $('.modal-title').text('Edit Data ' + data.nama_pangol);$('.modal-title').css("font-weight:", "900");
+                    $('#method').val('Edit');$('#hidden_id').val(id);
+                    $('#submit-btn').removeClass("btn-success");$('#submit-btn').addClass("btn-warning text-white");
+                    $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Update');$('#modal-newitem').modal('show');
                 }
             })
         })
@@ -264,11 +259,13 @@
                         $('#pangol_data').DataTable().ajax.reload(null, false);
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
-                            $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
-                            var element = $('#' + key + 'Form');
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'Form').addClass('is-invalid');
+                            $("." + remove + "ErrorForm").html(data.msg[key]);
+                            var element = $('#' + remove + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
-                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                         if (data.msg != "") {
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
@@ -283,15 +280,10 @@
         $('#generate-kode').click(function() {
             var url_destination = "<?= base_url('Admin/Pangol/generator') ?>";
             $.ajax({
-                url: url_destination,
-                type: "POST",
-                data: {
-                    csrf_token_name: $('input[name=csrf_token_name]').val()
-                },
+                url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#kodeForm').val(data.kode);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
                 }
             })
         })

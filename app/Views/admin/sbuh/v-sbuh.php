@@ -93,67 +93,31 @@
             "responsive": true,
             "serverSide": true,
             "ajax": {
-                "url": url_destination,
-                "type": 'POST',
-                "data": {
-                    "csrf_token_name": $('input[name=csrf_token_name]').val()
-                },
-                "data": function(data) {
-                    data.csrf_token_name = $('input[name=csrf_token_name]').val()
-                },
-                "dataSrc": function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return response.data;
-                },
-                "timeout": 15000,
-                "error": handleAjaxError
+                "url": url_destination,"type": 'POST',"data": {"csrf_token_name": $('input[name=csrf_token_name]').val()},
+                "data": function(data) {data.csrf_token_name = $('input[name=csrf_token_name]').val()},
+                "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
+                "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{
-                "targets": [0],
-                "orderable": false
-            }, {
-                "targets": [9],
-                "orderable": false,
-                "class": "text-center",
-            }, ],
+            "columnDefs": [{"targets": 0,"orderable": false}, {"targets": -1,"orderable": false,"class": "text-center",}, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {
             if (textStatus === 'timeout') {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'The server took too long to send the data.',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachSbuh").value = "";
-                        sbuh.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error while loading the table data. Please refresh',
-                    showConfirmButton: true,
+                    icon: 'error',title: 'Oops...',
+                    text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("seachSbuh").value = "";
-                        sbuh.search("").draw();
-                    }
-                });
+                }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#seachSbuh').keyup(function() {
-            sbuh.search($(this).val()).draw();
-        });
-        $("#refresh").on('click', function() {
-            document.getElementById("seachSbuh").value = "";
-            sbuh.search("").draw();
-        });
+        $('#seachSbuh').keyup(function() {sbuh.search($(this).val()).draw();});
+        $("#refresh").on('click', function() {document.getElementById("seachSbuh").value = "";sbuh.search("").draw();});
         /*-- /. DataTable To Load Data Wilayah --*/
 
         $(document).on('click', '.delete', function() {
@@ -170,38 +134,25 @@
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Sbuh/Delete') ?>";
                     $.ajax({
-                        url: url_destination,
-                        method: "POST",
-                        data: {
-                            id: id,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        },
+                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                         dataType: "JSON",
                         success: function(data) {
                             $('input[name=csrf_token_name]').val(data.csrf_token_name)
                             if (data.success) {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'success',title: 'Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#sbuh_data').DataTable().ajax.reload(null, false);
                             } else {
                                 swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
+                                    icon: 'error',title: 'Not Deleted!',text: data.msg,
+                                    showConfirmButton: true,timer: 4000
                                 });
                                 $('#sbuh_data').DataTable().ajax.reload(null, false);
                             }
                         },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
+                        error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                     });
                 }
             })

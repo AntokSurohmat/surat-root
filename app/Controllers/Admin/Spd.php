@@ -209,7 +209,7 @@ class Spd extends ResourcePresenter
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $getpegawai = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        $getpegawai = $this->spd->where('id', $this->request->getVar('id'))->get();
         if($getpegawai->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
