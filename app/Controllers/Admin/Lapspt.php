@@ -325,7 +325,7 @@ class Lapspt extends BaseController
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
         
-        $filename = 'All_Spt' ;
+        $filename = 'ALL_SPT_'.date('d-m-Y') ;
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
@@ -352,27 +352,30 @@ class Lapspt extends BaseController
 
     public function download_all(){
 
-        // if (!$id) {
-        //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        // }
         $spt = $this->spt->get();
+        $looping = array();$pejabat = array();
+
+        foreach($spt->getResult() as $spt_data){
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nip', json_decode($spt_data->pegawai_all))->get();
+    
+            $looping[] = $query->getResult();
+            $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
+        }
 
         $data['spt'] =  $spt->getResult();
+        $data['looping'] = $looping;
+        $data['pejabat'] = $pejabat;
 
-        $builder = $this->db->table('pegawai');
-        $looping = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')->get();
-
-        $data['looping'] = $looping->getResult();
-        $pegawai = $this->pegawai->get();
-        $data['pegawai'] = $pegawai->getResult();
         
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
         
-        $filename = 'All_Spt' ;
+        $filename = 'ALL_SPT_'.date('d-m-Y') ;
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
@@ -395,5 +398,115 @@ class Lapspt extends BaseController
 
         // output the generated pdf
         $dompdf->stream($filename);
+    }
+
+    public function print_recap(){
+
+        $spt_all = $this->spt->get();
+        $pegawai_all = array();
+        foreach($spt_all->getResult() as $result){
+            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
+            $pegawai_all[] = $pegawai_query_all->getResult();
+            $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
+            $instansi_all[] = $instansi_query_all->getResult();
+            
+        }
+        $data['spt_all'] = $spt_all->getResult();
+        $data['pegawai_all'] = $pegawai_all;
+        $data['instansi_all'] = $instansi_all;
+
+        $spt = $this->spt->selectMax('id')->first();
+        $data['spt'] = $this->spt->where('id', $spt['id'])->first();
+        $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spt']['pegawai_all']))->get();
+        $data['pegawai'] = $pegawai->getResult();
+        $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
+        $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
+        // $spt->getResult();
+
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // echo'<pre>';print_r($data);echo'</pre>';die();
+        // d($max->getResult()[0]->id);print_r($max->getResult()[0]->id);die();
+        // d($data);print_r($data);die();
+        
+        $filename = 'ALL_Recap_'.date('d-m-Y') ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/lapspt/r-sptall', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+   
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
+
+    }
+
+    public function download_recap(){
+
+        $spt_all = $this->spt->get();
+        $pegawai_all = array();
+        foreach($spt_all->getResult() as $result){
+            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
+            $pegawai_all[] = $pegawai_query_all->getResult();
+            $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
+            $instansi_all[] = $instansi_query_all->getResult();
+            
+        }
+        $data['spt_all'] = $spt_all->getResult();
+        $data['pegawai_all'] = $pegawai_all;
+        $data['instansi_all'] = $instansi_all;
+
+        $spt = $this->spt->selectMax('id')->first();
+        $data['spt'] = $this->spt->where('id', $spt['id'])->first();
+        $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spt']['pegawai_all']))->get();
+        $data['pegawai'] = $pegawai->getResult();
+        $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
+        $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
+        // $spt->getResult();
+
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // echo'<pre>';print_r($data);echo'</pre>';die();
+        // d($max->getResult()[0]->id);print_r($max->getResult()[0]->id);die();
+        // d($data);print_r($data);die();
+        
+        $filename = 'ALL_Recap_'.date('d-m-Y') ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/lapspt/r-sptall', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+   
+
+        // output the generated pdf
+        $dompdf->stream($filename);
+
     }
 }

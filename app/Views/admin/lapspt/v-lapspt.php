@@ -146,7 +146,8 @@
                                         <div class="form-group row">
                                             <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button>
+                                                <!-- <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button> -->
+                                                <a href="<?= base_url('admin/lapspt/print_recap')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Recap Surat"><i class="fas fa-print"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +161,7 @@
                                         <div class="form-group row">
                                             <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
                                             <div class="col-sm-3">
-                                            <button class="btn btn-default" id="downSeSurat" data-rel="tooltip" data-placement="top" title="Download Recap Surat"><i class="fas fa-download"></i></button>
+                                            <a href="<?= base_url('admin/lapspt/download_recap')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Recap"><i class="fas fa-download"></i></a>
                                             </div>
                                         </div>
                                     </div>

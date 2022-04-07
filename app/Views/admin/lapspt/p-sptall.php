@@ -236,7 +236,7 @@
 							foreach($pejabat as $keys => $pejabat_data) :?>
 									<?php if ($keys == $i) : ?>
 										<p style="text-align:center;text-decoration: underline;font-weight:800;" class="mb-0"><?= $pejabat_data['nama']?></p>
-										<p style="text-align:center;" class="mb-0">(<?= $pejabat_data['nip']?>)</p>
+										<p style="text-align:center;padding-top:5px;" class="mb-0">(<?= $pejabat_data['nip']?>)</p>
 									<?php endif;?>
 						<?php endforeach;?>
 					</td>
