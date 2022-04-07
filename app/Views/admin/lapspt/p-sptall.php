@@ -96,13 +96,14 @@
 	// echo "<pre>";
 	// print_r($looping);
 	// echo "</pre><br>";
-	// echo "<pre>";
-	// print_r($pegawai);
-	// echo "</pre><br>";
+	// // echo "<pre>";
+	// // print_r($pejabat);
+	// // echo "</pre><br>";
 	// die();
 ?>
 	<?php 
-	$n= 1;$count= count($spt);
+	$n= 1;
+	$count= count($spt);
 	?>
 	<?php foreach($spt as $spt_data):?>
 		<table border="0" width=100% cellpadding=2 cellspacing=0 style="margin-top: 5px; text-align:center">
@@ -113,8 +114,8 @@
 				<td width=85%>
 					<p style="font-size:18px;text-align:center;line-height: 1em;font-weight:500;margin-block-start: 0em;margin-block-end: 0em;" class="mb-0 mr-5">PEMERINTAH KABUPATEN CIREBON</p>
 					<p style="font-size:18px;text-align:center;line-height: 1em;font-weight:800;margin-bottom:8px;" class=" mr-5">DINAS PERDAGANGAN DAN PERINDUSTRIAN</p>
-					<p style="font-size:16px;text-align:center;line-height: 16px;" class="mb-0 mr-5">Jl. Sunan Kalijaga Nomor 10</p>
-					<p style="font-size:16px;text-align:center;line-height: 16px;margin-bottom:8px;" class="mr-5">Pusat Pemerintah Cirebon Telp.(0231) 321495 - 321073</p>
+					<p style="text-align:center;line-height: 16px;" class="mb-0 mr-5">Jl. Sunan Kalijaga Nomor 10</p>
+					<p style="text-align:center;line-height: 16px;margin-bottom:8px;" class="mr-5">Pusat Pemerintah Cirebon Telp.(0231) 321495 - 321073</p>
 					<table width=100%>
 						<tr>
 							<td width=80% style="font-size:18px;text-align:center;line-height: 1em;font-weight:800">SUMBER</td>
@@ -139,7 +140,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<table  border="0" width=100%  style="font-size: 16px; padding: 0 50px;">
+		<table  border="0" width=100%  style="padding: 0 50px;">
 			<tbody>
 				<tr>
 					<td style="width:15%;font-weight:800;padding: 5px 10px;">Dasar</td>
@@ -153,70 +154,43 @@
 					<td style="width:2%;padding: 5px 10px;vertical-align:top">:</td>
 					<td style="padding: 2px;">
 						<?php 
+							$i = $n - 1;
+							$m_angka = array("1", "2", "3", "4", "5", "6"); 
+							foreach ($looping as $rows =>  $looping_data) : ?>
+								<?php foreach($looping_data as $index => $looping_isi) : ?>
+								<?php if($rows == $i):?>
+								<table border="0" width=100%>
+									<tbody>
+										<tr>
+											<td style="width:5%;text-align:center;font-weight:600;padding: 2px 10px;"><?= $m_angka[$index] ?>.</td>
+											<td style="width:32%;font-weight:600;padding: 2px 10px;">Nama</td>
+											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
+											<td style="padding: 2px 10px;"><?= $looping_isi->nama?></td>
+										</tr>
+										<tr>
+											<td style="padding: 2px 10px;"></td>
+											<td style="width:32%;font-weight:600;padding: 2px 10px;">Pangkat Golongan</td>
+											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
+											<td style="padding: 2px 10px;"><?= $looping_isi->nama_pangol?></td>
+										</tr>
+										<tr>
+											<td style="padding: 2px 10px;"></td>
+											<td style="width:32%;font-weight:600;padding: 2px 10px;">NIP</td>
+											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
+											<td style="padding: 2px 10px;"><?= $looping_isi->nip?></td>
+										</tr>
+										<tr>
+											<td style="padding: 2px 10px;"></td>
+											<td style="width:32%;font-weight:600;padding: 2px 10px;">Jabatan</td>
+											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
+											<td style="padding: 2px 10px;"><?= $looping_isi->nama_jabatan?></td>
+										</tr>
+									</tbody>
+								</table>
 
-						foreach ($looping  as $key => $value) : ?>
-							<?php if (strpos($spt_data->pegawai_all, $value->nip) !== FALSE) : ?>
-								<?php if($key == 0) : ?>
-									<table border="0" width=100%>
-										<tbody>
-											<tr>
-												<td style="width:5%;text-align:center;font-weight:600;padding: 2px 10px;"><?= $key+1 ?>.</td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Nama</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Pangkat Golongan</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama_pangol?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">NIP</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nip?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Jabatan</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama_jabatan?></td>
-											</tr>
-										</tbody>
-									</table>
-								<?php else : ?>
-									<table border="0" width=100%>
-										<tbody>
-											<tr>
-												<td style="width:5%;text-align:center;font-weight:600;padding: 2px 10px;"><?= $key ?>.</td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Nama</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Pangkat Golongan</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama_pangol?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">NIP</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nip?></td>
-											</tr>
-											<tr>
-												<td style="padding: 2px 10px;"></td>
-												<td style="width:32%;font-weight:600;padding: 2px 10px;">Jabatan</td>
-												<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-												<td style="padding: 2px 10px;"><?= $value->nama_jabatan?></td>
-											</tr>
-										</tbody>
-									</table>
-								<?php endif;?>
-							<?php endif?>
-						<?php endforeach?>
+								<?php endif?>
+								<?php endforeach;?>
+							<?php endforeach;?>
 					</td>
 				</tr>
 				<tr>
@@ -247,7 +221,7 @@
 			<table border="0" width=100% style="margin-top: 5px;">
 				<tr>
 					<td>
-						<p style="font-size: 16px;text-align:center">
+						<p style="text-align:center">
 							A.n Kepala Dinas Perdagangan dan Perindustrian Kabupaten Cirebon
 						</p>
 					</td>
@@ -257,12 +231,14 @@
 				</tr>
 				<tr>
 					<td>
-						<?php foreach($pegawai as $pegawai_data) :?>
-							<?php if($pegawai_data->nip == $spt_data->pejabat) : ?>
-								<p style="font-size: 16px;text-align:center;text-decoration: underline;font-weight:800;padding-top:2px;" class="mb-0"><?= $pegawai_data->nama?></p>
-								<p style="font-size: 16px;text-align:center;padding-top:2px;" class="mb-0">(<?= $pegawai_data->nip?>)</p>
-							<?php endif;?>
-							<?php endforeach;?>
+						<?php 
+						$i = $n - 1;
+							foreach($pejabat as $keys => $pejabat_data) :?>
+									<?php if ($keys == $i) : ?>
+										<p style="text-align:center;text-decoration: underline;font-weight:800;" class="mb-0"><?= $pejabat_data['nama']?></p>
+										<p style="text-align:center;" class="mb-0">(<?= $pejabat_data['nip']?>)</p>
+									<?php endif;?>
+						<?php endforeach;?>
 					</td>
 				</tr>
 			</table>

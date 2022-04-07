@@ -119,7 +119,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<table  border="0" width=100%  style="font-size: 16px; padding: 0 50px;">
+	<table  border="0" width=100%  style=" padding: 0 50px;">
 		<tbody>
 			<tr>
 				<td style="width:15%;font-weight:800;padding: 5px 10px;">Dasar</td>
@@ -192,7 +192,7 @@
 		<table border="0" width=100% style="margin-top: 5px;">
 			<tr>
 				<td>
-					<p style="font-size: 16px;text-align:center">
+					<p style="text-align:center">
 						A.n Kepala Dinas Perdagangan dan Perindustrian Kabupaten Cirebon
 					</p>
 				</td>
@@ -202,8 +202,8 @@
 			</tr>
 			<tr>
 				<td>
-					<p style="font-size: 16px;text-align:center;text-decoration: underline;font-weight:800;" class="mb-0"><?= $pegawai['nama']?></p>
-					<p style="font-size: 16px;text-align:center;" class="mb-0">(<?= $pegawai['nip']?>)</p>
+					<p style="text-align:center;text-decoration: underline;font-weight:800;" class="mb-0"><?= $pegawai['nama']?></p>
+					<p style="text-align:center;" class="mb-0">(<?= $pegawai['nip']?>)</p>
 				</td>
 			</tr>
 		</table>

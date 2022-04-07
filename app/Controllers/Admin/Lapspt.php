@@ -302,22 +302,25 @@ class Lapspt extends BaseController
 
     public function print_all(){
 
-        // if (!$id) {
-        //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        // }
         $spt = $this->spt->get();
+        $looping = array();$pejabat = array();
+
+        foreach($spt->getResult() as $spt_data){
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->whereIn('pegawai.nip', json_decode($spt_data->pegawai_all))->get();
+    
+            $looping[] = $query->getResult();
+            $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
+        }
 
         $data['spt'] =  $spt->getResult();
+        $data['looping'] = $looping;
+        $data['pejabat'] = $pejabat;
 
-        $builder = $this->db->table('pegawai');
-        $looping = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')->get();
-
-        $data['looping'] = $looping->getResult();
-        $pegawai = $this->pegawai->get();
-        $data['pegawai'] = $pegawai->getResult();
         
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();

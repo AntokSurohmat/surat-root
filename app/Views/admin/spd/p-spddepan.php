@@ -158,7 +158,7 @@
 				<td colspan="2">
 					<ul style="margin: 0px;padding-top:5px;padding-bottom:5px;padding-left:10px;">
 						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_pangol?></li>
-						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_jabatan?> / <?= $instansi['nama_instansi']?></li>
+						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_jabatan?> / /  Disperdagin Kabupaten Cirebon</li>
 						<li style="padding-top: 5px;">: <?= $tingkat_biaya?></li>
 					</ul>
 				</td>
