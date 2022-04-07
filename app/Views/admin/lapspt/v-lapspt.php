@@ -104,7 +104,7 @@
                         <table id="spt_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>No SPT</th>
                                     <th style="width: 100px">Nama</th>
                                     <th>Nama Instansi</th>
@@ -130,8 +130,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-info">
-
-
 
                     <form class="form-horizontal">
                         <div class="card-body">

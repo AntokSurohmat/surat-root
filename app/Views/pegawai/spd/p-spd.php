@@ -158,7 +158,7 @@
 				<td colspan="2">
 					<ul style="margin: 0px;padding-top:5px;padding-bottom:5px;padding-left:10px;">
 						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_pangol?></li>
-						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_jabatan?> / <?= $instansi['nama_instansi']?></li>
+						<li style="padding-top: 5px;">: <?= $pegawai[0]->nama_jabatan?> /  Disperdagin Kabupaten Cirebon</li>
 						<li style="padding-top: 5px;">: <?= $tingkat_biaya?></li>
 					</ul>
 				</td>
@@ -216,7 +216,7 @@
 					<td style="width: 5%;"></td>
 					<td style="width:20%;padding-top:5px;padding-left:10px;"><?= $pegawailooping->nama?></td>
 					<td style="width:25%;padding-top:5px;padding-left:10px;"><?= date('d-m-Y', strtotime($pegawailooping->tgl_lahir))?></td>
-					<td style="width:25%;padding-top:5px;padding-left:10px;" id="ketPengikutModalView"><?= $pegawailooping->nama_jabatan?></td>
+					<td style="width:25%;padding-top:5px;padding-left:10px;""><?= $pegawailooping->nama_jabatan?></td>
 				</tr>
 				<?php endforeach?>
 			<tr>
@@ -664,10 +664,7 @@
 						<td style="padding:4px 10px;"><?= $pegawai[0]->nama_jabatan?></td>
 					</tr>
 					<tr>
-						<td ></td>
-					</tr>
-					<tr>
-						<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;">Pejabat yang memberikan perintah</td>
+					<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;padding-top:20px;">Pejabat yang memberikan perintah</td>
 					</tr>
 					<tr>
 						<td colspan="4" style="padding:4px 10px;text-align:center;"><span style="font-weight: 800;"><?= $diperintah['nama']?></span><br>(<?= $diperintah['nip']?>)</td>
@@ -681,7 +678,7 @@
 						<td style="text-align: justify;padding:4px 10px;">Telah diperiksa, dengan keterangan bahwa perjalanan dinas tersebut diatas benar dilakukan atas perintah dan semata-mata untuk kepentingan jabatan dalam waktu sesingkat-singkatnya.</td>
 					</tr>
 					<tr>
-						<td colspan="4" class="text-center" style="height: 60px;">Pejabat yang memberikan perintah
+						<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;">Pejabat yang memberikan perintah
 						</td>
 					</tr>
 					<tr class="mt-5">

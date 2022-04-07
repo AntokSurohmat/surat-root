@@ -45,7 +45,7 @@
                         <table id="pangol_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>Kode</th>
                                     <th>Nama Pangkat & Golongan</th>
                                     <th style="width: 10%;">Aksi</th>

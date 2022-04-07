@@ -123,7 +123,7 @@
                         <table id="spd_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>No SPD</th>
                                     <th>Pegawai Yang Diperintah</th>
                                     <th>Pengikut</th>
@@ -160,7 +160,8 @@
                                             <div class="form-group row">
                                                 <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button>
+                                                    <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
+                                                    <a href="<?= base_url('admin/lapspd/print_all')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                             <div class="form-group row">

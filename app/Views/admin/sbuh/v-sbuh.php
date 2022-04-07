@@ -41,7 +41,7 @@
                     <div class="card-body">
 
                         <div class="input-group ">
-                            <input class="form-control col-sm-12" name="seachSbuh" id="seachSbuh" type="text" placeholder="Search By NIM / Nama" aria-label="Search">
+                            <input class="form-control col-sm-12" name="seachSbuh" id="seachSbuh" type="text" placeholder="Search" aria-label="Search">
                             <div class="input-group-append">
                                 <button class="btn btn-primary">
                                     <i class="fas fa-search"></i>
@@ -52,7 +52,7 @@
                         <table id="sbuh_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>Kode</th>
                                     <th>Provinsi</th>
                                     <th>Kota/Kabupaten</th>

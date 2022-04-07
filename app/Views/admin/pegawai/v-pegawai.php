@@ -52,7 +52,7 @@
                         <table id="pgw_data" class="table table-bordered table-hover projects display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width: 3%;">No</th>
                                     <th>NIP</th>
                                     <th>Nama</th>
                                     <th>Foto</th>

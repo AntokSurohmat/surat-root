@@ -664,10 +664,7 @@
 						<td style="padding:4px 10px;"><?= $pegawai[0]->nama_jabatan?></td>
 					</tr>
 					<tr>
-						<td ></td>
-					</tr>
-					<tr>
-						<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;">Pejabat yang memberikan perintah</td>
+					<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;padding-top:20px;">Pejabat yang memberikan perintah</td>
 					</tr>
 					<tr>
 						<td colspan="4" style="padding:4px 10px;text-align:center;"><span style="font-weight: 800;"><?= $diperintah['nama']?></span><br>(<?= $diperintah['nip']?>)</td>
@@ -681,7 +678,7 @@
 						<td style="text-align: justify;padding:4px 10px;">Telah diperiksa, dengan keterangan bahwa perjalanan dinas tersebut diatas benar dilakukan atas perintah dan semata-mata untuk kepentingan jabatan dalam waktu sesingkat-singkatnya.</td>
 					</tr>
 					<tr>
-						<td colspan="4" class="text-center" style="height: 60px;">Pejabat yang memberikan perintah
+					<td colspan="4" style="padding:4px 10px;text-align:center;height:60px;">Pejabat yang memberikan perintah
 						</td>
 					</tr>
 					<tr class="mt-5">

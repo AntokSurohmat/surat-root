@@ -105,7 +105,7 @@ class Sbuh extends ResourcePresenter
                     $row[] =  $pang->nama_pangol;
                 }
             };
-            $row[] = $key->jumlah_uang;
+            $row[] = 'Rp. '.number_format($key->jumlah_uang, 0,'','.');
             $row[] = '
             <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Sbuh/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
