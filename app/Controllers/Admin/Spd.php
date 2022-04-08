@@ -122,11 +122,13 @@ class Spd extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('kode')
                 ->findAll(10);
 
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', null)
                 ->like('kode', $this->request->getPost('searchTerm'))
                 ->orderBy('kode')
                 ->findAll(10);
@@ -1140,7 +1142,8 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        //$dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->setChroot("C:\\xampp\\htdocs\\surat-root\\public");
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);

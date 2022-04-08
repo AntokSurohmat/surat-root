@@ -350,23 +350,15 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         $('#submit-spt').removeClass("btn-success");
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
-                        // $('#pegawaiForm').html(data.nama_pegawai);
-                        // $('#pegawaiForm').multiselect('refresh');
-                        // // console.log(data.nama_pegawai);
-                        // // console.log(JSON.parse(data.nama_pegawai))
-                        // // $.each(JSON.parse(data.nama_pegawai), function(i, val) {
-                        // //     $('#pegawaiForm').append('<option value="'+i+'">'+val+'</option>').multiselect('refresh');
-                        // // });
-                        // $('#pegawaiForm').select2().val(['123456789', '908093824098230']).trigger('change')
-                        // var selectedValuesTest = ["123456789", "908093824098230"];
-                        // $('#pegawaiForm').val(selectedValuesTest).trigger('change');
-                        // $("#pegawaiForm").append($("<option selected='selected'></option>")
-                        // .val(["123456789", "908093824098230"]).text(["Pegawai","Pegawai 03"])).trigger('change');
+                        data.pegawai.forEach((pegawailoop, index) => {
+                        $("#pegawaiForm").append($("<option selected='selected'></option>")
+                        .val(pegawailoop.nip).text(pegawailoop.nama)).trigger('change');
+                        })
                         $('#dasarForm').val(data.dasar);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").append($("<option selected='selected'></option>")

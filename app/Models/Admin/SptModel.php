@@ -12,7 +12,7 @@ class SptModel extends Model
     protected $useAutoIncrement = true;
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'pegawai_all', 'dasar', 'untuk', 'kode_instansi', 'alamat_instansi', 'awal', 'akhir', 'lama', 'pejabat', 'status', 'keterangan'];
 

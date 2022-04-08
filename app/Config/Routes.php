@@ -51,9 +51,10 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->presenter('Instansi', ['controller' =>'Admin\Instansi', 'except' => 'show,remove']);
     $routes->presenter('Sbuh', ['except' => 'show,remove']);
     $routes->get('rekening', 'Admin\Rekening::index');
-    $routes->presenter('spt', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
-    $routes->get('spt/print/(:num)', 'Admin\Spt::print/$1');
-
+    $routes->group('Spt', function ($routes) {
+        $routes->presenter('', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
+        $routes->get('print/(:num)', 'Admin\Spt::print/$1');
+    });
     $routes->group('Spd', function ($routes) {
         $routes->presenter('', ['controller' =>'Admin\Spd', 'except' => 'show,remove,edit,update']);
         $routes->get('edit-depan/(:any)', 'Admin\Spd::edit_depan/$1');
