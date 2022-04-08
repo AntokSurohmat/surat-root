@@ -297,6 +297,13 @@ class Rincian extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $rincian_id = $this->rincian->where('id', $this->request->getVar('id'))->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
@@ -311,6 +318,13 @@ class Rincian extends ResourcePresenter
 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $rincian_id = $this->rincian->where('id', $this->request->getVar('id'))->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {
@@ -371,8 +385,16 @@ class Rincian extends ResourcePresenter
      */
     public function update($id = null)
     {
+
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $rincian_id = $this->rincian->where('id', $this->request->getVar('hiddenID'))->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $validation = \Config\Services::validation();
@@ -532,6 +554,13 @@ class Rincian extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $rincian_id = $this->rincian->where('id', $this->request->getVar('id'))->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $id = $this->request->getVar('id');
@@ -549,10 +578,13 @@ class Rincian extends ResourcePresenter
 
     public function print($id = null){
 
-        if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        $rincian_id = $this->rincian->where('id', $id)->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-
+        if (!$id) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         $data = $this->rincian->where('id', $id)->first();
 
         $data['bendahara'] = $this->pegawai->select(['nama', 'nip'])->where('nip', $data['bendahara'])->first();

@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Print All Recap SPT</title>
+	<title>Print All Recap SPD </title>
 	<!-- <link type="text/css"  href="assets/AdminLTE/dist/css/adminlte.min.css" rel="stylesheet"> -->
 	<link type="text/css" href="assets/custom/css/style.css" rel="stylesheet">
 	<style>
@@ -130,7 +130,7 @@
 			</tr>
 			<tr>
 				<td style="font-size:18px;text-align:center;line-height: 1.1em;font-weight:500;text-align:center;">
-					SURAT PERINTAH TUGAS
+					SURAT PERJALANAN DINAS
 				</td>
 			</tr>
 		</tbody>
@@ -138,50 +138,43 @@
 	<table style="margin-top: 15px;" width=100% border="0" cellpadding=2 cellspacing=0>
 		<tbody>
 			<tr>
-				<td >
-					<table border="0">
+			<td width=33% style=vertical-align:top>
+					<table border="0" width=100%>
 						<tr>
-							<td width=40% style="padding: 2px 10px;">No. SPT</td>
-							<td width=3% style="padding: 2px 10px;">: </td>
-							<td style="padding: 2px 10px;"> <?= $spt['kode']?> </td>
+							<td width=60% style="padding: 2px;">No. SPD</td>
+							<td width=3% style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"> <?= $spd['kode']?> </td>
+						</tr>
+
+						<tr>
+							<td width=60% style="padding: 2px;">Pejabat Yang Memerintah</td>
+							<td width=3% style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"> 
+								<?php foreach ($memerintah as $yang_key => $yang_value) {
+										if($yang_key == 'nama'){
+											echo $yang_value;
+										}
+									}?>
+							</td>
 						</tr>
 						<tr>
-						<td width=40% style="padding: 2px 10px;">Nama</td>
-							<td width=3% style="padding: 2px 10px;">: </td>
-							<td style="padding: 2px 10px;">
-								<?php foreach ($pegawai as $pegawai_key => $pegawai_value) {
-									$data_pegawai[] = $pegawai_value->nama;
-								}?>
-								<?php 
-								echo str_replace(
-									array('"','[',']'),
-									array("", "", ""),
-									json_encode($data_pegawai)
-								);
-								?>
+							<td width=60% style="padding: 2px;">Pegai Yang diperintah</td>
+							<td width=3% style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"> 
+								<?php foreach ($diperintah as $diperin_key => $diperin_value) {
+										if($diperin_key == 'nama'){
+											echo $diperin_value;
+										}
+									}?>
 							</td>
 						</tr>
 					</table>
 				</td>
-				<td width=33%>
-					<table border="0">
+				<td width=33% style=vertical-align:top>
+				<table border="0" width=100%>
 						<tr>
-							<td width=40% style="padding: 2px 10px;">Tanggal Pergi</td>
-							<td width=3% style="padding: 2px 10px;">: </td>
-							<td style="padding: 2px 10px;"> <?= date('d-m-Y', strtotime($spt['awal'])) ?> </td>
-						</tr>
-						<tr>
-							<td width=40% style="padding: 2px 10px;">Tanggal Kembali</td>
-							<td width=3 style="padding: 2px 10px;">: </td>
-							<td style="padding: 2px 10px;"> <?= date('d-m-Y', strtotime($spt['akhir'])) ?> </td>
-						</tr>
-					</table>
-				</td>
-				<td width=33% style="vertical-align: top;">
-					<table border="0">
-						<tr>
-							<td width=40% style="padding: 2px 10px;">Nama Instansi</td>
-							<td width=3% style="padding: 2px 10px;">: </td>
+							<td width=57% style="padding: 2px;">Nama Instansi</td>
+							<td width=3% style="padding: 2px;">: </td>
 							<td style="padding: 2px 10px;"> 
 								<?php foreach ($instansi as $inst_key => $inst_value) {
 									if($inst_key == 'nama_instansi'){
@@ -189,6 +182,26 @@
 									}
 								}?>
 							</td>
+						</tr>
+						<tr>
+							<td width=57% style="padding: 2px">Maksud Perjalanan Dinas</td>
+							<td width=3% style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"><?= $spd['untuk']?></td>
+						</tr>
+					</table>
+				</td>
+				<td width=33% style="vertical-align: top;">
+
+					<table border="0" width=100%>
+						<tr>
+							<td width=50% style="padding: 2px;">Tanggal Pergi</td>
+							<td width=3% style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"> <?= date('d-m-Y', strtotime($spd['awal'])) ?> </td>
+						</tr>
+						<tr>
+							<td width=50% style="padding: 2px;">Tanggal Kembali</td>
+							<td width=3 style="padding: 2px;">: </td>
+							<td style="padding: 2px 10px;"> <?= date('d-m-Y', strtotime($spd['akhir'])) ?> </td>
 						</tr>
 					</table>
 				</td>
@@ -199,39 +212,59 @@
 	<table  width=100% border="1" style="margin-top:5px;">
 		<thead>
 			<tr>
-				<th style="width: 5%;padding:2px;">No. SPT</th>
-				<th style="width: 15%;padding:2px;">NIP</th>
-				<th style="width: 15%;padding:2px;">Nama</th>
-				<th>Dasar</th>
+				<th style="width: 5%;padding:2px;">No. SPD</th>
+				<th>Pejabat Yang Memerintah</th>
+				<th>Pegawai Yang Diperintah</th>
+				<th>Tingkat Biaya Perjalanan</th>
 				<th>Maksud Perjalanan Dinas</th>
-				<th>Nama Instansi</th>
-				<th>Tanggal Pergi</th>
-				<th>Tanggal Kembali</th>
+				<th>Jenis Transportasi</th>
+				<th style="width:90px;">Nama Instansi</th>
+				<th style="width:80px;">Tanggal Pergi</th>
+				<th style="width:80px;">Tanggal Kembali</th>
+				<th>Pengikut</th>
 			</tr>
 		</thead>
 		<tbody>
-				<?php foreach($spt_all as $key_spt => $table_spt) :?>
+				<?php foreach($spd_all as $key_spd => $table_spd) :?>
 					<tr>
-						<td style="width: 5%;padding: 0px 10px;"><p><?= $table_spt->kode?></p></td>
-						<td style="width: 15%;padding: 0px 10px;word-wrap: break-word">
-						<table width=100% border="0">
-							<?php foreach($pegawai_all as $key_pegawai => $table_pegawai) :?>
-								<?php foreach($table_pegawai as $pegawai_data) :?>
-									<?php if($key_spt == $key_pegawai) :?>
-										<tr>
-											<td><?= $pegawai_data->nip?>,</td>
-										</tr>
+						<td style="width: 5%;padding: 0px 10px;"><p><?= $table_spd->kode?></p></td>
+						<td style="padding: 0px 10px;">
+						<?php foreach($memerintah_all as $key_memerintah => $table_memerin) :?>
+								<?php foreach($table_memerin as $meperintah_data) :?>
+									<?php if($key_spd == $key_memerintah) :?>
+										<?= $meperintah_data->nama?>
 									<?php endif;?>
 								<?php endforeach?>
 							<?php endforeach;?>
-											
-						</table>
 						</td>
+						<td style="padding: 0px 10px;">
+						<?php foreach($diperintah_all as $key_diperintah => $table_diperin) :?>
+								<?php foreach($table_diperin as $diperintah_data) :?>
+									<?php if($key_spd == $key_diperintah) :?>
+										<?= $diperintah_data->nama?>
+									<?php endif;?>
+								<?php endforeach?>
+							<?php endforeach;?>
+						</td>
+						<td style="padding: 0px 10px;"><p><?= $table_spd->tingkat_biaya?></p></td>
+						<td style="padding: 0px 10px;"><p><?= $table_spd->jenis_kendaraan?></p></td>
+						<td style="padding: 0px 10px;"><p><?= $table_spd->untuk?></p></td>
+						<td style="padding: 0px 10px;">
+						<?php foreach($instansi_all as $key_insta => $table_insta) :?>
+								<?php foreach($table_insta as $instansi_data) :?>
+									<?php if($key_spd == $key_insta) :?>
+										<?= $instansi_data->nama_instansi?>
+									<?php endif;?>
+								<?php endforeach?>
+							<?php endforeach;?>
+						</td>
+						<td style="padding: 0px 10px;text-algin:center;width:80px"><p><?= date('d-m-Y', strtotime($table_spd->awal))?></p></td>
+						<td style="padding: 0px 10px;text-algin:center;width:80px"><p><?= date('d-m-Y', strtotime($table_spd->akhir))?></p></td>
 						<td style="width: 15%;padding: 0px 10px;word-wrap: break-word">
 						<table width=100% border="0">
 							<?php foreach($pegawai_all as $key_pegawai => $table_pegawai) :?>
 								<?php foreach($table_pegawai as $pegawai_data) :?>
-									<?php if($key_spt == $key_pegawai) :?>
+									<?php if($key_spd == $key_pegawai) :?>
 										<tr>
 											<td><?= $pegawai_data->nama?>,</td>
 										</tr>
@@ -239,26 +272,15 @@
 								<?php endforeach?>
 							<?php endforeach;?>
 											
-						</table>		
+						</table>
 						</td>
-						<td style="padding: 0px 10px;"><p><?= $table_spt->dasar?></p></td>
-						<td style="padding: 0px 10px;"><p><?= $table_spt->untuk?></p></td>
-						<td style="padding: 0px 10px;">
-						<?php foreach($instansi_all as $key_insta => $table_insta) :?>
-								<?php foreach($table_insta as $instansi_data) :?>
-									<?php if($key_spt == $key_insta) :?>
-										<?= $instansi_data->nama_instansi?>
-									<?php endif;?>
-								<?php endforeach?>
-							<?php endforeach;?>
-						</td>
-						<td style="padding: 0px 10px;text-algin:center"><p><?= date('d-m-Y', strtotime($table_spt->awal))?></p></td>
-						<td style="padding: 0px 10px;text-algin:center"><p><?= date('d-m-Y', strtotime($table_spt->akhir))?></p></td>
+	
 					</tr>
 
 				<?php endforeach;?>
 		</tbody>
 	</table>
+
 	<table width=100% border="0" style="margin-top: 25px;">
 		<tr>
 			<td width=50% style="vertical-align: top;">
@@ -266,7 +288,7 @@
 					<tr>
 						<td style="padding:5px;">Jumlah Surat</td>
 						<td style="padding:5px;width:2%">:</td>
-						<td style="padding:5px;"><?= count($spt_all);?></td>
+						<td style="padding:5px;"><?= count($spd_all);?></td>
 					</tr>
 				</table>
 			</td>

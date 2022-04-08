@@ -62,7 +62,7 @@ class Spd extends ResourcePresenter
                   ->join('instansi', 'instansi.kode = spd.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
+            ->postQuery(function($builder){$builder->orderBy('id', 'asc');})
             ->format('pegawai_diperintah', function($value){
                 if($value == null){
                     return $value;
@@ -95,18 +95,18 @@ class Spd extends ResourcePresenter
             })
             ->add(null, function($row){
                 if($row->status == 'false'){
-                    $button = '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="/Admin/Spd/new/' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>';
+                    $button = '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="'. base_url('admin/Spd/new/'.$row->id).'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>';
                     $button .= '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
                 }else{
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Page One ]"><i class="fas fa-eye text-white"></i></a>';
-                    $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Spd/edit_depan/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Depan ]"><i class="fas fa-edit text-white"></i></a>';
-                    $button .='<a type="button" class="btn btn-xs btn-secondary mr-1 mb-1" href="/Admin/Spd/edit_belakang/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Belakang ]"><i class="fas fa-edit text-white"></i></a>';
+                    $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="'. base_url('admin/Spd/edit-depan/'.$row->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Depan ]"><i class="fas fa-edit text-white"></i></a>';
+                    $button .='<a type="button" class="btn btn-xs btn-secondary mr-1 mb-1" href="'. base_url('admin/Spd/edit-belakang/'.$row->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Belakang ]"><i class="fas fa-edit text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a><br>';
-                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Admin/Spd/print_depan/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Depan ]"><i class="fas fa-print  text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="/Admin/Spd/print_belakang/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-info mr-1 mb-1 print" href="/Admin/Spd/print_template/'.$row->id.'"target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="/Admin/Spd/print/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="'. base_url('admin/Spd/print-depan/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Depan ]"><i class="fas fa-print  text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="'. base_url('admin/Spd/print-belakang/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-info mr-1 mb-1 print" href="'. base_url('admin/Spd/print-detail/'.$row->id).'"target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="'. base_url('admin/Spd/print/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 }
                 return $button;
             }, 'last')
@@ -207,14 +207,6 @@ class Spd extends ResourcePresenter
     {
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
-
-        $getpegawai = $this->spd->where('id', $this->request->getVar('id'))->get();
-        if($getpegawai->getRow() == null){
-            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('id')) {
-            return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $response = array();

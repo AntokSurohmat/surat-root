@@ -60,6 +60,7 @@ class Kuitansi extends ResourcePresenter
     }
 
     public function load_data() {
+
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -149,6 +150,9 @@ class Kuitansi extends ResourcePresenter
         return $this->response->setJSON($response);
     }
     function getDetailPegawaiNoSpd(){
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
         if ($this->request->getVar('kode') && $this->request->getVar('id')) {
             $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
@@ -502,6 +506,14 @@ class Kuitansi extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
+         $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+         if($kuitansi_id->getRow() == null){
+             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+         if (!$this->request->getVar('id')) {
+             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+         }
+
         if ($this->request->getVar('id')) {
             $data = $this->kuitansi->where('id', $this->request->getVar('id'))->first();
 
@@ -518,6 +530,14 @@ class Kuitansi extends ResourcePresenter
 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+        if($kuitansi_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         if ($this->request->getVar('id')) {
@@ -548,6 +568,11 @@ class Kuitansi extends ResourcePresenter
      */
     public function edit($id = null)
     {
+
+        $kuitansi_id = $this->kuitansi->where('id', $id)->get();
+        if($kuitansi_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -574,6 +599,13 @@ class Kuitansi extends ResourcePresenter
     {
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('hiddenID'))->get();
+        if($kuitansi_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hiddenID')) {
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $validation = \Config\Services::validation();
@@ -767,6 +799,13 @@ class Kuitansi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+        if($kuitansi_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $id = $this->request->getVar('id');
@@ -784,8 +823,12 @@ class Kuitansi extends ResourcePresenter
 
     public function print($id = null){
 
+        $kuitansi_id = $this->kuitansi->where('id', $id)->get();
+        if($kuitansi_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->kuitansi->where('id',$id)->first();

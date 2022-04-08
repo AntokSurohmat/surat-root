@@ -188,6 +188,16 @@ class Spt extends BaseController
 
     function view_data()
     {
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();

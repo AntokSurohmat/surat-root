@@ -85,7 +85,7 @@ class Instansi extends ResourcePresenter
 				}
 			};
             $row[] = '
-            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Instansi/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="'. base_url('admin/Instansi/edit/'.$key->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;

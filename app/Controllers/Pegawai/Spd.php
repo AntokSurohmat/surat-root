@@ -201,6 +201,17 @@ class Spd extends BaseController
 
     function view_data() {
 
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
@@ -230,8 +241,12 @@ class Spd extends BaseController
     }
     public function print($id = null){
 
+        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+        if($spd_id->getRow() == null){
+            return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
         if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+            return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();

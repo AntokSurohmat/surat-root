@@ -29,7 +29,7 @@
                     </div>
                 <?php endif; ?>
 
-                <div class="card card-outline card-info">
+                <div class="card card-info">
                     <div class="card-header">
                     <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
                     <button type="button" class="btn btn-sm btn-outline-info float-right mr-1" tabindex="1" id="print" data-rel="tooltip" data-placement="top" data-container=".content" title="Print Format"><i class="fa fa-print"></i>&ensp;Print</button>
@@ -160,14 +160,13 @@
                                             <div class="form-group row">
                                                 <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
                                                 <div class="col-sm-3">
-                                                    <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
-                                                    <a href="<?= base_url('admin/lapspd/print_all')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                    <a href="<?= base_url('admin/lapspd/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button>
+                                                    <a href="<?= base_url('admin/lapspd/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -175,13 +174,13 @@
                                             <div class="form-group row">
                                                 <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-default" id="downSeSurat" data-rel="tooltip" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></button>
+                                                    <a href="<?= base_url('admin/lapspd/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-default" id="downReSurat" data-rel="tooltip" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></button>
+                                                    <a href="<?= base_url('admin/lapspd/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Rekap Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                         </div>

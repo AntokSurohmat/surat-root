@@ -20,7 +20,7 @@
             <form role="form" id="form-login" autocomplete="off" onsubmit="return false" method="post">
             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                 <div class="input-group mb-3">
-                    <input type="username" class="form-control" name="username" id="usernameForm" placeholder="username">
+                    <input type="username" class="form-control" name="username" id="usernameForm" placeholder="Username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -39,12 +39,12 @@
                 </div>
                 <div class="row">
                     <div class="col-8">
-                        <div class="icheck-primary">
+                        <!-- <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">
                                 Remember Me
                             </label>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- /.col -->
                     <div class="col-4">

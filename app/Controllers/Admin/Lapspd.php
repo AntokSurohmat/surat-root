@@ -473,4 +473,124 @@ class Lapspd extends BaseController
         // output the generated pdf
         $dompdf->stream($filename);
     }
+
+    public function print_recap(){
+
+        $spd_all = $this->spd->get();
+        $pegawai_all = array();
+        foreach($spd_all->getResult() as $result){
+            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
+            $pegawai_all[] = $pegawai_query_all->getResult();
+            $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
+            $instansi_all[] = $instansi_query_all->getResult();
+
+            //single items
+            $diperintah_query = $this->pegawai->where('nip', $result->pegawai_diperintah)->get();
+            $diperintah_all[] = $diperintah_query->getResult();
+            $yangmerintah_query = $this->pegawai->where('nip', $result->pejabat)->get();
+            $memerintah_all[] = $yangmerintah_query->getResult();
+            
+        }
+        $data['spd_all'] = $spd_all->getResult();
+        $data['pegawai_all'] = $pegawai_all;
+        $data['instansi_all'] = $instansi_all;
+        $data['diperintah_all'] = $diperintah_all;
+        $data['memerintah_all'] = $memerintah_all;
+
+        $spd = $this->spd->selectMax('id')->first();
+        $data['spd'] = $this->spd->where('id', $spd['id'])->first();
+        $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spd']['pegawai_all']))->get();
+        $data['pegawai'] = $pegawai->getResult();
+        $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['spd']['pegawai_diperintah'])->first();
+        $data['memerintah'] = $this->pegawai->where('nip', $data['spd']['pejabat'])->first();
+        // $spt->getResult();
+        $data['pejabat'] = $this->pegawai->where('nip', $data['spd']['pejabat'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // echo'<pre>';print_r($data);echo'</pre>';die();
+
+        $filename = 'All_Spd' ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/lapspd/r-spdall', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename, array("Attachment" => false));
+    }
+
+    public function download_recap(){
+
+        $spd_all = $this->spd->get();
+        $pegawai_all = array();
+        foreach($spd_all->getResult() as $result){
+            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
+            $pegawai_all[] = $pegawai_query_all->getResult();
+            $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
+            $instansi_all[] = $instansi_query_all->getResult();
+
+            //single items
+            $diperintah_query = $this->pegawai->where('nip', $result->pegawai_diperintah)->get();
+            $diperintah_all[] = $diperintah_query->getResult();
+            $yangmerintah_query = $this->pegawai->where('nip', $result->pejabat)->get();
+            $memerintah_all[] = $yangmerintah_query->getResult();
+            
+        }
+        $data['spd_all'] = $spd_all->getResult();
+        $data['pegawai_all'] = $pegawai_all;
+        $data['instansi_all'] = $instansi_all;
+        $data['diperintah_all'] = $diperintah_all;
+        $data['memerintah_all'] = $memerintah_all;
+
+        $spd = $this->spd->selectMax('id')->first();
+        $data['spd'] = $this->spd->where('id', $spd['id'])->first();
+        $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spd']['pegawai_all']))->get();
+        $data['pegawai'] = $pegawai->getResult();
+        $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['spd']['pegawai_diperintah'])->first();
+        $data['memerintah'] = $this->pegawai->where('nip', $data['spd']['pejabat'])->first();
+        // $spt->getResult();
+        $data['pejabat'] = $this->pegawai->where('nip', $data['spd']['pejabat'])->first();
+
+        $data[$this->csrfToken] = $this->csrfHash;
+        // echo'<pre>';print_r($data);echo'</pre>';die();
+
+        $filename = 'All_Spd' ;
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $dompdf = new Dompdf();
+
+        // change root 
+        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->getIsJavascriptEnabled(true);
+        // $options->setIsHtml5ParserEnabled(true);
+        // $dompdf->setOptions($options);
+
+        // load HTML content
+        $dompdf->loadHtml(view('admin/lapspd/r-spdall', $data));
+
+        // (optional) setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
+
+        // render html as PDF
+        $dompdf->render();
+
+        // output the generated pdf
+        $dompdf->stream($filename);
+    }
 }

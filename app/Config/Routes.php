@@ -52,17 +52,41 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->presenter('Sbuh', ['except' => 'show,remove']);
     $routes->get('rekening', 'Admin\Rekening::index');
     $routes->presenter('spt', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
-    $routes->get('spt/print/(:num)', 'Admin\Spt::print');
-    $routes->presenter('Spd', ['controller' =>'Admin\Spd', 'except' => 'show,remove,edit,update']);
-    $routes->get('lapspt', 'Admin\Lapspt::index');
-    $routes->get('lapspd', 'Admin\Lapspd::index');
+    $routes->get('spt/print/(:num)', 'Admin\Spt::print/$1');
+
+    $routes->group('Spd', function ($routes) {
+        $routes->presenter('', ['controller' =>'Admin\Spd', 'except' => 'show,remove,edit,update']);
+        $routes->get('edit-depan/(:any)', 'Admin\Spd::edit_depan/$1');
+        $routes->post('update-depan/(:num)', 'Admin\Spd::update_depan/$1');
+        $routes->get('edit-belakang/(:num)', 'Admin\Spd::edit_belakang/$1');
+        $routes->post('update-belakang/(:num)', 'Admin\Spd::update_belakang/$1');
+        $routes->get('print-depan/(:num)', 'Admin\Spd::print_depan/$1');
+        $routes->get('print-belakang/(:num)', 'Admin\Spd::print_belakang/$1');
+        $routes->get('print-detail/(:num)', 'Admin\Spd::print_template/$1');
+        $routes->get('print/(:num)', 'Admin\Spd::print/$1');
+    });
+    $routes->group('lapspt', function ($routes) {
+        $routes->get('', 'Admin\Lapspt::index');
+        $routes->get('print-all-data', 'Admin\Lapspt::print_all');
+        $routes->get('download-all-data', 'Admin\Lapspt::download_all');
+        $routes->get('print-recap-data', 'Admin\Lapspt::print_recap');
+        $routes->get('download-recap-data', 'Admin\Lapspt::download_recap');
+    });
+    $routes->group('lapspd', function ($routes) {
+        $routes->get('', 'Admin\Lapspt::index');
+        $routes->get('print-all-data', 'Admin\Lapspd::print_all');
+        $routes->get('download-all-data', 'Admin\Lapspd::download_all');
+        $routes->get('print-recap-data', 'Admin\Lapspd::print_recap');
+        $routes->get('download-recap-data', 'Admin\Lapspd::download_recap');
+    });
+
 });
 $routes->group('bendahara', ["filter" => "auth", "filter" => "auth"], function ($routes) {
     $routes->get('', 'Bendahara\Dashboard::index',);
     $routes->presenter('Kuitansi', ['controller' =>'Bendahara\Spt', 'except' => 'show,remove']);
-    $routes->get('Kuitansi/print/(:num)', 'Bendahara\Kuitansi::print');
+    $routes->get('Kuitansi/print/(:num)', 'Bendahara\Kuitansi::print/$1');
     $routes->presenter('Rincian', ['controller' =>'Bendahara\Spt', 'except' => 'show,remove']);
-    $routes->get('Rincian/print/(:num)', 'Bendahara\Rincian::print');
+    $routes->get('Rincian/print/(:num)', 'Bendahara\Rincian::print/$1');
 });
 $routes->group('kepala', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');

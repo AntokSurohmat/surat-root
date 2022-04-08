@@ -107,7 +107,7 @@ class Sbuh extends ResourcePresenter
             };
             $row[] = 'Rp. '.number_format($key->jumlah_uang, 0,'','.');
             $row[] = '
-            <a class="btn btn-xs btn-warning mr-1 mb-1" href="/Admin/Sbuh/edit/' . $key->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
+            <a class="btn btn-xs btn-warning mr-1 mb-1" href="'. base_url('admin/sbuh/edit/'.$key->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
             ';
             $data[] = $row;
@@ -200,13 +200,6 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $getjenis = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->get();
-        if($getjenis->getRow() == null){
-             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('provinsi') || !$this->request->getVar('kabupaten')) {
-             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten')) {
             $data = $this->jenis->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->first();
@@ -252,14 +245,6 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-
-        $getzonasi = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->where('kode_kecamatan', $this->request->getVar('kecamatan'))->get();
-        if($getzonasi->getRow() == null){
-             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('provinsi') || !$this->request->getVar('kabupaten') || !$this->request->getVar('ekcamatan')) {
-             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }        
 
         if ($this->request->getVar('provinsi') && $this->request->getVar('kabupaten') && $this->request->getVar('kecamatan')) {
             $data = $this->zonasi->where('kode_provinsi', $this->request->getVar('provinsi'))->where('kode_kabupaten', $this->request->getVar('kabupaten'))->where('kode_kecamatan', $this->request->getVar('kecamatan'))->first();
@@ -521,9 +506,6 @@ class Sbuh extends ResourcePresenter
      */
     public function update($id = null)
     {
-        if (!$this->request->isAJAX()) {
-           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }

@@ -196,6 +196,17 @@ class Verifikasi extends ResourcePresenter
 
     function view_data(){
 
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+         }
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
         if ($this->request->getVar('id')) {
             $data = $this->verifikasi->where('id', $this->request->getVar('id'))->first();
 
@@ -272,12 +283,14 @@ class Verifikasi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        // $id = $this->request->getVar('hidden_id');
-        // $builder = $this->db->table('spt');
-        // $query = $builder->select('lama')->where('id', $id)->get();
-        // $spt = $query->getResult();
+        $verifikasi_id = $this->verifikasi->where('id', $this->request->getVar('hidden_id'))->get();
+        if($verifikasi_id->getRow() == null){
+            return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('hidden_id')) {
+            return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
 
-        // d($spt);print_r($spt);die();
 
         $validation = \Config\Services::validation();
 
@@ -327,29 +340,39 @@ class Verifikasi extends ResourcePresenter
             ];
 
             $id = $this->request->getVar('hidden_id');
-            if ($this->verifikasi->update($id, $data)) {
+            if($this->request->getVar('radioAddEditModalVerifikasi') == 'Revisi') {
 
-                $spt = $this->spt->where('id', $id)->first();
-                $data = [
-                    'kode_spt' => $spt['kode'],
-                    'pejabat' => $spt['pejabat'],
-                    'pegawai_all' => $spt['pegawai_all'],
-                    'untuk' => $spt['untuk'],
-                    'kode_instansi' => $spt['kode_instansi'],
-                    'awal' => $spt['awal'],
-                    'akhir' => $spt['akhir'],
-                    'lama' => $spt['lama'],
-                    'yang_menyetujui' => $spt['yang_menyetujui'],
-                ];
-
-                if($this->spd->insert($data)){
+                if ($this->verifikasi->update($id, $data)) {
                     $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
-                }else{
-                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data spd');
+                } else {
+                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
                 }
-            } else {
-                $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }elseif('Disetujui'){
+
+                if ($this->verifikasi->update($id, $data)) {
+                    $spt = $this->spt->where('id', $id)->first();
+                    $data = [
+                        'kode_spt' => $spt['kode'],
+                        'pejabat' => $spt['pejabat'],
+                        'pegawai_all' => $spt['pegawai_all'],
+                        'untuk' => $spt['untuk'],
+                        'kode_instansi' => $spt['kode_instansi'],
+                        'awal' => $spt['awal'],
+                        'akhir' => $spt['akhir'],
+                        'lama' => $spt['lama'],
+                        'yang_menyetujui' => $spt['yang_menyetujui'],
+                    ];
+    
+                    if($this->spd->insert($data)){
+                        $data = array('success' => true, 'msg' => 'Data Berhasil disimpan' );
+                    }else{
+                        $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data spd');
+                    }
+                } else {
+                    $data = array('success' => false, 'msg' => $this->verifikasi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+                }
             }
+
         }
 
         $data['msg'] =$data['msg'];
@@ -382,6 +405,13 @@ class Verifikasi extends ResourcePresenter
     }
     public function print($id = null){
 
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $spt_id = $this->spt->where('id', $id)->get();
+        if($spt_id->getRow() == null){
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
         if (!$id) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
