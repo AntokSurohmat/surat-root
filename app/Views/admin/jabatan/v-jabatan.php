@@ -45,10 +45,10 @@
                         <table id="jbtan_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 3%;">No</th>
+                                    <th>No</th>
                                     <th>Kode</th>
                                     <th>Nama Jabatan</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -131,7 +131,7 @@
                 "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{"targets": 0,"orderable": false}, {"targets": -1,"orderable": false,"class": "text-center",}, ],
+            "columnDefs": [{"targets": 0,"orderable": false, "width": "3%"}, {"targets": -1,"orderable": false,"class": "text-center","width": "13%"}, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {

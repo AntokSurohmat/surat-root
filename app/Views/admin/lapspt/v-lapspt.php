@@ -104,15 +104,15 @@
                         <table id="spt_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 3%;">No</th>
+                                    <th>No</th>
                                     <th>No SPT</th>
                                     <th style="width: 100px">Nama</th>
                                     <th>Nama Instansi</th>
                                     <th>Awal</th>
                                     <th>Akhir</th>
-                                    <th style="width: 10%;">Pejabat Yang Memberikan Perintah</th>
+                                    <th style="width: 15%;">Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -382,7 +382,7 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
+            "columnDefs": [{ targets: 0, orderable: false, "width": "3%"},  { targets: -1, orderable: false, "class": "text-center", "width": "10%"},],
         });
         $('#noSptTable').change(function(event) {spt.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spt.ajax.reload();});

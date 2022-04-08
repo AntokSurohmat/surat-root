@@ -107,8 +107,8 @@
                         <table id="kui_data" class="table table-bordered table-hover table-striped display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>NO</th>
-                                    <th>NO SPD</th>
+                                    <th>No</th>
+                                    <th>No SPD</th>
                                     <th>Nama Pegawai</th>
                                     <th>Nama Instansi</th>
                                     <th>Tanggal Berangkat</th>
@@ -346,7 +346,7 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
+            "columnDefs": [{ targets: 0, orderable: false,"width":"3%"},  { targets: -1, orderable: false, "class": "text-center","width":"10%"},],
         });
         $('#noSpdTable').change(function(event) {kui.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {kui.ajax.reload();});

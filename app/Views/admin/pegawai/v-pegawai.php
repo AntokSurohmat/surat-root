@@ -52,7 +52,7 @@
                         <table id="pgw_data" class="table table-bordered table-hover projects display wrap" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th style="width: 3%;">No</th>
+                                    <th>No</th>
                                     <th>NIP</th>
                                     <th>Nama</th>
                                     <th>Foto</th>
@@ -60,7 +60,7 @@
                                     <th>Pangkat</th>
                                     <th>Username</th>
                                     <th>level</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,7 +96,7 @@
                 "dataSrc": function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return response.data;},
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{"targets": 0,"orderable": false},{"targets": 3,"orderable": false,"class": "text-center",}, {"targets": -1,"orderable": false,"class": "text-center",}, ],
+            "columnDefs": [{"targets": 0,"orderable": false,"width": "3%"},{"targets": 3,"orderable": false,"class": "text-center",}, {"targets": -1,"orderable": false,"class": "text-center","width": "10%"}, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {

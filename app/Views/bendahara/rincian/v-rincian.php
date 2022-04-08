@@ -247,7 +247,7 @@
             "ajax": {
                 "url": url_destination,"timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{targets: 0,orderable: false}, {targets: -1,orderable: false,"class": "text-center"}, ],
+            "columnDefs": [{targets: 0,orderable: false,"width":"3%"}, {targets: -1,orderable: false,"class": "text-center","width":"10%"}, ],
         });
 
         function handleAjaxError(xhr, textStatus, error) {

@@ -114,7 +114,7 @@
                                     <th style="width: 10%;">Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
-                                    <th style="width: 10%;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -338,7 +338,7 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center"},],
+            "columnDefs": [{ targets: 0, orderable: false,"width":"3%"},  { targets: -1, orderable: false, "class": "text-center","width":"10%"},],
         });
         $('#noSptTable').change(function(event) {spt.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spt.ajax.reload();});

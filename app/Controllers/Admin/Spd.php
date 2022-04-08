@@ -62,7 +62,10 @@ class Spd extends ResourcePresenter
                   ->join('instansi', 'instansi.kode = spd.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('id', 'asc');})
+            ->postQuery(function($builder){
+                $builder->orderBy('id', 'asc');
+                $builder->where('spd.deleted_at', null);
+            })
             ->format('pegawai_diperintah', function($value){
                 if($value == null){
                     return $value;
@@ -97,9 +100,9 @@ class Spd extends ResourcePresenter
                 if($row->status == 'false'){
                     $button = '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="'. base_url('admin/Spd/new/'.$row->id).'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>';
                     $button .= '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a><br>';
                 }else{
-                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Page One ]"><i class="fas fa-eye text-white"></i></a>';
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .='<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="'. base_url('admin/Spd/edit-depan/'.$row->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Depan ]"><i class="fas fa-edit text-white"></i></a>';
                     $button .='<a type="button" class="btn btn-xs btn-secondary mr-1 mb-1" href="'. base_url('admin/Spd/edit-belakang/'.$row->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Halaman Belakang ]"><i class="fas fa-edit text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a><br>';
@@ -154,10 +157,12 @@ class Spd extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -183,10 +188,12 @@ class Spd extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama_instansi')
                 ->findAll(10);;
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_instansi')
                 ->findAll(10);
@@ -212,10 +219,10 @@ class Spd extends ResourcePresenter
         }
 
         $response = array();
-        $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getVar('id'))->first();
+        $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
 
         $data = array();
-        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->get();
+        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->where('deleted_at', null)->get();
         foreach (array_combine(json_decode($pegawailist['pegawai_all']), $nama->getResultArray())  as $pegawai => $nama) {
             $data[] = array(
                 "id" => $pegawai,
@@ -471,7 +478,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
-         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
          if($spd_id->getRow() == null){
              return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
          }
@@ -480,14 +487,14 @@ class Spd extends ResourcePresenter
          }
 
         if ($this->request->getVar('id')) {
-            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+            $data = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
 
             $builder = $this->db->table('pegawai');
             $query = $builder->select('pegawai.*')
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
             ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
             ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+            ->where('pegawai.nip', $data['pegawai_diperintah'])->where('pegawai.deleted_at', null)->get();
 
             $data['pegawai'] = $query->getResult();
 
@@ -495,12 +502,12 @@ class Spd extends ResourcePresenter
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
             ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
             ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
             $data['looping'] = $query->getResult();
             $data['json'] = json_decode($data['detail'], true);
-            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -511,7 +518,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
-         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
          if($spd_id->getRow() == null){
              return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
          }
@@ -520,14 +527,14 @@ class Spd extends ResourcePresenter
          }
 
         if ($this->request->getVar('id')) {
-            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+            $data = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
 
-            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-            $instansi = $this->instansi->where('kode', $data['kode_instansi'])->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+            $instansi = $this->instansi->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
-            $wilayah = $this->wilayah->select('kode_jenis_wilayah')->where(['kode_provinsi' => $instansi['kode_provinsi'], 'kode_kabupaten' => $instansi['kode_kabupaten']])->first();
+            $wilayah = $this->wilayah->select('kode_jenis_wilayah')->where(['kode_provinsi' => $instansi['kode_provinsi'], 'kode_kabupaten' => $instansi['kode_kabupaten']])->where('deleted_at', null)->first();
 
-            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode_jenis_wilayah', $wilayah)->first();
+            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode_jenis_wilayah', $wilayah)->where('deleted_at', null)->first();
 
             $data['instansi'] = $instansi;
             $data[$this->csrfToken] = $this->csrfHash;
@@ -539,7 +546,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
-         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+         $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
          if($spd_id->getRow() == null){
              return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
          }
@@ -548,12 +555,12 @@ class Spd extends ResourcePresenter
          }
         
         if ($this->request->getVar('id')) {
-            $data = $this->spd->where('id', $this->request->getVar('id'))->first();
+            $data = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
 
-            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-            $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
-            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
-            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode', $data['kode_rekening'])->first();
+            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->where('deleted_at', null)->first();
+            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
+            $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode', $data['kode_rekening'])->where('deleted_at', null)->first();
             $data['json'] = json_decode($data['detail']);
 
             $data[$this->csrfToken] = $this->csrfHash;
@@ -562,7 +569,7 @@ class Spd extends ResourcePresenter
     }
 
     public function edit_depan($id = null){
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -585,7 +592,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->get();
+        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -733,7 +740,7 @@ class Spd extends ResourcePresenter
     }
 
     public function edit_belakang($id = null){
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -755,7 +762,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->get();
+        $spd_id = $this->spd->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -901,7 +908,7 @@ class Spd extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->get();
+        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -912,7 +919,7 @@ class Spd extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $id = $this->request->getVar('id');
 
-            if ($this->spd->where('id', $id)->delete($id)) {
+            if ($this->spd->where('id', $id)->where('deleted_at', null)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
             } else {
                 $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
@@ -926,7 +933,7 @@ class Spd extends ResourcePresenter
 
     public function print_depan($id = null){
 
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -934,14 +941,14 @@ class Spd extends ResourcePresenter
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $data = $this->spd->where('id', $id)->first();
+        $data = $this->spd->where('id', $id)->where('deleted_at', null)->first();
 
         $builder = $this->db->table('pegawai');
         $query = $builder->select('pegawai.*')
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+        ->where('pegawai.nip', $data['pegawai_diperintah'])->where('pegawai.deleted_at', null)->get();
 
         $data['pegawai'] = $query->getResult();
 
@@ -949,12 +956,12 @@ class Spd extends ResourcePresenter
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
         $data['looping'] = $query->getResult();
         $data['json'] = json_decode($data['detail'], true);
-        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
@@ -985,7 +992,7 @@ class Spd extends ResourcePresenter
 
     public function print_belakang($id = null){
 
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -993,14 +1000,14 @@ class Spd extends ResourcePresenter
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $data = $this->spd->where('id', $id)->first();
+        $data = $this->spd->where('id', $id)->where('deleted_at', null)->first();
 
         $builder = $this->db->table('pegawai');
         $query = $builder->select('pegawai.*')
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+        ->where('pegawai.nip', $data['pegawai_diperintah'])->where('pegawai.deleted_at', null)->get();
 
         $data['pegawai'] = $query->getResult();
 
@@ -1008,12 +1015,12 @@ class Spd extends ResourcePresenter
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
         $data['looping'] = $query->getResult();
         $data['json'] = json_decode($data['detail'], true);
-        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
@@ -1044,7 +1051,7 @@ class Spd extends ResourcePresenter
 
     public function print_template($id = null){
 
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -1052,14 +1059,14 @@ class Spd extends ResourcePresenter
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $data = $this->spd->where('id', $id)->first();
+        $data = $this->spd->where('id', $id)->where('deleted_at', null)->first();
 
         $builder = $this->db->table('pegawai');
         $query = $builder->select('pegawai.*')
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+        ->where('pegawai.nip', $data['pegawai_diperintah'])->where('pegawai.deleted_at', null)->get();
 
         $data['pegawai'] = $query->getResult();
 
@@ -1067,12 +1074,12 @@ class Spd extends ResourcePresenter
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
         $data['looping'] = $query->getResult();
         $data['json'] = json_decode($data['detail'], true);
-        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
@@ -1103,7 +1110,7 @@ class Spd extends ResourcePresenter
 
     public function print($id = null){
 
-        $spd_id = $this->spd->where('id', $id)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -1111,14 +1118,14 @@ class Spd extends ResourcePresenter
             return redirect()->to(site_url('admin/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $data = $this->spd->where('id', $id)->first();
+        $data = $this->spd->where('id', $id)->where('deleted_at', null)->first();
 
         $builder = $this->db->table('pegawai');
         $query = $builder->select('pegawai.*')
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+        ->where('pegawai.nip', $data['pegawai_diperintah'])->where('pegawai.deleted_at', null)->get();
 
         $data['pegawai'] = $query->getResult();
 
@@ -1126,12 +1133,12 @@ class Spd extends ResourcePresenter
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
         $data['looping'] = $query->getResult();
         $data['json'] = json_decode($data['detail'], true);
-        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+        $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+        $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
