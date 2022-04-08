@@ -9,11 +9,6 @@ type `composer update` to update composer and vendor file.
 Copy `env` to `.env` and tailor for your app, specifically the baseURL
 and any database settings.
 
-Change `$dompdf->getOptions()->setChroot("C:\\www\\surat\\public");` 
-to `$dompdf->getOptions()->setChroot("C:\\folder\\folder\\surat\\public");`
-
-example : `"C:\\xampp\\htdocts\\surat\\public"`
-
 ## Login
 
 Admin / Admin

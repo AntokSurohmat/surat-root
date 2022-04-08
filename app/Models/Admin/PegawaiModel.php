@@ -13,7 +13,7 @@ class PegawaiModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['nip', 'nama', 'tgl_lahir', 'kode_jabatan', 'kode_pangol', 'pelaksana', 'foto', 'username', 'password', 'level'];
 
@@ -103,6 +103,7 @@ class PegawaiModel extends Model
                 ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
                 ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
 				->where($attr_order)
+                ->where('pegawai.deleted_at', null, false)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();
@@ -128,7 +129,7 @@ class PegawaiModel extends Model
 		$sQuery = "SELECT COUNT(etbl_pegawai.id) as total FROM etbl_pegawai
                     LEFT JOIN etbl_jabatan ON etbl_jabatan.kode = etbl_pegawai.kode_jabatan
                     LEFT JOIN etbl_pangol ON etbl_pangol.kode = etbl_pegawai.kode_pangol
-                    WHERE etbl_pegawai.id != '' $attr_order";
+                    WHERE etbl_pegawai.id != '' $attr_order " ;
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

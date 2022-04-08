@@ -6,7 +6,7 @@ use CodeIgniter\RESTful\ResourcePresenter;
 use App\Models\Admin\JabatanModel;
 use App\Models\Admin\PangolModel;
 use App\Models\Admin\PegawaiModel;
-
+use \Hermawan\DataTables\DataTable;
 use CodeIgniter\HTTP\IncomingRequest;
 
 

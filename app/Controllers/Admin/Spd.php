@@ -972,7 +972,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1031,7 +1031,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1090,7 +1090,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1143,14 +1143,15 @@ class Spd extends ResourcePresenter
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
 
+        // d(ROOTPATH . 'Public');print_r(ROOTPATH.'Public');die();
+
         $filename = 'Print_Data_Spd_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
 
         // change root 
-        //$dompdf->getOptions()->setChroot("C:\\www\\surat\\public");
-        $dompdf->getOptions()->setChroot("C:\\xampp\\htdocs\\surat-root\\public");
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
