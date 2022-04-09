@@ -22,7 +22,7 @@ class PegawaiModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    // protected $deletedField  = 'deleted_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -103,7 +103,7 @@ class PegawaiModel extends Model
                 ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
                 ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
 				->where($attr_order)
-                ->where('pegawai.deleted_at', null, false)
+                ->where('pegawai.deleted_at', null)
 				->orderBy($result_order, $result_dir)
 				->limit(service('request')->getPost('length'), service('request')->getPost('start'))
 				->get();

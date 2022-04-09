@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
 class InstansiModel extends Model
@@ -66,13 +67,6 @@ class InstansiModel extends Model
     // protected $afterFind      = [];
     // protected $beforeDelete   = [];
     // protected $afterDelete    = [];
-
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     var $column_order = array(null,  'instansi.kode', 'instansi.nama_instansi', 'provinsi.nama_provinsi', 'kabupaten.nama_kabupaten', 'kecamatan.nama_kecamatan', null);
     var $order = array('instansi.id' => 'DESC');
 
@@ -82,9 +76,9 @@ class InstansiModel extends Model
         // search
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-			$attr_order = "instansi.deleted_at IS NULL AND (instansi.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%')";
+			$attr_order = "instansi.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%'";
         } else {
-            $attr_order = "instansi.id != '' AND instansi.deleted_at IS NULL";
+            $attr_order = "instansi.id != ''";
         }
 
         // order
@@ -102,7 +96,6 @@ class InstansiModel extends Model
         // $db = db_connect();
         $builder = $this->db->table('instansi');
         $query = $builder->select('instansi.*')
-            ->select('instansi.kode AS instansi_kode')
             ->select('provinsi.kode', 'provinsi.nama_provinsi')
             ->select('kabupaten.kode', 'kabupaten.nama_kabupaten')
             ->select('kecamatan.kode', 'kecamatan.nama_kecamatan')
@@ -119,7 +112,7 @@ class InstansiModel extends Model
 
     function count_all()
     {
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi WHERE deleted_at IS NULL";
+        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }
@@ -129,9 +122,9 @@ class InstansiModel extends Model
         // Kondisi Order
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-			$attr_order = " AND etbl_instansi.deleted_at IS NULL AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%')";
+			$attr_order = " AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%')";
         } else {
-            $attr_order = " AND etbl_instansi.deleted_at IS NULL ";
+            $attr_order = " ";
         }
 		$sQuery = "SELECT COUNT(etbl_instansi.id) as total FROM etbl_instansi
                     LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_instansi.kode_provinsi
@@ -140,5 +133,46 @@ class InstansiModel extends Model
                     WHERE etbl_instansi.id != '' $attr_order";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
+    }
+
+
+    private function _get_datatables_query($term=''){ //term is value of $_REQUEST['search']['value']
+        $column = array('k.id_kota','k.nm_kota', 'p.nm_propinsi');
+        $this->db->select('k.id_kota, k.nm_kota, p.nm_propinsi');
+        $this->db->from('kota as k');
+        $this->db->join('propinsi as p', 'p.id_propinsi = k.id_propinsi','left');
+        $this->db->like('k.id_kota', $term);
+        $this->db->or_like('k.nm_kota', $term);
+        $this->db->or_like('p.nm_propinsi', $term);
+        if(isset($_REQUEST['order'])) // here order processing
+        {
+           $this->db->order_by($column[$_REQUEST['order']['0']['column']], $_REQUEST['order']['0']['dir']);
+        } 
+        else if(isset($this->order))
+        {
+           $order = $this->order;
+           $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    
+    function get_datatables(){
+      $term = $_REQUEST['search']['value'];   
+      $this->_get_datatables_query($term);
+      if($_REQUEST['length'] != -1)
+      $this->db->limit($_REQUEST['length'], $_REQUEST['start']);
+      $query = $this->db->get();
+      return $query->result(); 
+    }
+    
+    function count_filtered(){
+      $term = $_REQUEST['search']['value']; 
+      $this->_get_datatables_query($term);
+      $query = $this->db->get();
+      return $query->num_rows();  
+    }
+    
+    public function count_all(){
+      $this->db->from($this->table);
+      return $this->db->count_all_results();  
     }
 }

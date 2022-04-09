@@ -85,6 +85,7 @@ class Spt extends Migration
         $this->forge->addUniqueKey('kode');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('spt');
     }
 
@@ -93,6 +94,7 @@ class Spt extends Migration
         $this->forge->dropKey('spt', 'kode');
         $this->forge->dropForeignKey('instansi', 'etbl_spt_kode_instansi_foreign');
         $this->forge->dropForeignKey('pegawai', 'etbl_spt_pemberi_perintah_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spt_yang_menyetujui_foreign');
         $this->forge->dropTable('spt');
     }
 }

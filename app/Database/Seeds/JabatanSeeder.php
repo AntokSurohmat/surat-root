@@ -10,14 +10,12 @@ class JabatanSeeder extends Seeder
 {
     public function run()
     {
-        $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
-            $data = [
-                'kode' => $faker->unique()->randomNumber($nbDigits = NULL, $strict = false) ,
-                'nama_jabatan' => $faker->name,
-                'created_at' => Time::now()
-            ];
-            $this->db->table('jabatan')->insert($data);
-        }
+        $data = [
+            'kode' =>  001,
+            'nama_jabatan' => "Ini Test jabatan",
+            'created_at' => Time::now(),
+            'update_at' => Time::now(),
+        ];
+        $this->db->table('jabatan')->insert($data);
     }
 }

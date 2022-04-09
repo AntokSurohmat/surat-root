@@ -95,6 +95,12 @@ class Kuitansi extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('nip_pegawai', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'NO ACTION', 'CASCADE');
@@ -104,6 +110,12 @@ class Kuitansi extends Migration
     public function down()
     {
         $this->forge->dropForeignKey('spd', 'etbl_kuitansi_kode_spd_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_kuitansi_pegawai_diperintah_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_kuitansi_nip_pegawai_foreign');
+        $this->forge->dropForeignKey('pangol', 'etbl_kuitansi_kode_pangol_foreign');
+        $this->forge->dropForeignKey('jabatan', 'etbl_kuitansi_kode_jabatan_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_kuitansi_yang_menyetujui_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_kuitansi_bendahara_foreign');
         $this->forge->dropForeignKey('instansi', 'etbl_kuitansi_kode_instansi_foreign');
         $this->forge->dropForeignKey('pegawai', 'etbl_kuitansi_diperintah_foreign');
         $this->forge->dropForeignKey('rekening', 'etbl_kuitansi_kode_rekening_foreign');

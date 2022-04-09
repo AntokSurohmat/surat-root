@@ -67,7 +67,7 @@ class Instansi extends ResourcePresenter
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $key->kode;
+            $row[] = $key->instansi_kode;
             $row[] = $key->nama_instansi;
             foreach ($provinsi->getResult() as $prov ) {
 				if ($prov->kode == $key->kode_provinsi) {

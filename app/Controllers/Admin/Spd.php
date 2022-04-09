@@ -67,10 +67,13 @@ class Spd extends ResourcePresenter
                 $builder->where('spd.deleted_at', null);
             })
             ->format('pegawai_diperintah', function($value){
+
                 if($value == null){
-                    return $value;
+                    return "Kosong";
                 }else{
-                    $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();return $pegawai['nama'];
+                    $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();
+                    // d($pegawai);print_r($pegawai);die();
+                    return ($pegawai != NULL) ? $pegawai['nama'] : 'Kosong';
                 }
             })
             ->format('pegawai_all', function($value){                

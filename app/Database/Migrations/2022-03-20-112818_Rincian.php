@@ -71,6 +71,8 @@ class Rincian extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('rincian');
     }
 
@@ -78,6 +80,8 @@ class Rincian extends Migration
     {
         {
             $this->forge->dropForeignKey('spd', 'etbl_rincian_kode_spd_foreign');
+            $this->forge->dropForeignKey('pegawai', 'etbl_rincian_yang_menyetujui_foreign');
+            $this->forge->dropForeignKey('pegawai', 'etbl_rincian_bendahara_foreign');
             $this->forge->dropTable('rincian');     
         }
     }

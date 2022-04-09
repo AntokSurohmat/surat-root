@@ -106,9 +106,11 @@ class Spd extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
+        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('kode_spt', 'spt', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
         $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'NO ACTION', 'CASCADE');
         $this->forge->createTable('spd');
     }
@@ -116,9 +118,11 @@ class Spd extends Migration
     public function down()
     {
         $this->forge->dropKey('spd', 'kode');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spd_pegawai_diperintah_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spd_pejabat_foreign');
+        $this->forge->dropForeignKey('pegawai', 'etbl_spd_yang_menyetujui_foreign');
         $this->forge->dropForeignKey('spt', 'etbl_spd_kode_spt_foreign');
         $this->forge->dropForeignKey('instansi', 'etbl_spd_kode_instansi_foreign');
-        $this->forge->dropForeignKey('pegawai', 'etbl_spd_diperintah_foreign');
         $this->forge->dropForeignKey('rekening', 'etbl_spd_kode_rekening_foreign');
         $this->forge->dropTable('spd');
     }

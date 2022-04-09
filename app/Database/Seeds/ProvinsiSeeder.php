@@ -9,13 +9,13 @@ class ProvinsiSeeder extends Seeder
 {
     public function run()
     {
-        $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
-            $data = [
-                'nama_provinsi' => $faker->name,
-                'created_at' => Time::now()
-            ];
-            $this->db->table('provinsi')->insert($data);
-        }
+
+        $data = [
+            'kode' => '99',
+            'nama_provinsi' => 'Ini Test Provinsi',
+            'created_at' => Time::now()
+        ];
+        $this->db->table('provinsi')->insert($data);
+
     }
 }
