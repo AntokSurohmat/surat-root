@@ -272,9 +272,9 @@ class Spt extends ResourcePresenter
         if ($this->request->getVar('instansi')) {
             $data = $this->instansi->where('kode', $this->request->getVar('instansi'))->where('deleted_at', null)->first();
 
-            $provinsi = $this->provinsi->where('kode', $data['kode_provinsi'])->where('deleted_at', null)->first();
-            $kabupaten = $this->kabupaten->where('kode', $data['kode_kabupaten'])->where('deleted_at', null)->first();
-            $kecamatan = $this->kecamatan->where('kode', $data['kode_kecamatan'])->where('deleted_at', null)->first();
+            $provinsi = $this->provinsi->where('kode', $data['kode_provinsi'])->first();
+            $kabupaten = $this->kabupaten->where('kode', $data['kode_kabupaten'])->first();
+            $kecamatan = $this->kecamatan->where('kode', $data['kode_kecamatan'])->first();
 
             $data['alamat'] = $kecamatan['nama_kecamatan'].', '.$kabupaten['nama_kabupaten'].', '.$provinsi['nama_provinsi'];
             $data[$this->csrfToken] = $this->csrfHash;
@@ -494,7 +494,7 @@ class Spt extends ResourcePresenter
          }
 
         if ($this->request->getVar('id')) {
-            $data = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
+            $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
             $builder = $this->db->table('pegawai');
             $query = $builder->select('pegawai.*')
@@ -504,7 +504,7 @@ class Spt extends ResourcePresenter
             ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
             $data['looping'] = $query->getResult();
-            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
+            $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -525,7 +525,7 @@ class Spt extends ResourcePresenter
          }
 
         if ($this->request->getVar('id')) {
-            $data = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
+            $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
             $builder = $this->db->table('pegawai');
             $query = $builder->select('pegawai.*')
@@ -535,8 +535,8 @@ class Spt extends ResourcePresenter
             ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
             $data['pegawai'] = $query->getResult();
-            $data['pejabat'] = $this->pegawai->where('nip', $data['pejabat'])->where('deleted_at', null)->first();
-            $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->where('deleted_at', null)->first();
+            $data['pejabat'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -744,7 +744,7 @@ class Spt extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $id = $this->request->getVar('id');
 
-            if ($this->spt->where('id', $id)->where('deleted_at', null)->delete($id)) {
+            if ($this->spt->where('id', $id)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
             } else {
                 $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');

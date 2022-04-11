@@ -68,7 +68,7 @@ class Jabatan extends BaseController
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
-         $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->get();
+         $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
          if($jabatan_id->getRow() == null){
               return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
          }
@@ -146,7 +146,7 @@ class Jabatan extends BaseController
 
         if ($this->request->getVar('method') == 'Edit') {
 
-            $jabatan_id = $this->jabatan->where('id', $this->request->getVar('hidden_id'))->get();
+            $jabatan_id = $this->jabatan->where('id', $this->request->getVar('hidden_id'))->where('deleted_at', null)->get();
             if($jabatan_id->getRow() == null){
                  return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
             }
@@ -204,7 +204,7 @@ class Jabatan extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->get();
+        $jabatan_id = $this->jabatan->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($jabatan_id->getRow() == null){
              return redirect()->to(site_url('admin/jabatan/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }

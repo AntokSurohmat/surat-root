@@ -105,6 +105,7 @@ class Spt extends BaseController
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spt->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('kode')
                 ->findAll(10);
 
@@ -135,10 +136,12 @@ class Spt extends BaseController
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -164,10 +167,12 @@ class Spt extends BaseController
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_instansi')
                 ->findAll(10);;
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_instansi')
                 ->findAll(10);
@@ -191,7 +196,7 @@ class Spt extends BaseController
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -219,8 +224,12 @@ class Spt extends BaseController
 
     public function print($id = null){
 
-        if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spt->where('id',$id)->first();
@@ -264,8 +273,12 @@ class Spt extends BaseController
 
     public function download($id = null){
 
-        if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        if($spt_id->getRow() == null){
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spt->where('id',$id)->first();

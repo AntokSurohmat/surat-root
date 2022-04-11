@@ -100,10 +100,12 @@ class Rekening extends BaseController
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->jenis->select('kode,jenis_wilayah') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
         } else {
             $provinsilist = $this->provinsi->select('kode,jenis_wilayah') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('jenis_wilayah')
                 ->findAll(10);
@@ -127,7 +129,7 @@ class Rekening extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->get();
+        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($rekening_id->getRow() == null){
             return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -211,7 +213,7 @@ class Rekening extends BaseController
             if (!$this->request->isAJAX()) {
                 throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
              }
-             $rekening_id = $this->rekening->where('id', $this->request->getVar('hidden_id'))->get();
+             $rekening_id = $this->rekening->where('id', $this->request->getVar('hidden_id'))->where('deleted_at', null)->get();
              if($rekening_id->getRow() == null){
                  return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
              }
@@ -278,7 +280,7 @@ class Rekening extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->get();
+        $rekening_id = $this->rekening->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($rekening_id->getRow() == null){
             return redirect()->to(site_url('admin/rekening/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }

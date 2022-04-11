@@ -338,7 +338,7 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         $('#submit-kuitansi').removeClass("btn-success");
                         $('#submit-kuitansi').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -346,6 +346,21 @@
                         .val(data.spd.id).text(data.spd.kode)).trigger('change');
                         $("#namaPegawaiKuitansiForm").append($("<option selected='selected'></option>")
                         .val(data.pegawai.nip).text(data.pegawai.nama)).trigger('change');
+                        $('#nipKuitansiForm').val(data.pegawai.nip);
+                        $('#namaKuitansiForm').val(data.pegawai.nama);
+                        $('#pangkatKuitansiForm').val(data.pangol.nama_pangol);
+                        $('#jabatanKuitansiForm').val(data.jabatan.nama_jabatan);
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var awal = new Date(data.spd.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                        $('#tglBerangkatKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        var akhir = new Date(data.spd.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                        $('#tglKembaliKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                        $("#lamaKuitansiForm").val(data.spd.lama);
+                        $("#rekeningKuitansiForm").val(data.spd.kode_rekening);
+                        $("#instansiKuitansiForm").val(data.instansi.nama_instansi);
+                        $("#untukKuitansiForm").val(data.spd.untuk);
+                        var jumlah = data.sbuh.jumlah_uang * data.spd.lama;
+                        $("#jumlahKuitansiForm").val(jumlah);
                         $("#pejabatKuitansiForm").append($("<option selected='selected'></option>")
                         .val(data.pejabat.nip).text(data.pejabat.nama)).trigger('change');
                         $('#submit-kuitansi').html('<i class="fas fa-save"></i>&ensp;Update');

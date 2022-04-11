@@ -142,10 +142,12 @@ class Sbuh extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
         } else {
             $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_provinsi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_provinsi')
                 ->findAll(10);
@@ -172,11 +174,13 @@ class Sbuh extends ResourcePresenter
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {
             $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+                ->where('deleted_at', null)
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->orderBy('nama_kabupaten')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->orderBy('nama_kabupaten')
@@ -217,11 +221,13 @@ class Sbuh extends ResourcePresenter
         $response = array();
         if ($this->request->getPost('searchTerm') == NULL) {
             $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
+                ->where('deleted_at', null)
                 ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->orderBy('nama_kecamatan')
                 ->findAll(10);
         } else {
             $kabupatenlist = $this->kecamatan->select('kode,nama_kecamatan') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_kecamatan', $this->request->getPost('searchTerm'))
                 ->where('kode_kabupaten', $this->request->getPost('kabupaten'))
                 ->orderBy('nama_kecamatan')
@@ -262,10 +268,12 @@ class Sbuh extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama_pangol')
                 ->findAll(10);
         } else {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_pangol', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_pangol')
                 ->findAll(10);
@@ -445,7 +453,7 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($sbuh_id->getRow() == null){
             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -478,7 +486,7 @@ class Sbuh extends ResourcePresenter
     public function edit($id = null)
     {
 
-        $sbuh_id = $this->sbuh->where('id', $id)->get();
+        $sbuh_id = $this->sbuh->where('id', $id)->where('deleted_at', null)->get();
         if($sbuh_id->getRow() == null){
             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -509,7 +517,7 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('hiddenID'))->get();
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get();
         if($sbuh_id->getRow() == null){
             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -654,7 +662,7 @@ class Sbuh extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->get();
+        $sbuh_id = $this->sbuh->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($sbuh_id->getRow() == null){
             return redirect()->to(site_url('admin/sbuh/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }

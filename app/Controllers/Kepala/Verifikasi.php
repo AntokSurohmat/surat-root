@@ -113,11 +113,13 @@ class Verifikasi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spt->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('kode')
                 ->findAll(10);
 
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('kode', $this->request->getPost('searchTerm'))
                 ->orderBy('kode')
                 ->findAll(10);
@@ -143,10 +145,12 @@ class Verifikasi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)            
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -172,10 +176,12 @@ class Verifikasi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_instansi')
                 ->findAll(10);;
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_instansi')
                 ->findAll(10);
@@ -199,7 +205,7 @@ class Verifikasi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
-        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->get();
+        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -283,7 +289,7 @@ class Verifikasi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $verifikasi_id = $this->verifikasi->where('id', $this->request->getVar('hidden_id'))->get();
+        $verifikasi_id = $this->verifikasi->where('id', $this->request->getVar('hidden_id'))->where('deleted_at', NULL)->get();
         if($verifikasi_id->getRow() == null){
             return redirect()->to(site_url('kepala/verifikasi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -408,7 +414,7 @@ class Verifikasi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $spt_id = $this->spt->where('id', $id)->get();
+        $spt_id = $this->spt->where('id', $id)->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }

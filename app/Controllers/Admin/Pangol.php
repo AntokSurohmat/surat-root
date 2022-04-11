@@ -77,7 +77,7 @@ class Pangol extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->get();
+        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($pangol_id->getRow() == null){
              return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -156,7 +156,7 @@ class Pangol extends BaseController
 
         if ($this->request->getVar('method') == 'Edit') {
 
-            $pangol_id = $this->pangol->where('id', $this->request->getVar('hidden_id'))->get();
+            $pangol_id = $this->pangol->where('id', $this->request->getVar('hidden_id'))->where('deleted_at', null)->get();
             if($pangol_id->getRow() == null){
                  return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
             }
@@ -213,7 +213,7 @@ class Pangol extends BaseController
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->get();
+        $pangol_id = $this->pangol->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($pangol_id->getRow() == null){
              return redirect()->to(site_url('admin/pangol/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }

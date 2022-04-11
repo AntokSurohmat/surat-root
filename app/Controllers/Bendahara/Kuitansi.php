@@ -107,10 +107,12 @@ class Kuitansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('kode', $this->request->getPost('searchTerm'))
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
@@ -157,6 +159,8 @@ class Kuitansi extends ResourcePresenter
         if ($this->request->getVar('kode') && $this->request->getVar('id')) {
             $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
 
+            d($data);print_r($data);die();
+
             $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
             $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
 
@@ -182,11 +186,13 @@ class Kuitansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
@@ -213,10 +219,12 @@ class Kuitansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
         } else {
             $spdlist = $this->spd->select('id,kode') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('kode', $this->request->getPost('searchTerm'))
                 ->orderBy('pegawai_diperintah')
                 ->findAll(10);
@@ -242,10 +250,12 @@ class Kuitansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -271,10 +281,12 @@ class Kuitansi extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->orderBy('nama_instansi')
                 ->findAll(10);
         } else {
             $instansilist = $this->instansi->select('kode,nama_instansi') // Fetch record
+                ->where('deleted_at', NULL)
                 ->like('nama_instansi', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_instansi')
                 ->findAll(10);
@@ -506,7 +518,7 @@ class Kuitansi extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-         $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+         $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
          if($kuitansi_id->getRow() == null){
              return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
          }
@@ -518,6 +530,15 @@ class Kuitansi extends ResourcePresenter
             $data = $this->kuitansi->where('id', $this->request->getVar('id'))->first();
 
             $data['spd'] = $this->spd->where('kode', $data['kode_spd'])->first();
+            $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
+            $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
+            $data['sbuh'] = $this->sbuh
+                            ->where('kode_provinsi', $data['instansi']['kode_provinsi'])
+                            ->where('kode_kabupaten', $data['instansi']['kode_kabupaten'])
+                            ->where('kode_kecamatan', $data['instansi']['kode_kecamatan'])
+                            ->first();
             $data['pegawai'] = $this->pegawai->where('nip', $data['pegawai_diperintah'])->first();
             $data['pejabat'] = $this->pegawai->select(['nip', 'nama'])->where('nip', $data['pejabat'])->first();
 
@@ -532,7 +553,7 @@ class Kuitansi extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
         if($kuitansi_id->getRow() == null){
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -569,7 +590,7 @@ class Kuitansi extends ResourcePresenter
     public function edit($id = null)
     {
 
-        $kuitansi_id = $this->kuitansi->where('id', $id)->get();
+        $kuitansi_id = $this->kuitansi->where('id', $id)->where('deleted_at', NULL)->get();
         if($kuitansi_id->getRow() == null){
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -600,7 +621,7 @@ class Kuitansi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('hiddenID'))->get();
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', NULL)->get();
         if($kuitansi_id->getRow() == null){
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -799,7 +820,7 @@ class Kuitansi extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->get();
+        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
         if($kuitansi_id->getRow() == null){
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -823,7 +844,7 @@ class Kuitansi extends ResourcePresenter
 
     public function print($id = null){
 
-        $kuitansi_id = $this->kuitansi->where('id', $id)->get();
+        $kuitansi_id = $this->kuitansi->where('id', $id)->where('deleted_at', NULL)->get();
         if($kuitansi_id->getRow() == null){
             return redirect()->to(site_url('bendahara/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }

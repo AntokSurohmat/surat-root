@@ -106,10 +106,12 @@ class Pegawai extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $jabatanlist = $this->jabatan->select('kode,nama_jabatan') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama_jabatan')
                 ->findAll(10);
         } else {
             $jabatanlist = $this->jabatan->select('kode,nama_jabatan') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_jabatan', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_jabatan')
                 ->findAll(10);
@@ -137,10 +139,12 @@ class Pegawai extends ResourcePresenter
         // $provinsilist = $this->provinsi->getDataAjaxRemote($this->request->getPost('searchTerm'));
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
+                ->where('deleted_at', null)
                 ->orderBy('nama_pangol')
                 ->findAll(10);
         } else {
             $pangollist = $this->pangol->select('kode,nama_pangol') // Fetch record
+                ->where('deleted_at', null)
                 ->like('nama_pangol', $this->request->getPost('searchTerm'))
                 ->orderBy('nama_pangol')
                 ->findAll(10);
@@ -330,7 +334,7 @@ class Pegawai extends ResourcePresenter
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('id'))->get();
+        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($pegawai_id->getRow() == null){
             return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -358,7 +362,7 @@ class Pegawai extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        $pegawai_id = $this->pegawai->where('id', $id)->get();
+        $pegawai_id = $this->pegawai->where('id', $id)->where('deleted_at', null)->get();
         if($pegawai_id->getRow() == null){
             return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -389,7 +393,7 @@ class Pegawai extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('hiddenID'))->get();
+        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get();
         if($pegawai_id->getRow() == null){
             return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -546,7 +550,7 @@ class Pegawai extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('id'))->get();
+        $pegawai_id = $this->pegawai->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($pegawai_id->getRow() == null){
             return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
