@@ -39,12 +39,12 @@ class Pegawai extends Migration
             'pelaksana'         => [
                 'type'              => 'ENUM',
                 'constraint'        => ['Kasi Pelayan','Kasi Pengawasan'],
-                'default'           => 'Kasi Pelayan',
+                'null'              => true,
             ],
             'foto'              => [
                 'type'              => 'VARCHAR',
 				'constraint'        => '255',
-                'default'           => 'custom/img/foto/default.png',
+                'default'           => 'default.png',
             ],
             'username'          => [
                 'type'              => 'VARCHAR',

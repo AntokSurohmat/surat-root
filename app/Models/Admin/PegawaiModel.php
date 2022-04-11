@@ -31,7 +31,6 @@ class PegawaiModel extends Model
         'tgl_lahir' => 'required',
         'kode_jabatan' => 'required|numeric|max_length[20]',
         'kode_pangol' => 'required|numeric|max_length[20]',
-        'pelaksana' => 'required',
         'username' => 'required|max_length[20]',
         'password' => 'required|min_length[3]',
         'level' => 'required',

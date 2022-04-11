@@ -66,7 +66,12 @@ class Pegawai extends ResourcePresenter
             $row[] = $no;
             $row[] = $key->nip;
             $row[] = $key->nama;
-            $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/uploads/foto/'.$key->foto).'">';
+
+            if($key->foto == null){
+                $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/uploads/foto/default.png').'">';
+            }else{
+                $row[] = '<img alt="Avatar" class="table-avatar" src="'.base_url('/uploads/foto/'.$key->foto).'">';
+            }
             foreach ($jabatan->getResult() as $jbt ) {
 				if ($jbt->kode == $key->kode_jabatan) {
 					$row[] =  $jbt->nama_jabatan;
@@ -245,12 +250,11 @@ class Pegawai extends ResourcePresenter
             ],
             'pelaksanaAddEditForm' => [
                 'label' => 'Pilih Pelaksana',
-                'rules'     => 'required',
+                'rules'     => 'permit_empty',
             ],
             "fotoAddEditForm" => [
-                'rules' => 'uploaded[fotoAddEditForm]|mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
+                'rules' => 'mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]',
 				'errors' => [
-                    'uploaded' => 'Harus Ada File Foto',
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
                 ],
@@ -564,8 +568,11 @@ class Pegawai extends ResourcePresenter
             $prop_item = $this->pegawai->where('id', $id)->first();
             $imageName = $prop_item['foto'];
 
-            if(file_exists("uploads/foto/".$imageName)){
-                unlink("uploads/foto/".$imageName);
+            if($imageName != NULL){
+                d("OK");die();
+                if(file_exists("uploads/foto/".$imageName)){
+                    unlink("uploads/foto/".$imageName);
+                }
             }
             if ($this->pegawai->where('id', $id)->delete($id)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');

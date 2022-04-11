@@ -146,6 +146,7 @@ class Kuitansi extends ResourcePresenter
                 "text" => $nama['nama'],
             );
         }
+        d($data);print_r($data);die();
 
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
@@ -157,16 +158,17 @@ class Kuitansi extends ResourcePresenter
         }
 
         if ($this->request->getVar('kode') && $this->request->getVar('id')) {
-            $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
+            // $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
 
-            d($data);print_r($data);die();
+            $data = $this->db->query("SELECT * FROM `etbl_pegawai`")->get();
+
+            d($data->getRow());print_r($data->getRow());die();
 
             $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
             $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
 
             $data['spd'] = $this->spd->where('id', $this->request->getVar('id'))->first();
 
-            // d($spd['kode_instansi']);print_r( $spd['kode_instansi']);
             $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
             $data['sbuh'] = $this->sbuh
                             ->where('kode_provinsi', $data['instansi']['kode_provinsi'])

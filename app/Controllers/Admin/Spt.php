@@ -141,12 +141,12 @@ class Spt extends ResourcePresenter
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', null)
+
                 ->orderBy('nama')
                 ->findAll(10);
         } else {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-                ->where('deleted_at', null)
+
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);
@@ -772,7 +772,7 @@ class Spt extends ResourcePresenter
         ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
         ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
         ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
+        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
 
         $data['looping'] = $query->getResult();
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();

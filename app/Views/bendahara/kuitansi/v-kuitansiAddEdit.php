@@ -218,7 +218,10 @@
                 theme: 'bootstrap4',
                 placeholder: '--- Cari Data Pegawai ---',
                 ajax: {url: url_destination,spd :idSpd,type: "POST",dataType: "JSON",delay: 250,
-                    data: function(params) {return {searchTerm: params.term,spd: idSpd,csrf_token_name: $('input[name=csrf_token_name]').val()}},
+                    data: function(params) {
+                        // console.log(params.term)
+                        return {searchTerm: params.term,spd: idSpd,csrf_token_name: $('input[name=csrf_token_name]').val()}
+                    },
                     processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,}},
                     cache: true
                 }

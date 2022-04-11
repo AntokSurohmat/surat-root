@@ -74,7 +74,7 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
         $routes->get('download-recap-data', 'Admin\Lapspt::download_recap');
     });
     $routes->group('lapspd', function ($routes) {
-        $routes->get('', 'Admin\Lapspt::index');
+        $routes->get('', 'Admin\Lapspd::index');
         $routes->get('print-all-data', 'Admin\Lapspd::print_all');
         $routes->get('download-all-data', 'Admin\Lapspd::download_all');
         $routes->get('print-recap-data', 'Admin\Lapspd::print_recap');
