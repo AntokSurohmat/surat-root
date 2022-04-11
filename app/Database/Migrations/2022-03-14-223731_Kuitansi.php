@@ -94,16 +94,16 @@ class Kuitansi extends Migration
             ]
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('nip_pegawai', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('nip_pegawai', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('kuitansi');
     }
 

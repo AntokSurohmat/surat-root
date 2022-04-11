@@ -77,8 +77,8 @@ class Pegawai extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addKey('nip');
-        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_jabatan', 'jabatan', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_pangol', 'pangol', 'kode', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('pegawai');
     }
 

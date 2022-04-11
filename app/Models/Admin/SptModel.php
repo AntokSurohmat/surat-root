@@ -30,7 +30,7 @@ class SptModel extends Model
         'dasar' => 'required|max_length[50]',
         'untuk' => 'required|max_length[50]',
         'kode_instansi' => 'required|numeric|max_length[20]',
-        'alamat_instansi' => 'required|max_length[50]',
+        'alamat_instansi' => 'required',
         'awal' => 'required',
         'akhir' => 'required',
         'lama' => 'required|numeric|max_length[2]',

@@ -400,10 +400,7 @@ class Spt extends ResourcePresenter
             ],
             'alamatAddEditForm' => [
                 'label'     => 'Alamat Instansi',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
+                'rules'     => 'required',
             ],
             'startAddEditForm' => [
                 'label'     => 'Tanggal Pergi',
@@ -630,10 +627,7 @@ class Spt extends ResourcePresenter
             ],
             'alamatAddEditForm' => [
                 'label'     => 'Alamat Instansi',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
+                'rules'     => 'required',
             ],
             'startAddEditForm' => [
                 'label'     => 'Tanggal Pergi',

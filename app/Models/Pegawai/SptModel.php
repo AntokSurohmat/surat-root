@@ -49,9 +49,9 @@ class SptModel extends Model
         // search
         if(service('request')->getPost('search')['value']){
             $search = service('request')->getPost('search')['value'];
-            $attr_order = "spt.kode LIKE '%$search%' OR spt.nama_pegawai LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%'";
+            $attr_order = "spt.deleted_at IS NULL AND (spt.kode LIKE '%$search%' OR spt.nama_pegawai LIKE '%$search%' OR spt.dasar LIKE '%$search%' OR spt.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spt.status LIKE '%$search%')";
         } else {
-            $attr_order = "spt.id != ''";
+            $attr_order = "spt.id != '' AND spt.deleted_at IS NULL";
         }
 
         // order
@@ -83,7 +83,7 @@ class SptModel extends Model
     }
 
     function count_all(){
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_spt";
+        $sQuery = "SELECT COUNT(id) as total FROM etbl_spt WHERE deleted_at";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }
@@ -92,9 +92,9 @@ class SptModel extends Model
         // Kondisi Order
         if(service('request')->getPost('search')['value']){
             $search = service('request')->getPost('search')['value'];
-            $attr_order = " AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
+            $attr_order = " AND etbl_spt.deleted_at IS NULL AND (etbl_spt.kode LIKE '%$search%' OR etbl_spt.nama_pegawai LIKE '%$search%' OR etbl_spt.dasar LIKE '%$search%' OR etbl_spt.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spt.status LIKE '%$search%')";
         } else {
-            $attr_order = " ";
+            $attr_order = " AND etbl_spt.deleted_at IS NULL";
         }
         $sQuery = "SELECT COUNT(etbl_spt.id) as total FROM etbl_spt
                     LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spt.diperintah

@@ -13,7 +13,7 @@ class WilayahModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'kode_provinsi', 'kode_kabupaten', 'kode_kecamatan', 'kode_jenis_wilayah', 'kode_zonasi'];
 
@@ -22,7 +22,7 @@ class WilayahModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    // protected $deletedField  = 'deleted_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -81,9 +81,9 @@ class WilayahModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "wilayah.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%'";
+			$attr_order = "wilayah.deleted_at IS NULL AND (wilayah.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%')";
 		} else {
-			$attr_order = "wilayah.id != ''";
+			$attr_order = "wilayah.id != '' AND wilayah.deleted_at IS NULL";
 		}
 
 		// order
@@ -121,7 +121,7 @@ class WilayahModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_wilayah ";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_wilayah WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -130,9 +130,9 @@ class WilayahModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_wilayah.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%')";
+			$attr_order = " AND etbl_wilayah.deleted_at IS NULL AND (etbl_wilayah.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%')";
 		} else {
-			$attr_order = " ";
+			$attr_order = " AND etbl_wilayah.deleted_at IS NULL ";
 		}
 		$sQuery = "SELECT COUNT(etbl_wilayah.id) as total FROM etbl_wilayah
                     LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_wilayah.kode_provinsi

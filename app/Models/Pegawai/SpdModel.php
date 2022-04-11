@@ -49,9 +49,9 @@ class SpdModel extends Model
         // search
         if(service('request')->getPost('search')['value']){
             $search = service('request')->getPost('search')['value'];
-            $attr_order = "spd.kode LIKE '%$search%' OR spd.nama_pegawai LIKE '%$search%' OR spd.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spd.status LIKE '%$search%'";
+            $attr_order = "spd.deleted_at IS NULL AND (spd.kode LIKE '%$search%' OR spd.nama_pegawai LIKE '%$search%' OR spd.untuk LIKE '%$search%' OR pegawai.nip LIKE '%$search% OR spd.status LIKE '%$search%')";
         } else {
-            $attr_order = "spd.id != ''";
+            $attr_order = "spd.id != '' AND spd.deleted_at IS NULL";
         }
 
         // order
@@ -83,7 +83,7 @@ class SpdModel extends Model
     }
 
     function count_all(){
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_spd";
+        $sQuery = "SELECT COUNT(id) as total FROM etbl_spd WHERE deleted_at IS NULL";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }
@@ -92,9 +92,9 @@ class SpdModel extends Model
         // Kondisi Order
         if(service('request')->getPost('search')['value']){
             $search = service('request')->getPost('search')['value'];
-            $attr_order = " AND (etbl_spd.kode LIKE '%$search%' OR etbl_spd.nama_pegawai LIKE '%$search%' OR etbl_spd.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spd.status LIKE '%$search%')";
+            $attr_order = " AND etbl_spd.deleted_at IS NULL AND (etbl_spd.kode LIKE '%$search%' OR etbl_spd.nama_pegawai LIKE '%$search%' OR etbl_spd.untuk LIKE '%$search%' OR etbl_pegawai.nip LIKE '%$search%' OR etbl_spd.status LIKE '%$search%')";
         } else {
-            $attr_order = " ";
+            $attr_order = " AND etbl_spd.deleted_at IS NULL ";
         }
         $sQuery = "SELECT COUNT(etbl_spd.id) as total FROM etbl_spd
                     LEFT JOIN etbl_pegawai ON etbl_pegawai.nip = etbl_spd.diperintah

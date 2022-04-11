@@ -13,7 +13,6 @@ class KabupatenSeeder extends Seeder
             'kode_provinsi' => '99',
             'nama_kabupaten' => "Ini Test Kabupaten",
             'created_at' => Time::now(),
-            'update_at' => Time::now(),
         ];
         $this->db->table('kabupaten')->insert($data);
     }

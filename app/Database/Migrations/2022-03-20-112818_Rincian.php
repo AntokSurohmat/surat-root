@@ -70,9 +70,9 @@ class Rincian extends Migration
             ]
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_spd', 'spd', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('bendahara', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('rincian');
     }
 

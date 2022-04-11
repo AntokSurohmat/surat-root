@@ -106,12 +106,12 @@ class Spd extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
-        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_spt', 'spt', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('pegawai_diperintah', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_spt', 'spt', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('kode_rekening', 'rekening', 'kode', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('spd');
     }
 

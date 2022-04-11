@@ -13,7 +13,7 @@ class SbuhModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [ 'kode','kode_provinsi', 'kode_kabupaten', 'kode_jenis_wilayah', 'kode_kecamatan', 'kode_zonasi', 'kode_pangol', 'jumlah_uang'];
 
@@ -87,9 +87,9 @@ class SbuhModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "sbuh.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%'";
+			$attr_order = "sbuh.deleted_at IS NULL AND (sbuh.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%')";
 		} else {
-			$attr_order = "sbuh.id != ''";
+			$attr_order = "sbuh.id != '' AND sbuh.deleted_at IS NULL";
 		}
 
 		// order
@@ -129,7 +129,7 @@ class SbuhModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_sbuh";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_sbuh WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -138,9 +138,9 @@ class SbuhModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_sbuh.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%')";
+			$attr_order = " AND etbl_sbuh.deleted_at IS NULL AND (etbl_sbuh.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%')";
 		} else {
-			$attr_order = " ";
+			$attr_order = " AND etbl_sbuh.deleted_at IS NULL ";
 		}
 		$sQuery = "SELECT COUNT(etbl_sbuh.id) as total FROM etbl_sbuh 
                     LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_sbuh.kode_provinsi

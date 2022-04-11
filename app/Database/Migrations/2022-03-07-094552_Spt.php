@@ -36,8 +36,7 @@ class Spt extends Migration
                 'constraint'        => '20',
             ],
             'alamat_instansi'     => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '50',
+                'type'              => 'TEXT',
             ],
             'awal'              => [
                 'type'              => 'DATE',
@@ -83,9 +82,9 @@ class Spt extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('kode');
-        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
-        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'NO ACTION', 'CASCADE');
+        $this->forge->addForeignKey('kode_instansi', 'instansi', 'kode', 'CASCADE', 'NO ACTION',);
+        $this->forge->addForeignKey('pejabat', 'pegawai', 'nip', 'CASCADE', 'NO ACTION',);
+        $this->forge->addForeignKey('yang_menyetujui', 'pegawai', 'nip', 'CASCADE', 'NO ACTION',);
         $this->forge->createTable('spt');
     }
 

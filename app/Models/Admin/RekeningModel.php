@@ -13,7 +13,7 @@ class RekeningModel extends Model
 
     // protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['kode', 'kode_jenis_wilayah', 'nomer_rekening'];
 
@@ -22,7 +22,7 @@ class RekeningModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    // protected $deletedField  = 'deleted_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [
@@ -65,9 +65,9 @@ class RekeningModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "rekening.kode LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR rekening.nomer_rekening LIKE '%$search%'";
+			$attr_order = "rekening.deleted_at IS NULL AND (rekening.kode LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR rekening.nomer_rekening LIKE '%$search%')";
 		} else {
-			$attr_order = "rekening.id != ''";
+			$attr_order = "rekening.id != '' AND rekening.deleted_at IS NULL";
 		}
 
 		// order
@@ -98,7 +98,7 @@ class RekeningModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -107,9 +107,9 @@ class RekeningModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%' )";
+			$attr_order = " AND etbl_rekening.deleted_at IS NULL AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%' )";
 		} else {
-			$attr_order = " ";
+			$attr_order = " AND etbl_rekening.deleted_at IS NULL ";
 		}
 		$sQuery = "SELECT COUNT(etbl_rekening.id) as total FROM etbl_rekening
                     LEFT JOIN etbl_jenis_wilayah ON etbl_jenis_wilayah.kode = etbl_rekening.kode_jenis_wilayah

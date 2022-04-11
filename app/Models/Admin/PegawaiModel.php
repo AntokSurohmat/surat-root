@@ -78,9 +78,9 @@ class PegawaiModel extends Model
 		// search
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = "pegawai.nip LIKE '%$search%' OR pegawai.nama LIKE '%$search%' OR jabatan.nama_jabatan LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%' OR pegawai.username LIKE '%$search%'";
+			$attr_order = "pegawai.deleted_at IS NULL AND (pegawai.nip LIKE '%$search%' OR pegawai.nama LIKE '%$search%' OR jabatan.nama_jabatan LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%' OR pegawai.username LIKE '%$search%')";
 		} else {
-			$attr_order = "pegawai.id != ''";
+			$attr_order = "pegawai.id != '' AND pegawai.deleted_at IS NULL";
 		}
 
 		// order
@@ -113,7 +113,7 @@ class PegawaiModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pegawai ";
+		$sQuery = "SELECT COUNT(id) as total FROM etbl_pegawai WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -122,9 +122,9 @@ class PegawaiModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND (etbl_pegawai.nip LIKE '%$search%' OR etbl_pegawai.nama LIKE '%$search%' OR etbl_jabatan.nama_jabatan LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%' OR etbl_pegawai.username LIKE '%$search%')";
+			$attr_order = " AND etbl_pegawai.deleted_at IS NULL AND (etbl_pegawai.nip LIKE '%$search%' OR etbl_pegawai.nama LIKE '%$search%' OR etbl_jabatan.nama_jabatan LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%' OR etbl_pegawai.username LIKE '%$search%')";
 		} else {
-			$attr_order = " ";
+			$attr_order = " AND etbl_pegawai.deleted_at IS NULL ";
 		}
 		$sQuery = "SELECT COUNT(etbl_pegawai.id) as total FROM etbl_pegawai
                     LEFT JOIN etbl_jabatan ON etbl_jabatan.kode = etbl_pegawai.kode_jabatan

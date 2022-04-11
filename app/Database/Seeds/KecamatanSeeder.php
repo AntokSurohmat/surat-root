@@ -14,7 +14,6 @@ class KecamatanSeeder extends Seeder
             'kode' => '9999999',
             'nama_kecamatan' => "Ini Test Kecamatan",
             'created_at' => Time::now(),
-            'update_at' => Time::now(),
         ];
         $this->db->table('kecamatan')->insert($data);
     }

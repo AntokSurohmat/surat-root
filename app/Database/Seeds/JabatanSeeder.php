@@ -11,10 +11,9 @@ class JabatanSeeder extends Seeder
     public function run()
     {
         $data = [
-            'kode' =>  001,
+            'kode' =>  '99999999',
             'nama_jabatan' => "Ini Test jabatan",
             'created_at' => Time::now(),
-            'update_at' => Time::now(),
         ];
         $this->db->table('jabatan')->insert($data);
     }
