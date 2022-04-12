@@ -891,7 +891,7 @@ class Kuitansi extends ResourcePresenter
         $dompdf->loadHtml(view('bendahara/kuitansi/p-kuitansi', $data));
 
         // (optional) setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
+        $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
 
         // render html as PDF
         $dompdf->render();

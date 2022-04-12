@@ -12,10 +12,10 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
         <div class="card-header text-center">
-            <a href="<?= base_url() ?>/AdminLTE/index2.html" class="h1"><b>Admin</b>LTE</a>
+            <a href="<?= base_url() ?>/AdminLTE/index2.html" class="h1"><b>E-</b>Surat</a>
         </div>
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
+            <p class="login-box-msg">Silahkan Login Terlebih Dahulu</p>
 
             <form role="form" id="form-login" autocomplete="off" onsubmit="return false" method="post">
             <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
