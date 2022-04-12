@@ -52,7 +52,10 @@ class Lapspt extends BaseController
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');})
+            ->postQuery(function($builder){
+                $builder->orderBy('kode', 'desc');
+                $builder->where('spt.deleted_at', null);
+            })
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){

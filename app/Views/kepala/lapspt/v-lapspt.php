@@ -1,4 +1,4 @@
-<?= $this->extend('pegawai/layouts/default') ?>
+<?= $this->extend('kepala/layouts/default') ?>
 
 <?= $this->section('content') ?>
 
@@ -13,12 +13,11 @@
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
 
-    <div class="row">
+        <div class="row">
             <div class="col-12">
 
                 <?php if (session()->getFlashdata('error')) : ?>
@@ -29,9 +28,9 @@
                     </div>
                 <?php endif; ?>
 
-                <div class="card card-outline card-info">
+                <div class="card card-info">
                     <div class="card-header">
-                    <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
+                        <h3 class="card-title pt-1">Data <?= ucwords(strtolower($title)) ?></h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -111,9 +110,8 @@
                                     <th>Nama Instansi</th>
                                     <th>Awal</th>
                                     <th>Akhir</th>
-                                    <th style="width: 10%;">Pejabat Yang Memberikan Perintah</th>
+                                    <th style="width: 15%;">Pejabat Yang Memberikan Perintah</th>
                                     <th>Status</th>
-                                    <th>Keterangan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -125,6 +123,55 @@
                 </div>
                 <!-- /.card -->
 
+            </div>
+        </div>
+
+        <div class="container col-sm-6">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-info">
+
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group row">
+                                                <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
+                                                <div class="col-sm-3">
+                                                    <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
+                                                    <a href="<?= base_url('kepala/lapspt/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
+                                                <div class="col-sm-3">
+                                                    <!-- <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button> -->
+                                                    <a href="<?= base_url('kepala/lapspt/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Recap Surat"><i class="fas fa-print"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group row">
+                                                <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
+                                                <div class="col-sm-3">
+                                                    <a href="<?= base_url('kepala/lapspt/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
+                                                <div class="col-sm-3">
+                                                <a href="<?= base_url('kepala/lapspt/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Recap"><i class="fas fa-download"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -171,14 +218,12 @@
                                             <table style="margin: 0 auto;">
                                                 <tbody>
                                                     <tr>
-                                                        <td colspan="3"  class="text-center">
+                                                        <td class="text-center">
                                                             <p style="font-size:20px;text-align:center;line-height: 1.1em;font-weight:500;text-decoration: underline;" class="mb-0">SURAT PERINTAH TUGAS</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td  class="text-center">Nomer</td>
-                                                        <td> : </td>
-                                                        <td>090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
+                                                        <td  class="text-center">Nomer : 090/ <b><span id="no_sptModalView"></span></b> /Bid.ML</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -271,7 +316,7 @@
 <script type="text/javascript">
     $(function() {
 
-        var url_destination = '<?= base_url('Pegawai/Spt/getNoSptTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspt/getNoSptTable') ?>';
         $("#noSptTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari No SPT ---',
@@ -286,7 +331,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Pegawai/Spt/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspt/getPegawaiTable') ?>';
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Pegawai ---',
@@ -301,7 +346,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Pegawai/Spt/getInstansiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspt/getInstansiTable') ?>';
         $("#namaInstansiTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Instansi ---',
@@ -322,7 +367,7 @@
         $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
 
         /*-- DataTable To Load Data Wilayah --*/
-        var url_destination = "<?= base_url('Pegawai/Spt/load_data') ?>";
+        var url_destination = "<?= base_url('Kepala/Lapspt/load_data') ?>";
         var spt = $('#spt_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -338,7 +383,7 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
-            "columnDefs": [{ targets: 0, orderable: false,"width":"3%"},  { targets: -1, orderable: false, "class": "text-center","width":"10%"},],
+            "columnDefs": [{ targets: 0, orderable: false, "width": "3%"},  { targets: -1, orderable: false, "class": "text-center", "width": "10%"},],
         });
         $('#noSptTable').change(function(event) {spt.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spt.ajax.reload();});
@@ -377,7 +422,7 @@
 
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');
-            var url_destination = "<?= base_url('Pegawai/Spt/view_data') ?>";
+            var url_destination = "<?= base_url('Kepala/Lapspt/view_data') ?>";
             $.ajax({
                 url: url_destination,
                 type: "POST",
@@ -393,10 +438,11 @@
                     $('#dasarModalView').append(data.dasar);
                     $('#untukModalView').append(data.untuk);
                     var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
                     var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(curr_date + " " + m_names[curr_month] + " " + curr_year);
+                    $('#createdatModalView').text(m_awal[curr_date] + " " + m_names[curr_month] + " " + curr_year);
                     $('#diperintahModalView').text(data.pegawai.nama);
-                    $('#diperintahNIPModalView').text(data.pegawai.nip);
+                    $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {
                         // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
                         $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:5%;font-weight:600;text-align:center">' + (index + 1) + '.' +'</td><td style="width:30%;font-weight:600;">Nama</td><td style="width:1%;font-weight:600;">:</td><td>' + pegawailoop.nama + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Pangkat Golongan</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nama_pangol +'</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">NIP</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nip + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Jabatan</td><td style="width: 1%;font-weight:600;">:</td><td>' + pegawailoop.nama_jabatan + '</td></tr></tbody></table>');

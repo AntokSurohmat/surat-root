@@ -40,7 +40,7 @@
                                         <div class="form-group row">
                                             <label for="kodeForm" class="col-sm-3 col-form-label">No SPD</label>
                                             <div class="col-sm-7">
-                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPD" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" autofocus />
+                                                <input type="number" readonly name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPD" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" autofocus />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
                                         </div>
@@ -405,12 +405,26 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
+
+    var url_destination = "<?= base_url('Admin/Spd/nomer') ?>";
+    // alert("OK");
+    $.ajax({
+        url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
+        dataType: "JSON",
+        success: function(data) {
+            $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
+            $('#kodeForm').val(data.kode);
+            // console.log(data);
+        }
+    })
+
     $(document).ready(function() {
 
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#pegawaiForm').select2('open');}});
+        $('#pegawaiForm').select2();
+        $('#pegawaiForm').select2('focus');
         $('#pegawaiForm').on('select2:select', function(e) {$('#tingkatBiayaForm').select2('open');});
         $('#tingkatBiayaForm').on('select2:select', function(e) {$('#keteranganForm').focus();});
         $('#keteranganForm').keydown(function(event) {if (event.keyCode == 13) {$('#kendaraanForm').select2('open');}});
@@ -609,7 +623,7 @@
                     success: function(data) {
                         // console.log(data);
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                        $('#kodeForm').val(data.kode);
+
                         $("#diperintahForm").val(data.pegawai.nama);
                         $('#untukForm').val(data.untuk);
                         $("#instansiForm").val(data.instansi.nama_instansi);

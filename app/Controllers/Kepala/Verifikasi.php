@@ -70,7 +70,10 @@ class Verifikasi extends ResourcePresenter
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('id', 'desc');})
+            ->postQuery(function($builder){
+                $builder->orderBy('id', 'desc');
+                $builder->where('spt.deleted_at', null);
+            })
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){

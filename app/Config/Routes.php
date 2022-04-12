@@ -92,6 +92,13 @@ $routes->group('bendahara', ["filter" => "auth", "filter" => "auth"], function (
 $routes->group('kepala', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
     $routes->presenter('Verifikasi', ['controller' =>'Kepala\Verifikasi', 'only' => ['index', 'update']]);
+    $routes->group('lapspt', function ($routes) {
+        $routes->get('', 'Kepala\Lapspt::index');
+        $routes->get('print-all-data', 'Kepala\Lapspt::print_all');
+        $routes->get('download-all-data', 'Kepala\Lapspt::download_all');
+        $routes->get('print-recap-data', 'Kepala\Lapspt::print_recap');
+        $routes->get('download-recap-data', 'Kepala\Lapspt::download_recap');
+    });
 });
 $routes->group('pegawai', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Pegawai\Dashboard::index');

@@ -69,9 +69,19 @@ class Spd extends BaseController
                   ->join('instansi', 'instansi.kode = spd.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');$builder->like('pegawai_all', $this->session->get('nip'));})
+            ->postQuery(function($builder){
+                $builder->orderBy('kode', 'desc');
+                $builder->like('pegawai_all', $this->session->get('nip'));
+                $builder->where('spd.deleted_at', null);
+            })
             ->format('pegawai_diperintah', function($value){
-                $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();return $pegawai['nama'];
+                if($value == null){
+                    return "--Kosong--";
+                }else{
+                    $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();
+                    // d($pegawai);print_r($pegawai);die();
+                    return ($pegawai != NULL) ? $pegawai['nama'] : '--Kosong--';
+                }
             })
             ->format('pegawai_all', function($value){                
                 $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
@@ -229,6 +239,14 @@ class Spd extends BaseController
             ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
 
             $data['pegawai'] = $query->getResult();
+
+            if(count($data['pegawai']) == 0){
+                $data['pegawai'][0]['nama'] = '--Kosong--';
+                $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
+                $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+            }else{
+                $data['pegawai'] = $query->getResult();
+            }
 
             $query = $builder->select('pegawai.*')
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')

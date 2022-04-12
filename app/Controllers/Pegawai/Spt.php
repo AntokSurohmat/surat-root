@@ -64,7 +64,11 @@ class Spt extends BaseController
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode', 'desc');$builder->like('pegawai_all', $this->session->get('nip'));})
+            ->postQuery(function($builder){
+                $builder->orderBy('kode', 'desc');
+                $builder->like('pegawai_all', $this->session->get('nip'));
+                $builder->where('spt.deleted_at', null);
+            })
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){

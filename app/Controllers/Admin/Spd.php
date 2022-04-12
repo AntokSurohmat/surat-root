@@ -67,13 +67,12 @@ class Spd extends ResourcePresenter
                 $builder->where('spd.deleted_at', null);
             })
             ->format('pegawai_diperintah', function($value){
-
                 if($value == null){
-                    return "Kosong";
+                    return "--Kosong--";
                 }else{
                     $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();
                     // d($pegawai);print_r($pegawai);die();
-                    return ($pegawai != NULL) ? $pegawai['nama'] : 'Kosong';
+                    return ($pegawai != NULL) ? $pegawai['nama'] : '--Kosong--';
                 }
             })
             ->format('pegawai_all', function($value){                
@@ -238,6 +237,30 @@ class Spd extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
+
+    public function nomer(){
+        if (!$this->request->isAjax()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $nomer = $this->db->table('spt')->countAllResults();
+        
+        switch (strlen($nomer)) {
+            case '1':
+                $kode = '00'.$nomer;
+                break;
+            case '2':
+                $kode = '0'.$nomer;
+                break;
+            default:
+            $kode = $nomer;
+                break;
+        }
+        $data['kode'] =  $kode;
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+    
     /**
      * Present a view to present a specific resource object
      *
@@ -502,6 +525,14 @@ class Spd extends ResourcePresenter
             ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
 
             $data['pegawai'] = $query->getResult();
+
+            if(count($data['pegawai']) == 0){
+                $data['pegawai'][0]['nama'] = '--Kosong--';
+                $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
+                $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+            }else{
+                $data['pegawai'] = $query->getResult();
+            }
 
             $query = $builder->select('pegawai.*')
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')

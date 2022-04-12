@@ -127,49 +127,50 @@
         </div>
 
         <div class="container col-sm-6">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-info">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-info">
 
-                    <form class="form-horizontal">
-                        <div class="card-body">
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
-                                            <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
-                                            <div class="col-sm-3">
-                                                <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
-                                                <a href="<?= base_url('admin/lapspt/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group row">
+                                                <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
+                                                <div class="col-sm-3">
+                                                    <!-- <button class="btn btn-default" id="cetakSeSurat" data-rel="tooltip" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></button> -->
+                                                    <a href="<?= base_url('admin/lapspt/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
+                                                <div class="col-sm-3">
+                                                    <!-- <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button> -->
+                                                    <a href="<?= base_url('admin/lapspt/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Recap Surat"><i class="fas fa-print"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
-                                            <div class="col-sm-3">
-                                                <!-- <button class="btn btn-default" id="CetakReSurat" data-rel="tooltip" data-placement="top" title="Cetak Rekap Surat"><i class="fas fa-print"></i></button> -->
-                                                <a href="<?= base_url('admin/lapspt/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Recap Surat"><i class="fas fa-print"></i></a>
+                                        <div class="col-sm-6">
+                                            <div class="form-group row">
+                                                <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
+                                                <div class="col-sm-3">
+                                                    <a href="<?= base_url('admin/lapspt/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group row">
-                                            <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
-                                            <div class="col-sm-3">
-                                                <a href="<?= base_url('admin/lapspt/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
-                                            <div class="col-sm-3">
-                                            <a href="<?= base_url('admin/lapspt/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Recap"><i class="fas fa-download"></i></a>
+                                            <div class="form-group row">
+                                                <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
+                                                <div class="col-sm-3">
+                                                <a href="<?= base_url('admin/lapspt/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Recap"><i class="fas fa-download"></i></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
