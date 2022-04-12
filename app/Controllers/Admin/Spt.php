@@ -196,6 +196,29 @@ class Spt extends ResourcePresenter
         return $this->response->setJSON($response);
     }
 
+    public function nomer(){
+        if (!$this->request->isAjax()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $nomer = $this->db->table('spt')->countAllResults();
+        
+        switch (strlen($nomer)) {
+            case '1':
+                $kode = '00'.$nomer;
+                break;
+            case '2':
+                $kode = '0'.$nomer;
+                break;
+            default:
+            $kode = $nomer;
+                break;
+        }
+        $data['kode'] =  $kode;
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
+    }
+
     public function getPegawai()
     {
         if (!$this->request->isAjax()) {

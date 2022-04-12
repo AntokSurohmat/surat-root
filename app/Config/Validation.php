@@ -10,7 +10,8 @@ use CodeIgniter\Validation\Rules;
  * Add by Me
  */
 use App\Validation\Authrules;
-use App\Validation\MultiSelectRules;
+use App\Validation\IsDeleted;
+
 
 class Validation
 {
@@ -33,7 +34,7 @@ class Validation
          * Add by Me
          */
         Authrules::class, // here we have registered
-        MultiSelectRules::class, // here we have registered
+        IsDeleted::class, // here we have registered
     ];
 
     /**

@@ -41,7 +41,7 @@
                                             <label for="kodeForm" class="col-sm-3 col-form-label">No SPT</label>
                                             <p class="pt-2 pl-2">090/</p>
                                             <div class="col-sm-5">
-                                                <input type="number" name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPT" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" autofocus />
+                                                <input type="number" readonly name="kodeAddEditForm" class="form-control" id="kodeForm" placeholder="Nomer SPT" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" />
                                                 <div class="invalid-feedback kodeErrorForm"></div>
                                             </div>
                                             <p class="pt-2">/Bid.ML</p>
@@ -160,12 +160,30 @@
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
+
+    var url_destination = "<?= base_url('Admin/Spt/nomer') ?>";
+    // alert("OK");
+    $.ajax({
+        url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
+        dataType: "JSON",
+        success: function(data) {
+            $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
+            $('#kodeForm').val(data.kode);
+            // console.log(data);
+        }
+    })
+
+    // var brg = genfunc($('input[name=csrf_token_name]').val(),'<?= base_url() ?>Admin/Spt/nomer');
+    // console.log(brg);
     $(document).ready(function() {
 
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event){if(event.keyCode == 13){$('#pegawaiForm').select2('open');}});
+
+        $('#pegawaiForm').select2();
+        $('#pegawaiForm').select2('focus');
+
         $('#pegawaiForm').on('select2:select', function(e) {$('#dasarForm').focus();});
         $('#dasarForm').keydown(function(event){if(event.keyCode == 13){$('#untukForm').focus();}});
         $('#untukForm').keydown(function(event){if(event.keyCode == 13){$('#instansiForm').select2('open');}});
@@ -189,6 +207,21 @@
             $("#lamaForm").empty();$("#lamaForm").removeClass('is-valid');$("#lamaForm").removeClass('is-invalid');
             $("#diperintahForm").empty();$("#diperintahForm").removeClass('is-valid');$("#diperintahForm").removeClass('is-invalid');
         }
+
+
+        // function nomer(){
+        //     alert("nomer");
+        //     // var url_destination = "<?= base_url('Admin/Spt/nomer') ?>";
+        //     // $.ajax({
+        //     //     url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
+        //     //     dataType: "JSON",
+        //     //     success: function(data) {
+        //     //         $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
+        //     //         $('#kodeForm').val(data.kode);
+        //     //     }
+        //     // })
+        // }
+
 
         $('#startForm').daterangepicker({
             singleDatePicker: true,showDropdowns: true,

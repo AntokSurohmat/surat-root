@@ -225,11 +225,12 @@ class Spd extends ResourcePresenter
         $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getVar('id'))->where('deleted_at', null)->first();
 
         $data = array();
-        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->get();
-        foreach (array_combine(json_decode($pegawailist['pegawai_all']), $nama->getResultArray())  as $pegawai => $nama) {
+        $nama = $this->pegawai->havingIn('nip', json_decode($pegawailist['pegawai_all']))->get();
+
+        foreach ($nama->getResult()  as  $nama) {
             $data[] = array(
-                "id" => $pegawai,
-                "text" => $nama['nama'],
+                "id" => $nama->nip,
+                "text" => $nama->nama,
             );
         }
 
@@ -301,12 +302,13 @@ class Spd extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 20 Karakter',
                 ]
             ],
-            'pegawaiAddEditForm' => [
+            'namaPegawaiAddEditForm' => [
                 'label'     => 'Pegawai Yang diperintah',
-                'rules'     => 'required|numeric|max_length[20]',
+                'rules'     => 'required|numeric|max_length[20]|isDeleted[namaPegawaiAddEditForm]',
                 'errors'    => [
                     'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
                     'max_length'    => '{field} Maksimal 20 Karakter',
+                    'isDeleted' => 'Data Pegawai Telah Dihapus'
                 ]
             ],
             'tingkatBiayaAddEditForm' => [
@@ -405,7 +407,7 @@ class Spd extends ResourcePresenter
                 'error' => [
                     'kode' => $validation->getError('kodeAddEditForm'),
                     'diperintah' => $validation->getError('diperintahAddEditForm[]'),
-                    'pegawai' => $validation->getError('pegawaiAddEditForm'),
+                    'pegawai' => $validation->getError('namaPegawaiAddEditForm'),
                     'tingkatBiaya' => $validation->getError('tingkatBiayaAddEditForm'),
                     'untuk' => $validation->getError('untukAddEditForm'),
                     'instansi' => $validation->getError('instansiAddEditForm'),
@@ -449,7 +451,7 @@ class Spd extends ResourcePresenter
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
                 'pejabat' => $this->pegawai->select('nip')->where('nama', $this->request->getVar('diperintahAddEditForm'))->first(),
-                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('pegawaiAddEditForm')),
+                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('namaPegawaiAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->instansi->select('kode')->where('nama_instansi', $this->request->getVar('instansiAddEditForm'))->first(),
                 'awal' => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('startAddEditForm')))),
@@ -622,12 +624,13 @@ class Spd extends ResourcePresenter
                     'max_length'    => '{field} Maksimal 20 Karakter',
                 ]
             ],
-            'pegawaiAddEditForm' => [
+            'namaPegawaiAddEditForm' => [
                 'label'     => 'Pegawai Yang diperintah',
-                'rules'     => 'required|numeric|max_length[20]',
+                'rules'     => 'required|numeric|max_length[20]|isDeleted[namaPegawaiAddEditForm]',
                 'errors'    => [
                     'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
                     'max_length'    => '{field} Maksimal 20 Karakter',
+                    'isDeleted' => 'Data Pegawai Telah Dihapus',
                 ]
             ],
             'tingkatBiayaAddEditForm' => [
@@ -698,7 +701,7 @@ class Spd extends ResourcePresenter
                 'error' => [
                     'kode' => $validation->getError('kodeAddEditForm'),
                     'diperintah' => $validation->getError('diperintahAddEditForm[]'),
-                    'pegawai' => $validation->getError('pegawaiAddEditForm'),
+                    'pegawai' => $validation->getError('namaPegawaiAddEditForm'),
                     'tingkatBiaya' => $validation->getError('tingkatBiayaAddEditForm'),
                     'untuk' => $validation->getError('untukAddEditForm'),
                     'instansi' => $validation->getError('instansiAddEditForm'),
@@ -716,7 +719,7 @@ class Spd extends ResourcePresenter
             $data = [
                 'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
                 'pejabat' => $this->pegawai->select('nip')->where('nama', $this->request->getVar('diperintahAddEditForm'))->first(),
-                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('pegawaiAddEditForm')),
+                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('namaPegawaiAddEditForm')),
                 'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
                 'kode_instansi' => $this->instansi->select('kode')->where('nama_instansi', $this->request->getVar('instansiAddEditForm'))->first(),
                 'awal' => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('startAddEditForm')))),

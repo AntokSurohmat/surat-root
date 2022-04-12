@@ -139,15 +139,14 @@ class Kuitansi extends ResourcePresenter
         $pegawailist = $this->spd->select('pegawai_all')->where('id', $this->request->getPost('spd'))->first();
 
         $data = array();
-        $nama = $this->pegawai->whereIn('nip', json_decode($pegawailist['pegawai_all']))->get();
-        foreach (array_combine(json_decode($pegawailist['pegawai_all']), $nama->getResultArray())  as $pegawai => $nama) {
+        $nama = $this->pegawai->havingIn('nip', json_decode($pegawailist['pegawai_all']))->get();
+
+        foreach ($nama->getResult()  as  $nama) {
             $data[] = array(
-                "id" => $pegawai,
-                "text" => $nama['nama'],
+                "id" => $nama->nip,
+                "text" => $nama->nama,
             );
         }
-        d($data);print_r($data);die();
-
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
@@ -157,25 +156,30 @@ class Kuitansi extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
+        // d($this->request->getVar('id'));print_r($this->request->getVar('id'));die();
         if ($this->request->getVar('kode') && $this->request->getVar('id')) {
-            // $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
+            $data = $this->pegawai->where('nip', $this->request->getVar('kode'))->first();
+            if($data != null){
+                // d($data);print_r($data);die();
+    
+                $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
+    
+                // d($data['pangol']);print_r($data)
+                $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
+    
+                $data['spd'] = $this->spd->where('id', $this->request->getVar('id'))->first();
+    
+                $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
+                $data['sbuh'] = $this->sbuh
+                                ->where('kode_provinsi', $data['instansi']['kode_provinsi'])
+                                ->where('kode_kabupaten', $data['instansi']['kode_kabupaten'])
+                                ->where('kode_kecamatan', $data['instansi']['kode_kecamatan'])
+                                ->first();
+                $data['success'] =  true ;
+            }else{
+                $data = array('success' => false, 'msg' => 'Pegawai Yang Anda Pilih Tidak Mempunyai Data / Data Pegawai Telah Dihapus');
+            }
 
-            $data = $this->db->query("SELECT * FROM `etbl_pegawai`")->get();
-
-            d($data->getRow());print_r($data->getRow());die();
-
-            $data['pangol'] = $this->pangol->where('kode', $data['kode_pangol'])->first();
-            $data['jabatan'] = $this->jabatan->where('kode', $data['kode_jabatan'])->first();
-
-            $data['spd'] = $this->spd->where('id', $this->request->getVar('id'))->first();
-
-            $data['instansi'] = $this->instansi->where('kode', $data['spd']['kode_instansi'])->first();
-            $data['sbuh'] = $this->sbuh
-                            ->where('kode_provinsi', $data['instansi']['kode_provinsi'])
-                            ->where('kode_kabupaten', $data['instansi']['kode_kabupaten'])
-                            ->where('kode_kecamatan', $data['instansi']['kode_kecamatan'])
-                            ->first();
-            //  d($data['instansi']);print_r($data['instansi']);die();
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
@@ -360,10 +364,11 @@ class Kuitansi extends ResourcePresenter
             ],
             'namaPegawaiAddEditForm' => [
                 'label'     => 'Pegawai Yang diperintah',
-                'rules'     => 'required|max_length[20]',
+                'rules'     => 'required|max_length[20]|isDeleted[namaPegawaiAddEditForm]',
                 'errors'    => [
                     'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
                     'max_length'    => '{field} Maksimal 20 Karakter',
+                    'isDeleted' => 'Data Pegawai Telah Dihapus'
                 ]
             ],
             'nipAddEditForm' => [
@@ -643,10 +648,11 @@ class Kuitansi extends ResourcePresenter
             ],
             'namaPegawaiAddEditForm' => [
                 'label'     => 'Pegawai Yang diperintah',
-                'rules'     => 'required|max_length[20]',
+                'rules'     => 'required|max_length[20]|isDeleted[namaPegawaiAddEditForm]',
                 'errors'    => [
                     'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
                     'max_length'    => '{field} Maksimal 20 Karakter',
+                    'isDeleted' => 'Data Pegawai Telah Dihapus',
                 ]
             ],
             'nipAddEditForm' => [

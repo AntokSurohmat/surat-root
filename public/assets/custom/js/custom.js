@@ -69,3 +69,4 @@ const swalWithBootstrapButtons = Swal.mixin({
   }
 })
 /*-- /. Costum Sweetalert2 --*/
+

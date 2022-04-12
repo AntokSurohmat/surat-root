@@ -54,7 +54,7 @@
                                         <div class="form-group row">
                                             <label for="pegawaiForm" class="col-sm-3 col-form-label">Pegawai Yang Diperintah</label>
                                             <div class="col-sm-7">
-                                                <select name="pegawaiAddEditForm" id="pegawaiForm" class="form-control select2bs4" style="width: 100%;">
+                                                <select name="namaPegawaiAddEditForm" id="pegawaiForm" class="form-control select2bs4" style="width: 100%;">
                                                     <option value="">--- Pilih Data Pegawai ---</option>
                                                 </select>
                                                 <div class="invalid-feedback pegawaiErrorForm"></div>

@@ -235,23 +235,27 @@
                     url: url_destination,type: "POST",data: {kode: namaPegawai, id: idSpd, csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
-                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                        $('#nipKuitansiForm').val(data.nip);
-                        $('#namaKuitansiForm').val(data.nama);
-                        $('#pangkatKuitansiForm').val(data.pangol.nama_pangol);
-                        $('#jabatanKuitansiForm').val(data.jabatan.nama_jabatan);
-                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                        var awal = new Date(data.spd.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
-                        $('#tglBerangkatKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                        var akhir = new Date(data.spd.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
-                        $('#tglKembaliKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                        $("#lamaKuitansiForm").val(data.spd.lama);
-                        $("#rekeningKuitansiForm").val(data.spd.kode_rekening);
-                        $("#instansiKuitansiForm").val(data.instansi.nama_instansi);
-                        $("#untukKuitansiForm").val(data.spd.untuk);
-                        var jumlah = data.sbuh.jumlah_uang * data.spd.lama;
-                        $("#jumlahKuitansiForm").val(jumlah);
+                        if (data.success==true) {
+                            // console.log(data);
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                            $('#nipKuitansiForm').val(data.nip);
+                            $('#namaKuitansiForm').val(data.nama);
+                            $('#pangkatKuitansiForm').val(data.pangol.nama_pangol);
+                            $('#jabatanKuitansiForm').val(data.jabatan.nama_jabatan);
+                            var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                            var awal = new Date(data.spd.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                            $('#tglBerangkatKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                            var akhir = new Date(data.spd.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                            $('#tglKembaliKuitansiForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                            $("#lamaKuitansiForm").val(data.spd.lama);
+                            $("#rekeningKuitansiForm").val(data.spd.kode_rekening);
+                            $("#instansiKuitansiForm").val(data.instansi.nama_instansi);
+                            $("#untukKuitansiForm").val(data.spd.untuk);
+                            var jumlah = data.sbuh.jumlah_uang * data.spd.lama;
+                            $("#jumlahKuitansiForm").val(jumlah);
+                        }else{
+                            toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["error"](data.msg, "Informasi");
+                        }
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
