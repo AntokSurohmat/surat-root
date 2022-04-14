@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Kepala;
 
 use App\Controllers\BaseController;
 use \Hermawan\DataTables\DataTable;
@@ -23,7 +23,7 @@ class Lapspd extends BaseController
     protected $helpers = ['form', 'url', 'text', 'my_helper'];
     public function __construct()
     {
-        if (session()->get('level') != "Admin") {
+        if (session()->get('level') != "Kepala Bidang") {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $this->pegawai = new PegawaiModel();
@@ -44,7 +44,7 @@ class Lapspd extends BaseController
             'parent' => 4,
             'pmenu' => 4.2
         );
-        return view('admin/lapspd/v-lapspd', $data);
+        return view('kepala/lapspd/v-lapspd', $data);
     }
     public function load_data() {
         if (!$this->request->isAJAX()) {
@@ -96,8 +96,8 @@ class Lapspd extends BaseController
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 }else{
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Admin/Lapspd/print/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 download" href="/Admin/Lapspd/download/' . $row->id.'" target="_blank" name="download" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/Kepala/Lapspd/print/'.$row->id.'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 download" href="/Kepala/Lapspd/download/' . $row->id.'" target="_blank" name="download" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Download Data ]"><i class="fas fa-download text-white"></i></a>';
                 }
                 return $button;
             }, 'last')
@@ -205,10 +205,10 @@ class Lapspd extends BaseController
         }
         $psd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
         if($psd_id->getRow() == null){
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         if (!$this->request->getVar('id')) {
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
  
         if ($this->request->getVar('id')) {
@@ -251,10 +251,10 @@ class Lapspd extends BaseController
 
         $psd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($psd_id->getRow() == null){
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         if (!$id) {
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -294,7 +294,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/p-spd', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/p-spd', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
@@ -310,10 +310,10 @@ class Lapspd extends BaseController
 
         $psd_id = $this->spd->where('id', $id)->where('deleted_at', null)->get();
         if($psd_id->getRow() == null){
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         if (!$id) {
-             return redirect()->to(site_url('admin/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+             return redirect()->to(site_url('kepala/lapspd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spd->where('id', $id)->first();
@@ -352,7 +352,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/p-spd', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/p-spd', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
@@ -415,7 +415,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/p-spdall', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/p-spdall', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
@@ -479,7 +479,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/p-spdall', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/p-spdall', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'portrait'); // landscape or portrait
@@ -493,7 +493,7 @@ class Lapspd extends BaseController
 
     public function print_recap(){
 
-        $spd_all = $this->spd->where(['kode !=' => null,'deleted_at'=> null])->get();
+        $spd_all = $this->spd->where(['kode !=' => null,'deleted_at' => null])->get();
         $pegawai_all = array();
         foreach($spd_all->getResult() as $result){
             $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
@@ -514,7 +514,7 @@ class Lapspd extends BaseController
         $data['diperintah_all'] = $diperintah_all;
         $data['memerintah_all'] = $memerintah_all;
 
-        $spd = $this->spd->selectMax('id')->where(['kode !=' => null,'deleted_at' => null])->first();
+        $spd = $this->spd->selectMax('id')->first();
         $data['spd'] = $this->spd->where('id', $spd['id'])->first();
         $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spd']['pegawai_all']))->get();
         $data['pegawai'] = $pegawai->getResult();
@@ -539,7 +539,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/r-spdall', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/r-spdall', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape'); // landscape or portrait
@@ -573,7 +573,7 @@ class Lapspd extends BaseController
         $data['diperintah_all'] = $diperintah_all;
         $data['memerintah_all'] = $memerintah_all;
 
-        $spd = $this->spd->selectMax('id')->where(['kode !=' => null,'deleted_at' => null])->first();
+        $spd = $this->spd->selectMax('id')->first();
         $data['spd'] = $this->spd->where('id', $spd['id'])->first();
         $pegawai = $this->pegawai->whereIn('nip', json_decode($data['spd']['pegawai_all']))->get();
         $data['pegawai'] = $pegawai->getResult();
@@ -598,7 +598,7 @@ class Lapspd extends BaseController
         // $dompdf->setOptions($options);
 
         // load HTML content
-        $dompdf->loadHtml(view('admin/lapspd/r-spdall', $data));
+        $dompdf->loadHtml(view('kepala/lapspd/r-spdall', $data));
 
         // (optional) setup the paper size and orientation
         $dompdf->setPaper('A4', 'landscape'); // landscape or portrait

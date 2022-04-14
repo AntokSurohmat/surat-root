@@ -1,4 +1,4 @@
-<?= $this->extend('admin/layouts/default') ?>
+<?= $this->extend('kepala/layouts/default') ?>
 
 <?= $this->section('content') ?>
 
@@ -160,13 +160,13 @@
                                             <div class="form-group row">
                                                 <label for="cetakSeSurat" class="col-sm-9 col-form-label">Cetak Semua Surat</label>
                                                 <div class="col-sm-3">
-                                                    <a href="<?= base_url('admin/lapspd/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                    <a href="<?= base_url('kepala/lapspd/print-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="CetakReSurat" class="col-sm-9 col-form-label">Cetak Rekap Surat</label>
                                                 <div class="col-sm-3">
-                                                    <a href="<?= base_url('admin/lapspd/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
+                                                    <a href="<?= base_url('kepala/lapspd/print-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Cetak Semua Surat"><i class="fas fa-print"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,13 +174,13 @@
                                             <div class="form-group row">
                                                 <label for="downSeSurat" class="col-sm-9 col-form-label">Download Semua Surat</label>
                                                 <div class="col-sm-3">
-                                                    <a href="<?= base_url('admin/lapspd/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
+                                                    <a href="<?= base_url('kepala/lapspd/download-all-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Semua Surat"><i class="fas fa-download"></i></a>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="downReSurat" class="col-sm-9 col-form-label">Download Rekap Surat</label>
                                                 <div class="col-sm-3">
-                                                    <a href="<?= base_url('admin/lapspd/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></a>
+                                                    <a href="<?= base_url('kepala/lapspd/download-recap-data')?>" target="_blank" class="btn btn-default" data-rel="tooltip" data-container=".content" data-placement="top" title="Download Rekap Surat"><i class="fas fa-download"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -749,7 +749,7 @@
 <script type="text/javascript">
     $(function() {
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getNoSpdTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspd/getNoSpdTable') ?>';
         $("#noSpdTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari No SPD ---',
@@ -764,7 +764,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspd/getPegawaiTable') ?>';
         $("#namaPejabatTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Pejabat ---',
@@ -779,7 +779,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspd/getPegawaiTable') ?>';
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Pegawai ---',
@@ -794,7 +794,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspd/getPegawaiTable') ?>';
         $("#pengikutTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Pengikut ---',
@@ -809,7 +809,7 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getInstansiTable') ?>';
+        var url_destination = '<?= base_url('Kepala/Lapspd/getInstansiTable') ?>';
         $("#namaInstansiTable").select2({
             theme: 'bootstrap4',
             placeholder: '--- Cari Nama Instansi ---',
@@ -830,7 +830,7 @@
         $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
 
         /*-- DataTable To Load Data Wilayah --*/
-        var url_destination = "<?= base_url('Admin/Lapspd/load_data') ?>";
+        var url_destination = "<?= base_url('Kepala/Lapspd/load_data') ?>";
         var spd = $('#spd_data').DataTable({
             "sDom": 'lrtip',
             "lengthChange": false,
@@ -911,7 +911,7 @@
 
         $(document).on('click', '.view', function() {
             var id = $(this).data('id');
-            var url_destination = "<?= base_url('Admin/Lapspd/view_data') ?>";
+            var url_destination = "<?= base_url('Kepala/Lapspd/view_data') ?>";
             $.ajax({
                 url: url_destination,
                 type: "POST",

@@ -311,7 +311,7 @@ class Lapspt extends BaseController
 
     public function print_all(){
 
-        $spt = $this->spt->get();
+        $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
 
         foreach($spt->getResult() as $spt_data){
@@ -361,7 +361,7 @@ class Lapspt extends BaseController
 
     public function download_all(){
 
-        $spt = $this->spt->get();
+        $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
 
         foreach($spt->getResult() as $spt_data){
@@ -411,7 +411,7 @@ class Lapspt extends BaseController
 
     public function print_recap(){
 
-        $spt_all = $this->spt->get();
+        $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();
         foreach($spt_all->getResult() as $result){
             $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
@@ -466,7 +466,7 @@ class Lapspt extends BaseController
 
     public function download_recap(){
 
-        $spt_all = $this->spt->get();
+        $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();
         foreach($spt_all->getResult() as $result){
             $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
