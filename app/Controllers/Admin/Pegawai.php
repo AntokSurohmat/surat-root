@@ -562,14 +562,14 @@ class Pegawai extends ResourcePresenter
             return redirect()->to(site_url('admin/pegawai/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         if ($this->request->getVar('id')) {
-            
+
             $id = $this->request->getVar('id');
 
             $prop_item = $this->pegawai->where('id', $id)->first();
             $imageName = $prop_item['foto'];
 
             if($imageName != NULL){
-                d("OK");die();
+                // d("OK");die();
                 if(file_exists("uploads/foto/".$imageName)){
                     unlink("uploads/foto/".$imageName);
                 }
