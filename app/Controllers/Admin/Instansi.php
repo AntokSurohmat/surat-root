@@ -298,23 +298,26 @@ class Instansi extends ResourcePresenter
         if (!$valid) {
             $data = [
                 'error' => [
-                    'provinsi' => $validation->getError('provinsiAddEditForm'),
+                    'provinsi'  => $validation->getError('provinsiAddEditForm'),
                     'kabupaten' => $validation->getError('kabupatenAddEditForm'),
                     'kecamatan' => $validation->getError('kecamatanAddEditForm'),
-                    'kode' => $validation->getError('kodeAddEditForm'),
-                    'instansi' => $validation->getError('instansiAddEditForm'),
+                    'kode'      => $validation->getError('kodeAddEditForm'),
+                    'instansi'  => $validation->getError('instansiAddEditForm'),
                 ],
                 'msg' => '',
             ];
         } else {
 
             $data = [
-                'kode_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
+                'kode_provinsi'  => $this->db->escapeString($this->request->getVar('provinsiAddEditForm')),
                 'kode_kabupaten' => $this->db->escapeString($this->request->getVar('kabupatenAddEditForm')),
                 'kode_kecamatan' => $this->db->escapeString($this->request->getVar('kecamatanAddEditForm')),
-                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
-                'nama_instansi' => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
+                'kode'           => $this->db->escapeString($this->request->getVar('kodeAddEditForm')),
+                'nama_instansi'  => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
             ];
+
+            // $insert = $this->instansi->insert($data);
+            // d($insert);print_r($insert);die();
             if ($this->instansi->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
             } else {
