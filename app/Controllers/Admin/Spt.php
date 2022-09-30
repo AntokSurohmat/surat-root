@@ -392,7 +392,7 @@ class Spt extends ResourcePresenter
         $valid = $this->validate([
             'kodeAddEditForm' => [
                 'label'     => 'No SPT',
-                'rules'     => 'required|numeric|max_length[3]|is_unique[etbl_spt.kode]',
+                'rules'     => 'required|numeric|max_length[3]|is_unique[spt.kode]',
                 'errors' => [
                     'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length'    => '{field} Maksimal 3 Karakter',

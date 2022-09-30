@@ -115,7 +115,7 @@ class Pangol extends BaseController
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode Pangkat & Golongan',
-                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_pangol.kode]',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[pangol.kode]',
                     'errors' => [
                         'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                         'max_length' => '{field} Maksimal 20 Karakter',

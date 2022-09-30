@@ -92,7 +92,7 @@ class PangolModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol";
+		$sQuery = "SELECT COUNT(id) as total FROM pangol";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -105,7 +105,7 @@ class PangolModel extends Model
 		} else {
 			$attr_order = " ";
 		}
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_pangol WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(id) as total FROM pangol WHERE id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

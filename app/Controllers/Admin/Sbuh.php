@@ -338,7 +338,7 @@ class Sbuh extends ResourcePresenter
         $valid = $this->validate([
             'kodeAddEditForm' => [
                 'label'     => 'Kode SBUH',
-                'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_sbuh.kode]',
+                'rules'     => 'required|numeric|max_length[20]|is_unique[sbuh.kode]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Karakter',

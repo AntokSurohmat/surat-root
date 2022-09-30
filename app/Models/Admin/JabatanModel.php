@@ -90,7 +90,7 @@ class JabatanModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_jabatan WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM jabatan WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -103,7 +103,7 @@ class JabatanModel extends Model
 		} else {
 			$attr_order = " AND deleted_at IS NULL ";
 		}
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_jabatan WHERE id != '' $attr_order";
+		$sQuery = "SELECT COUNT(id) as total FROM jabatan WHERE id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

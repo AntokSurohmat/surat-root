@@ -214,7 +214,7 @@ class Pegawai extends ResourcePresenter
         $valid = $this->validate([
             'nipAddEditForm' => [
                 'label'     => 'Nomer NIP',
-                'rules'     => 'required|numeric|max_length[25]|is_unique[etbl_pegawai.nip]',
+                'rules'     => 'required|numeric|max_length[25]|is_unique[pegawai.nip]',
                 'errors' => [
                     'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 25 Karakter',
@@ -261,7 +261,7 @@ class Pegawai extends ResourcePresenter
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',
-                'rules'     => 'required|max_length[20]|is_unique[etbl_pegawai.username]',
+                'rules'     => 'required|max_length[20]|is_unique[pegawai.username]',
                 'errors' => [
                     'max_length' => '{field} Maksimal 20 Karakter',
                 ],
@@ -306,7 +306,7 @@ class Pegawai extends ResourcePresenter
             if($file->isValid() && !$file->hasMoved()){
                 $imageName = $file->getRandomName();
                 $file->move('uploads/foto/', $imageName);
-            }
+            }else{$imageName = 'default.png';}
 
             $data = [
                 'nip' => $this->db->escapeString($this->request->getPost('nipAddEditForm')),
@@ -457,7 +457,7 @@ class Pegawai extends ResourcePresenter
             ],
             'usernameAddEditForm' => [
                 'label'     => 'Username',
-                'rules'     => "required|max_length[20]|is_unique[etbl_pegawai.username,id,$ids]",
+                'rules'     => "required|max_length[20]|is_unique[pegawai.username,id,$ids]",
                 'errors' => [
                     'is_unique' => '{field} Yang Anda masukkan sudah dipakai',
                     'max_length' => '{field} Maksimal 20 Karakter',

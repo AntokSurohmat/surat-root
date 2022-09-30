@@ -119,7 +119,7 @@ class InstansiModel extends Model
 
     function count_all()
     {
-        $sQuery = "SELECT COUNT(id) as total FROM etbl_instansi WHERE deleted_at IS NULL";
+        $sQuery = "SELECT COUNT(id) as total FROM instansi WHERE deleted_at IS NULL";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }
@@ -129,15 +129,15 @@ class InstansiModel extends Model
         // Kondisi Order
         if (service('request')->getPost('search')['value']) {
             $search = service('request')->getPost('search')['value'];
-			$attr_order = " AND etbl_instansi.deleted_at IS NULL AND (etbl_instansi.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%')";
+			$attr_order = " AND instansi.deleted_at IS NULL AND (instansi.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%')";
         } else {
-            $attr_order = " AND etbl_instansi.deleted_at IS NULL ";
+            $attr_order = " AND instansi.deleted_at IS NULL ";
         }
-		$sQuery = "SELECT COUNT(etbl_instansi.id) as total FROM etbl_instansi
-                    LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_instansi.kode_provinsi
-                    LEFT JOIN etbl_kabupaten ON etbl_kabupaten.kode = etbl_instansi.kode_kabupaten
-                    LEFT JOIN etbl_kecamatan ON etbl_kecamatan.kode = etbl_instansi.kode_kecamatan
-                    WHERE etbl_instansi.id != '' $attr_order";
+		$sQuery = "SELECT COUNT(instansi.id) as total FROM instansi
+                    LEFT JOIN provinsi ON provinsi.kode = instansi.kode_provinsi
+                    LEFT JOIN kabupaten ON kabupaten.kode = instansi.kode_kabupaten
+                    LEFT JOIN kecamatan ON kecamatan.kode = instansi.kode_kecamatan
+                    WHERE instansi.id != '' $attr_order";
         $query = $this->db->query($sQuery)->getRow();
         return $query;
     }

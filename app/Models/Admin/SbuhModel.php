@@ -129,7 +129,7 @@ class SbuhModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_sbuh WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM sbuh WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -138,18 +138,18 @@ class SbuhModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND etbl_sbuh.deleted_at IS NULL AND (etbl_sbuh.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%' OR etbl_pangol.nama_pangol LIKE '%$search%')";
+			$attr_order = " AND sbuh.deleted_at IS NULL AND (sbuh.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%' OR pangol.nama_pangol LIKE '%$search%')";
 		} else {
-			$attr_order = " AND etbl_sbuh.deleted_at IS NULL ";
+			$attr_order = " AND sbuh.deleted_at IS NULL ";
 		}
-		$sQuery = "SELECT COUNT(etbl_sbuh.id) as total FROM etbl_sbuh 
-                    LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_sbuh.kode_provinsi
-                    LEFT JOIN etbl_kabupaten ON etbl_kabupaten.kode = etbl_sbuh.kode_kabupaten
-                    LEFT JOIN etbl_jenis_wilayah ON etbl_jenis_wilayah.kode = etbl_sbuh.kode_jenis_wilayah
-                    LEFT JOIN etbl_kecamatan ON etbl_kecamatan.kode = etbl_sbuh.kode_kecamatan
-                    LEFT JOIN etbl_zonasi ON etbl_zonasi.kode = etbl_sbuh.kode_zonasi
-                    LEFT JOIN etbl_pangol ON etbl_pangol.kode = etbl_sbuh.kode_pangol
-                    WHERE etbl_sbuh.id != '' $attr_order";
+		$sQuery = "SELECT COUNT(sbuh.id) as total FROM sbuh 
+                    LEFT JOIN provinsi ON provinsi.kode = sbuh.kode_provinsi
+                    LEFT JOIN kabupaten ON kabupaten.kode = sbuh.kode_kabupaten
+                    LEFT JOIN jenis_wilayah ON jenis_wilayah.kode = sbuh.kode_jenis_wilayah
+                    LEFT JOIN kecamatan ON kecamatan.kode = sbuh.kode_kecamatan
+                    LEFT JOIN zonasi ON zonasi.kode = sbuh.kode_zonasi
+                    LEFT JOIN pangol ON pangol.kode = sbuh.kode_pangol
+                    WHERE sbuh.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

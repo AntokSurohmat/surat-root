@@ -279,7 +279,7 @@ class Instansi extends ResourcePresenter
             ],
             'kodeAddEditForm' => [
                 'label'     => 'Kode Instansi',
-                'rules'     => 'required|numeric|max_length[10]|is_unique[etbl_instansi.kode]',
+                'rules'     => 'required|numeric|max_length[10]|is_unique[instansi.kode]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 10 Karakter',

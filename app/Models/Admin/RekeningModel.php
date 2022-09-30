@@ -98,7 +98,7 @@ class RekeningModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_rekening WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM rekening WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -107,13 +107,13 @@ class RekeningModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND etbl_rekening.deleted_at IS NULL AND (etbl_rekening.kode LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_rekening.nomer_rekening LIKE '%$search%' )";
+			$attr_order = " AND rekening.deleted_at IS NULL AND (rekening.kode LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR rekening.nomer_rekening LIKE '%$search%' )";
 		} else {
-			$attr_order = " AND etbl_rekening.deleted_at IS NULL ";
+			$attr_order = " AND rekening.deleted_at IS NULL ";
 		}
-		$sQuery = "SELECT COUNT(etbl_rekening.id) as total FROM etbl_rekening
-                    LEFT JOIN etbl_jenis_wilayah ON etbl_jenis_wilayah.kode = etbl_rekening.kode_jenis_wilayah
-                    WHERE etbl_rekening.id != '' $attr_order";
+		$sQuery = "SELECT COUNT(rekening.id) as total FROM rekening
+                    LEFT JOIN jenis_wilayah ON jenis_wilayah.kode = rekening.kode_jenis_wilayah
+                    WHERE rekening.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}

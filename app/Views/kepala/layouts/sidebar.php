@@ -38,6 +38,22 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-envelope"></i>
+                    <p>
+                        Laporan SPT
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-envelope"></i>
+                    <p>
+                        Laporan SPT
+                    </p>
+                </a>
+            </li>   
+            <li class="nav-item">
                 <a href="javascript:void(0)" onclick="logout()" class="nav-link">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>

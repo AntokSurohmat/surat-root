@@ -159,7 +159,7 @@ class Rekening extends BaseController
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode',
-                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_rekening.kode]',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[rekening.kode]',
                     'errors' => [
                         'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                         'max_length' => '{field} Maksimal 20 Karakter',

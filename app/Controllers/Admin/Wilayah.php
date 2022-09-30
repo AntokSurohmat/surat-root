@@ -352,7 +352,7 @@ class Wilayah extends ResourcePresenter
                 $valid = $this->validate([
                     'kodeAddEditModalProv' => [
                         'label'     => 'Kode Provinsi',
-                        'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_provinsi.kode]',
+                        'rules'     => 'required|numeric|max_length[20]|is_unique[provinsi.kode]',
                         'errors' => [
                             'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter',
@@ -392,7 +392,7 @@ class Wilayah extends ResourcePresenter
                 $valid = $this->validate([
                     'kodeAddEditModalKab' => [
                         'label'     => 'Kode Kabupaten',
-                        'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_kabupaten.kode]',
+                        'rules'     => 'required|numeric|max_length[20]|is_unique[kabupaten.kode]',
                         'errors' => [
                             'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter',
@@ -442,7 +442,7 @@ class Wilayah extends ResourcePresenter
                 $valid = $this->validate([
                     'kodeAddEditModalKec' => [
                         'label'     => 'Kode Kecamatan',
-                        'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_kecamatan.kode]',
+                        'rules'     => 'required|numeric|max_length[20]|is_unique[kecamatan.kode]',
                         'errors' => [
                             'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter',
@@ -492,7 +492,7 @@ class Wilayah extends ResourcePresenter
                 $valid = $this->validate([
                     'kodeAddEditModalJenis' => [
                         'label'     => 'Kode Jenis',
-                        'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_jenis_wilayah.kode]',
+                        'rules'     => 'required|numeric|max_length[20]|is_unique[jenis_wilayah.kode]',
                         'errors' => [
                             'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter',
@@ -551,7 +551,7 @@ class Wilayah extends ResourcePresenter
                 $valid = $this->validate([
                     'kodeAddEditModalZona' => [
                         'label'     => 'Kode Zonasi',
-                        'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_zonasi.kode]',
+                        'rules'     => 'required|numeric|max_length[20]|is_unique[zonasi.kode]',
                         'errors' => [
                             'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                             'max_length' => '{field} Maksimal 20 Karakter',
@@ -575,7 +575,7 @@ class Wilayah extends ResourcePresenter
                     ],
                     'kecamatanAddEditModalZona' => [
                         'label' => 'Nama Kecamatan',
-                        'rules' => 'required|max_length[40]|is_unique[etbl_zonasi.kode_kecamatan]',
+                        'rules' => 'required|max_length[40]|is_unique[zonasi.kode_kecamatan]',
                         'errors' => [
                             'max_length' => '{field} Maksimal 40 Karakter',
                             'is_unique' => '{field} yang Anda Masukkan Telah Mempunyai Zonasi'
@@ -673,7 +673,7 @@ class Wilayah extends ResourcePresenter
         $valid = $this->validate([
             'kodeAddEditForm' => [
                 'label'     => 'Kode Wilayah',
-                'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_wilayah.kode]',
+                'rules'     => 'required|numeric|max_length[20]|is_unique[wilayah.kode]',
                 'errors' => [
                     'numeric' => '{field}Hanya Bisa Memasukkan Angka',
                     'max_length' => '{field} Maksimal 20 Kode Karakter',

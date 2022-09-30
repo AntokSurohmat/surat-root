@@ -105,7 +105,7 @@ class Jabatan extends BaseController
             $valid = $this->validate([
                 'kodeAddEditForm' => [
                     'label'     => 'Kode Jabatan',
-                    'rules'     => 'required|numeric|max_length[20]|is_unique[etbl_jabatan.kode]',
+                    'rules'     => 'required|numeric|max_length[20]|is_unique[jabatan.kode]',
                     'errors' => [
                         'numeric' => '{field} Hanya Bisa Memasukkan Angka',
                         'max_length' => '{field} Maksimal 20 Karakter',

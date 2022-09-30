@@ -121,7 +121,7 @@ class WilayahModel extends Model
 
 
 	function count_all(){
-		$sQuery = "SELECT COUNT(id) as total FROM etbl_wilayah WHERE deleted_at IS NULL";
+		$sQuery = "SELECT COUNT(id) as total FROM wilayah WHERE deleted_at IS NULL";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
@@ -130,17 +130,17 @@ class WilayahModel extends Model
 		// Kondisi Order
 		if(service('request')->getPost('search')['value']){
 			$search = service('request')->getPost('search')['value'];
-			$attr_order = " AND etbl_wilayah.deleted_at IS NULL AND (etbl_wilayah.kode LIKE '%$search%' OR etbl_provinsi.nama_provinsi LIKE '%$search%' OR etbl_kabupaten.nama_kabupaten LIKE '%$search%' OR etbl_kecamatan.nama_kecamatan LIKE '%$search%' OR etbl_jenis_wilayah.jenis_wilayah LIKE '%$search%' OR etbl_zonasi.nama_zonasi LIKE '%$search%')";
+			$attr_order = " AND wilayah.deleted_at IS NULL AND (wilayah.kode LIKE '%$search%' OR provinsi.nama_provinsi LIKE '%$search%' OR kabupaten.nama_kabupaten LIKE '%$search%' OR kecamatan.nama_kecamatan LIKE '%$search%' OR jenis_wilayah.jenis_wilayah LIKE '%$search%' OR zonasi.nama_zonasi LIKE '%$search%')";
 		} else {
-			$attr_order = " AND etbl_wilayah.deleted_at IS NULL ";
+			$attr_order = " AND wilayah.deleted_at IS NULL ";
 		}
-		$sQuery = "SELECT COUNT(etbl_wilayah.id) as total FROM etbl_wilayah
-                    LEFT JOIN etbl_provinsi ON etbl_provinsi.kode = etbl_wilayah.kode_provinsi
-                    LEFT JOIN etbl_kabupaten ON etbl_kabupaten.kode = etbl_wilayah.kode_kabupaten
-                    LEFT JOIN etbl_kecamatan ON etbl_kecamatan.kode = etbl_wilayah.kode_kecamatan
-                    LEFT JOIN etbl_jenis_wilayah ON etbl_jenis_wilayah.kode = etbl_wilayah.kode_jenis_wilayah
-                    LEFT JOIN etbl_zonasi ON etbl_zonasi.kode = etbl_wilayah.kode_zonasi
-                    WHERE etbl_wilayah.id != '' $attr_order";
+		$sQuery = "SELECT COUNT(wilayah.id) as total FROM wilayah
+                    LEFT JOIN provinsi ON provinsi.kode = wilayah.kode_provinsi
+                    LEFT JOIN kabupaten ON kabupaten.kode = wilayah.kode_kabupaten
+                    LEFT JOIN kecamatan ON kecamatan.kode = wilayah.kode_kecamatan
+                    LEFT JOIN jenis_wilayah ON jenis_wilayah.kode = wilayah.kode_jenis_wilayah
+                    LEFT JOIN zonasi ON zonasi.kode = wilayah.kode_zonasi
+                    WHERE wilayah.id != '' $attr_order";
 		$query = $this->db->query($sQuery)->getRow();
 		return $query;
 	}
