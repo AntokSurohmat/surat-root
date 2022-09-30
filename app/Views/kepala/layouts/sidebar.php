@@ -29,30 +29,60 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
                     <i class="nav-icon fas fa-envelope"></i>
                     <p>
                         Laporan SPT
                     </p>
                 </a>
+            </li> -->
+            <li class="nav-item <?= $parent=='3' ? 'menu-open' : ''; ?>">
+                <a href="#" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-file-pdf"></i>
+                    <p>
+                        Laporan
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $pmenu=='3.1' ? 'active' : ''; ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>SPT</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= site_url('kepala/lapspd') ?>" class="nav-link <?= $pmenu=='3.2' ? 'active' : ''; ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>SPD</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
-                    <i class="nav-icon fas fa-envelope"></i>
+            <li class="nav-item <?= $parent=='4' ? 'menu-open' : ''; ?>">
+                <a href="#" class="nav-link <?= $parent=='4' ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-book"></i>
                     <p>
-                        Laporan SPT
+                        Keuangan
+                        <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="<?= site_url('kepala/kuitansi') ?>" class="nav-link <?= $pmenu=='4.1' ? 'active' : ''; ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Kuitansi</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= site_url('kepala/rincian') ?>" class="nav-link <?= $pmenu=='4.2' ? 'active' : ''; ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Rincian Biaya</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a href="<?= site_url('kepala/lapspt') ?>" class="nav-link <?= $parent=='3' ? 'active' : ''; ?>">
-                    <i class="nav-icon fas fa-envelope"></i>
-                    <p>
-                        Laporan SPT
-                    </p>
-                </a>
-            </li>   
             <li class="nav-item">
                 <a href="javascript:void(0)" onclick="logout()" class="nav-link">
                     <i class="nav-icon fas fa-sign-out-alt"></i>

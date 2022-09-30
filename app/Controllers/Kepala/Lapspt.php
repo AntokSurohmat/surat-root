@@ -37,7 +37,7 @@ class Lapspt extends BaseController
         $data = array(
             'title' => 'LAPORAN SURAT PERINTAH TUGAS',
             'parent' => 3,
-            'pmenu' => ''
+            'pmenu' => 3.1
         );
         return view('kepala/lapspt/v-lapspt', $data);
     }

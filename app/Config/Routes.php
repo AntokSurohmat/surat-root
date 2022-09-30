@@ -92,12 +92,23 @@ $routes->group('bendahara', ["filter" => "auth", "filter" => "auth"], function (
 $routes->group('kepala', ["filter" => "auth"], function ($routes) {
     $routes->get('', 'Kepala\Dashboard::index');
     $routes->presenter('Verifikasi', ['controller' =>'Kepala\Verifikasi', 'only' => ['index', 'update']]);
+    $routes->resource('Kuitansi', ['controller' =>'Kepala\Spt', 'except' => 'show,remove']);
+    $routes->get('Kuitansi/print/(:num)', 'Kepala\Kuitansi::print/$1');
+    $routes->resource('Rincian', ['controller' =>'Kepala\Spt', 'except' => 'show,remove']);
+    $routes->get('Rincian/print/(:num)', 'Kepala\Rincian::print/$1');
     $routes->group('lapspt', function ($routes) {
         $routes->get('', 'Kepala\Lapspt::index');
         $routes->get('print-all-data', 'Kepala\Lapspt::print_all');
         $routes->get('download-all-data', 'Kepala\Lapspt::download_all');
         $routes->get('print-recap-data', 'Kepala\Lapspt::print_recap');
         $routes->get('download-recap-data', 'Kepala\Lapspt::download_recap');
+    });
+    $routes->group('lapspd', function ($routes) {
+        $routes->get('', 'Kepala\Lapspd::index');
+        $routes->get('print-all-data', 'Kepala\Lapspd::print_all');
+        $routes->get('download-all-data', 'Kepala\Lapspd::download_all');
+        $routes->get('print-recap-data', 'Kepala\Lapspd::print_recap');
+        $routes->get('download-recap-data', 'Kepala\Lapspd::download_recap');
     });
 });
 $routes->group('pegawai', ["filter" => "auth"], function ($routes) {
