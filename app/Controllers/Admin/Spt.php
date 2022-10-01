@@ -202,9 +202,18 @@ class Spt extends ResourcePresenter
         }
 
         $nomer = $this->db->table('spt')->countAllResults();
+
         
+        // if($nomer == 0){
+        //     $nomer = false;
+        // }else{
+        //     $nomer = true;
+        // }
+        // var_dump($nomer);die();
+        if($nomer == 0){$nomer = 1; }else{$nomer = 0;}
         switch (strlen($nomer)) {
             case '1':
+
                 $kode = '00'.$nomer;
                 break;
             case '2':

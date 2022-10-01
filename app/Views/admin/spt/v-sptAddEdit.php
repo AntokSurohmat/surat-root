@@ -63,13 +63,25 @@
                                                 <div class="invalid-feedback dasarErrorForm"></div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <!-- <div class="form-group row">
                                             <label for="untukForm" class="col-sm-3 col-form-label">Maksud Perjalanan Dinas</label>
                                             <div class="col-sm-7">
-                                            <textarea name="untukAddEditForm" class="form-control" id="untukForm" rows="3" placeholder="Maksud Perjalanan Dinas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea>
+                                            <textarea name="untukAddEditForm" class="form-control" id="untukForm" rows="3" placeholder="Maksud Perjalanan Dinas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="50"></textarea> -->
                                                 <!-- <input type="text" name="untukAddEditForm" class="form-control" id="untukForm" placeholder="Untuk"/> -->
-                                                <div class="invalid-feedback untukErrorForm"></div>
+                                                <!-- <div class="invalid-feedback untukErrorForm"></div>
                                             </div>
+                                        </div> -->
+                                        <div class="form-group row">
+                                            <label for="provinsiForm" class="col-sm-3 col-form-label">Maksud Perjalanan Dinas</label>
+                                            <div class="col-sm-7">
+                                                <select name="provinsiAddEditForm" id="provinsiForm" class="form-control " style="width: 100%;">
+                                                    <option value="">--- Maksud Perjalanan Dinas ---</option>
+                                                </select>
+                                                <div class="invalid-feedback provinsiErrorForm"></div>
+                                            </div>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-info" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Tujuan" id="add-prov"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
