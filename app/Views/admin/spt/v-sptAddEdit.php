@@ -165,6 +165,58 @@
             </div>
         </div>
 
+        <!--add Prov-->
+        <div id="modal-tujuan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambah Tujuan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form class="form-horizontal" role="form" id="form-tujuan" autocomplete="off" onsubmit="return false">
+                        <div class="modal-body">
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="hidden" id="method" name="method" value="Prov" />
+                            <!-- <div class="form-group row">
+                                <label for="kodeModalProv" class="col-sm-3 col-form-label">Kode</label>
+                                <div class="col-sm-7">
+                                    <input type="number" name="kodeAddEditModalProv" class="form-control" id="kodeModalProv" placeholder="Kode Provinsi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" autofocus />
+                                    <div class="invalid-feedback kodeErrorModalProv"></div>
+                                </div>
+                                <span>
+                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeProv" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
+                                </span>
+                            </div> -->
+                            <div class="form-group row">
+                                <label for="provinsiModalProv" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="provinsiAddEditModalProv" id="provinsiModalProv" placeholder="Maksud Tujuan Perjalanan" />
+                                    <div class="invalid-feedback provinsiErrorModalProv"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pelaksanaForm" class="col-sm-3 col-form-label">Pelaksana</label>
+                                <div class="col-sm-8">
+                                    <select name="pelaksanaAddEditForm" id="pelaksanaForm" class="form-control select2bs4" style="width: 100%;">
+                                        <option value="">--- Pilih Pelaksana ---</option>
+                                        <option value="Kasi Pelayan"> Kasi Pelayan </option>
+                                        <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
+                                    </select>
+                                    <div class="invalid-feedback pelaksanaErrorForm"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
+                            <button type="submit" id="submit-btn-prov" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal prov -->
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -234,6 +286,15 @@
         //     // })
         // }
 
+        $('#add-prov').click(function() {
+            var option = {backdrop: 'static',keyboard: true};
+            $('#modal-tujuan').modal(option);$('#form-tujuan')[0].reset();$('#modal-tujuan').modal('show');
+        });
+        $('#modal-tujuan').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
+            $("#kodeModalProv").empty();$("#kodeModalProv").removeClass('is-valid');$("#kodeModalProv").removeClass('is-invalid');
+            $("#provinsiModalProv").empty();$("#provinsiModalProv").removeClass('is-valid');$("#provinsiModalProv").removeClass('is-invalid');
+        });
 
         $('#startForm').daterangepicker({
             singleDatePicker: true,showDropdowns: true,
@@ -321,6 +382,49 @@
                 cache: true
             }
         });
+
+        $('#form-tujuan').on('submit', function(event) {
+            event.preventDefault();
+            var url_destination = "<?= base_url('Admin/Wilayah/savemodal') ?>";
+            $.ajax({
+                url: url_destination,method: "POST",data: $(this).serialize(),dataType: "JSON",
+                beforeSend: function() {
+                    $('#submit-btn-prov').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn-prov').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#submit-btn-prov').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-prov').prop('disabled', false);
+                },
+                success: function(data) {
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name)
+                    if (data.error) {
+                        Object.keys(data.error).forEach((key, index) => {
+                            $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.error[key]);
+                            var element = $('#' + key + 'ModalProv');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                    } 
+                    if (data.success==true) {
+                        $("#modal-prov").modal('hide');
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
+                    } else {
+                        Object.keys(data.msg).forEach((key, index) => {
+                            var remove = key.replace("nama_", "");
+                            $("#" + remove + 'ModalProv').addClass('is-invalid');
+                            $("." + remove + "ErrorModalProv").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalProv');
+                            element.closest('.form-control')
+                            element.closest('.select2-hidden-accessible') //access select2 class
+                            element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
+                        });
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+            });
+            return false;
+        })
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();

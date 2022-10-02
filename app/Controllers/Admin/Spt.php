@@ -203,17 +203,10 @@ class Spt extends ResourcePresenter
 
         $nomer = $this->db->table('spt')->countAllResults();
 
-        
-        // if($nomer == 0){
-        //     $nomer = false;
-        // }else{
-        //     $nomer = true;
-        // }
-        // var_dump($nomer);die();
+        // Add Number if 0
         if($nomer == 0){$nomer = 1; }else{$nomer = 0;}
         switch (strlen($nomer)) {
             case '1':
-
                 $kode = '00'.$nomer;
                 break;
             case '2':
@@ -345,6 +338,50 @@ class Spt extends ResourcePresenter
         $response['data'] = $data;
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
+    }
+
+    function savemodal()
+    {
+        if (!$this->request->isAjax()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+
+        $validation = \Config\Services::validation();
+
+        $valid = $this->validate([
+            'tujuanAddEditModalTujuan' => [
+                'label'     => 'Maksud Perjalanan',
+                'rules'     => 'required|string|min_length[3]',
+                'errors' => [
+                    'string' => '{field} Hanya Bisa Sting',
+                    'min_length' => '{field} Minimal 3 Karakter',
+                ],
+            ],
+            'pelaksanaAddEditModalTujuan' => [
+                'label' => 'Pelaksana',
+                'rules' => 'required',
+            ]
+        ]);
+
+        if (!$valid) {
+            $data = [
+                'error' => [
+                    'kode' => $validation->getError('kodeAddEditModalProv'),
+                    'provinsi' => $validation->getError('provinsiAddEditModalProv')
+                ],
+                'msg' => '',
+            ];
+        } else {
+            $data = [
+                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditModalProv')),
+                'nama_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditModalProv')),
+            ];
+            if ($this->provinsi->insert($data)) {
+                $data = array('success' => true, 'msg' => 'Data berhasil disimpan');
+            } else {
+                $data = array('success' => false, 'msg' => $this->wilayah->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
+            }
+        }
     }
 
     /**
