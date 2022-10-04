@@ -31,7 +31,7 @@
                     <!-- /.card-header -->
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="card-body">
-                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="methodPage" value="<?= $method ?>" />
                             <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
@@ -159,13 +159,43 @@
                             <button type="submit" id="submit-spt" class="btn btn-success ml-2"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
+
+                    <!-- <form class="form-horizontal" role="form" id="form-tujuan" autocomplete="off" onsubmit="return false">
+                        <div class="modal-body">
+                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+
+                            <div class="form-group row">
+                                <label for="maksudModalTujuan" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="maksudAddEditModalTujuan" id="maksudModalTujuan" placeholder="Maksud Tujuan Perjalanan" />
+                                    <div class="invalid-feedback maksudErrorModalTujuan"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pelaksanaModalTujuan" class="col-sm-3 col-form-label">Pelaksana</label>
+                                <div class="col-sm-8">
+                                    <select name="pelaksanaAddEditModalTujuan" id="pelaksanaModalTujuan" class="form-control select2bs4" style="width: 100%;">
+                                        <option value="">--- Pilih Pelaksana ---</option>
+                                        <option value="Kasi Pelayan"> Kasi Pelayan </option>
+                                        <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
+                                    </select>
+                                    <div class="invalid-feedback pelaksanaErrorModalTujuan"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
+                            <button type="submit" id="submit-btn-tujuan" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                        </div>
+                    </form> -->
+
                 </div>
                 <!-- /.card -->
 
             </div>
         </div>
 
-        <!--add Prov-->
+        <!--add Tujuan-->
         <div id="modal-tujuan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -177,45 +207,34 @@
                     </div>
                     <form class="form-horizontal" role="form" id="form-tujuan" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
-                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                            <input type="hidden" id="method" name="method" value="Prov" />
-                            <!-- <div class="form-group row">
-                                <label for="kodeModalProv" class="col-sm-3 col-form-label">Kode</label>
-                                <div class="col-sm-7">
-                                    <input type="number" name="kodeAddEditModalProv" class="form-control" id="kodeModalProv" placeholder="Kode Provinsi" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" autofocus />
-                                    <div class="invalid-feedback kodeErrorModalProv"></div>
-                                </div>
-                                <span>
-                                    <button type="button" class="btn btn-default" data-rel="tooltip" data-placement="top" data-container=".content" title="Generate kode" id="generate-kodeProv" > <i class="fa fa-retweet" aria-hidden="true"></i> </button>
-                                </span>
-                            </div> -->
+                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <div class="form-group row">
-                                <label for="provinsiModalProv" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
+                                <label for="maksudModalTujuan" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="provinsiAddEditModalProv" id="provinsiModalProv" placeholder="Maksud Tujuan Perjalanan" />
-                                    <div class="invalid-feedback provinsiErrorModalProv"></div>
+                                    <input type="text" class="form-control" name="maksudAddEditModalTujuan" id="maksudModalTujuan" placeholder="Maksud Tujuan Perjalanan" />
+                                    <div class="invalid-feedback maksudErrorModalTujuan"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="pelaksanaForm" class="col-sm-3 col-form-label">Pelaksana</label>
+                                <label for="pelaksanaModalTujuan" class="col-sm-3 col-form-label">Pelaksana</label>
                                 <div class="col-sm-8">
-                                    <select name="pelaksanaAddEditForm" id="pelaksanaForm" class="form-control select2bs4" style="width: 100%;">
+                                    <select name="pelaksanaAddEditModalTujuan" id="pelaksanaModalTujuan" class="form-control select2bs4" style="width: 100%;">
                                         <option value="">--- Pilih Pelaksana ---</option>
                                         <option value="Kasi Pelayan"> Kasi Pelayan </option>
                                         <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
                                     </select>
-                                    <div class="invalid-feedback pelaksanaErrorForm"></div>
+                                    <div class="invalid-feedback pelaksanaErrorModalTujuan"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="submit" id="submit-btn-prov" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
+                            <button type="submit" id="submit-btn-tujuan" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div><!-- /.modal prov -->
+        </div><!-- /.modal Tujuan -->
 
     </div><!-- /.container-fluid -->
 </section>
@@ -385,35 +404,37 @@
 
         $('#form-tujuan').on('submit', function(event) {
             event.preventDefault();
-            var url_destination = "<?= base_url('Admin/Wilayah/savemodal') ?>";
+            var url_destination = "<?= base_url('admin/Spt//savemodal') ?>";
+            console.log(url_destination);
             $.ajax({
                 url: url_destination,method: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
-                    $('#submit-btn-prov').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn-prov').prop('disabled', true);
+                    $('#submit-btn-tujuan').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn-tujuan').prop('disabled', true);
                 },
                 complete: function() {
-                    $('#submit-btn-prov').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-prov').prop('disabled', false);
+                    $('#submit-btn-tujuan').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-tujuan').prop('disabled', false);
                 },
                 success: function(data) {
+                    console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            $("#" + key + 'ModalProv').addClass('is-invalid');$("." + key + "ErrorModalProv").html(data.error[key]);
-                            var element = $('#' + key + 'ModalProv');
+                            $("#" + key + 'ModalTujuan').addClass('is-invalid');$("." + key + "ErrorModalTujuan").html(data.error[key]);
+                            var element = $('#' + key + 'ModalTujuan');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     } 
                     if (data.success==true) {
-                        $("#modal-prov").modal('hide');
+                        $("#modal-tujuan").modal('hide');
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["success"](data.msg, "Informasi");
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("nama_", "");
-                            $("#" + remove + 'ModalProv').addClass('is-invalid');
-                            $("." + remove + "ErrorModalProv").html(data.msg[key]);
-                            var element = $('#' + remove + 'ModalProv');
+                            $("#" + remove + 'ModalTujuan').addClass('is-invalid');
+                            $("." + remove + "ErrorModalTujuan").html(data.msg[key]);
+                            var element = $('#' + remove + 'ModalTujuan');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');

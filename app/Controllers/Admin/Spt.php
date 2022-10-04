@@ -9,6 +9,7 @@ use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
 use App\Models\Admin\SptModel;
+use App\Models\Admin\TujuanModel;
 use \Hermawan\DataTables\DataTable;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -30,6 +31,7 @@ class Spt extends ResourcePresenter
         $this->provinsi = new ProvinsiModel();
         $this->kabupaten = new KabupatenModel();
         $this->kecamatan = new KecamatanModel();
+        $this->tujuan = new TujuanModel();
         $this->spt = new SptModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
@@ -340,16 +342,18 @@ class Spt extends ResourcePresenter
         return $this->response->setJSON($response);
     }
 
-    function savemodal()
+    public function savemodal()
     {
-        if (!$this->request->isAjax()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
+        // if (!$this->request->isAjax()) {
+        //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        // }
+
+        // var_dump($this->request->getVar());die();
 
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
-            'tujuanAddEditModalTujuan' => [
+            'maksudAddEditModalTujuan' => [
                 'label'     => 'Maksud Perjalanan',
                 'rules'     => 'required|string|min_length[3]',
                 'errors' => [
@@ -366,22 +370,25 @@ class Spt extends ResourcePresenter
         if (!$valid) {
             $data = [
                 'error' => [
-                    'kode' => $validation->getError('kodeAddEditModalProv'),
-                    'provinsi' => $validation->getError('provinsiAddEditModalProv')
+                    'maksud' => $validation->getError('maksudAddEditModalTujuan'),
+                    'pelaksana' => $validation->getError('pelaksanaAddEditModalTujuan')
                 ],
                 'msg' => '',
             ];
         } else {
             $data = [
-                'kode' => $this->db->escapeString($this->request->getVar('kodeAddEditModalProv')),
-                'nama_provinsi' => $this->db->escapeString($this->request->getVar('provinsiAddEditModalProv')),
+                'tujuan' => $this->db->escapeString($this->request->getVar('maksudAddEditModalTujuan')),
+                'pelaksana' => $this->db->escapeString($this->request->getVar('pelaksanaAddEditModalTujuan')),
             ];
-            if ($this->provinsi->insert($data)) {
+            if ($this->tujuan->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data berhasil disimpan');
             } else {
                 $data = array('success' => false, 'msg' => $this->wilayah->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
+        $data['msg'] =$data['msg'];
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 
     /**

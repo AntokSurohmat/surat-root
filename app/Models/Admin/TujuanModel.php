@@ -14,7 +14,7 @@ class TujuanModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['tujuan', 'pelaksana'];
 
     // Dates
     protected $useTimestamps = true;
@@ -25,19 +25,10 @@ class TujuanModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'kode' => 'required|numeric|max_length[20]',
         'tujuan' => 'required|sting|min_length[3]',
+        'pelaksana' => 'required'
     ];
-    protected $validationMessages   = [
-        'kode' => [
-            'numeric' => 'Hanya Boleh Memasukkan Angka',
-            'max_length' => 'Maksimal 20 Karakter' 
-        ],
-        'tujuan' => [
-            'string' => 'Harus Berupa String',
-            'min_length' => 'Minimal 3 Karacter'
-        ]
-    ];
+    protected $validationMessages   = [];
     protected $skipValidation       = false;
     // protected $cleanValidationRules = true;
 
