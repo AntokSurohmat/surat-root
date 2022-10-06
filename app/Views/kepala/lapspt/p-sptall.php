@@ -194,9 +194,26 @@
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 15%;font-weight:800;padding: 5px 10px;">Untuk</td>
-					<td style="width: 2%;padding: 5px 10px;">:</td>
-					<td style="padding: 5px 10px;"><?= $spt_data->untuk ?></td>
+					<td style="width: 15%;font-weight:800;padding: 5px 10px;vertical-align: top;">Untuk</td>
+					<td style="width: 2%;padding: 5px 10px;vertical-align: top;">:</td>
+					<td style="padding: 5px 10px;">
+						<?php 
+							$i = $n - 1;
+								foreach($untuk as $keys => $untuk_data) :?>
+										<?php if ($keys == $i) : ?>
+											<span><?= $untuk_data['tujuan']?></span>
+										<?php endif;?>
+							<?php endforeach;?>
+						di
+						<?php 
+							$i = $n - 1;
+								foreach($instansi as $keys => $instansi_data) :?>
+										<?php if ($keys == $i) : ?>
+											<span><?= $instansi_data['nama_instansi']?></span>
+										<?php endif;?>
+							<?php endforeach;?>
+						<br><span><?= $spt_data->alamat_instansi?></span><br>pada tanggal <span ><?= date_indo(date('Y-m-d', strtotime($spt_data->awal)))?></span> sampai <span><?= date_indo(date('Y-m-d', strtotime($spt_data->akhir)))?></span><br>selama <span><?= $spt_data->lama?></span> hari
+					</td>
 				</tr>
 			</tbody>
 		</table>

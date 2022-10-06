@@ -342,42 +342,73 @@ class Spt extends ResourcePresenter
         return $this->response->setJSON($response);
     }
 
-    public function savemodal()
+    public function getTujuan()
     {
-        // if (!$this->request->isAjax()) {
-        //     throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        // }
+        if (!$this->request->isAjax()) {
+           throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
-        // var_dump($this->request->getVar());die();
+        $response = array();
+        if (($this->request->getPost('searchTerm') == NULL)) {
+            $tujuanlist = $this->tujuan->select('id,tujuan') // Fetch record
+                ->where('deleted_at', null)
+                ->orderBy('id')
+                ->findAll(10);
+        } else {
+            $tujuanlist = $this->tujuan->select('id,tujuan') // Fetch record
+                ->where('deleted_at', null)
+                ->like('nama', $this->request->getPost('searchTerm'))
+                ->orderBy('id')
+                ->findAll(10);
+        }
+
+        $data = array();
+        foreach ($tujuanlist as $tujuan) {
+            $data[] = array(
+                "id" => $tujuan['id'],
+                "text" => $tujuan['tujuan'],
+            );
+        }
+
+        $response['data'] = $data;
+        $response[$this->csrfToken] = $this->csrfHash;
+        return $this->response->setJSON($response);
+    }
+
+    function savemodal()
+    {
+        if (!$this->request->isAjax()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
 
         $validation = \Config\Services::validation();
 
         $valid = $this->validate([
-            'maksudAddEditModalTujuan' => [
-                'label'     => 'Maksud Perjalanan',
-                'rules'     => 'required|string|min_length[3]',
+            'tujuanAddEditModalTujuan' => [
+                'label'     => 'Tujuan Perjalanan Dinas',
+                'rules'     => 'required|alpha_numeric_punct|min_length[3]',
                 'errors' => [
-                    'string' => '{field} Hanya Bisa Sting',
+                    'alpha_numeric_punct' => '{field} Hanya Berisi Huruf dan Tanda Baca',
                     'min_length' => '{field} Minimal 3 Karakter',
                 ],
             ],
             'pelaksanaAddEditModalTujuan' => [
                 'label' => 'Pelaksana',
-                'rules' => 'required',
+                'rules' => 'required|in_list[Kasi Pelayan,Kasi Pengawasan]',
             ]
         ]);
 
         if (!$valid) {
             $data = [
                 'error' => [
-                    'maksud' => $validation->getError('maksudAddEditModalTujuan'),
+                    'tujuan' => $validation->getError('tujuanAddEditModalTujuan'),
                     'pelaksana' => $validation->getError('pelaksanaAddEditModalTujuan')
                 ],
-                'msg' => '',
+                'msg' => 'Data yang anda salah silahkan dicek terlebih dahulu',
             ];
         } else {
             $data = [
-                'tujuan' => $this->db->escapeString($this->request->getVar('maksudAddEditModalTujuan')),
+                'tujuan' => $this->db->escapeString($this->request->getVar('tujuanAddEditModalTujuan')),
                 'pelaksana' => $this->db->escapeString($this->request->getVar('pelaksanaAddEditModalTujuan')),
             ];
             if ($this->tujuan->insert($data)) {
@@ -386,11 +417,11 @@ class Spt extends ResourcePresenter
                 $data = array('success' => false, 'msg' => $this->wilayah->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
         }
+
         $data['msg'] =$data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
         echo json_encode($data);
     }
-
     /**
      * Present a view to present a specific resource object
      *
@@ -461,10 +492,7 @@ class Spt extends ResourcePresenter
             ],
             'untukAddEditForm' => [
                 'label'     => 'Maksud Perjalan Dinas',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
+                'rules'     => 'required',
             ],
             'instansiAddEditForm' => [
                 'label'     => 'Nama Instansi',
@@ -581,6 +609,8 @@ class Spt extends ResourcePresenter
 
             $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+            $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -613,6 +643,7 @@ class Spt extends ResourcePresenter
             $data['pegawai'] = $query->getResult();
             $data['pejabat'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+            $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -688,10 +719,7 @@ class Spt extends ResourcePresenter
             ],
             'untukAddEditForm' => [
                 'label'     => 'Maksud Perjalan Dinas',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
+                'rules'     => 'required',
             ],
             'instansiAddEditForm' => [
                 'label'     => 'Nama Instansi',
@@ -852,6 +880,8 @@ class Spt extends ResourcePresenter
 
         $data['looping'] = $query->getResult();
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+        $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();

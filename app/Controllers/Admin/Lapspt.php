@@ -2,13 +2,14 @@
 
 namespace App\Controllers\Admin;
 
-use App\Controllers\BaseController;
-use App\Models\Admin\PegawaiModel;
-use App\Models\Admin\InstansiModel;
-use App\Models\Admin\SptModel;
-use \Hermawan\DataTables\DataTable;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\Admin\SptModel;
+use App\Models\Admin\TujuanModel;
+use App\Models\Admin\PegawaiModel;
+use \Hermawan\DataTables\DataTable;
+use App\Controllers\BaseController;
+use App\Models\Admin\InstansiModel;
 use CodeIgniter\HTTP\IncomingRequest;
 /**
  * @property IncomingRequest $request
@@ -23,14 +24,15 @@ class Lapspt extends BaseController
         if (session()->get('level') != "Admin") {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $this->pegawai = new PegawaiModel();
-        $this->instansi = new instansiModel();
-        $this->spt = new SptModel();
+        $this->pegawai   = new PegawaiModel();
+        $this->instansi  = new instansiModel();
+        $this->spt       = new SptModel();
+        $this->tujuan    = new TujuanModel();
         $this->csrfToken = csrf_token();
-        $this->csrfHash = csrf_hash();
-        $this->session = \Config\Services::session();
+        $this->csrfHash  = csrf_hash();
+        $this->session   = \Config\Services::session();
+        $this->db        = \Config\Database::connect();
         $this->session->start();
-        $this->db = \Config\Database::connect();
     }
     public function index()
     {
@@ -207,6 +209,8 @@ class Lapspt extends BaseController
 
             $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+            $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -234,6 +238,8 @@ class Lapspt extends BaseController
 
         $data['looping'] = $query->getResult();
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+        $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
@@ -281,6 +287,8 @@ class Lapspt extends BaseController
 
         $data['looping'] = $query->getResult();
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+        $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();
@@ -313,6 +321,7 @@ class Lapspt extends BaseController
 
         $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
+        $instansi = array();$untuk = array();
 
         foreach($spt->getResult() as $spt_data){
             $builder = $this->db->table('pegawai');
@@ -324,11 +333,15 @@ class Lapspt extends BaseController
     
             $looping[] = $query->getResult();
             $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
+            $instansi[] = $this->instansi->where('kode', $spt_data->kode_instansi)->first();
+            $untuk[] = $this->tujuan->where('id', $spt_data->untuk)->first();
         }
 
         $data['spt'] =  $spt->getResult();
         $data['looping'] = $looping;
         $data['pejabat'] = $pejabat;
+        $data['instansi'] = $instansi;
+        $data['untuk'] = $untuk;
 
         
         $data[$this->csrfToken] = $this->csrfHash;
@@ -363,6 +376,7 @@ class Lapspt extends BaseController
 
         $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
+        $instansi = array();$untuk = array();
 
         foreach($spt->getResult() as $spt_data){
             $builder = $this->db->table('pegawai');
@@ -374,11 +388,15 @@ class Lapspt extends BaseController
     
             $looping[] = $query->getResult();
             $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
+            $instansi[] = $this->instansi->where('kode', $spt_data->kode_instansi)->first();
+            $untuk[] = $this->tujuan->where('id', $spt_data->untuk)->first();
         }
 
         $data['spt'] =  $spt->getResult();
         $data['looping'] = $looping;
         $data['pejabat'] = $pejabat;
+        $data['instansi'] = $instansi;
+        $data['untuk'] = $untuk;
 
         
         $data[$this->csrfToken] = $this->csrfHash;
@@ -418,11 +436,14 @@ class Lapspt extends BaseController
             $pegawai_all[] = $pegawai_query_all->getResult();
             $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
             $instansi_all[] = $instansi_query_all->getResult();
+            $tujuan_query_all = $this->tujuan->where('id', $result->untuk)->get();
+            $tujuan_all[] = $tujuan_query_all->getResult();
             
         }
         $data['spt_all'] = $spt_all->getResult();
         $data['pegawai_all'] = $pegawai_all;
         $data['instansi_all'] = $instansi_all;
+        $data['tujuan_all'] = $tujuan_all;
 
         $spt = $this->spt->selectMax('id')->first();
         $data['spt'] = $this->spt->where('id', $spt['id'])->first();
@@ -430,6 +451,7 @@ class Lapspt extends BaseController
         $data['pegawai'] = $pegawai->getResult();
         $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
         $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['spt']['untuk'])->first();
         // $spt->getResult();
 
 
@@ -473,11 +495,14 @@ class Lapspt extends BaseController
             $pegawai_all[] = $pegawai_query_all->getResult();
             $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
             $instansi_all[] = $instansi_query_all->getResult();
+            $tujuan_query_all = $this->tujuan->where('id', $result->untuk)->get();
+            $tujuan_all[] = $tujuan_query_all->getResult();
             
         }
         $data['spt_all'] = $spt_all->getResult();
         $data['pegawai_all'] = $pegawai_all;
         $data['instansi_all'] = $instansi_all;
+        $data['tujuan_all'] = $tujuan_all;
 
         $spt = $this->spt->selectMax('id')->first();
         $data['spt'] = $this->spt->where('id', $spt['id'])->first();
@@ -485,6 +510,7 @@ class Lapspt extends BaseController
         $data['pegawai'] = $pegawai->getResult();
         $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
         $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['spt']['untuk'])->first();
         // $spt->getResult();
 
 

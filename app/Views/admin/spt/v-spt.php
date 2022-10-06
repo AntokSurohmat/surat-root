@@ -200,9 +200,11 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="width: 15%;">Untuk</td>
-                                                        <td style="width: 1%;">:</td>
-                                                        <td id="untukModalView"></td>
+                                                        <td style="width: 15%;vertical-align: top;">Untuk</td>
+                                                        <td style="width: 1%;vertical-align: top;">:</td>
+                                                        <td>
+                                                            <span id="untukModalView"></span> di <span id="namaInstansiModalView"></span><br><span id="alamatInstansiModalView"></span><br>pada tanggal <span id="awalModalView"></span> sampai <span id="akhirModalView"></span><br>selama <span id="lamaModalView"></span> hari 
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -370,7 +372,10 @@
 
         $('#modal-viewitem').on('hidden.bs.modal', function() {
             $('#no_sptModalView').empty();$('#dasarModalView').empty();
-            $('#namaPegawaiModalViewTableLooping').empty();$('#untukModalView').empty();
+            $('#namaPegawaiModalViewTableLooping').empty();
+            $('#untukModalView').empty();
+            $('#namaInstansiModalView').empty();$('#alamatInstansiModalView').empty();
+            $('#awalModalView').empty();$('#akhirModalView').empty();$('#lamaModalView').empty();
             $('#createdatModalView').empty();$('#diperintahModalView').empty();$('#diperintahNIPModalView').empty();
             $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
         });
@@ -384,13 +389,20 @@
                 success: function(data) {
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                    var m_date = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+                    var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
+                    var awal = new Date(data.awal);var curr_date_awal = awal.getDate();var curr_month_awal = awal.getMonth();var curr_year_awal = awal.getFullYear();
+                    var akhir = new Date(data.akhir);var curr_date_akhir = akhir.getDate();var curr_month_akhir = akhir.getMonth();var curr_year_akhir = akhir.getFullYear();
                     $('#no_sptModalView').text(data.kode);
                     $('#dasarModalView').append(data.dasar);
-                    $('#untukModalView').append(data.untuk);
-                    var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
-                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-                    var d = new Date(data.created_at);var curr_date = d.getDate();var curr_month = d.getMonth();var curr_year = d.getFullYear();
-                    $('#createdatModalView').text(m_awal[curr_date] + " " + m_names[curr_month] + " " + curr_year);
+                    $('#untukModalView').append(data.untuk.tujuan);
+                    $('#namaInstansiModalView').append(data.instansi.nama_instansi);
+                    $('#alamatInstansiModalView').append(data.alamat_instansi);
+                    $('#awalModalView').text(m_date[curr_date_awal] + " " + m_names[curr_month_awal] + " " + curr_year_awal);
+                    $('#akhirModalView').text(m_date[curr_date_akhir] + " " + m_names[curr_month_akhir] + " " + curr_year_akhir);
+                    $('#createdatModalView').text(m_date[curr_date] + " " + m_names[curr_month] + " " + curr_year);
+                    $('#lamaModalView').append(data.lama);
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {

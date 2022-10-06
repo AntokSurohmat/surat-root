@@ -31,7 +31,7 @@
                     <!-- /.card-header -->
                     <form class="form-horizontal" role="form" id="form-addedit" autocomplete="off" onsubmit="return false">
                         <div class="card-body">
-                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                             <input type="hidden" id="methodPage" value="<?= $method ?>" />
                             <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
                             <div class="col-sm-12">
@@ -72,15 +72,15 @@
                                             </div>
                                         </div> -->
                                         <div class="form-group row">
-                                            <label for="provinsiForm" class="col-sm-3 col-form-label">Maksud Perjalanan Dinas</label>
+                                            <label for="untukForm" class="col-sm-3 col-form-label">Maksud Perjalanan Dinas</label>
                                             <div class="col-sm-7">
-                                                <select name="provinsiAddEditForm" id="provinsiForm" class="form-control " style="width: 100%;">
+                                                <select name="untukAddEditForm" id="untukForm" class="form-control " style="width: 100%;">
                                                     <option value="">--- Maksud Perjalanan Dinas ---</option>
                                                 </select>
-                                                <div class="invalid-feedback provinsiErrorForm"></div>
+                                                <div class="invalid-feedback untukErrorForm"></div>
                                             </div>
                                             <span>
-                                                <button type="button" class="btn btn-outline-info" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Tujuan" id="add-prov"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                                                <button type="button" class="btn btn-outline-info" data-rel="tooltip" data-placement="top" data-container=".content" title="Tambah Tujuan" id="add-tujuan"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
                                             </span>
                                         </div>
                                     </div>
@@ -160,59 +160,31 @@
                         </div>
                     </form>
 
-                    <!-- <form class="form-horizontal" role="form" id="form-tujuan" autocomplete="off" onsubmit="return false">
-                        <div class="modal-body">
-                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-
-                            <div class="form-group row">
-                                <label for="maksudModalTujuan" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="maksudAddEditModalTujuan" id="maksudModalTujuan" placeholder="Maksud Tujuan Perjalanan" />
-                                    <div class="invalid-feedback maksudErrorModalTujuan"></div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pelaksanaModalTujuan" class="col-sm-3 col-form-label">Pelaksana</label>
-                                <div class="col-sm-8">
-                                    <select name="pelaksanaAddEditModalTujuan" id="pelaksanaModalTujuan" class="form-control select2bs4" style="width: 100%;">
-                                        <option value="">--- Pilih Pelaksana ---</option>
-                                        <option value="Kasi Pelayan"> Kasi Pelayan </option>
-                                        <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
-                                    </select>
-                                    <div class="invalid-feedback pelaksanaErrorModalTujuan"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
-                            <button type="submit" id="submit-btn-tujuan" class="btn btn-sm btn-success"><i class="fas fa-save"></i>&ensp;Submit</button>
-                        </div>
-                    </form> -->
-
                 </div>
                 <!-- /.card -->
 
             </div>
         </div>
 
-        <!--add Tujuan-->
+        <!--add Prov-->
         <div id="modal-tujuan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="AddEditModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Tambah Tujuan</h5>
+                        <h5 class="modal-title">Tambah Tujuan Perjalanan Dinas</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <form class="form-horizontal" role="form" id="form-tujuan" autocomplete="off" onsubmit="return false">
                         <div class="modal-body">
-                            <input type="text" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                            <!-- <input type="hidden" id="method" name="method" value="Prov" /> -->
                             <div class="form-group row">
-                                <label for="maksudModalTujuan" class="col-sm-3 col-form-label">Maksud Tujuan Perjalanan</label>
+                                <label for="tujuanModalTujuan" class="col-sm-3 col-form-label">Tujuan Perjalanan</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" name="maksudAddEditModalTujuan" id="maksudModalTujuan" placeholder="Maksud Tujuan Perjalanan" />
-                                    <div class="invalid-feedback maksudErrorModalTujuan"></div>
+                                    <input type="text" class="form-control" name="tujuanAddEditModalTujuan" id="tujuanModalTujuan" placeholder="Tujuan Perjalanan Dinas" />
+                                    <div class="invalid-feedback tujuanErrorModalTujuan"></div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -223,7 +195,7 @@
                                         <option value="Kasi Pelayan"> Kasi Pelayan </option>
                                         <option value="Kasi Pengawasan"> Kasi Pengawasan</option>
                                     </select>
-                                    <div class="invalid-feedback pelaksanaErrorModalTujuan"></div>
+                                    <div class="invalid-feedback pelaksanaErrorForm"></div>
                                 </div>
                             </div>
                         </div>
@@ -234,7 +206,7 @@
                     </form>
                 </div>
             </div>
-        </div><!-- /.modal Tujuan -->
+        </div><!-- /.modal prov -->
 
     </div><!-- /.container-fluid -->
 </section>
@@ -263,13 +235,11 @@
         // preventDefault to stay in modal when keycode 13
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-
         $('#pegawaiForm').select2();
         $('#pegawaiForm').select2('focus');
-
         $('#pegawaiForm').on('select2:select', function(e) {$('#dasarForm').focus();});
-        $('#dasarForm').keydown(function(event){if(event.keyCode == 13){$('#untukForm').focus();}});
-        $('#untukForm').keydown(function(event){if(event.keyCode == 13){$('#instansiForm').select2('open');}});
+        $('#dasarForm').keydown(function(event){if(event.keyCode == 13){$('#untukForm').select2('open');}});
+        $('#untukForm').on('select2:select', function(e) {$('#instansiForm').select2('open');});
         $('#instansiForm').on('select2:select', function(e) {$('startForm').focus();});
         $('#startForm').on('apply.daterangepicker', function(ev) {$('#endForm').focus();});
         $('#endForm').on('apply.daterangepicker', function(ev) {$('#diperintahForm').select2('open');});
@@ -291,28 +261,19 @@
             $("#diperintahForm").empty();$("#diperintahForm").removeClass('is-valid');$("#diperintahForm").removeClass('is-invalid');
         }
 
-
-        // function nomer(){
-        //     alert("nomer");
-        //     // var url_destination = "<?= base_url('Admin/Spt/nomer') ?>";
-        //     // $.ajax({
-        //     //     url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
-        //     //     dataType: "JSON",
-        //     //     success: function(data) {
-        //     //         $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
-        //     //         $('#kodeForm').val(data.kode);
-        //     //     }
-        //     // })
-        // }
-
-        $('#add-prov').click(function() {
+        $('#add-tujuan').click(function() {
             var option = {backdrop: 'static',keyboard: true};
             $('#modal-tujuan').modal(option);$('#form-tujuan')[0].reset();$('#modal-tujuan').modal('show');
         });
         $('#modal-tujuan').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
-            $("#kodeModalProv").empty();$("#kodeModalProv").removeClass('is-valid');$("#kodeModalProv").removeClass('is-invalid');
-            $("#provinsiModalProv").empty();$("#provinsiModalProv").removeClass('is-valid');$("#provinsiModalProv").removeClass('is-invalid');
+            $("#tujuanModalTujuan").empty();$("#tujuanModalTujuan").removeClass('is-valid');$("#tujuanModalTujuan").removeClass('is-invalid');
+            $("#pelaksanaModalTujuan").empty();$("#pelaksanaModalTujuan").removeClass('is-valid');$("#pelaksanaModalTujuan").removeClass('is-invalid');
+        });
+        $('#modal-tujuan').on('shown.bs.modal', function() {
+            $('#tujuanModalTujuan').focus();
+            $('#tujuanModalTujuan').keydown(function(event) {if (event.keyCode == 13) {$('#pelaksanaModalTujuan').focus();}});
+            $('#pelaksanaModalTujuan').on('select2:select', function(e) {$('#submit-btn-tujuan').focus();});
         });
 
         $('#startForm').daterangepicker({
@@ -332,6 +293,7 @@
             });
 
         });
+
         $('#endForm').on('apply.daterangepicker', function(ev, picker) {
             var range = $("#endForm").data('daterangepicker').endDate.format('YYYYMMDD') - $("#startForm").data('daterangepicker').startDate.format('YYYYMMDD');
             $("#lamaForm").val(range);
@@ -402,10 +364,26 @@
             }
         });
 
+        // Initialize select2
+        var url_destination = '<?= base_url('Admin/Spt/getTujuan') ?>';
+        $("#untukForm").select2({
+            theme: 'bootstrap4',
+            placeholder: '--- Maksud Perjalanan ---',
+            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                data: function(params) {
+                    return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                },
+                processResults: function(response) {
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {results: response.data,};
+                },
+                cache: true
+            }
+        });
+
         $('#form-tujuan').on('submit', function(event) {
             event.preventDefault();
-            var url_destination = "<?= base_url('admin/Spt//savemodal') ?>";
-            console.log(url_destination);
+            var url_destination = "<?= base_url('Admin/Spt/savemodal') ?>";
             $.ajax({
                 url: url_destination,method: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
@@ -415,7 +393,6 @@
                     $('#submit-btn-tujuan').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn-tujuan').prop('disabled', false);
                 },
                 success: function(data) {
-                    console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -439,7 +416,7 @@
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
-                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.msg, "Informasi");
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -530,7 +507,8 @@
                         .val(pegawailoop.nip).text(pegawailoop.nama)).trigger('change');
                         })
                         $('#dasarForm').val(data.dasar);
-                        $('#untukForm').val(data.untuk);
+                        $("#untukForm").append($("<option selected='selected'></option>")
+                        .val(data.tujuan.id).text(data.tujuan.tujuan)).trigger('change');
                         $("#instansiForm").append($("<option selected='selected'></option>")
                         .val(data.instansi.kode).text(data.instansi.nama_instansi)).trigger('change');
                         $("#diperintahForm").append($("<option selected='selected'></option>")

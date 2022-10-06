@@ -442,7 +442,6 @@
             $(this).find('form')[0].reset();
             $("#kodeModalProv").empty();$("#kodeModalProv").removeClass('is-valid');$("#kodeModalProv").removeClass('is-invalid');
             $("#provinsiModalProv").empty();$("#provinsiModalProv").removeClass('is-valid');$("#provinsiModalProv").removeClass('is-invalid');
-
         });
         $('#modal-prov').on('shown.bs.modal', function() {
             $('#kodeModalProv').focus();

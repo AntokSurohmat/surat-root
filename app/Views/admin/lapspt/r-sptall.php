@@ -242,7 +242,16 @@
 						</table>		
 						</td>
 						<td style="padding: 0px 10px;"><p><?= $table_spt->dasar?></p></td>
-						<td style="padding: 0px 10px;"><p><?= $table_spt->untuk?></p></td>
+						<td style="padding: 0px 10px;">
+						<?php foreach($tujuan_all as $key_tujuan => $table_tujuan) :?>
+								<?php foreach($table_tujuan as $tujuan_data) :?>
+									<?php if($key_spt == $key_tujuan) :?>
+										<?= $tujuan_data->tujuan?>
+									<?php endif;?>
+								<?php endforeach?>
+							<?php endforeach;?>
+						</td>
+						</td>
 						<td style="padding: 0px 10px;">
 						<?php foreach($instansi_all as $key_insta => $table_insta) :?>
 								<?php foreach($table_insta as $instansi_data) :?>

@@ -2,19 +2,20 @@
 
 namespace App\Controllers\Kepala;
 
-use CodeIgniter\RESTful\ResourcePresenter;
-use App\Models\Admin\PegawaiModel;
-use App\Models\Admin\SptModel;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\Admin\SpdModel;
+use App\Models\Admin\SptModel;
+use App\Models\Admin\TujuanModel;
+use App\Models\Admin\PegawaiModel;
+use \Hermawan\DataTables\DataTable;
 use App\Models\Admin\InstansiModel;
 use App\Models\Admin\ProvinsiModel;
 use App\Models\Admin\KabupatenModel;
 use App\Models\Admin\KecamatanModel;
-use App\Models\Kepala\VerifikasiModel;
-use \Hermawan\DataTables\DataTable;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use CodeIgniter\HTTP\IncomingRequest;
+use App\Models\Kepala\VerifikasiModel;
+use CodeIgniter\RESTful\ResourcePresenter;
 
 
 /**
@@ -30,19 +31,20 @@ class Verifikasi extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $this->pegawai = new PegawaiModel();
-        $this->spt = new SptModel();
-        $this->spd = new SpdModel();
-        $this->instansi = new instansiModel();
-        $this->provinsi = new ProvinsiModel();
-        $this->kabupaten = new KabupatenModel();
-        $this->kecamatan = new KecamatanModel();
+        $this->pegawai    = new PegawaiModel();
+        $this->spt        = new SptModel();
+        $this->spd        = new SpdModel();
+        $this->instansi   = new InstansiModel();
+        $this->tujuan     = new TujuanModel();
+        $this->provinsi   = new ProvinsiModel();
+        $this->kabupaten  = new KabupatenModel();
+        $this->kecamatan  = new KecamatanModel();
         $this->verifikasi = new VerifikasiModel();
-        $this->csrfToken = csrf_token();
-        $this->csrfHash = csrf_hash();
-        $this->session = \Config\Services::session();
+        $this->csrfToken  = csrf_token();
+        $this->csrfHash   = csrf_hash();
+        $this->db         = \Config\Database::connect();
+        $this->session    = \Config\Services::session();
         $this->session->start();
-        $this->db = \Config\Database::connect();
     }
     /**
      * Present a view of resource objects
@@ -228,6 +230,8 @@ class Verifikasi extends ResourcePresenter
 
             $data['looping'] = $query->getResult();
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+            $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+            $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -414,9 +418,6 @@ class Verifikasi extends ResourcePresenter
     }
     public function print($id = null){
 
-        if (!$this->request->isAJAX()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
         $spt_id = $this->spt->where('id', $id)->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -436,6 +437,8 @@ class Verifikasi extends ResourcePresenter
 
         $data['looping'] = $query->getResult();
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+        $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
+        $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
         // d($data);print_r($data);die();

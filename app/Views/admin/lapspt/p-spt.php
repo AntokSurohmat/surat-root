@@ -165,9 +165,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 15%;font-weight:800;padding: 5px 10px;">Untuk</td>
-				<td style="width: 2%;padding: 5px 10px;">:</td>
-				<td style="padding: 5px 10px;"><?= $untuk ?></td>
+				<td style="width: 15%;font-weight:800;padding: 5px 10px;vertical-align: top;">Untuk</td>
+				<td style="width: 2%;padding: 5px 10px;vertical-align: top;">:</td>
+				<td style="padding: 5px 10px;">
+					<span><?= $untuk['tujuan']?></span> di <span><?= $instansi['nama_instansi']?></span><br><span><?= $alamat_instansi?></span><br>pada tanggal <span ><?= date_indo(date('Y-m-d', strtotime($awal)))?></span> sampai <span><?= date_indo(date('Y-m-d', strtotime($akhir)))?></span><br>selama <span><?= $lama?></span> hari
+				</td>
 			</tr>
 		</tbody>
 	</table>

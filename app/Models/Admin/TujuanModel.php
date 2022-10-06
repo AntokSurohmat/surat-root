@@ -25,8 +25,8 @@ class TujuanModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'tujuan' => 'required|sting|min_length[3]',
-        'pelaksana' => 'required'
+        'tujuan' => 'required|alpha_numeric_punct|min_length[3]',
+        'pelaksana' => 'required|in_list[Kasi Pelayan,Kasi Pengawasan]'
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

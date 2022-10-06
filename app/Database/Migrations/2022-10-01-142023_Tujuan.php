@@ -15,10 +15,6 @@ class Tujuan extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'kode'          => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '20',
-            ],
             'tujuan' => [
                 'type'          => 'TEXT',
             ],

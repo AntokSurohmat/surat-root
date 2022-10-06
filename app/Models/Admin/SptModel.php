@@ -28,7 +28,7 @@ class SptModel extends Model
         'kode' => 'required|numeric|max_length[3]',
         'pegawai_all' => 'required|max_length[100]',
         'dasar' => 'required|max_length[50]',
-        'untuk' => 'required|max_length[50]',
+        'untuk' => 'required',
         'kode_instansi' => 'required|numeric|max_length[20]',
         'alamat_instansi' => 'required',
         'awal' => 'required',
