@@ -206,7 +206,7 @@ class Spt extends ResourcePresenter
         $nomer = $this->db->table('spt')->countAllResults();
 
         // Add Number if 0
-        if($nomer == 0){$nomer = 1; }else{$nomer = 0;}
+        if($nomer == 0){$nomer = 1; }else{$nomer = $nomer+1;}
         switch (strlen($nomer)) {
             case '1':
                 $kode = '00'.$nomer;

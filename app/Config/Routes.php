@@ -54,7 +54,7 @@ $routes->group('admin', ["filter" => "auth"], function ($routes) {
     $routes->group('Spt', function ($routes) {
         $routes->presenter('', ['controller' =>'Admin\Spt', 'except' => 'show,remove']);
         $routes->get('print/(:num)', 'Admin\Spt::print/$1');
-        $routes->post('savemodal', 'Admin\Spt::savemodal');
+        // $routes->post('savemodal', 'Admin\Spt::savemodal');
     });
     $routes->group('Spd', function ($routes) {
         $routes->presenter('', ['controller' =>'Admin\Spd', 'except' => 'show,remove,edit,update']);

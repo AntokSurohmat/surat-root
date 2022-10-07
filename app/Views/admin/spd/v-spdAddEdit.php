@@ -406,17 +406,8 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
 
-    var url_destination = "<?= base_url('Admin/Spd/nomer') ?>";
-    // alert("OK");
-    $.ajax({
-        url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
-        dataType: "JSON",
-        success: function(data) {
-            $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
-            $('#kodeForm').val(data.kode);
-            // console.log(data);
-        }
-    })
+
+
 
     $(document).ready(function() {
 
@@ -463,8 +454,6 @@
         $('#kepalaberangkatFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#tibadiFormfourth').focus();}});
 
         $('#kepalaberangkatFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#submit-spd').focus();}});
-
-        newupdate();realupdate();
 
         function clearform() {
             $('#form-addedit')[0].reset();
@@ -537,6 +526,7 @@
         $('#tanggalberangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
         $('#tanggalberangkatFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
 
+        
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getPegawai') ?>';
         var id = $('#hiddenIDPage').val();
@@ -548,15 +538,23 @@
             placeholder: '--- Cari Data Pegawai ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {return {searchTerm: params.term, id:id, csrf_token_name: $('input[name=csrf_token_name]').val()}},
-                processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,}},
-                cache: true
+                processResults: function(response) {
+                    console.log(response.data[0].text);
+                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                    return {
+                        results: response.data,
+                    }
+                },
+                // cache: true
             }
         });
+
+        realupdate();
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spd/Create') ?>";
-        } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";}
+            } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";}
             // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
@@ -613,33 +611,49 @@
             });
             return false;
         })
-
-        function newupdate() {
-            if ($('#methodPage').val() === "New" && $('#hiddenIDPage').val() != "") {
-                var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Spd/new_update') ?>";
-                $.ajax({
-                    url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
-                    dataType: "JSON",
-                    success: function(data) {
-                        // console.log(data);
-                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
-
-                        $("#diperintahForm").val(data.pegawai.nama);
-                        $('#untukForm').val(data.untuk);
-                        $("#instansiForm").val(data.instansi.nama_instansi);
-                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                        var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
-                        $('#startForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                        var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
-                        $('#endForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
-                        $('#lamaForm').val(data.lama);
-                        if(data.rekening.nomer_rekening != null){$('#rekeningForm').val(data.rekening.nomer_rekening);}else{$('#rekeningForm').val("0")} 
-                        
-                        $('#submit-spd').html('<i class="fas fa-save"></i>&ensp;Submit');
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
-                })
-            }
+        if ($('#methodPage').val() == "New" && $('#hiddenIDPage').val() != "") {
+            var url_destination = "<?= base_url('Admin/Spd/nomer') ?>";
+            // alert("OK");
+            $.ajax({
+                url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
+                dataType: "JSON",
+                success: function(data) {
+                var token =  $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    $('#kodeForm').val(data.kode);
+                    // $('#kodeForm').val(data.kode);
+                    // console.log(data);
+                    // console.log(token);
+                    newupdate(data.csrf_token_name);
+                }
+            })
+        }
+        function newupdate(token) {
+            
+            var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Spd/new_update') ?>";
+            $.ajax({
+                url: url_destination,type: "POST",data: {id: id,csrf_token_name: token},
+                dataType: "JSON",cache: true,
+                success: function(data) {
+                    // console.log(data);
+                    $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                    // $('#kodeForm').val(data.kode_spt);
+                    $("#pegawaiForm").append($("<option selected='selected'></option>")
+                    .val(data.diperintah.nip).text(data.diperintah.nama)).trigger('change');
+                    $("#diperintahForm").val(data.pegawai.nama);
+                    $('#untukForm').val(data.untuk.tujuan);
+                    $("#instansiForm").val(data.instansi.nama_instansi);
+                    var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                    var awal = new Date(data.awal);var curr_date = awal.getDate();var curr_month = awal.getMonth();var curr_year = awal.getFullYear();
+                    $('#startForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                    var akhir = new Date(data.akhir);var curr_date = akhir.getDate();var curr_month = akhir.getMonth();var curr_year = akhir.getFullYear();
+                    $('#endForm').val(curr_date + "/" + m_names[curr_month] + "/" + curr_year);
+                    $('#lamaForm').val(data.lama);
+                    if(data.rekening.nomer_rekening != null){$('#rekeningForm').val(data.rekening.nomer_rekening);}else{$('#rekeningForm').val("0")} 
+                    
+                    $('#submit-spd').html('<i class="fas fa-save"></i>&ensp;Submit');
+                },
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+            });
         }
 
         function realupdate() {

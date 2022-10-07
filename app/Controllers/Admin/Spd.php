@@ -2,16 +2,17 @@
 
 namespace App\Controllers\Admin;
 
-use CodeIgniter\RESTful\ResourcePresenter;
-use App\Models\Admin\PegawaiModel;
-use App\Models\Admin\InstansiModel;
-use App\Models\Admin\WilayahModel;
-use App\Models\Admin\RekeningModel;
-use App\Models\Admin\SpdModel;
-use \Hermawan\DataTables\DataTable;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\Admin\SpdModel;
+use App\Models\Admin\TujuanModel;
+use App\Models\Admin\PegawaiModel;
+use App\Models\Admin\WilayahModel;
+use \Hermawan\DataTables\DataTable;
+use App\Models\Admin\InstansiModel;
+use App\Models\Admin\RekeningModel;
 use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\RESTful\ResourcePresenter;
 
 /**
  * @property IncomingRequest $request
@@ -30,6 +31,7 @@ class Spd extends ResourcePresenter
         $this->wilayah = new WilayahModel();
         $this->rekening = new RekeningModel();
         $this->spd = new SpdModel();
+        $this->tujuan = new TujuanModel();
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
         $this->session = \Config\Services::session();
@@ -243,7 +245,7 @@ class Spd extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $nomer = $this->db->table('spt')->countAllResults();
+        $nomer = $this->db->table('spd')->countAllResults();
         
         switch (strlen($nomer)) {
             case '1':
@@ -550,7 +552,7 @@ class Spd extends ResourcePresenter
         }
     }
 
-    function new_update() {
+    public function new_update() {
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
@@ -571,11 +573,17 @@ class Spd extends ResourcePresenter
             $wilayah = $this->wilayah->select('kode_jenis_wilayah')->where(['kode_provinsi' => $instansi['kode_provinsi'], 'kode_kabupaten' => $instansi['kode_kabupaten']])->first();
 
             $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode_jenis_wilayah', $wilayah)->first();
-
+            $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
             $data['instansi'] = $instansi;
-            $data[$this->csrfToken] = $this->csrfHash;
-            echo json_encode($data);
+
+            $getDiPerintah = $this->pegawai->whereIn('nip', json_decode($data['pegawai_all']))->get();
+
+            // var_dump($getDiPerintah->getResult()[0]);die();
+            $data['diperintah'] = $getDiPerintah->getResult()[0];
+            
         }
+        $data[$this->csrfToken] = $this->csrfHash;
+        echo json_encode($data);
     }
 
     function real_update() {

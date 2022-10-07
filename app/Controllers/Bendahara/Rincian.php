@@ -274,7 +274,7 @@ class Rincian extends ResourcePresenter
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
+                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']+array_sum($b)),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
                 'yang_menyetujui' => $kode_spd['yang_menyetujui'],
@@ -506,11 +506,13 @@ class Rincian extends ResourcePresenter
 
             $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
 
+            // var_dump(array_sum($b));die();
+
             $data = [
                 'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
                 'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
                 'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
+                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']+array_sum($b)),
                 'awal' =>  $this->db->escapeString($kode_spd['awal']),
                 'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
                 'yang_menyetujui' => $kode_spd['yang_menyetujui'],

@@ -216,17 +216,19 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
 
-    var url_destination = "<?= base_url('Admin/Spt/nomer') ?>";
-    // alert("OK");
-    $.ajax({
-        url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
-        dataType: "JSON",
-        success: function(data) {
-            $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
-            $('#kodeForm').val(data.kode);
-            // console.log(data);
-        }
-    })
+    if ($('#methodPage').val() === "New" && $('#hiddenIDPage').val() == "") { 
+        var url_destination = "<?= base_url('Admin/Spt/nomer') ?>";
+        // alert("OK");
+        $.ajax({
+            url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
+            dataType: "JSON",
+            success: function(data) {
+                $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
+                $('#kodeForm').val(data.kode);
+                // console.log(data);
+            }
+        })
+    }
 
     // var brg = genfunc($('input[name=csrf_token_name]').val(),'<?= base_url() ?>Admin/Spt/nomer');
     // console.log(brg);
@@ -503,12 +505,12 @@
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
                         data.pegawai.forEach((pegawailoop, index) => {
-                        $("#pegawaiForm").append($("<option selected='selected'></option>")
-                        .val(pegawailoop.nip).text(pegawailoop.nama)).trigger('change');
+                            $("#pegawaiForm").append($("<option selected='selected'></option>")
+                            .val(pegawailoop.nip).text(pegawailoop.nama)).trigger('change');
                         })
                         $('#dasarForm').val(data.dasar);
                         $("#untukForm").append($("<option selected='selected'></option>")
-                        .val(data.tujuan.id).text(data.tujuan.tujuan)).trigger('change');
+                        .val(data.untuk.id).text(data.untuk.tujuan)).trigger('change');
                         $("#instansiForm").append($("<option selected='selected'></option>")
                         .val(data.instansi.kode).text(data.instansi.nama_instansi)).trigger('change');
                         $("#diperintahForm").append($("<option selected='selected'></option>")
