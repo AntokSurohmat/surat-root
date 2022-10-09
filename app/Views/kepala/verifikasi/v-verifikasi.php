@@ -552,7 +552,7 @@
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.msg[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.msg[key].length > 0 ? 'is-invalid' : 'is-valid');
                             // console.log("#"+remove+"Form");
-                            console.log(key + ' => '+index );
+                            // console.log(key + ' => '+index );
                         });
                         if(data.msg != ""){
                             toastr.options = {"positionClass": "toast-top-right","closeButton": true};toastr["warning"](data.error, "Informasi");

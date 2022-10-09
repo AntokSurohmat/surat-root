@@ -238,7 +238,7 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
-                        console.log(data.error);
+                        // console.log(data.error);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');

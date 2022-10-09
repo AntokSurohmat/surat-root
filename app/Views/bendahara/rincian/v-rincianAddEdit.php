@@ -407,7 +407,7 @@
                 var fileName, fileExtension;
                 fileName = data.bukti_riil;
                 fileExtension = fileName.split('.').pop();
-                console.log (fileExtension);
+                // console.log (fileExtension);
 
                 switch (fileExtension) {
                     case 'jpg':

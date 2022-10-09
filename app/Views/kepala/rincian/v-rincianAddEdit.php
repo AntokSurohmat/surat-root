@@ -443,7 +443,7 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         $('#submit-rincian').removeClass("btn-success");
                         $('#submit-rincian').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);

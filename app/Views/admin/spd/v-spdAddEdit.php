@@ -539,7 +539,7 @@
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {return {searchTerm: params.term, id:id, csrf_token_name: $('input[name=csrf_token_name]').val()}},
                 processResults: function(response) {
-                    console.log(response.data[0].text);
+                    // console.log(response.data[0].text);
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {
                         results: response.data,

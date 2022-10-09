@@ -371,7 +371,7 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('Admin/Spd/update_belakang') ?>";
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
                     $('#submit-spd').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spd').prop('disabled', true);
@@ -382,7 +382,7 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
-                        console.log(data.error);
+                        // console.log(data.error);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');

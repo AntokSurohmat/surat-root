@@ -270,7 +270,7 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('Admin/Rekening/Save') ?>";
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             $.ajax({
                 url: url_destination,type: "POST",data: $(this).serialize(),
                 dataType: "JSON",

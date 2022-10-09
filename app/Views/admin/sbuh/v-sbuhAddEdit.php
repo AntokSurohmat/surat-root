@@ -251,7 +251,7 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            console.log($(this).serialize());
+            // console.log($(this).serialize());
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Sbuh/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Sbuh/Update') ?>";}
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
