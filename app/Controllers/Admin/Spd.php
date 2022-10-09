@@ -1017,7 +1017,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1076,7 +1076,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1135,7 +1135,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);
@@ -1196,7 +1196,7 @@ class Spd extends ResourcePresenter
         $dompdf = new Dompdf();
 
         // change root 
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);

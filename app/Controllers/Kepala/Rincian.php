@@ -496,7 +496,7 @@ class Rincian extends ResourcePresenter
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);

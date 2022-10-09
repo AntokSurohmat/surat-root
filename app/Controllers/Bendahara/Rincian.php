@@ -215,8 +215,8 @@ class Rincian extends ResourcePresenter
             ],
             'buktiAddEditForm[]' => [
                 'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiAddEditForm,image/jpg,image/jpeg,image/gif,image/png]"
-                ."|max_size[buktiAddEditForm,2048]",
+                'rules' => "mime_in[buktiAddEditForm,application/pdf,application/msword,image/jpg,image/jpeg,image/gif,image/png]"
+                ."|max_size[buktiAddEditForm,10000]",
 				'errors' => [
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
@@ -250,8 +250,8 @@ class Rincian extends ResourcePresenter
                 foreach($imagefile['buktiAddEditForm'] as $img) {
                     if ($img->isValid() && ! $img->hasMoved()) {
                         $newName = $img->getRandomName();
-                        $img->move('uploads/rincian/'.date('d-m-Y').'/', $newName);
-                        $image[] = date('d-m-Y').'/'.$newName;
+                        $img->move('uploads/rincian/'.$this->request->getVar('noSpdAddEditForm').'_'.date('d-m-Y').'/', $newName);
+                        $image[] = $this->request->getVar('noSpdAddEditForm').'_'.date('d-m-Y').'/'.$newName;
                     } elseif ($img->getName() == NULL) {
                         $newName = '';
                         $image[] = $newName;
@@ -354,6 +354,43 @@ class Rincian extends ResourcePresenter
         }
     }
 
+    function getBukti() {
+
+        if (!$this->request->isAJAX()) {
+            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
+        }
+        $rincian_id = $this->rincian->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        if($rincian_id->getRow() == null){
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+        if (!$this->request->getVar('id')) {
+            return redirect()->to(site_url('bendahara/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
+        }
+
+        if ($this->request->getVar('id')) {
+            $data = $this->rincian->where('id', $this->request->getVar('id'))->first();
+            $data['json'] = json_decode($data['detail']);
+            
+            $bukti = array();
+            foreach($data['json'] as $key => $json){
+                if($key == $this->request->getVar('number')) {
+                    foreach($json as $row => $bukti){
+                        // var_dump($bukti[]);die();
+                        $result[$row] = $bukti;
+                        // $result['bukti'] = $bukti->bukti_riil;
+                    }
+                }
+                // echo '<pre>';
+                // print_r($key);
+                // echo '</pre>';
+                // die();
+            }
+
+            $result[$this->csrfToken] = $this->csrfHash;
+            echo json_encode($result);
+        }
+    }
+
     /**
      * Present a view to edit the properties of a specific resource object
      *
@@ -435,11 +472,11 @@ class Rincian extends ResourcePresenter
             ],
             'buktiAddEditForm[]' => [
                 'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiAddEditForm,image/jpg,image/jpeg,image/gif,image/png]"
-                ."|max_size[buktiAddEditForm,2048]",
+                'rules' => "mime_in[buktiAddEditForm,application/pdf,application/msword,image/jpg,image/jpeg,image/gif,image/png]"
+                ."|max_size[buktiAddEditForm,10000]",
 				'errors' => [
 					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
+					'max_size' => 'Ukuran File Maksimal 10 MB'
                 ],
             ],
         ]);
@@ -467,8 +504,13 @@ class Rincian extends ResourcePresenter
             if ($imagefile = $this->request->getFiles()) {
                 foreach ($imagefile['buktiAddEditForm'] as $img) {
                     if ($img->isValid() && !$img->hasMoved()) {
-                        foreach($olds as  $imgs){
+                        foreach($olds as $key => $imgs){
+
+                            // var_dump($key.' -- ');
+
                             foreach($imgs as $row =>  $content){
+                                // var_dump($row.' ---- '.$content);die();
+
                                 if($row == 'bukti_riil'){
                                     $myArray = explode('/', $content);
                                     if (file_exists("uploads/rincian/".$myArray[0]."/".$myArray[1])) {
@@ -479,8 +521,8 @@ class Rincian extends ResourcePresenter
                         }
 
                         $newName = $img->getRandomName();
-                        $img->move('uploads/rincian/' . date('d-m-Y') . '/', $newName);
-                        $image[] = date('d-m-Y') . '/' . $newName;
+                        $img->move('uploads/rincian/'. $this->request->getVar('noSpdAddEditForm').'_'. date('d-m-Y') . '/', $newName);
+                        $image[] = $this->request->getVar('noSpdAddEditForm').'_'.date('d-m-Y') . '/' . $newName;
                     } else {
                         foreach($olds as  $imgs){
                             foreach($imgs as $row =>  $content){
@@ -614,7 +656,7 @@ class Rincian extends ResourcePresenter
         // instantiate and use the dompdf class
         $options = new Options();
         $dompdf = new Dompdf();
-        $dompdf->getOptions()->setChroot(ROOTPATH . 'Public');
+        $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
         // $dompdf->setOptions($options);

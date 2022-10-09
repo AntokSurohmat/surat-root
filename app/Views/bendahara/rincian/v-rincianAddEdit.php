@@ -92,12 +92,15 @@
                                     <div class="col-sm-6">
                                     <div class="form-group row">
                                             <label for="buktiSatuForm" class="col-sm-2 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-7">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiSatuForm">
                                                     <label class="custom-file-label" for="buktiSatuForm">Choose file</label>
                                                     <div class="invalid-feedback buktiSatuErrorForm"></div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" id="0" class="btn btn-primary btn-bukti d-none" data-rel="tooltip" data-placement="top" data-container=".content" title="Lihat Bukti"><i class="fa fa-eye"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -131,12 +134,15 @@
                                     <div class="col-sm-6">
                                     <div class="form-group row">
                                             <label for="buktiDuaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-7">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiDuaForm">
                                                     <label class="custom-file-label" for="buktiDuaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiDuaErrorForm"></div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" id="1" class="btn btn-primary btn-bukti d-none" data-rel="tooltip" data-placement="top" data-container=".content" title="Lihat Bukti"><i class="fa fa-eye"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -170,12 +176,15 @@
                                     <div class="col-sm-6">
                                     <div class="form-group row">
                                             <label for="buktiTigaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-7">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiTigaForm">
                                                     <label class="custom-file-label" for="buktiTigaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiTigaErrorForm"></div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" id="2" class="btn btn-primary btn-bukti d-none" data-rel="tooltip" data-placement="top" data-container=".content" title="Lihat Bukti"><i class="fa fa-eye"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -209,12 +218,15 @@
                                     <div class="col-sm-6">
                                     <div class="form-group row">
                                             <label for="buktiEmpatForm" class="col-sm-2 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-7">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiEmpatForm">
                                                     <label class="custom-file-label" for="buktiEmpatForm">Choose file</label>
                                                     <div class="invalid-feedback buktiEmpatErrorForm"></div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" id="3" class="btn btn-primary btn-bukti d-none" data-rel="tooltip" data-placement="top" data-container=".content" title="Lihat Bukti"><i class="fa fa-eye"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -248,12 +260,15 @@
                                     <div class="col-sm-6">
                                     <div class="form-group row">
                                             <label for="buktiLimaForm" class="col-sm-2 col-form-label">Bukti Riil</label>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-7">
                                                 <div class="custom-file">
                                                     <input type="file" name="buktiAddEditForm[]" class="custom-file-input" id="buktiLimaForm">
                                                     <label class="custom-file-label" for="buktiLimaForm">Choose file</label>
                                                     <div class="invalid-feedback buktiLimaErrorForm"></div>
                                                 </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <button type="button" id="4" class="btn btn-primary btn-bukti d-none" data-rel="tooltip" data-placement="top" data-container=".content" title="Lihat Bukti"><i class="fa fa-eye"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -273,6 +288,35 @@
 
             </div>
         </div>
+
+        <!--Modal Bukti-->
+        <div id="modal-tujuan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalView" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="namaBuktiModal">Nama Rincian Biaya</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="bodyBukti">
+
+                    <!-- <embed id="embedBukti" src=""
+                               frameborder="0" width="100%" height="600px">
+
+
+                    <img id="imgBukti" src=""
+                               frameborder="0" width="100%" height="600px"> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i>&ensp;Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.modal Bukti -->
+
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -333,6 +377,56 @@
             $("#buktiLimaForm").empty();$("#buktiLimaForm").removeClass('is-valid');$("#buktiLimaForm").removeClass('is-invalid');
             $("#keteranganBuktiLimaForm").empty();$("#keteranganBuktiLimaForm").removeClass('is-valid');$("#keteranganBuktiLimaForm").removeClass('is-invalid');
         }
+
+        $('.btn-bukti').click(function() {
+            
+            if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
+                var id_btn = $(this).attr('id');var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Bendahara/Rincian/getBukti') ?>";
+                $.ajax({
+                    url: url_destination,type: "POST",data: {id: id,number: id_btn,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                    dataType: "JSON",
+                    success: function(data) {
+                        // console.log(data);
+                        $('input[name=csrf_token_name]').val(data.csrf_token_name);
+                        showPdf(data);
+                    },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                })
+            }
+
+            var option = {backdrop: 'static',keyboard: true};
+            $('#modal-tujuan').modal(option);$('#modal-tujuan').modal('show');
+        });
+
+        var showPdf = (data) => {
+
+            $('#modal-tujuan').on('shown.bs.modal', function() {
+                console.log(data.rincian_biaya);
+                $('#namaBuktiModal').text(data.rincian_biaya);
+                $('#namaBuktiModal').css('text-transform', 'capitalize');
+
+                var fileName, fileExtension;
+                fileName = data.bukti_riil;
+                fileExtension = fileName.split('.').pop();
+                console.log (fileExtension);
+
+                switch (fileExtension) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                        $('#bodyBukti').html('<img src="<?= base_url() ?>/uploads/rincian/'+data.bukti_riil+'" frameborder="0" width="100%" height="500px">');
+                    break;
+                    default:
+                        $('#bodyBukti').html('<embed src="<?= base_url() ?>/uploads/rincian/'+data.bukti_riil+'" frameborder="0" width="100%" height="600px">');
+
+            }
+
+                // $('#embedBukti').attr('src', '<?= base_url() ?>/uploads/rincian/'+data.bukti_riil);
+            });
+        }
+        $('#modal-tujuan').on('hidden.bs.modal', function() {
+            $('#bodyBukti').html('<img src="" frameborder="0" width="100%" height="500px">');
+            $('#bodyBukti').html('<emebed src="" frameborder="0" width="100%" height="600px">');
+        });
 
         // Initialize select2
         var url_destination = '<?= base_url('Bendahara/Rincian/getNoSpd') ?>';
@@ -438,25 +532,34 @@
 
         function update() {
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
+                // Remove d-none button view bukti
+                // $('.btn-bukti').removeClass("d-none");
+
                 var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Bendahara/Rincian/single_data') ?>";
                 $.ajax({
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        console.log(data);
+                        // console.log(data);
                         $('#submit-rincian').removeClass("btn-success");
                         $('#submit-rincian').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $("#noSpdForm").append($("<option selected='selected'></option>")
                         .val(data.kode_spd).text(data.kode_spd)).trigger('change');
                         var m_names = new Array("Satu","Dua","Tiga","Empat","Lima");
+                        var m_nomor = new Array("0","1","2","3","4");
                         for (var urutan in data.json) { //json
                             // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
                                 // console.log(prop + " = " + obj[prop] + ' ++++++ ' );
                                 // console.log('#'+ prop + m_names[urutan] + 'Form');
+                                // console.log('#' +m_names[urutan] + 'nomer');
                                 $('#'+ prop + m_names[urutan] +'Form').val(obj[prop]);
+                                if(prop === 'bukti_riil' && obj[prop] !== ""){
+                                    $('#' + m_nomor[urutan]).removeClass("d-none");
+                                    // console.log(m_nomor[urutan]);
+                                }
                             }
                         }
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
