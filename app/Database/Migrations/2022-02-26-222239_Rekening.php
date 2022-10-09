@@ -42,7 +42,7 @@ class Rekening extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('kode');
+        $this->forge->addKey('kode', false, true);
         $this->forge->addForeignKey('kode_jenis_wilayah', 'jenis_wilayah', 'kode', 'CASCADE', 'NO ACTION',);
         $this->forge->createTable('rekening');
     }

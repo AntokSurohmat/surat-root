@@ -270,7 +270,7 @@
         $('#modal-tujuan').on('hidden.bs.modal', function() {
             $(this).find('form')[0].reset();
             $("#tujuanModalTujuan").empty();$("#tujuanModalTujuan").removeClass('is-valid');$("#tujuanModalTujuan").removeClass('is-invalid');
-            $("#pelaksanaModalTujuan").empty();$("#pelaksanaModalTujuan").removeClass('is-valid');$("#pelaksanaModalTujuan").removeClass('is-invalid');
+            $("#pelaksanaModalTujuan").removeClass('is-valid');$("#pelaksanaModalTujuan").removeClass('is-invalid');
         });
         $('#modal-tujuan').on('shown.bs.modal', function() {
             $('#tujuanModalTujuan').focus();

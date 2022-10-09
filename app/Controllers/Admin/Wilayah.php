@@ -799,9 +799,7 @@ class Wilayah extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        if (!$this->request->isAJAX()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-         }
+
          $wilayah_id = $this->wilayah->where('id', $id)->get();
          if($wilayah_id->getRow() == null){
              return redirect()->to(site_url('admin/wilayah/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');

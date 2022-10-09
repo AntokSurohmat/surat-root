@@ -38,7 +38,6 @@ class Tujuan extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('kode');
         $this->forge->createTable('tujuan');
     }
 

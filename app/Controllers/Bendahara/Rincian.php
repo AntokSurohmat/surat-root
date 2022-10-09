@@ -500,25 +500,41 @@ class Rincian extends ResourcePresenter
             $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
             $olds = json_decode($prop_item['detail']);
 
+            // if ($imagefile = $this->request->getFiles()) {
+            //     foreach ($imagefile['buktiAddEditForm'] as $key => $img) {
+            //     echo '<pre>'; 
+            //         print_r($img);
+            //     echo'</pre>';
+            //     var_dump($key);
+            // }
+            // die();
+            // }
+
             $image = array();
             if ($imagefile = $this->request->getFiles()) {
                 foreach ($imagefile['buktiAddEditForm'] as $img) {
+                    // echo '<pre>'; 
+                    //     print_r($img);
+                    // echo'</pre>';
+                    
+
                     if ($img->isValid() && !$img->hasMoved()) {
-                        foreach($olds as $key => $imgs){
+                        // foreach($olds as $imgs){
 
-                            // var_dump($key.' -- ');
+                        //     // var_dump($key.' -- ');
+                        //     // die();
 
-                            foreach($imgs as $row =>  $content){
-                                // var_dump($row.' ---- '.$content);die();
-
-                                if($row == 'bukti_riil'){
-                                    $myArray = explode('/', $content);
-                                    if (file_exists("uploads/rincian/".$myArray[0]."/".$myArray[1])) {
-                                        unlink("uploads/rincian/".$myArray[0]."/".$myArray[1]);
-                                    }
-                                }
-                            }
-                        }
+                        //     foreach($imgs as $row =>  $content){
+                                
+                        //         if($row == 'bukti_riil'){
+                        //             // var_dump($row.' ---- '.$content);die();
+                        //     //         $myArray = explode('/', $content);
+                        //     //         if (file_exists("uploads/rincian/".$myArray[0]."/".$myArray[1])) {
+                        //     //             unlink("uploads/rincian/".$myArray[0]."/".$myArray[1]);
+                        //     //         }
+                        //         }
+                        //     }
+                        // }
 
                         $newName = $img->getRandomName();
                         $img->move('uploads/rincian/'. $this->request->getVar('noSpdAddEditForm').'_'. date('d-m-Y') . '/', $newName);
@@ -526,7 +542,7 @@ class Rincian extends ResourcePresenter
                     } else {
                         foreach($olds as  $imgs){
                             foreach($imgs as $row =>  $content){
-                                if($row == 'bukti_riil'){
+                                if($row == 'bukti_riil' && $content == ""){
                                     $image[] = $content;
                                 }
                             }

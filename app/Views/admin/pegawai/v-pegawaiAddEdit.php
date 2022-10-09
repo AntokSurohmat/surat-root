@@ -131,11 +131,11 @@
                                             <label for="levelForm" class="col-sm-3 col-form-label">Level</label>
                                             <div class="col-sm-7">
                                                 <select name="levelAddEditForm" id="levelForm" class="form-control select2bs4" style="width: 100%;">
-                                                    <option value="">--- Level Access ---</option>
+                                                    <!-- <option value="">--- Level Access ---</option>
                                                     <option value="Admin"> Admin </option>
                                                     <option value="Kepala Bidang"> Kepala Bidang</option>
                                                     <option value="Bendahara"> Bendahara</option>
-                                                    <option value="Pegawai"> Pegawai</option>
+                                                    <option value="Pegawai"> Pegawai</option> -->
                                                 </select>
                                                 <div class="invalid-feedback levelErrorForm"></div>
                                             </div>
@@ -204,6 +204,15 @@
             locale: {
                 format: 'DD/MM/YYYY'
             }
+        });
+
+        // Load Data Select2 Array
+        $('#levelForm').select2({
+            theme: 'bootstrap4',
+            dropdownAutoWidth: true,
+            width: '100%',
+            placeholder: '---Pilih jenis Level ---',
+            data: [{id:'Admin',text:'Admin'},{id: 'Kepala Bidang',text: 'Kepala Bidang'},{id: 'Bendahara',text: 'Bendahara'},{id: 'Pegawai',text: 'Pegawai'}]
         });
 
         // Initialize select2
@@ -320,12 +329,10 @@
                         .val(data.jabatan.kode).text(data.jabatan.nama_jabatan)).trigger('change');
                         $("#pangolForm").append($("<option selected='selected'></option>")
                         .val(data.pangol.kode).text(data.pangol.nama_pangol)).trigger('change');
-                        $("#pelaksanaForm").append($("<option selected='selected'></option>")
-                        .val(data.pelaksana).text(data.pelaksana)).trigger('change');
+                        $("#pelaksanaForm").val(data.pelaksana).trigger('change');
                         $("#usernameForm").val(data.username);
                         $("#passwordHelp").html("Kosongkan Jika Tidak Ingin mengganti Password");
-                        $("#levelForm").append($("<option selected='selected'></option>")
-                        .val(data.level).text(data.level)).trigger('change');
+                        $("#levelForm").val(data.level).trigger('change');
                         $('#submit-pegawai').html('<i class="fas fa-save"></i>&ensp;Update');
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}

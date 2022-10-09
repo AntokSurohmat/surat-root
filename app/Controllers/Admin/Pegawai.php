@@ -446,7 +446,7 @@ class Pegawai extends ResourcePresenter
             ],
             'pelaksanaAddEditForm' => [
                 'label' => 'Pilih Pelaksana',
-                'rules'     => "required",
+                'rules'     => "permit_empty",
             ],
             "fotoAddEditForm" => [
                 'rules' => "mime_in[fotoAddEditForm,image/jpg,image/jpeg,image/gif,image/png]|max_size[fotoAddEditForm,2048]",

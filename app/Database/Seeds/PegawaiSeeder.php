@@ -15,7 +15,7 @@ class PegawaiSeeder extends Seeder
             'tgl_lahir'     => '2022-02-02',
             'kode_jabatan'  =>  '99999999', // 8 Character
             'kode_pangol'  =>  '9999999', // 7 Character
-            'pelaksana'     => 'Kasi Pelayan',
+            'pelaksana'     => '',
             'foto'          => 'default.png',
             'username'         => 'admin',
             'password'          => password_hash('admin', PASSWORD_DEFAULT),

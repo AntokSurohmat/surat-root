@@ -38,7 +38,7 @@ class Provinsi extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('kode');
+        $this->forge->addKey('kode', false, true);
         $this->forge->createTable('provinsi');
     }
 

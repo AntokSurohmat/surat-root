@@ -194,12 +194,14 @@ class Kuitansi extends ResourcePresenter
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
+                // ->where('pelaksana', $this->request->getPost('pelaksana'))
                 ->orderBy('nama')
                 ->findAll(10);
-        } else {
-            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+            } else {
+                $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
+                // ->where('pelaksana', $this->request->getPost('pelaksana'))
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);

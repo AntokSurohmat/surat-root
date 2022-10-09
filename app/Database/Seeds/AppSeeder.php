@@ -12,7 +12,6 @@ class AppSeeder extends Seeder
         $this->call('JabatanSeeder');
         $this->call('ProvinsiSeeder');
         $this->call('KabupatenSeeder');
-        $this->call('KabupatenSeeder');
         $this->call('KecamatanSeeder');
         $this->call('JenisWilayahSeeder');
         $this->call('ZonasiSeeder');

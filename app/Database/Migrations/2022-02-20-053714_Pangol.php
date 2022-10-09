@@ -16,8 +16,8 @@ class Pangol extends Migration
                 'auto_increment' => true,
             ],
             'kode'          => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '20',
+                'type'       => 'VARCHAR',
+                'constraint' => '20',
             ],
             'nama_pangol'   => [
                 'type'          => 'VARCHAR',
@@ -38,7 +38,7 @@ class Pangol extends Migration
 
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addKey('kode');
+        $this->forge->addKey('kode', false, true);
         $this->forge->createTable('pangol');
     }
 
