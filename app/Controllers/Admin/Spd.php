@@ -245,7 +245,7 @@ class Spd extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $nomer = $this->db->table('spd')->countAllResults();
+        $nomer = $this->db->table('spd')->where('deleted_at', null)->countAllResults();
         
         switch (strlen($nomer)) {
             case '1':
