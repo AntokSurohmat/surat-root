@@ -169,7 +169,7 @@
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
         $('#noSpdKuitansiForm').keydown(function(event){if(event.keyCode == 13){$('#namaPegawaiKuitansiForm').select2('open');}});
-        $('#namaPegawaiKuitansiForm').on('select2:select', function(e) {$('#pejabatKuitansiForm').select2('open');});
+        // $('#namaPegawaiKuitansiForm').on('select2:select', function(e) {$('#pejabatKuitansiForm').select2('open');});
         $('#pejabatKuitansiForm').on('select2:select', function(e) {$('#submit-kuitansi').focus();});
 
         update();
@@ -208,7 +208,7 @@
         });
 
         $("#noSpdKuitansiForm").change(function() {
-            console.log($(this).val());
+            pelaksana($(this).val());
             // Initialize select2
             var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawaiNoSpd') ?>';
             // $("#pegawaiAddEditForm option:selected").text();
@@ -261,24 +261,26 @@
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
                 })
         });
-        // var pelaksana = $('#noSpdKuitansiForm').val();
-        // console.log(pelaksana);
-        var bendaharaNip =<?= session()->nip ?>; var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';
-        // console.log(<?= session()->nip?>);
-        $("#pejabatKuitansiForm").select2({
-            theme: 'bootstrap4',
-            placeholder: '--- Cari Pejabat Pelaksana Teknis ---',
-            ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
-                data: function(params) {
-                    return {searchTerm: params.term,bendahara: bendaharaNip,pelaksana: '',csrf_token_name: $('input[name=csrf_token_name]').val()};
-                },
-                processResults: function(response) {
-                    $('input[name=csrf_token_name]').val(response.csrf_token_name);
-                    return {results: response.data,};
-                },
-                cache: true
-            }
-        });
+
+        var pelaksana = (nospd) => {
+
+            var bendaharaNip =<?= session()->nip ?>; var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';
+            console.log(nospd);
+            $("#pejabatKuitansiForm").select2({
+                theme: 'bootstrap4',
+                placeholder: '--- Cari Pejabat Pelaksana Teknis ---',
+                ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
+                    data: function(params) {
+                        return {searchTerm: params.term,bendahara: bendaharaNip,spd: nospd,csrf_token_name: $('input[name=csrf_token_name]').val()};
+                    },
+                    processResults: function(response) {
+                        $('input[name=csrf_token_name]').val(response.csrf_token_name);
+                        return {results: response.data,};
+                    },
+                    cache: true
+                }
+            });
+        }
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();

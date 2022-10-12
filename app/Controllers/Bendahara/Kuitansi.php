@@ -188,20 +188,46 @@ class Kuitansi extends ResourcePresenter
         if (!$this->request->isAjax()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+        $nomer = $this->request->getPost('spd');
+        switch (strlen($nomer)) {
+            case '1':
+                $kode = '00'.$nomer;
+                break;
+            case '2':
+                $kode = '0'.$nomer;
+                break;
+            default:
+            $kode = $nomer;
+                break;
+        }
+
+        // var_dump($kode); die();
+        $noSpt = $this->db->table('spd')
+                ->select('tujuan.pelaksana')
+                ->join('spt', 'spt.kode = spd.kode', 'left')
+                ->join('tujuan', 'tujuan.id = spt.untuk')
+                ->where('spd.kode', $kode)
+                ->get();
+
+        $result = $noSpt->getResult();
+                // echo '<pre>';
+                // print_r($result[0]->pelaksana);
+                // echo'</pre>';
+                // die();
 
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {
             $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
-                // ->where('pelaksana', $this->request->getPost('pelaksana'))
+                ->where('pelaksana', $result[0]->pelaksana)
                 ->orderBy('nama')
                 ->findAll(10);
             } else {
-                $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
                 ->where('deleted_at', NULL)
                 ->where('nip !=', $this->request->getPost('bendahara'))
-                // ->where('pelaksana', $this->request->getPost('pelaksana'))
+                ->where('pelaksana', $result[0]->pelaksana)
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
                 ->findAll(10);

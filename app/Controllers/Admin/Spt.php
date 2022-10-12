@@ -203,7 +203,7 @@ class Spt extends ResourcePresenter
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $nomer = $this->db->table('spt')->where('deleted_at', null)->countAllResults();
+        $nomer = $this->db->table('spt')->countAllResults();
 
         // Add Number if 0
         if($nomer == 0){$nomer = 1; }else{$nomer = $nomer+1;}
@@ -303,7 +303,7 @@ class Spt extends ResourcePresenter
             $kabupaten = $this->kabupaten->where('kode', $data['kode_kabupaten'])->first();
             $kecamatan = $this->kecamatan->where('kode', $data['kode_kecamatan'])->first();
 
-            $data['alamat'] = 'pada kecamatan'. $kecamatan['nama_kecamatan'].' pada kabupaten '.$kabupaten['nama_kabupaten'].' pada kabupaten '.$provinsi['nama_provinsi'];
+            $data['alamat'] = 'pada kecamatan '. $kecamatan['nama_kecamatan'].' pada kabupaten '.$kabupaten['nama_kabupaten'].' pada kabupaten '.$provinsi['nama_provinsi'];
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
         }
