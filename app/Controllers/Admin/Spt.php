@@ -60,7 +60,7 @@ class Spt extends ResourcePresenter
         }
 
         $builder = $this->db->table('spt')
-                  ->select('spt.id, spt.kode, pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
+                  ->select('spt.id, spt.kode, spt.pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
                   ->join('pegawai', 'pegawai.nip = spt.pejabat')
                   ->join('instansi', 'instansi.kode = spt.kode_instansi');
 
@@ -72,8 +72,23 @@ class Spt extends ResourcePresenter
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
-                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
-                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+                $query = $this->pegawai->whereIn('nip', json_decode($value), true)->get();
+                // foreach($query->getResult() as $row){
+                //     $pegawai[] = $row->nama;
+                //     var_dump($pegawai);
+                // }
+                // die();
+                foreach(json_decode($value) as $valu ) {
+                    // var_dump($valu);
+                        $okay = $this->pegawai->where('nip', $valu)->get();
+                        $result = $okay->getResult();
+                        echo '<pre>';
+                        print_r($result[0]->nama);
+                        echo '</pre>';
+                        // var_dump($result);
+                        die();
+                    }
+                return $okay;
             })
             ->filter(function ($builder, $request) {
                 if ($request->noSpt)
@@ -249,7 +264,7 @@ class Spt extends ResourcePresenter
         foreach ($pegawailist as $pegawai) {
             $data[] = array(
                 "id" => $pegawai['nip'],
-                "text" => $pegawai['nama'],
+                "text" => $pegawai['nip'],
             );
         }
 
@@ -462,6 +477,9 @@ class Spt extends ResourcePresenter
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
+
+        $pegawai = $this->request->getVar('pegawaiAddEditForm');
+        // var_dump($pegawai);die();
 
         $validation = \Config\Services::validation();
 

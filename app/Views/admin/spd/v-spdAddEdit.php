@@ -628,6 +628,7 @@
                     // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     // $('#kodeForm').val(data.kode_spt);
+                    console.log(data.diperintah)
                     $("#pegawaiForm").append($("<option selected='selected'></option>")
                     .val(data.diperintah.nip).text(data.diperintah.nama)).trigger('change');
                     $("#diperintahForm").val(data.pegawai.nama);

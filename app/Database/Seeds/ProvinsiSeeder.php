@@ -12,7 +12,7 @@ class ProvinsiSeeder extends Seeder
 
         $data = [
             'kode' => '99',
-            'nama_provinsi' => 'Ini Test Provinsi',
+            'nama_provinsi' => 'Ini Provinsi',
             'created_at' => Time::now()
         ];
         $this->db->table('provinsi')->insert($data);

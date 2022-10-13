@@ -353,6 +353,7 @@
         var url_destination = '<?= base_url('Admin/Spt/getDiperintah') ?>';
         $("#diperintahForm").select2({
             theme: 'bootstrap4',
+            tags: true,
             placeholder: '--- Cari Data Pegawai Yang Memberikan Perintah ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
@@ -365,6 +366,36 @@
                 cache: true
             }
         });
+
+        $("#pegawaiForm").on("select2:select", function (evt) {
+            // var values = [];
+            // // var keys = [];
+            var element =  evt.params.data.text
+            // values.push(element);
+            // // $.each(element, function(key, value) {
+            // //     values.push(value);
+            // // });
+            // console.log(values);
+            var $element = $(element);
+            
+            $element.detach();
+            $(this).append($element);
+            $(this).trigger("change");
+        });
+
+        // jQuery("#pegawaiForm").each(function(){
+        //     $this = jQuery(this);
+        //     if($this.attr('data-reorder')){
+        //         $this.on('select2:select', function(e){
+        //         var elm = e.params.data.element;
+        //         $elm = jQuery(elm);
+        //         $t = jQuery(this);
+        //         $t.append($elm);
+        //         $t.trigger('change.select2');
+        //     });
+        // }
+        //     console.log($this.select2());
+        // });
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spt/getTujuan') ?>';
@@ -430,7 +461,10 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spt/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Spt/Update') ?>";}
-            // console.log($(this).serialize());
+
+
+            console.log($(this).serialize());
+            // throw new Error("my error message");
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",cache:false,
                 beforeSend: function() {
                     $('#submit-spt').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spt').prop('disabled', true);
@@ -506,7 +540,7 @@
                         $('#kodeForm').val(data.kode);
                         data.pegawai.forEach((pegawailoop, index) => {
                             $("#pegawaiForm").append($("<option selected='selected'></option>")
-                            .val(pegawailoop.nip).text(pegawailoop.nama)).trigger('change');
+                            .val(pegawailoop.nip).text(pegawailoop.nip)).trigger('change');
                         })
                         $('#dasarForm').val(data.dasar);
                         $("#untukForm").append($("<option selected='selected'></option>")

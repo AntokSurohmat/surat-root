@@ -12,7 +12,7 @@ class KecamatanSeeder extends Seeder
         $data = [
             'kode_kabupaten' =>  '9999',
             'kode' => '9999999',
-            'nama_kecamatan' => "Ini Test Kecamatan",
+            'nama_kecamatan' => "Ini Kecamatan",
             'created_at' => Time::now(),
         ];
         $this->db->table('kecamatan')->insert($data);
