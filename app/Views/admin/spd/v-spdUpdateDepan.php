@@ -252,13 +252,7 @@
                         let timerInterval
                         swalWithBootstrapButtons.fire({
                             icon: 'success',title: 'Berhasil Memasukkan Data',
-                            html: '<b>Otomatis Ke Table SPD!</b><br>' +
-                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                             timer: 3500,timerProgressBar: true,
-                            confirmButtonText: 'Ya, Kembali!',
-                        }).then((result) => {
-                            if (result.isConfirmed) { window.location.href = data.redirect;
-                            } else if (result.dismiss === Swal.DismissReason.timer) {window.location.href = data.redirect;}
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {

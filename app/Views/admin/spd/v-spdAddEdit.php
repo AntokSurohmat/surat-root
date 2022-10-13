@@ -167,9 +167,6 @@
                                     <h3 class="card-title" style="font-weight: 900;margin-top:-25px;padding: 0 5px;background-color:#FFF;">I</h3>
                                 </div>
                                 <div class="card-body">
-                                    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
-                                    <input type="hidden" id="methodPage" value="<?= $method ?>" />
-                                    <input type="hidden" name="hiddenID" id="hiddenIDPage" value="<?= $hiddenID ?>" />
 
                                     <div class="form-group">
                                         <label for="tibadiFormfirst">Tiba Di</label>
@@ -580,13 +577,7 @@
                         let timerInterval
                         swalWithBootstrapButtons.fire({
                             icon: 'success',title: 'Berhasil Memasukkan Data',
-                            html: '<b>Otomatis Ke Table SPD!</b><br>' +
-                                'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
                             timer: 3500,timerProgressBar: true,
-                            confirmButtonText: 'Ya, Kembali!',
-                        }).then((result) => {
-                            if (result.isConfirmed) { window.location.href = data.redirect;
-                            } else if (result.dismiss === Swal.DismissReason.timer) {window.location.href = data.redirect;}
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {

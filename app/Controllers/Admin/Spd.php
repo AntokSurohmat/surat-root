@@ -491,7 +491,7 @@ class Spd extends ResourcePresenter
             ];
             $id = $this->request->getVar('hiddenID');
             if ($this->spd->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
             } else {
                 $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
@@ -772,7 +772,7 @@ class Spd extends ResourcePresenter
             ];
             $id = $this->request->getVar('hiddenID');
             if ($this->spd->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
             } else {
                 $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
