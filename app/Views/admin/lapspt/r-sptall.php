@@ -215,13 +215,16 @@
 						<td style="width: 5%;padding: 0px 10px;"><p><?= $table_spt->kode?></p></td>
 						<td style="width: 15%;padding: 0px 10px;word-wrap: break-word">
 						<table width=100% border="0">
+
 							<?php foreach($pegawai_all as $key_pegawai => $table_pegawai) :?>
 								<?php foreach($table_pegawai as $pegawai_data) :?>
-									<?php if($key_spt == $key_pegawai) :?>
-										<tr>
-											<td><?= $pegawai_data->nip?>,</td>
-										</tr>
-									<?php endif;?>
+									<?php foreach($pegawai_data as $value) :?>
+										<?php if($key_spt == $key_pegawai) :?>
+											<tr>
+												<td><?= $value->nip?>,</td>
+											</tr>
+										<?php endif;?>
+									<?php endforeach?>
 								<?php endforeach?>
 							<?php endforeach;?>
 											
@@ -231,11 +234,13 @@
 						<table width=100% border="0">
 							<?php foreach($pegawai_all as $key_pegawai => $table_pegawai) :?>
 								<?php foreach($table_pegawai as $pegawai_data) :?>
-									<?php if($key_spt == $key_pegawai) :?>
-										<tr>
-											<td><?= $pegawai_data->nama?>,</td>
-										</tr>
-									<?php endif;?>
+									<?php foreach($pegawai_data as $value) :?>
+										<?php if($key_spt == $key_pegawai) :?>
+											<tr>
+												<td><?= $value->nama?>,</td>
+											</tr>
+										<?php endif;?>
+									<?php endforeach?>
 								<?php endforeach?>
 							<?php endforeach;?>
 											

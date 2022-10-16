@@ -61,8 +61,13 @@ class Lapspt extends BaseController
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
-                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
-                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+                $namas = array();
+                foreach(json_decode($value) as $valu ) {
+                    $okay = $this->pegawai->where('nip', $valu)->get();
+                    $result = $okay->getResult();
+                    $namas[] = $result[0]->nama;
+                }
+                return $namas;
             })
             ->filter(function ($builder, $request) {
                 if ($request->noSpt)
@@ -199,15 +204,18 @@ class Lapspt extends BaseController
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-            $data['looping'] = $query->getResult();
+            $data['looping'] = $pegawai;
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
             $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -228,15 +236,18 @@ class Lapspt extends BaseController
         }
 
         $data = $this->spt->where('id',$id)->first();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -277,15 +288,18 @@ class Lapspt extends BaseController
              return redirect()->to(site_url('admin/lapspt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         $data = $this->spt->where('id',$id)->first();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -324,14 +338,19 @@ class Lapspt extends BaseController
         $instansi = array();$untuk = array();
 
         foreach($spt->getResult() as $spt_data){
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($spt_data->pegawai_all))->get();
+
+            $pegawai = array();
+            foreach(json_decode($spt_data->pegawai_all) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
     
-            $looping[] = $query->getResult();
+            $looping[]  = $pegawai;
             $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
             $instansi[] = $this->instansi->where('kode', $spt_data->kode_instansi)->first();
             $untuk[] = $this->tujuan->where('id', $spt_data->untuk)->first();
@@ -379,14 +398,18 @@ class Lapspt extends BaseController
         $instansi = array();$untuk = array();
 
         foreach($spt->getResult() as $spt_data){
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($spt_data->pegawai_all))->get();
+            $pegawai = array();
+            foreach(json_decode($spt_data->pegawai_all) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
     
-            $looping[] = $query->getResult();
+            $looping[]  = $pegawai;
             $pejabat[] = $this->pegawai->where('nip', $spt_data->pejabat)->first();
             $instansi[] = $this->instansi->where('kode', $spt_data->kode_instansi)->first();
             $untuk[] = $this->tujuan->where('id', $spt_data->untuk)->first();
@@ -432,8 +455,15 @@ class Lapspt extends BaseController
         $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();
         foreach($spt_all->getResult() as $result){
-            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
-            $pegawai_all[] = $pegawai_query_all->getResult();
+            $pegawai = array();
+            foreach(json_decode($result->pegawai_all) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('nip,nama')
+                ->where('nip', $value)->where('deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
+    
+            $pegawai_all[]  = $pegawai;
             $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
             $instansi_all[] = $instansi_query_all->getResult();
             $tujuan_query_all = $this->tujuan->where('id', $result->untuk)->get();
@@ -491,8 +521,15 @@ class Lapspt extends BaseController
         $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();
         foreach($spt_all->getResult() as $result){
-            $pegawai_query_all = $this->pegawai->whereIn('nip', json_decode($result->pegawai_all))->get();
-            $pegawai_all[] = $pegawai_query_all->getResult();
+            $pegawai = array();
+            foreach(json_decode($result->pegawai_all) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('nip,nama')
+                ->where('nip', $value)->where('deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
+    
+            $pegawai_all[]  = $pegawai;
             $instansi_query_all = $this->instansi->where('kode', $result->kode_instansi)->get();
             $instansi_all[] = $instansi_query_all->getResult();
             $tujuan_query_all = $this->tujuan->where('id', $result->untuk)->get();

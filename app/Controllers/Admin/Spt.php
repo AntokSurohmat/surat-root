@@ -72,23 +72,13 @@ class Spt extends ResourcePresenter
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
-                $query = $this->pegawai->whereIn('nip', json_decode($value), true)->get();
-                // foreach($query->getResult() as $row){
-                //     $pegawai[] = $row->nama;
-                //     var_dump($pegawai);
-                // }
-                // die();
+                $namas = array();
                 foreach(json_decode($value) as $valu ) {
-                    // var_dump($valu);
-                        $okay = $this->pegawai->where('nip', $valu)->get();
-                        $result = $okay->getResult();
-                        echo '<pre>';
-                        print_r($result[0]->nama);
-                        echo '</pre>';
-                        // var_dump($result);
-                        die();
-                    }
-                return $okay;
+                    $okay = $this->pegawai->where('nip', $valu)->get();
+                    $result = $okay->getResult();
+                    $namas[] = $result[0]->nama;
+                }
+                return $namas;
             })
             ->filter(function ($builder, $request) {
                 if ($request->noSpt)
@@ -264,7 +254,7 @@ class Spt extends ResourcePresenter
         foreach ($pegawailist as $pegawai) {
             $data[] = array(
                 "id" => $pegawai['nip'],
-                "text" => $pegawai['nip'],
+                "text" => $pegawai['nama'],
             );
         }
 
@@ -617,15 +607,18 @@ class Spt extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
-
-            $data['looping'] = $query->getResult();
+            $data['looping'] = $pegawai;
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
             $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -650,15 +643,20 @@ class Spt extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('nip,nama')
+                // ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                // ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                // ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('nip', $value)->where('deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->where('pegawai.deleted_at', null)->get();
 
-            $data['pegawai'] = $query->getResult();
+            $data['pegawai'] = $pegawai;
             $data['pejabat'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
             $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -888,15 +886,18 @@ class Spt extends ResourcePresenter
         }
 
         $data = $this->spt->where('id',$id)->first();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();

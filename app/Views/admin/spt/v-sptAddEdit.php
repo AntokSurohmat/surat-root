@@ -367,35 +367,35 @@
             }
         });
 
-        $("#pegawaiForm").on("select2:select", function (evt) {
-            // var values = [];
-            // // var keys = [];
-            var element =  evt.params.data.text
-            // values.push(element);
-            // // $.each(element, function(key, value) {
-            // //     values.push(value);
-            // // });
-            // console.log(values);
-            var $element = $(element);
+        // $("#pegawaiForm").on("select2:select", function (evt) {
+        //     // var values = [];
+        //     // // var keys = [];
+        //     var element =  evt.params.data.text
+        //     // values.push(element);
+        //     // // $.each(element, function(key, value) {
+        //     // //     values.push(value);
+        //     // // });
+        //     // console.log(values);
+        //     var $element = $(element);
             
-            $element.detach();
-            $(this).append($element);
-            $(this).trigger("change");
-        });
-
-        // jQuery("#pegawaiForm").each(function(){
-        //     $this = jQuery(this);
-        //     if($this.attr('data-reorder')){
-        //         $this.on('select2:select', function(e){
-        //         var elm = e.params.data.element;
-        //         $elm = jQuery(elm);
-        //         $t = jQuery(this);
-        //         $t.append($elm);
-        //         $t.trigger('change.select2');
-        //     });
-        // }
-        //     console.log($this.select2());
+        //     $element.detach();
+        //     $(this).append($element);
+        //     $(this).trigger("change");
         // });
+
+        // // jQuery("#pegawaiForm").each(function(){
+        // //     $this = jQuery(this);
+        // //     if($this.attr('data-reorder')){
+        // //         $this.on('select2:select', function(e){
+        // //         var elm = e.params.data.element;
+        // //         $elm = jQuery(elm);
+        // //         $t = jQuery(this);
+        // //         $t.append($elm);
+        // //         $t.trigger('change.select2');
+        // //     });
+        // // }
+        // //     console.log($this.select2());
+        // // });
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spt/getTujuan') ?>';
@@ -533,14 +533,19 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
+                        // console.log(data.pegawai);
                         $('#submit-spt').removeClass("btn-success");
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
                         data.pegawai.forEach((pegawailoop, index) => {
-                            $("#pegawaiForm").append($("<option selected='selected'></option>")
-                            .val(pegawailoop.nip).text(pegawailoop.nip)).trigger('change');
+                            // console.log(pegawailoop);
+                            pegawailoop.forEach((dataloop, index) => {
+                                console.log(dataloop);
+
+                                $("#pegawaiForm").append($("<option selected='selected'></option>")
+                                .val(dataloop.nip).text(dataloop.nama)).trigger('change');
+                            })
                         })
                         $('#dasarForm').val(data.dasar);
                         $("#untukForm").append($("<option selected='selected'></option>")

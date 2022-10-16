@@ -79,8 +79,13 @@ class Verifikasi extends ResourcePresenter
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
-                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
-                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+                $namas = array();
+                foreach(json_decode($value) as $valu ) {
+                    $okay = $this->pegawai->where('nip', $valu)->get();
+                    $result = $okay->getResult();
+                    $namas[] = $result[0]->nama;
+                }
+                return $namas;
             })
             ->filter(function ($builder, $request) {
                 if ($request->noSpt)
