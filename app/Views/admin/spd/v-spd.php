@@ -854,6 +854,25 @@
                 },
                 "timeout": 15000,"error": handleAjaxError
             },
+            "columns" : [
+				{data: 'no'},
+				{data: 'kode'},
+				{data: 'pegawai_diperintah'},
+				{
+                    data: 'pegawai_all',
+                    render: function (data, type, row, meta) {
+                        var arr = row.pegawai_all
+                        arr = arr.filter(item => item !== row.pegawai_diperintah)
+                        return arr;
+                    }
+                },
+				{data: 'nama_instansi'},
+				{data: 'awal'},
+				{data: 'akhir'},
+				{data: 'nama'},
+				{data: 'status'},
+				{data: 'aksi'},
+			],
             "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center", "width": "13%"},],
         });
         $('#noSpdTable').change(function(event) {spd.ajax.reload();});
@@ -923,64 +942,71 @@
                 url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    $('#no_sptModalView').append(data.kode);
-                    $('#diperintahModalView').append(data.diperintah.nama);
-                    $('#pegawaimodalView').append(data.pegawai[0].nama);
-                    $('#pangolModelView').append(data.pegawai[0].nama_pangol);
-                    $('#jabatan_instansiModalView').append(data.pegawai[0].nama_jabatan+'/'+data.instansi.nama_instansi);
-                    $('#tinkatBiayaMovelView').append(data.tingkat_biaya);
-                    $('#jenisKendaraanModalView').append(data.jenis_kendaraan);
-                    $('#berangkatModalView').append('Sumber');
-                    $('#tujuanModalView').append(data.instansi.nama_instansi);
-                    $('#lamaModalView').append(data.lama+' Hari');
-                    var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
-                    var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
-                    var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
-                    $('#awalmodalView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
-                    var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
-                    $('#akhirModalView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
-                    $('#untukModalView').append(data.untuk);
-                    var month_fullnames = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
-                    var d = new Date(data.created_at);var full_curr_date = d.getDate();var full_curr_month = d.getMonth();var full_curr_year = d.getFullYear();
-                    $('#createdatModalView').text(m_awal[full_curr_date] + " " + month_fullnames[full_curr_month] + " " + full_curr_year);
-                    data.looping.forEach((pegawailoop, index) => {
-                        // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
-                        var lahir = new Date(pegawailoop.tgl_lahir);var lahir_curr_date = lahir.getDate();var lahir_curr_month = lahir.getMonth();var lahir_curr_year = lahir.getFullYear();
-                        $('#pengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama+'</li></ul>');
-                        $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+m_awal[lahir_curr_date] + "-" + m_names[lahir_curr_month] + "-" + lahir_curr_year+'</li></ul>');
-                        $('#ketPengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+pegawailoop.nama_jabatan+'</li></ul>');
-                    });
-                    $('#biayaInstansiModalViews').append('--');
-                    $('#kodeRekeningModalView').append(data.kode_rekening);
-                    $('#keteranganModalView').append(data.keterangan);
-                    $('#diperintahTTDModalView').append(data.diperintah.nama);
-                    $('#nipTTDModalView').append(data.diperintah.nip);
-                    //slide ke 2
-                    $('#nospdslide2ModelView').append(data.kode);
-                    $('#tglberangkatslide2ModelView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
-                    $('#tujuanslide2ModelView').append(data.instansi.nama_instansi);
-                    $('#diperintahslide2ModelView').append(data.diperintah.nama);
-                    $('#nipslide2ModelView').append('('+data.diperintah.nip+')');
-                    var u_namess = new Array("first","second","third","fourth");
-                    for (var urutan in data.json) { //json
-                        // console.log(urutan);
-                        var obj = data.json[urutan];
-                        for (var prop in obj) {
-                            // // your code
-                            // console.log(prop + " = " + obj[prop]);
-                            $('#'+ prop +'slide2ModelView' +u_namess[urutan]).append(obj[prop]);
+                    if (data.success == true) { 
+
+                        $('#no_sptModalView').append(data.kode);
+                        $('#diperintahModalView').append(data.diperintah.nama);
+                        $('#pegawaimodalView').append(data.pegawai[0].nama);
+                        $('#pangolModelView').append(data.pegawai[0].nama_pangol);
+                        $('#jabatan_instansiModalView').append(data.pegawai[0].nama_jabatan+'/'+data.instansi.nama_instansi);
+                        $('#tinkatBiayaMovelView').append(data.tingkat_biaya);
+                        $('#jenisKendaraanModalView').append(data.jenis_kendaraan);
+                        $('#berangkatModalView').append('Sumber');
+                        $('#tujuanModalView').append(data.instansi.nama_instansi);
+                        $('#lamaModalView').append(data.lama+' Hari');
+                        var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
+                        var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+                        var awal = new Date(data.awal);var awal_curr_date = awal.getDate();var awal_curr_month = awal.getMonth();var awal_curr_year = awal.getFullYear();
+                        $('#awalmodalView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
+                        var akhir = new Date(data.akhir);var akhir_curr_date = akhir.getDate();var akhir_curr_month = akhir.getMonth();var akhir_curr_year = akhir.getFullYear();
+                        $('#akhirModalView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
+                        $('#untukModalView').append(data.untuk);
+                        var month_fullnames = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
+                        var d = new Date(data.created_at);var full_curr_date = d.getDate();var full_curr_month = d.getMonth();var full_curr_year = d.getFullYear();
+                        $('#createdatModalView').text(m_awal[full_curr_date] + " " + month_fullnames[full_curr_month] + " " + full_curr_year);
+                        data.looping.forEach((pegawailoop, index) => {
+                            pegawailoop.forEach((dataloop, index) => {
+                            //     console.log(dataloop);
+                            // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
+                                var lahir = new Date(dataloop.tgl_lahir);var lahir_curr_date = lahir.getDate();var lahir_curr_month = lahir.getMonth();var lahir_curr_year = lahir.getFullYear();
+                                $('#pengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+dataloop.nama+'</li></ul>');
+                                $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+m_awal[lahir_curr_date] + "-" + m_names[lahir_curr_month] + "-" + lahir_curr_year+'</li></ul>');
+                                $('#ketPengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+dataloop.nama_jabatan+'</li></ul>');
+                            })
+                        });
+                        $('#biayaInstansiModalViews').append('--');
+                        $('#kodeRekeningModalView').append(data.kode_rekening);
+                        $('#keteranganModalView').append(data.keterangan);
+                        $('#diperintahTTDModalView').append(data.diperintah.nama);
+                        $('#nipTTDModalView').append(data.diperintah.nip);
+                        //slide ke 2
+                        $('#nospdslide2ModelView').append(data.kode);
+                        $('#tglberangkatslide2ModelView').append(m_awal[awal_curr_date] + "-" + m_names[awal_curr_month] + "-" + awal_curr_year);
+                        $('#tujuanslide2ModelView').append(data.instansi.nama_instansi);
+                        $('#diperintahslide2ModelView').append(data.diperintah.nama);
+                        $('#nipslide2ModelView').append('('+data.diperintah.nip+')');
+                        var u_namess = new Array("first","second","third","fourth");
+                        for (var urutan in data.json) { //json
+                            // console.log(urutan);
+                            var obj = data.json[urutan];
+                            for (var prop in obj) {
+                                // // your code
+                                // console.log(prop + " = " + obj[prop]);
+                                $('#'+ prop +'slide2ModelView' +u_namess[urutan]).append(obj[prop]);
+                            }
                         }
+                        $('#tibadislide2ModelView').append("Sumber");
+                        $('#tanggaltibaslide2ModelView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
+                        $('#kepalatibaslide2ModelView').append(data.pegawai[0].nama_jabatan);
+                        $('#diperintahtibaslide2ModelView').append(data.diperintah.nama);
+                        $('#niptibaslide2ModelView').append('('+data.diperintah.nip+')');
+                        $('#diperintahperiksaslide2ModelView').append(data.diperintah.nama);
+                        $('#nipperiksaslide2ModelView').append('('+data.diperintah.nip+')');
+                        $('#modal-viewitem').modal('show');
+                    }else{
+                        toastr.options = {"positionClass": "toast-top-right","closeButton": true,"showDuration": "500",};toastr["error"]("Tidak bisa dilihat karena surat belum di buat", "Informasi");
                     }
-                    $('#tibadislide2ModelView').append("Sumber");
-                    $('#tanggaltibaslide2ModelView').append(m_awal[akhir_curr_date] + "-" + m_names[akhir_curr_month] + "-" + akhir_curr_year);
-                    $('#kepalatibaslide2ModelView').append(data.pegawai[0].nama_jabatan);
-                    $('#diperintahtibaslide2ModelView').append(data.diperintah.nama);
-                    $('#niptibaslide2ModelView').append('('+data.diperintah.nip+')');
-                    $('#diperintahperiksaslide2ModelView').append(data.diperintah.nama);
-                    $('#nipperiksaslide2ModelView').append('('+data.diperintah.nip+')');
-                    $('#modal-viewitem').modal('show');
                 }
             })
         })

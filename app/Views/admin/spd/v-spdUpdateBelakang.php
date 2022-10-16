@@ -396,7 +396,11 @@
                         let timerInterval
                         swalWithBootstrapButtons.fire({
                             icon: 'success',title: 'Berhasil Memasukkan Data',
+                            html: 'Otomatis Kembali Ke Table SPD!',
+                            showConfirmButton: false,
                             timer: 3500,timerProgressBar: true,
+                        }).then((result) => {
+                                window.location.href = data.redirect;
                         })
                     } else {
                         Object.keys(data.msg).forEach((key, index) => {

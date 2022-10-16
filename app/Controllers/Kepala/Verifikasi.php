@@ -225,15 +225,18 @@ class Verifikasi extends ResourcePresenter
 
         if ($this->request->getVar('id')) {
             $data = $this->verifikasi->where('id', $this->request->getVar('id'))->first();
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-            $data['looping'] = $query->getResult();
+            $data['looping'] = $pegawai;
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
             $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
             $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
@@ -433,14 +436,18 @@ class Verifikasi extends ResourcePresenter
 
         $data = $this->spt->where('id',$id)->first();
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->where('kode', $data['kode_instansi'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();

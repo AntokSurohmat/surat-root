@@ -105,10 +105,10 @@ class Spd extends ResourcePresenter
                 if ($request->instansi)
                     $builder->where('instansi.nama_instansi', $request->instansi);
             })
-            ->add(null, function($row){
+            ->add('aksi', function($row){
                 if($row->status == 'false'){
                     $button = '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="'. base_url('admin/Spd/new/'.$row->id).'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Create Data ]"><i class="fas fa-plus text-white"></i></a>';
-                    $button .= '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
+                    $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a><br>';
                 }else{
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
@@ -117,14 +117,14 @@ class Spd extends ResourcePresenter
                     $button .= '<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a><br>';
                     $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="'. base_url('admin/Spd/print-depan/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Depan ]"><i class="fas fa-print  text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-secondary mr-1 mb-1 print" href="'. base_url('admin/Spd/print-belakang/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
-                    $button .= '<a class="btn btn-xs btn-info mr-1 mb-1 print" href="'. base_url('admin/Spd/print-detail/'.$row->id).'"target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data Halaman Belakang ]"><i class="fas fa-print text-white"></i></a>';
+                    $button .= '<a class="btn btn-xs btn-info mr-1 mb-1 print" href="'. base_url('admin/Spd/print-detail/'.$row->id).'"target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="Print Data Halaman Belakang"><i class="fas fa-print text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-primary mr-1 mb-1 print" href="'. base_url('admin/Spd/print/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 }
                 return $button;
             }, 'last')
             ->hide('id')
-            ->addNumbering()
-            ->toJson();
+            ->addNumbering('no')
+            ->toJson(true);
     }
     public function getNoSpdTable() {
         if (!$this->request->isAjax()) {
@@ -496,7 +496,7 @@ class Spd extends ResourcePresenter
             ];
             $id = $this->request->getVar('hiddenID');
             if ($this->spd->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
             } else {
                 $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
@@ -524,33 +524,45 @@ class Spd extends ResourcePresenter
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
-
-            $data['pegawai'] = $query->getResult();
-
-            if(count($data['pegawai']) == 0){
-                $data['pegawai'][0]['nama'] = '--Kosong--';
-                $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
-                $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+            if($data['detail'] == null ){
+                $data['success'] = false;
             }else{
+                $data['success'] = true;
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+    
                 $data['pegawai'] = $query->getResult();
+    
+                if(count($data['pegawai']) == 0){
+                    $data['pegawai'][0]['nama'] = '--Kosong--';
+                    $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
+                    $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+                }else{
+                    $data['pegawai'] = $query->getResult();
+                }
+    
+                $pegawai = array();
+                foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+                    $builder = $this->db->table('pegawai');
+                    $query = $builder->select('pegawai.*')
+                    ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                    ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                    ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                    ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                    $pegawai[] = $query->getResult();
+                }
+    
+                $data['looping'] = $pegawai;
+                $data['json'] = json_decode($data['detail']) == null ? null : json_decode($data['detail'], true);
+                $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+                $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
+
             }
 
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-            $data['looping'] = $query->getResult();
-            $data['json'] = json_decode($data['detail'], true);
-            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -580,11 +592,15 @@ class Spd extends ResourcePresenter
             $data['rekening'] = $this->rekening->select('nomer_rekening')->where('kode_jenis_wilayah', $wilayah)->first();
             $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
             $data['instansi'] = $instansi;
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('nip,nama')
+                ->where('nip', $value)->where('deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $getDiPerintah = $this->pegawai->whereIn('nip', json_decode($data['pegawai_all']))->get();
-
-            // var_dump($getDiPerintah->getResult()[0]);die();
-            $data['diperintah'] = $getDiPerintah->getResult()[0];
+            $data['diperintah'] = $pegawai[0][0];
             
         }
         $data[$this->csrfToken] = $this->csrfHash;
@@ -777,7 +793,7 @@ class Spd extends ResourcePresenter
             ];
             $id = $this->request->getVar('hiddenID');
             if ($this->spd->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan');
+                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/spd'));
             } else {
                 $data = array('success' => false, 'msg' => $this->spt->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
             }
@@ -1002,13 +1018,18 @@ class Spd extends ResourcePresenter
 
         $data['pegawai'] = $query->getResult();
 
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['json'] = json_decode($data['detail'], true);
         $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
@@ -1179,13 +1200,18 @@ class Spd extends ResourcePresenter
 
         $data['pegawai'] = $query->getResult();
 
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['json'] = json_decode($data['detail'], true);
         $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();

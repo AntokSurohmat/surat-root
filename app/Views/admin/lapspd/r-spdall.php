@@ -264,11 +264,13 @@
 						<table width=100% border="0">
 							<?php foreach($pegawai_all as $key_pegawai => $table_pegawai) :?>
 								<?php foreach($table_pegawai as $pegawai_data) :?>
-									<?php if($key_spd == $key_pegawai) :?>
-										<tr>
-											<td><?= $pegawai_data->nama?>,</td>
-										</tr>
-									<?php endif;?>
+									<?php foreach($pegawai_data as $valueData) :?>
+										<?php if($key_spd == $key_pegawai) :?>
+											<tr>
+												<td><?= $valueData->nama?>,</td>
+											</tr>
+										<?php endif;?>
+									<?php endforeach?>
 								<?php endforeach?>
 							<?php endforeach;?>
 											

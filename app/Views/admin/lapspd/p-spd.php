@@ -212,13 +212,15 @@
 				<td style="width: 25%;padding: 5px 10px;">Keterangan</td>
 			</tr>
 			<?php foreach($looping as $pegawailooping) :?>
-				<tr>
-					<td style="width: 5%;"></td>
-					<td style="width:20%;padding-top:5px;padding-left:10px;"><?= $pegawailooping->nama?></td>
-					<td style="width:25%;padding-top:5px;padding-left:10px;"><?= date('d-m-Y', strtotime($pegawailooping->tgl_lahir))?></td>
-					<td style="width:25%;padding-top:5px;padding-left:10px;""><?= $pegawailooping->nama_jabatan?></td>
-				</tr>
+				<?php foreach($pegawailooping as $datalooping) :?>
+					<tr>
+						<td style="width: 5%;"></td>
+						<td style="width:20%;padding-top:5px;padding-left:10px;"><?= $datalooping->nama?></td>
+						<td style="width:25%;padding-top:5px;padding-left:10px;"><?= date('d-m-Y', strtotime($datalooping->tgl_lahir))?></td>
+						<td style="width:25%;padding-top:5px;padding-left:10px;""><?= $datalooping->nama_jabatan?></td>
+					</tr>
 				<?php endforeach?>
+			<?php endforeach?>
 			<tr>
 				<th style="width:5%;vertical-align:top;padding-top:6px;">9.</td>
 				<td style="width:20%;padding:0 10px;">

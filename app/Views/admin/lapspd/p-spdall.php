@@ -289,14 +289,16 @@
 				$i = $n - 1;
 				foreach ($looping as $key => $looping_data) : ?>
 					<?php foreach ($looping_data as $looping_data) : ?>
-						<?php if ($key == $i) : ?>
-							<tr>
-								<td style="width: 5%;"></td>
-								<td style="width:20%;padding-top:5px;padding-left:10px;"><?= $looping_data->nama ?></td>
-								<td style="width:25%;padding-top:5px;padding-left:10px;"><?= date('d-m-Y', strtotime($looping_data->tgl_lahir)) ?></td>
-								<td style="width:25%;padding-top:5px;padding-left:10px;"><?= $looping_data->nama_jabatan ?></td>
-							</tr>
-						<?php endif; ?>
+						<?php foreach ($looping_data as $valueData) : ?>
+							<?php if ($key == $i) : ?>
+								<tr>
+									<td style="width: 5%;"></td>
+									<td style="width:20%;padding-top:5px;padding-left:10px;"><?= $valueData->nama ?></td>
+									<td style="width:25%;padding-top:5px;padding-left:10px;"><?= date('d-m-Y', strtotime($valueData->tgl_lahir)) ?></td>
+									<td style="width:25%;padding-top:5px;padding-left:10px;"><?= $valueData->nama_jabatan ?></td>
+								</tr>
+							<?php endif; ?>
+						<?php endforeach; ?>
 					<?php endforeach; ?>
 				<?php endforeach ?>
 				<tr>

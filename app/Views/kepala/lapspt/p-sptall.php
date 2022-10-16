@@ -158,6 +158,7 @@
 							$m_angka = array("1", "2", "3", "4", "5", "6"); 
 							foreach ($looping as $rows =>  $looping_data) : ?>
 								<?php foreach($looping_data as $index => $looping_isi) : ?>
+									<?php foreach($looping_isi as $index => $datapegawai) : ?>
 								<?php if($rows == $i):?>
 								<table border="0" width=100%>
 									<tbody>
@@ -165,30 +166,31 @@
 											<td style="width:5%;text-align:center;font-weight:600;padding: 2px 10px;"><?= $m_angka[$index] ?>.</td>
 											<td style="width:32%;font-weight:600;padding: 2px 10px;">Nama</td>
 											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-											<td style="padding: 2px 10px;"><?= $looping_isi->nama?></td>
+											<td style="padding: 2px 10px;"><?= $datapegawai->nama?></td>
 										</tr>
 										<tr>
 											<td style="padding: 2px 10px;"></td>
 											<td style="width:32%;font-weight:600;padding: 2px 10px;">Pangkat Golongan</td>
 											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-											<td style="padding: 2px 10px;"><?= $looping_isi->nama_pangol?></td>
+											<td style="padding: 2px 10px;"><?= $datapegawai->nama_pangol?></td>
 										</tr>
 										<tr>
 											<td style="padding: 2px 10px;"></td>
 											<td style="width:32%;font-weight:600;padding: 2px 10px;">NIP</td>
 											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-											<td style="padding: 2px 10px;"><?= $looping_isi->nip?></td>
+											<td style="padding: 2px 10px;"><?= $datapegawai->nip?></td>
 										</tr>
 										<tr>
 											<td style="padding: 2px 10px;"></td>
 											<td style="width:32%;font-weight:600;padding: 2px 10px;">Jabatan</td>
 											<td style="width:2%;font-weight:600;padding: 2px 10px;">:</td>
-											<td style="padding: 2px 10px;"><?= $looping_isi->nama_jabatan?></td>
+											<td style="padding: 2px 10px;"><?= $datapegawai->nama_jabatan?></td>
 										</tr>
 									</tbody>
 								</table>
 
 								<?php endif?>
+								<?php endforeach;?>
 								<?php endforeach;?>
 							<?php endforeach;?>
 					</td>
