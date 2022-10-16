@@ -86,18 +86,6 @@
 
 <body>
 
-<?php
-
-// echo '<pre>';
-// // // // print_r($spt);
-// // // // print_r($spt_all);
-// // print_r($pegawai_all);
-// // // print_r($pegawai);
-// // // // print_r($instansi);
-// print_r($pejabat);
-// echo '</pre>';
-// die();
-?>
 	<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 	<table border="0" width=100% cellpadding=2 cellspacing=0 style="margin-top: 5px; text-align:center">
 		<tr>

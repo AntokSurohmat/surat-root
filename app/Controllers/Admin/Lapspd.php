@@ -303,7 +303,6 @@ class Lapspd extends BaseController
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'Spd_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
@@ -367,7 +366,6 @@ class Lapspd extends BaseController
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'Spd_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
@@ -435,7 +433,6 @@ class Lapspd extends BaseController
         $data['instansi'] = $instansi;
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'All_Spd' ;
         // instantiate and use the dompdf class
@@ -505,7 +502,6 @@ class Lapspd extends BaseController
         $data['instansi'] = $instansi;
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'All_Spd' ;
         // instantiate and use the dompdf class

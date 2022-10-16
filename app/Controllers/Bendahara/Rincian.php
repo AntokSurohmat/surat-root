@@ -379,15 +379,9 @@ class Rincian extends ResourcePresenter
             foreach($data['json'] as $key => $json){
                 if($key == $this->request->getVar('number')) {
                     foreach($json as $row => $bukti){
-                        // var_dump($bukti[]);die();
                         $result[$row] = $bukti;
-                        // $result['bukti'] = $bukti->bukti_riil;
                     }
                 }
-                // echo '<pre>';
-                // print_r($key);
-                // echo '</pre>';
-                // die();
             }
 
             $result[$this->csrfToken] = $this->csrfHash;
@@ -504,24 +498,10 @@ class Rincian extends ResourcePresenter
             $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
             $olds = json_decode($prop_item['detail']);
 
-            // if ($imagefile = $this->request->getFiles()) {
-            //     foreach ($imagefile['buktiAddEditForm'] as $key => $img) {
-            //     echo '<pre>'; 
-            //         print_r($img);
-            //     echo'</pre>';
-            //     var_dump($key);
-            // }
-            // die();
-            // }
-
             $image = array();
             if ($imagefile = $this->request->getFiles()) {
-                foreach ($imagefile['buktiAddEditForm'] as $img) {
-                    // echo '<pre>'; 
-                    //     print_r($img);
-                    // echo'</pre>';
+                foreach ($imagefile['buktiAddEditForm'] as  $img) {
                     
-
                     if ($img->isValid() && !$img->hasMoved()) {
                         // foreach($olds as $imgs){
 

@@ -205,7 +205,6 @@ class Kuitansi extends ResourcePresenter
                 break;
         }
 
-        // var_dump($kode); die();
         $noSpt = $this->db->table('spd')
                 ->select('tujuan.pelaksana')
                 ->join('spt', 'spt.kode = spd.kode', 'left')
@@ -214,10 +213,6 @@ class Kuitansi extends ResourcePresenter
                 ->get();
 
         $result = $noSpt->getResult();
-                // echo '<pre>';
-                // print_r($result[0]->pelaksana);
-                // echo'</pre>';
-                // die();
 
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {

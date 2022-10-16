@@ -89,18 +89,6 @@
 
 <body>
 
-<?php
-	// echo "<pre>";
-	// print_r($spt);
-	// echo "</pre><br>";
-	// echo "<pre>";
-	// print_r($looping);
-	// echo "</pre><br>";
-	// // echo "<pre>";
-	// // print_r($pejabat);
-	// // echo "</pre><br>";
-	// die();
-?>
 	<?php 
 	$n= 1;
 	$count= count($spt);

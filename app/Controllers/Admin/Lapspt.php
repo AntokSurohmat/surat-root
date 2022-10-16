@@ -254,7 +254,6 @@ class Lapspt extends BaseController
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'Spt_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
@@ -306,7 +305,6 @@ class Lapspt extends BaseController
         $data['untuk'] = $this->tujuan->where('id', $data['untuk'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
 
         $filename = 'Spt_No_'.$data['kode'] ;
         // instantiate and use the dompdf class
@@ -365,7 +363,6 @@ class Lapspt extends BaseController
 
         
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
         
         $filename = 'ALL_SPT_'.date('d-m-Y') ;
         // instantiate and use the dompdf class
@@ -424,7 +421,6 @@ class Lapspt extends BaseController
 
         
         $data[$this->csrfToken] = $this->csrfHash;
-        // d($data);print_r($data);die();
         
         $filename = 'ALL_SPT_'.date('d-m-Y') ;
         // instantiate and use the dompdf class
@@ -483,13 +479,8 @@ class Lapspt extends BaseController
         $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
         $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['spt']['untuk'])->first();
-        // $spt->getResult();
-
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // echo'<pre>';print_r($data);echo'</pre>';die();
-        // d($max->getResult()[0]->id);print_r($max->getResult()[0]->id);die();
-        // d($data);print_r($data);die();
         
         $filename = 'ALL_Recap_'.date('d-m-Y') ;
         // instantiate and use the dompdf class
@@ -549,13 +540,8 @@ class Lapspt extends BaseController
         $data['instansi'] = $this->instansi->where('kode', $data['spt']['kode_instansi'])->first();
         $data['pejabat'] = $this->pegawai->where('nip', $data['spt']['pejabat'])->first();
         $data['untuk'] = $this->tujuan->where('id', $data['spt']['untuk'])->first();
-        // $spt->getResult();
-
 
         $data[$this->csrfToken] = $this->csrfHash;
-        // echo'<pre>';print_r($data);echo'</pre>';die();
-        // d($max->getResult()[0]->id);print_r($max->getResult()[0]->id);die();
-        // d($data);print_r($data);die();
         
         $filename = 'ALL_Recap_'.date('d-m-Y') ;
         // instantiate and use the dompdf class

@@ -107,7 +107,7 @@ class Spd extends BaseController
                 if ($request->instansi)
                     $builder->where('instansi.nama_instansi', $request->instansi);
             })
-            ->add(null, function($row){
+            ->add('aksi', function($row){
                 if($row->status == 'false'){
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 }else{
@@ -118,8 +118,8 @@ class Spd extends BaseController
                 return $button;
             }, 'last')
             ->hide('id')
-            ->addNumbering()
-            ->toJson();
+            ->addNumbering('no')
+            ->toJson(true);
     }
     public function getNoSpdTable() {
         if (!$this->request->isAjax()) {
@@ -232,33 +232,44 @@ class Spd extends BaseController
         if ($this->request->getVar('id')) {
             $data = $this->spd->where('id', $this->request->getVar('id'))->first();
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
-
-            $data['pegawai'] = $query->getResult();
-
-            if(count($data['pegawai']) == 0){
-                $data['pegawai'][0]['nama'] = '--Kosong--';
-                $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
-                $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+            if($data['detail'] == null ){
+                $data['success'] = false;
             }else{
+                $data['success'] = true;
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $data['pegawai_diperintah'])->get();
+    
                 $data['pegawai'] = $query->getResult();
+    
+                if(count($data['pegawai']) == 0){
+                    $data['pegawai'][0]['nama'] = '--Kosong--';
+                    $data['pegawai'][0]['nama_pangol'] = '--Kosong--';
+                    $data['pegawai'][0]['nama_jabatan'] = '--Kosong--';
+                }else{
+                    $data['pegawai'] = $query->getResult();
+                }
+    
+                $pegawai = array();
+                foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+                    $builder = $this->db->table('pegawai');
+                    $query = $builder->select('pegawai.*')
+                    ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                    ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                    ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                    ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                    $pegawai[] = $query->getResult();
+                }
+    
+                $data['looping'] = $pegawai;
+                $data['json'] = json_decode($data['detail'], true);
+                $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
+                $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
             }
 
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
-
-            $data['looping'] = $query->getResult();
-            $data['json'] = json_decode($data['detail'], true);
-            $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
-            $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;
             echo json_encode($data);
@@ -266,7 +277,7 @@ class Spd extends BaseController
     }
     public function print($id = null){
 
-        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', NULL)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -285,13 +296,18 @@ class Spd extends BaseController
 
         $data['pegawai'] = $query->getResult();
 
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['json'] = json_decode($data['detail'], true);
         $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();
@@ -325,7 +341,7 @@ class Spd extends BaseController
 
     public function download($id = null){
 
-        $spd_id = $this->spd->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        $spd_id = $this->spd->where('id', $id)->where('deleted_at', NULL)->get();
         if($spd_id->getRow() == null){
             return redirect()->to(site_url('pegawai/spd/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
@@ -344,13 +360,18 @@ class Spd extends BaseController
 
         $data['pegawai'] = $query->getResult();
 
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(str_replace($data['pegawai_diperintah'],'',json_decode($data['pegawai_all'])) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['json'] = json_decode($data['detail'], true);
         $data['diperintah'] = $this->pegawai->where('nip', $data['pejabat'])->first();
         $data['instansi'] = $this->instansi->select('nama_instansi')->where('kode', $data['kode_instansi'])->first();

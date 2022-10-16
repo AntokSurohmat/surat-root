@@ -469,9 +469,6 @@ class Spt extends ResourcePresenter
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $pegawai = $this->request->getVar('pegawaiAddEditForm');
-        // var_dump($pegawai);die();
-
         $validation = \Config\Services::validation();
 
         if($this->request->getVar('pegawaiAddEditForm[]') == NULL){

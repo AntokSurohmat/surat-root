@@ -86,20 +86,6 @@
 	<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 
 	<?php
-	// // // d($looping);
-	// echo "<pre>";
-	// // // // // // // print_r($spd);
-	// // // print_r($pegawai);
-	// // print_r($looping);
-	// print_r($json);
-	// // // // print_r($diperintah);
-	// // // // print_r($instansi);
-	// echo "</pre>";
-	// die();
-
-	?>
-
-	<?php
 	$n = 1;
 	$count = count($spd); ?>
 	<?php foreach ($spd as $spd_data) : ?>

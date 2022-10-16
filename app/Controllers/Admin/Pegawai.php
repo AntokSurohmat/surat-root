@@ -57,7 +57,6 @@ class Pegawai extends ResourcePresenter
         $count_all = $this->pegawai->count_all();
         $count_filter = $this->pegawai->count_filter();
 
-        // d($list);print_r($list);die();
         $data = array();
         $no = $this->request->getPost('start');
         foreach ($list as $key) {
@@ -569,7 +568,6 @@ class Pegawai extends ResourcePresenter
             $imageName = $prop_item['foto'];
 
             if($imageName != NULL){
-                // d("OK");die();
                 if(file_exists("uploads/foto/".$imageName)){
                     unlink("uploads/foto/".$imageName);
                 }

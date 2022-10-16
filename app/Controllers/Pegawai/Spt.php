@@ -238,24 +238,28 @@ class Spt extends BaseController
 
     public function print($id = null){
 
-        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        $spt_id = $this->spt->where('id', $id)->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-        if (!$this->request->getVar('id')) {
+        if (!$id) {
             return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spt->where('id',$id)->first();
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;
@@ -287,24 +291,28 @@ class Spt extends BaseController
 
     public function download($id = null){
 
-        $spt_id = $this->spt->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
+        $spt_id = $this->spt->where('id', $id)->where('deleted_at', NULL)->get();
         if($spt_id->getRow() == null){
             return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-        if (!$this->request->getVar('id')) {
+        if (!$id) {
             return redirect()->to(site_url('pegawai/spt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
         $data = $this->spt->where('id',$id)->first();
 
-        $builder = $this->db->table('pegawai');
-        $query = $builder->select('pegawai.*')
-        ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-        ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-        ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-        ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+        $pegawai = array();
+        foreach(json_decode($data['pegawai_all']) as $value) {
+            $builder = $this->db->table('pegawai');
+            $query = $builder->select('pegawai.*')
+            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+            ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+            $pegawai[] = $query->getResult();
+        }
 
-        $data['looping'] = $query->getResult();
+        $data['looping'] = $pegawai;
         $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
         $data[$this->csrfToken] = $this->csrfHash;

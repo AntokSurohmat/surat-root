@@ -60,7 +60,6 @@ class Instansi extends ResourcePresenter
         $count_all = $this->instansi->count_all();
         $count_filter = $this->instansi->count_filter();
 
-        // d($list);print_r($list);die();
         $data = array();
         $no = $this->request->getPost('start');
         foreach ($list as $key) {
@@ -316,8 +315,6 @@ class Instansi extends ResourcePresenter
                 'nama_instansi'  => $this->db->escapeString($this->request->getVar('instansiAddEditForm')),
             ];
 
-            // $insert = $this->instansi->insert($data);
-            // d($insert);print_r($insert);die();
             if ($this->instansi->insert($data)) {
                 $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('admin/instansi'));
             } else {

@@ -69,8 +69,6 @@ class Auth extends BaseController
         } else {
             // $data = "";
             $user =  $this->pegawai->where('username', $this->request->getVar('username'))->first();
-            // d($user);print_R($user);
-            // Stroing session values
             $this->setUserSession($user);
 
             // Redirecting to dashboard after login
@@ -87,13 +85,9 @@ class Auth extends BaseController
                 $data = array('success' => true, 'msg' => 'Selamat Datang '.$user['level'].'', 'redirect' => base_url('pegawai'));
             }
         }
-        // d($data);print_R($data);die();
         $data['msg'] = $data['msg'];
         $data[$this->csrfToken] = $this->csrfHash;
-        // return $this->response->setJSON($data);
         return $this->response->setJSON($data);
-        // d($this->response->setJSON($data));print_R($this->response->setJSON($data));die();
-        // echo json_encode($data);
 
     }
 
