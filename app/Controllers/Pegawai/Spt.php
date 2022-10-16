@@ -61,7 +61,8 @@ class Spt extends BaseController
         $builder = $this->db->table('spt')
                   ->select('spt.id, spt.kode, pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
                   ->join('pegawai', 'pegawai.nip = spt.pejabat')
-                  ->join('instansi', 'instansi.kode = spt.kode_instansi');
+                  ->join('instansi', 'instansi.kode = spt.kode_instansi')
+                  ->where('spt.deleted_at', null);
 
         return DataTable::of($builder)
             ->postQuery(function($builder){
@@ -72,8 +73,13 @@ class Spt extends BaseController
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('pegawai_all', function($value){
-                $query = $this->pegawai->whereIn('nip', json_decode($value))->get();
-                foreach($query->getResult() as $row){$pegawai[] = $row->nama;}return $pegawai;
+                $namas = array();
+                foreach(json_decode($value) as $valu ) {
+                    $okay = $this->pegawai->where('nip', $valu)->get();
+                    $result = $okay->getResult();
+                    $namas[] = $result[0]->nama;
+                }
+                return $namas;
             })
             ->filter(function ($builder, $request) {
                 if ($request->noSpt)
@@ -211,14 +217,18 @@ class Spt extends BaseController
         if ($this->request->getVar('id')) {
             $data = $this->spt->where('id', $this->request->getVar('id'))->first();
 
-            $builder = $this->db->table('pegawai');
-            $query = $builder->select('pegawai.*')
-            ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
-            ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
-            ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
-            ->whereIn('pegawai.nip', json_decode($data['pegawai_all']))->get();
+            $pegawai = array();
+            foreach(json_decode($data['pegawai_all']) as $value) {
+                $builder = $this->db->table('pegawai');
+                $query = $builder->select('pegawai.*')
+                ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
+                ->join('pangol', 'pangol.kode = pegawai.kode_pangol', 'left')
+                ->join('jabatan', 'jabatan.kode = pegawai.kode_jabatan', 'left')
+                ->where('pegawai.nip', $value)->where('pegawai.deleted_at', null)->get();
+                $pegawai[] = $query->getResult();
+            }
 
-            $data['looping'] = $query->getResult();
+            $data['looping'] = $pegawai;
             $data['pegawai'] = $this->pegawai->where('nip', $data['pejabat'])->first();
 
             $data[$this->csrfToken] = $this->csrfHash;

@@ -62,7 +62,8 @@ class Spt extends ResourcePresenter
         $builder = $this->db->table('spt')
                   ->select('spt.id, spt.kode, spt.pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
                   ->join('pegawai', 'pegawai.nip = spt.pejabat')
-                  ->join('instansi', 'instansi.kode = spt.kode_instansi');
+                  ->join('instansi', 'instansi.kode = spt.kode_instansi')
+                  ->where('spt.deleted_at', null);
 
         return DataTable::of($builder)
             ->postQuery(function($builder){

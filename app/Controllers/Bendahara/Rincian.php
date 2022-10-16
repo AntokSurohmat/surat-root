@@ -63,10 +63,14 @@ class Rincian extends ResourcePresenter
         }
 
         $builder = $this->db->table('rincian')
-                  ->select('id,kode_spd, rincian_sbuh, jumlah_uang, jumlah_total');
+                  ->select('id,kode_spd, rincian_sbuh, jumlah_uang, jumlah_total')
+                  ->where('deleted_at', null);
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+            ->postQuery(function($builder){
+                $builder->orderBy('kode_spd', 'desc');
+                $builder->where('deleted_at', null);
+            })
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
             ->format('jumlah_total', function($value){return 'Rp. '.number_format($value, 0,'','.');})
             ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])

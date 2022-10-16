@@ -66,7 +66,8 @@ class Spd extends BaseController
         $builder = $this->db->table('spd')
                   ->select('spd.id, spd.kode, pegawai_diperintah, pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status')
                   ->join('pegawai', 'pegawai.nip = spd.pejabat')
-                  ->join('instansi', 'instansi.kode = spd.kode_instansi');
+                  ->join('instansi', 'instansi.kode = spd.kode_instansi')
+                  ->where('spd.deleted_at', null);
 
         return DataTable::of($builder)
             ->postQuery(function($builder){

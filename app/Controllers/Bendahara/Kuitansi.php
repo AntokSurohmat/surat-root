@@ -68,10 +68,14 @@ class Kuitansi extends ResourcePresenter
         $builder = $this->db->table('kuitansi')
                   ->select('kuitansi.id,kode_spd, pegawai.nama, instansi.nama_instansi, awal, akhir, jumlah_uang')
                   ->join('pegawai', 'pegawai.nip = kuitansi.pegawai_diperintah')
-                  ->join('instansi', 'instansi.kode = kuitansi.kode_instansi');
+                  ->join('instansi', 'instansi.kode = kuitansi.kode_instansi')
+                  ->where('kuitansi.deleted_at', null);
 
         return DataTable::of($builder)
-            ->postQuery(function($builder){$builder->orderBy('kode_spd', 'desc');})
+            ->postQuery(function($builder){
+                $builder->orderBy('kode_spd', 'desc');
+                $builder->where('kuitansi.deleted_at', null);
+            })
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
