@@ -73,7 +73,7 @@ class Rincian extends ResourcePresenter
             })
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
             ->format('jumlah_total', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
+            ->setSearchableColumns(['kode_spd', 'rincian_sbuh', 'jumlah_uang', 'jumlah_total'])
             ->add(null, function($row){
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                 $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/Bendahara/Rincian/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;

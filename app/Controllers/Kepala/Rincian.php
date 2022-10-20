@@ -73,15 +73,14 @@ class Rincian extends ResourcePresenter
             })
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
             ->format('jumlah_total', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
+            ->setSearchableColumns(['kode_spd', 'rincian_sbuh', 'jumlah_uang', 'jumlah_total'])
             ->add(null, function($row){
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/kepala/Rincian/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
-                $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
                 $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/kepala/Rincian/print/' . $row->id . '" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 return $button;
             }, 'last')
-            ->hide('id')->addNumbering()
+            ->hide('id')
+            ->addNumbering()
             ->toJson();
 
     }
@@ -161,14 +160,7 @@ class Rincian extends ResourcePresenter
      */
     public function new()
     {
-        $data = array(
-            'title' => 'Input Rincian',
-            'parent' => 4,
-            'pmenu' => 4.2,
-            'method' => 'New',
-            'hiddenID' => '',
-        );
-        return view('kepala/rincian/v-rincianAddEdit', $data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -251,18 +243,7 @@ class Rincian extends ResourcePresenter
      */
     public function edit($id = null)
     {
-        if (!$id) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
-
-        $data = array(
-            'title' => 'Edit Rincian',
-            'parent' => 4,
-            'pmenu' => 4.2,
-            'method' => 'Update',
-            'hiddenID' => $id,
-        );
-        return view('kepala/rincian/v-rincianAddEdit', $data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -275,149 +256,7 @@ class Rincian extends ResourcePresenter
      */
     public function update($id = null)
     {
-
-        if (!$this->request->isAJAX()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
-        $rincian_id = $this->rincian->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', NULL)->get();
-        if($rincian_id->getRow() == null){
-            return redirect()->to(site_url('kepala/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('hiddenID')) {
-            return redirect()->to(site_url('kepala/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-
-        $validation = \Config\Services::validation();
-        $valid = $this->validate([
-            'noSpdAddEditForm' => [
-                'label'     => 'No SPD',
-                'rules'     => 'required|numeric|max_length[3]',
-                'errors' => [
-                    'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
-                    'max_length'    => '{field} Maksimal 3 Karakter',
-                ],
-            ],
-            'rincianBiayaSpdAddEditForm' => [
-                'label'     => 'Rincian Biaya Uang Harian',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'jumlahTotalSpdAddEditForm' => [
-                'label'     => 'Jumlah Total',
-                'rules'     => 'required|numeric|max_length[8]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 8 Karakter',
-                ]
-            ],
-            'rincianBiayaAddEditForm[]' => [
-                'label'     => 'Rincian Biaya',
-                'rules'     => 'permit_empty',
-            ],
-            'jumlahAddEditForm[]' => [
-                'label'     => 'Jumlah Rincian',
-                'rules'     => 'permit_empty'
-            ],
-            'buktiAddEditForm[]' => [
-                'label' => 'Bukti Riil',
-                'rules' => "mime_in[buktiAddEditForm,image/jpg,image/jpeg,image/gif,image/png]"
-                ."|max_size[buktiAddEditForm,2048]",
-				'errors' => [
-					'mime_in' => 'File Extention Harus Berupa jpg,jpeg,gif,png',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-                ],
-            ],
-        ]);
-
-        if (!$valid) {
-            /**
-             *'kode' => $validation->getError('kodeAddEdit'),
-             * 'kode' -> id or class to display error
-             * 'kodeAddEdit' -> name field that ajax send
-             */
-            $data = [
-                'error' => [
-                    'noSpd' => $validation->getError('noSpdAddEditForm'),
-                    'rincianBiayaSpd' => $validation->getError('rincianBiayaSpdAddEditForm'),
-                    'jumlahTotalSpd' => $validation->getError('jumlahTotalSpdAddEditForm'),
-                ],
-                'msg' => '',
-            ];
-        }else{
-
-            $prop_item = $this->rincian->where('id', $this->request->getVar('hiddenID'))->first();
-            $olds = json_decode($prop_item['detail']);
-
-            $image = array();
-            if ($imagefile = $this->request->getFiles()) {
-                foreach ($imagefile['buktiAddEditForm'] as $img) {
-                    if ($img->isValid() && !$img->hasMoved()) {
-                        foreach($olds as  $imgs){
-                            foreach($imgs as $row =>  $content){
-                                if($row == 'bukti_riil'){
-                                    $myArray = explode('/', $content);
-                                    if (file_exists("uploads/rincian/".$myArray[0]."/".$myArray[1])) {
-                                        unlink("uploads/rincian/".$myArray[0]."/".$myArray[1]);
-                                    }
-                                }
-                            }
-                        }
-
-                        $newName = $img->getRandomName();
-                        $img->move('uploads/rincian/' . date('d-m-Y') . '/', $newName);
-                        $image[] = date('d-m-Y') . '/' . $newName;
-                    } else {
-                        foreach($olds as  $imgs){
-                            foreach($imgs as $row =>  $content){
-                                if($row == 'bukti_riil'){
-                                    $image[] = $content;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            $a = $this->request->getVar('rincianBiayaAddEditForm[]');
-            $b = $this->request->getVar('jumlahAddEditForm[]');
-            $c = $image;
-
-
-            for($i=0;$i<count($a);$i++){
-                $detail_array[$i]["rincian_biaya"]=$a[$i];
-                $detail_array[$i]["jumlah_biaya"]=$b[$i];
-                $detail_array[$i]["bukti_riil"]=$c[$i];
-            }
-
-            $kode_spd = $this->kuitansi->where('kode_spd', $this->request->getVar('noSpdAddEditForm'))->first();
-
-            $data = [
-                'kode_spd' => $this->db->escapeString($this->request->getVar('noSpdAddEditForm')),
-                'rincian_sbuh' => $this->db->escapeString($this->request->getVar('rincianBiayaSpdAddEditForm')),
-                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahTotalSpdAddEditForm')),
-                'jumlah_total' => $this->db->escapeString($kode_spd['jumlah_uang']),
-                'awal' =>  $this->db->escapeString($kode_spd['awal']),
-                'akhir' =>  $this->db->escapeString($kode_spd['akhir']),
-                'yang_menyetujui' => $kode_spd['yang_menyetujui'],
-                'bendahara' => $this->session->get('nip'),
-                'detail' => json_encode($detail_array, JSON_UNESCAPED_SLASHES),
-            ];
-
-            // d($data);print_r($data);die();
-            $id = $this->request->getVar('hiddenID');
-            if ($this->rincian->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('kepala/rincian'));
-            } else {
-                $data = array('success' => false, 'msg' => $this->rincian->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
-            }
-        }
-
-        $data['msg'] =$data['msg'];
-        $data[$this->csrfToken] = $this->csrfHash;
-        return $this->response->setJSON($data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -441,29 +280,7 @@ class Rincian extends ResourcePresenter
      */
     public function delete($id = null)
     {
-        if (!$this->request->isAJAX()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
-        $rincian_id = $this->rincian->where('id', $this->request->getVar('id'))->where('deleted_at', NULL)->get();
-        if($rincian_id->getRow() == null){
-            return redirect()->to(site_url('kepala/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('id')) {
-            return redirect()->to(site_url('kepala/rincian/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-
-        if ($this->request->getVar('id')) {
-            $id = $this->request->getVar('id');
-
-            if ($this->rincian->where('id', $id)->delete($id)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil dihapus');
-            } else {
-                $data = array('success' => false, 'msg' => 'Terjadi kesalahan dalam memilah data');
-            }
-        }
-
-        $data[$this->csrfToken] = $this->csrfHash;
-        echo json_encode($data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     public function print($id = null){

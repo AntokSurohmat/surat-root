@@ -225,13 +225,10 @@
             success: function(data) {
                 $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#kodeForm').val(data.kode);
                 $('#kodeForm').val(data.kode);
-                // console.log(data);
             }
         })
     }
 
-    // var brg = genfunc($('input[name=csrf_token_name]').val(),'<?= base_url() ?>Admin/Spt/nomer');
-    // console.log(brg);
     $(document).ready(function() {
 
         // preventDefault to stay in modal when keycode 13
@@ -367,35 +364,14 @@
             }
         });
 
-        // $("#pegawaiForm").on("select2:select", function (evt) {
-        //     // var values = [];
-        //     // // var keys = [];
-        //     var element =  evt.params.data.text
-        //     // values.push(element);
-        //     // // $.each(element, function(key, value) {
-        //     // //     values.push(value);
-        //     // // });
-        //     // console.log(values);
-        //     var $element = $(element);
+        $("#pegawaiForm").on("select2:select", function (evt) {
+            var element =  evt.params.data.text
+            var $element = $(element);
             
-        //     $element.detach();
-        //     $(this).append($element);
-        //     $(this).trigger("change");
-        // });
-
-        // // jQuery("#pegawaiForm").each(function(){
-        // //     $this = jQuery(this);
-        // //     if($this.attr('data-reorder')){
-        // //         $this.on('select2:select', function(e){
-        // //         var elm = e.params.data.element;
-        // //         $elm = jQuery(elm);
-        // //         $t = jQuery(this);
-        // //         $t.append($elm);
-        // //         $t.trigger('change.select2');
-        // //     });
-        // // }
-        // //     console.log($this.select2());
-        // // });
+            $element.detach();
+            $(this).append($element);
+            $(this).trigger("change");
+        });
 
         // Initialize select2
         var url_destination = '<?= base_url('Admin/Spt/getTujuan') ?>';
@@ -462,9 +438,6 @@
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spt/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Spt/Update') ?>";}
 
-
-            console.log($(this).serialize());
-            // throw new Error("my error message");
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",cache:false,
                 beforeSend: function() {
                     $('#submit-spt').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spt').prop('disabled', true);
@@ -481,8 +454,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success==true) {
@@ -533,16 +504,12 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data.pegawai);
                         $('#submit-spt').removeClass("btn-success");
                         $('#submit-spt').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         $('#kodeForm').val(data.kode);
                         data.pegawai.forEach((pegawailoop, index) => {
-                            // console.log(pegawailoop);
                             pegawailoop.forEach((dataloop, index) => {
-                                console.log(dataloop);
-
                                 $("#pegawaiForm").append($("<option selected='selected'></option>")
                                 .val(dataloop.nip).text(dataloop.nama)).trigger('change');
                             })

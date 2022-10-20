@@ -74,7 +74,6 @@ class Spd extends ResourcePresenter
                     return "--Kosong--";
                 }else{
                     $pegawai = $this->pegawai->select('nama')->where('nip', $value)->first();
-                    // d($pegawai);print_r($pegawai);die();
                     return ($pegawai != NULL) ? $pegawai['nama'] : '--Kosong--';
                 }
             })

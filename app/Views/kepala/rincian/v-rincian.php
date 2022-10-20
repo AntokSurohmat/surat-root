@@ -301,7 +301,6 @@
                 url: url_destination,type: "POST",
                 data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#lampiranSpdNomor').append(': '+data.kode_spd);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
@@ -354,56 +353,6 @@
             return parts.join(".");
         }
 
-        $(document).on('click', '.delete', function() {
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var id = $(this).data('id');
-                    var url_destination = "<?= base_url('Kepala/Rincian/Delete') ?>";
-                    $.ajax({
-                        url: url_destination,
-                        method: "POST",
-                        data: {
-                            id: id,
-                            csrf_token_name: $('input[name=csrf_token_name]').val()
-                        },
-                        dataType: "JSON",
-                        success: function(data) {
-                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                            if (data.success) {
-                                swalWithBootstrapButtons.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
-                                });
-                                $('#rcn_data').DataTable().ajax.reload(null, false);
-                            } else {
-                                swalWithBootstrapButtons.fire({
-                                    icon: 'error',
-                                    title: 'Not Deleted!',
-                                    text: data.msg,
-                                    showConfirmButton: true,
-                                    timer: 4000
-                                });
-                                $('#rcn_data').DataTable().ajax.reload(null, false);
-                            }
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-                        }
-                    });
-                }
-            })
-        });
     })
 </script>
 <?= $this->endSection() ?>

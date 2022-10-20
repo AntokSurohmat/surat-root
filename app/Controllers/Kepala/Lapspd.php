@@ -41,8 +41,8 @@ class Lapspd extends BaseController
     {
         $data = array(
             'title' => 'LAPORAN SURAT PERJALAN DINAS',
-            'parent' => 4,
-            'pmenu' => 4.2
+            'parent' => 3,
+            'pmenu' => 3.2
         );
         return view('kepala/lapspd/v-lapspd', $data);
     }

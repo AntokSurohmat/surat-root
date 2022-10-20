@@ -397,7 +397,6 @@
                 url: url_destination,type: "POST",
                 data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     var m_names = new Array("01","02","03","04","05","06","07","08","09","10","11","12");
                     var m_awal = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");

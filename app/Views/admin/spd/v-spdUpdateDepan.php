@@ -211,8 +211,6 @@
         var url_destination = '<?= base_url('Admin/Spd/getPegawai') ?>';
         var id = $('#hiddenIDPage').val();
         $("#pegawaiForm").select2({
-            // var pegawai = $('#pegawaiAddEditForm :selected').val();
-            // console.log(pegawai);
             minimumResultsForSearch: Infinity,
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Pegawai ---',
@@ -226,7 +224,6 @@
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('Admin/Spd/update_depan') ?>";
-            // console.log($(this).serialize());
 
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
@@ -238,13 +235,11 @@
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
-                        // console.log(data.error);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success == true) {
@@ -290,7 +285,6 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data.json);
                         $('#submit-spd').removeClass("btn-success");
                         $('#submit-spd').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);

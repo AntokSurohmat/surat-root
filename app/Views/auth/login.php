@@ -77,7 +77,6 @@
         $('#form-login').on('submit', function(event) {
             event.preventDefault();
             var url_destination = "<?= base_url('auth/auth/login') ?>";
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn').prop('disabled', true);
@@ -86,7 +85,6 @@
                     $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Sign In");$('#submit-btn').prop('disabled', false);
                 },
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -95,8 +93,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                         Swal.fire({
                             icon: 'error',title: 'Oops...',
@@ -104,7 +100,6 @@
                             timer: 2000,timerProgressBar: true,
                         })
                     }
-                    // console.log(data.success);
                     if (data.success == true) {
                         clearform();let timerInterval
                         Swal.fire({

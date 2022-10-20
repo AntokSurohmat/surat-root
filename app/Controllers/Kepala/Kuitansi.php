@@ -79,7 +79,6 @@ class Kuitansi extends ResourcePresenter
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
             ->filter(function ($builder, $request) {
                 if ($request->noSpd)
                     $builder->where('kode_spd', $request->noSpd);
@@ -94,8 +93,6 @@ class Kuitansi extends ResourcePresenter
             })
             ->add(null, function($row){
                 $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
-                $button .= '<a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="/kepala/Kuitansi/edit/' . $row->id . '"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>' ;
-                $button .='<a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>';
                 $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="/kepala/Kuitansi/Print/' . $row->id . '" name="print" target="_blank" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
                 return $button;
             }, 'last')
@@ -334,14 +331,7 @@ class Kuitansi extends ResourcePresenter
      */
     public function new()
     {
-        $data = array(
-            'title' => 'Input Kuitansi',
-            'parent' => 4,
-            'pmenu' => 4.1,
-            'method' => 'New',
-            'hiddenID' => '',
-        );
-        return view('kepala/kuitansi/v-kuitansiAddEdit', $data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -432,23 +422,7 @@ class Kuitansi extends ResourcePresenter
      */
     public function edit($id = null)
     {
-
-        $kuitansi_id = $this->kuitansi->where('id', $id)->where('deleted_at', NULL)->get();
-        if($kuitansi_id->getRow() == null){
-            return redirect()->to(site_url('kepala/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$id) {
-            return redirect()->to(site_url('kepala/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-
-        $data = array(
-            'title' => 'Edit Data Surat Perjalanan Dinas',
-            'parent' => 4,
-            'pmenu' => 4.2,
-            'method' => 'Update',
-            'hiddenID' => $id,
-        );
-        return view('kepala/kuitansi/v-kuitansiAddEdit', $data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**
@@ -461,183 +435,7 @@ class Kuitansi extends ResourcePresenter
      */
     public function update($id = null)
     {
-        if (!$this->request->isAJAX()) {
-            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
-        }
-        $kuitansi_id = $this->kuitansi->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', NULL)->get();
-        if($kuitansi_id->getRow() == null){
-            return redirect()->to(site_url('kepala/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-        if (!$this->request->getVar('hiddenID')) {
-            return redirect()->to(site_url('kepala/kuitansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
-        }
-
-        $validation = \Config\Services::validation();
-        $valid = $this->validate([
-            'noSpdAddEditForm' => [
-                'label'     => 'No SPT',
-                'rules'     => 'required|numeric|max_length[3]',
-                'errors' => [
-                    'numeric'       => '{field} Hanya Bisa Memasukkan Angka',
-                    'max_length'    => '{field} Maksimal 3 Karakter',
-                ],
-            ],
-            'namaPegawaiAddEditForm' => [
-                'label'     => 'Pegawai Yang diperintah',
-                'rules'     => 'required|max_length[20]|isDeleted[namaPegawaiAddEditForm]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 20 Karakter',
-                    'isDeleted' => 'Data Pegawai Telah Dihapus',
-                ]
-            ],
-            'nipAddEditForm' => [
-                'label'     => 'NIP Pegawai',
-                'rules'     => 'required|numeric|max_length[25]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 25 Karakter',
-                ]
-            ],
-            'namaAddEditForm' => [
-                'label'     => 'Nama Pegawai',
-                'rules'     => 'required|max_length[25]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'pangkatAddEditForm' => [
-                'label'     => 'Pangkat & Golongan Pegawai',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
-            ],
-            'jabatanAddEditForm' => [
-                'label'     => 'Jabatan Pegawai',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length'    => '{field} Maksimal 50 Karakter'
-                ]
-            ],
-            'tglBerangkatAddEditForm' => [
-                'label'     => 'Tanggal Pergi',
-                'rules'     => 'required|valid_date[d/m/Y]'
-            ],
-            'tglKembaliAddEditForm'   => [
-                'label'     => 'Tanggal Kembali',
-                'rules'     => 'required|valid_date[d/m/Y]'
-            ],
-            'lamaAddEditForm'  => [
-                'label'     => 'Lama Perjalanan',
-                'rules'     => 'required|numeric|max_length[2]',
-                'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 2 Karakter',
-                ]
-            ],
-            'rekeningAddEditForm'  => [
-                'label'     => 'Kode Rekening',
-                'rules'     => 'required|numeric|max_length[20]',
-                'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'instansiAddEditForm'  => [
-                'label'     => 'Nama Instansi',
-                'rules'     => 'required|max_length[20]',
-                'errors'    => [
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'untukAddEditForm'  => [
-                'label'     => 'Nama Instansi',
-                'rules'     => 'required|max_length[50]',
-                'errors'    => [
-                    'max_length' => '{field} Maksimal 20 Karakter',
-                ]
-            ],
-            'pejabatKuitansiAddEditForm' => [
-                'label'     => 'Pejabat Pelaksanan Teknis',
-                'rules'     => 'required|numeric|max_length[25]',
-                'errors'    => [
-                    'numeric'       => '{field} Hanya Boleh Memsasukkan Angka',
-                    'max_length'    => '{field} Maksimal 25 Karakter'
-                ]
-            ],
-            'jumlahAddEditForm'  => [
-                'label'     => 'Jumlah Uang',
-                'rules'     => 'required|numeric|max_length[8]',
-                'errors'    => [
-                    'numeric' => '{field} Hanya Boleh Memasukkan Angka',
-                    'max_length' => '{field} Maksimal 8 Karakter',
-                ]
-            ],
-        ]);
-
-        if (!$valid) {
-            /**
-             *'kode' => $validation->getError('kodeAddEdit'),
-             * 'kode' -> id or class to display error
-             * 'kodeAddEdit' -> name field that ajax send
-             */
-            $data = [
-                'error' => [
-                    'noSpd' => $validation->getError('noSpdAddEditForm'),
-                    'namaPegawai' => $validation->getError('namaPegawaiAddEditForm'),
-                    'nip' => $validation->getError('nipAddEditForm'),
-                    'nama' => $validation->getError('namaAddEditForm'),
-                    'pangkat' => $validation->getError('pangkatAddEditForm'),
-                    'jabatan' => $validation->getError('jabatanAddEditForm'),
-                    'tglBerangkat' => $validation->getError('tglBerangkatAddEditForm'),
-                    'tglKembali' => $validation->getError('tglKembaliAddEditForm'),
-                    'lama' => $validation->getError('lamaAddEditForm'),
-                    'rekening' => $validation->getError('rekeningAddEditForm'),
-                    'instansi' => $validation->getError('instansiAddEditForm'),
-                    'untuk' => $validation->getError('untukAddEditForm'),
-                    'pejabat' => $validation->getError('pejabatKuitansiAddEditForm'),
-                    'jumlah' => $validation->getError('jumlahAddEditForm'),
-                ],
-                'msg' => '',
-            ];
-        }else{
-            $kode_spd = $this->spd->select('kode')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
-            $pegawai_all =  $this->spd->select('pegawai_all')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
-            $pangol = $this->pegawai->select('kode_pangol')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            $jabatan = $this->pegawai->select('kode_jabatan')->where('nip', $this->request->getVar('namaPegawaiAddEditForm'))->first();
-            $instansi = $this->spd->select('kode_instansi')->where('id', $this->request->getVar('noSpdAddEditForm'))->first();
-
-            $data = [
-                'kode_spd' => $kode_spd['kode'],
-                'pegawai_all' => $pegawai_all['pegawai_all'],
-                'pegawai_diperintah' => $this->db->escapeString($this->request->getVar('namaPegawaiAddEditForm')),
-                'nip_pegawai' => $this->db->escapeString($this->request->getVar('nipAddEditForm')),
-                'kode_pangol' => $pangol['kode_pangol'],
-                'kode_jabatan' => $jabatan['kode_jabatan'],
-                'awal' => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tglBerangkatAddEditForm')))),
-                'akhir' => date("Y-m-d", strtotime(str_replace('/', '-',$this->request->getVar('tglKembaliAddEditForm')))),
-                'lama' => $this->db->escapeString($this->request->getVar('lamaAddEditForm')),
-                'kode_rekening' => $this->db->escapeString($this->request->getVar('rekeningAddEditForm')),
-                'kode_instansi' => $instansi['kode_instansi'],
-                'untuk' => $this->db->escapeString($this->request->getVar('untukAddEditForm')),
-                'pejabat' => $this->db->escapeString($this->request->getVar('pejabatKuitansiAddEditForm')),
-                'jumlah_uang' => $this->db->escapeString($this->request->getVar('jumlahAddEditForm')),
-            ];
-
-            // d($data);print_r($data);die();
-
-            $id = $this->request->getVar('hiddenID');
-            if ($this->kuitansi->update($id, $data)) {
-                $data = array('success' => true, 'msg' => 'Data Berhasil disimpan', 'redirect' => base_url('kepala/kuitansi'));
-            } else {
-                $data = array('success' => false, 'msg' => $this->kuitansi->errors(), 'error' => 'Terjadi kesalahan dalam memilah data');
-            }
-        }
-
-        $data['msg'] =$data['msg'];
-        $data[$this->csrfToken] = $this->csrfHash;
-        return $this->response->setJSON($data);
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
 
     /**

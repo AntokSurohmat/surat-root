@@ -185,7 +185,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Instansi/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Instansi/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-instansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-instansi').prop('disabled', true);

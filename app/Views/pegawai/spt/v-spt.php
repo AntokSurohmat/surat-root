@@ -387,7 +387,6 @@
                 },
                 dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#no_sptModalView').text(data.kode);
                     $('#dasarModalView').append(data.dasar);
@@ -399,7 +398,6 @@
                     $('#diperintahNIPModalView').text(data.pegawai.nip);
                     data.looping.forEach((pegawailoop, index) => {
                         pegawailoop.forEach((dataloop, index) => { 
-                        // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
                         $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:5%;font-weight:600;text-align:center">' + (index + 1) + '.' +'</td><td style="width:30%;font-weight:600;">Nama</td><td style="width:1%;font-weight:600;">:</td><td>' + dataloop.nama + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Pangkat Golongan</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nama_pangol +'</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">NIP</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nip + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Jabatan</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nama_jabatan + '</td></tr></tbody></table>');
                         })
                     });

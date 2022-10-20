@@ -79,7 +79,6 @@ class Kuitansi extends ResourcePresenter
             ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
             ->format('jumlah_uang', function($value){return 'Rp. '.number_format($value, 0,'','.');})
-            ->setSearchableColumns(['kode_spd', 'nama', 'awal', 'akhir', 'nama_instansi'])
             ->filter(function ($builder, $request) {
                 if ($request->noSpd)
                     $builder->where('kode_spd', $request->noSpd);
@@ -192,27 +191,15 @@ class Kuitansi extends ResourcePresenter
         if (!$this->request->isAjax()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $nomer = $this->request->getPost('spd');
-        switch (strlen($nomer)) {
-            case '1':
-                $kode = '00'.$nomer;
-                break;
-            case '2':
-                $kode = '0'.$nomer;
-                break;
-            default:
-            $kode = $nomer;
-                break;
-        }
-
-        $noSpt = $this->db->table('spd')
+        $idSpd = $this->request->getPost('spd');
+        $dataSpd = $this->db->table('spd')
                 ->select('tujuan.pelaksana')
                 ->join('spt', 'spt.kode = spd.kode', 'left')
                 ->join('tujuan', 'tujuan.id = spt.untuk')
-                ->where('spd.kode', $kode)
+                ->where('spd.id', $idSpd)
                 ->get();
 
-        $result = $noSpt->getResult();
+        $result = $dataSpd->getResult();
 
         $response = array();
         if (($this->request->getPost('searchTerm') == NULL)) {

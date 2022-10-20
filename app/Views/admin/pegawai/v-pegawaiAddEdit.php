@@ -250,7 +250,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
                 beforeSend: function() {
                     $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
@@ -259,7 +258,6 @@
                     $('#submit-pegawai').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-pegawai').prop('disabled', false);
                 },
                 success: function(data) {
-                    // console.log(data.error);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
@@ -268,8 +266,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success==true) {
@@ -316,7 +312,6 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('#submit-pegawai').removeClass("btn-success");
                         $('#submit-pegawai').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);

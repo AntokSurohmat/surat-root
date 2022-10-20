@@ -528,21 +528,17 @@
         var url_destination = '<?= base_url('Admin/Spd/getPegawai') ?>';
         var id = $('#hiddenIDPage').val();
         $("#pegawaiForm").select2({
-            // var pegawai = $('#pegawaiAddEditForm :selected').val();
-            // console.log(pegawai);
             minimumResultsForSearch: Infinity,
             theme: 'bootstrap4',
             placeholder: '--- Cari Data Pegawai ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {return {searchTerm: params.term, id:id, csrf_token_name: $('input[name=csrf_token_name]').val()}},
                 processResults: function(response) {
-                    // console.log(response.data[0].text);
                     $('input[name=csrf_token_name]').val(response.csrf_token_name);
                     return {
                         results: response.data,
                     }
                 },
-                // cache: true
             }
         });
 
@@ -552,7 +548,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spd/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
                 beforeSend: function() {
                     $('#submit-spd').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spd').prop('disabled', true);
@@ -564,7 +559,6 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true,"showDuration": "500",};toastr["error"]("Silahkan Cek Kembali Data Yang diInputkan", "Informasi");
-                        // console.log(data.error);
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
@@ -608,16 +602,12 @@
         })
         if ($('#methodPage').val() == "New" && $('#hiddenIDPage').val() != "") {
             var url_destination = "<?= base_url('Admin/Spd/nomer') ?>";
-            // alert("OK");
             $.ajax({
                 url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
                 var token =  $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     $('#kodeForm').val(data.kode);
-                    // $('#kodeForm').val(data.kode);
-                    // console.log(data);
-                    // console.log(token);
                     newupdate(data.csrf_token_name);
                 }
             })
@@ -629,10 +619,7 @@
                 url: url_destination,type: "POST",data: {id: id,csrf_token_name: token},
                 dataType: "JSON",cache: true,
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
-                    // $('#kodeForm').val(data.kode_spt);
-                    console.log(data.diperintah)
                     $("#pegawaiForm").append($("<option selected='selected'></option>")
                     .val(data.diperintah.nip).text(data.diperintah.nama)).trigger('change');
                     $("#diperintahForm").val(data.pegawai.nama);
@@ -659,7 +646,6 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data.json);
                         $('#submit-spd').removeClass("btn-success");
                         $('#submit-spd').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -684,10 +670,8 @@
                         $('#rekeningForm').val(data.rekening.nomer_rekening);
                         var u_names = new Array("first","second","third","fourth");
                         for (var urutan in data.json) { //json
-                            // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                // console.log(prop + " = " + obj[prop] + ' '+ urutan);
                                 $('#'+ prop +'Form' + u_names[urutan]).val(obj[prop]);
 
                             }

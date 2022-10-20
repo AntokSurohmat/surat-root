@@ -918,7 +918,6 @@
                         $('#createdatModalView').text(curr_date + " " + month_fullnames[curr_month] + " " + curr_year);
                         data.looping.forEach((pegawailoop, index) => {
                             pegawailoop.forEach((dataloop, index) => {
-                            // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
                             var lahir = new Date(dataloop.tgl_lahir);var curr_date = lahir.getDate();var curr_month = lahir.getMonth();var curr_year = lahir.getFullYear();
                             $('#pengikutModalView').append('<ul class="list-unstyled mb-0"><li>'+dataloop.nama+'</li></ul>');
                             $('#pengikutTTLModalView').append('<ul class="list-unstyled mb-0"><li>'+curr_date + "-" + m_names[curr_month] + "-" + curr_year+'</li></ul>');
@@ -937,11 +936,9 @@
                         $('#diperintahslide2ModelView').append(data.diperintah.nama);
                         $('#nipslide2ModelView').append(data.diperintah.nip);
                         for (var urutan in data.json) { //json
-                            // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                // // your code
-                                // console.log(prop + " = " + obj[prop]);
+                                // your code
                                 $('#'+ prop +'slide2ModelView' + urutan).append(obj[prop]);
                             }
                         }

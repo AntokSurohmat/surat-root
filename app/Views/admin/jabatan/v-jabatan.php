@@ -239,7 +239,6 @@
                 },
                 success: function(data) {
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    // console.log(data.error);
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
@@ -257,7 +256,6 @@
                         });
                         $('#jbtan_data').DataTable().ajax.reload(null, false);
                     } else {
-                        // console.log(data.msg);
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("nama_", "");
                             $("#" + remove + 'Form').addClass('is-invalid');

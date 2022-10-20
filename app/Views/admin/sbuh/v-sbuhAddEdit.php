@@ -192,7 +192,6 @@
         });
         $("#kabupatenForm").change(function() {
             var provinsiID = $('#provinsiForm :selected').val(); var kabupatenID = $(this).val();
-            // console.log(provinsiID);console.log(kabupatenID);
            var url_destination = "<?= base_url('Admin/Sbuh/getJenis') ?>";
             $.ajax({
                 url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID,csrf_token_name: $('input[name=csrf_token_name]').val()},
@@ -227,7 +226,6 @@
             $.ajax({
                 url: url_destination,type: "POST",data: {provinsi: provinsiID, kabupaten: kabupatenID, kecamatan: kecamatanID,csrf_token_name: $('input[name=csrf_token_name]').val()},dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);$('#zonasiForm').val(data.nama_zonasi);
                 },
                 error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);},
@@ -251,7 +249,6 @@
 
         $('#form-addedit').on('submit', function(event) {
             event.preventDefault();
-            // console.log($(this).serialize());
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Sbuh/Create') ?>";
             } else {var url_destination = "<?= base_url('Admin/Sbuh/Update') ?>";}
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
@@ -270,8 +267,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     } 
                     if (data.success==true) {

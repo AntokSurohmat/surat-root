@@ -211,16 +211,12 @@
             pelaksana($(this).val());
             // Initialize select2
             var idSpd = $(this).val();var url_destination = '<?= base_url('Bendahara/Kuitansi/getPegawaiNoSpd') ?>';
-            // $("#pegawaiAddEditForm option:selected").text();
             $("#namaPegawaiKuitansiForm").select2({
-                // var pegawai = $('#pegawaiAddEditForm :selected').val();
-                // console.log(pegawai);
                 minimumResultsForSearch: Infinity,
                 theme: 'bootstrap4',
                 placeholder: '--- Cari Data Pegawai ---',
                 ajax: {url: url_destination,spd :idSpd,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
-                        // console.log(params.term)
                         return {searchTerm: params.term,spd: idSpd,csrf_token_name: $('input[name=csrf_token_name]').val()}
                     },
                     processResults: function(response) {$('input[name=csrf_token_name]').val(response.csrf_token_name);return {results: response.data,}},
@@ -237,7 +233,6 @@
                     dataType: "JSON",
                     success: function(data) {
                         if (data.success==true) {
-                            // console.log(data);
                             $('input[name=csrf_token_name]').val(data.csrf_token_name);
                             $('#nipKuitansiForm').val(data.nip);
                             $('#namaKuitansiForm').val(data.nama);
@@ -265,7 +260,6 @@
         var pelaksana = (nospd) => {
 
             var bendaharaNip =<?= session()->nip ?>; var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';
-            console.log(nospd);
             $("#pejabatKuitansiForm").select2({
                 theme: 'bootstrap4',
                 placeholder: '--- Cari Pejabat Pelaksana Teknis ---',
@@ -286,7 +280,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Bendahara/Kuitansi/Create') ?>";
             } else {var url_destination = "<?= base_url('Bendahara/Kuitansi/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
                 beforeSend: function() {
                     $('#submit-kuitansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-kuitansi').prop('disabled', true);
@@ -303,8 +296,6 @@
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success==true) {
@@ -350,7 +341,6 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('#submit-kuitansi').removeClass("btn-success");
                         $('#submit-kuitansi').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);

@@ -386,7 +386,6 @@
                     url: url_destination,type: "POST",data: {id: id,number: id_btn,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         showPdf(data);
                     },error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
@@ -400,14 +399,12 @@
         var showPdf = (data) => {
 
             $('#modal-tujuan').on('shown.bs.modal', function() {
-                console.log(data.rincian_biaya);
                 $('#namaBuktiModal').text(data.rincian_biaya);
                 $('#namaBuktiModal').css('text-transform', 'capitalize');
 
                 var fileName, fileExtension;
                 fileName = data.bukti_riil;
                 fileExtension = fileName.split('.').pop();
-                // console.log (fileExtension);
 
                 switch (fileExtension) {
                     case 'jpg':
@@ -417,10 +414,7 @@
                     break;
                     default:
                         $('#bodyBukti').html('<embed src="<?= base_url() ?>/uploads/rincian/'+data.bukti_riil+'" frameborder="0" width="100%" height="600px">');
-
-            }
-
-                // $('#embedBukti').attr('src', '<?= base_url() ?>/uploads/rincian/'+data.bukti_riil);
+                }
             });
         }
         $('#modal-tujuan').on('hidden.bs.modal', function() {
@@ -454,7 +448,6 @@
                     success: function(data) {
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         if(data.success){
-                            // console.log(data);
                             $("#rincianBiayaSpdForm").val(data.isi.untuk);
                             var jumlah = data.rincian.jumlah_uang * data.isi.lama;
                             $("#jumlahTotalSpdForm").val(jumlah);
@@ -472,7 +465,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Bendahara/Rincian/Create') ?>";
             } else {var url_destination = "<?= base_url('Bendahara/Rincian/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
                 beforeSend: function() {
                     $('#submit-rincian').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-rincian').prop('disabled', true);
@@ -484,14 +476,11 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            // console.log(key);
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success==true) {
@@ -532,15 +521,11 @@
 
         function update() {
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
-                // Remove d-none button view bukti
-                // $('.btn-bukti').removeClass("d-none");
-
                 var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Bendahara/Rincian/single_data') ?>";
                 $.ajax({
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('#submit-rincian').removeClass("btn-success");
                         $('#submit-rincian').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -549,16 +534,11 @@
                         var m_names = new Array("Satu","Dua","Tiga","Empat","Lima");
                         var m_nomor = new Array("0","1","2","3","4");
                         for (var urutan in data.json) { //json
-                            // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                // console.log(prop + " = " + obj[prop] + ' ++++++ ' );
-                                // console.log('#'+ prop + m_names[urutan] + 'Form');
-                                // console.log('#' +m_names[urutan] + 'nomer');
                                 $('#'+ prop + m_names[urutan] +'Form').val(obj[prop]);
                                 if(prop === 'bukti_riil' && obj[prop] !== ""){
                                     $('#' + m_nomor[urutan]).removeClass("d-none");
-                                    // console.log(m_nomor[urutan]);
                                 }
                             }
                         }

@@ -123,6 +123,8 @@
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/select2/js/select2.full.min.js"></script>
     <!-- Custom Input File -->
     <script src="<?= base_url() ?>/assets/AdminLTE/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <!-- Convert Number to word -->
+    <script src="<?= base_url() ?>/assets/custom/js/terbilang-js/terbilang.min.js"></script>
     <!-- Costum Js -->
     <script src="<?= base_url() ?>/assets/custom/js/custom.js"></script>
     <script language="javascript">

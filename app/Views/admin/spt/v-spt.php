@@ -387,7 +387,6 @@
                 url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                 dataType: "JSON",
                 success: function(data) {
-                    // console.log(data);
                     $('input[name=csrf_token_name]').val(data.csrf_token_name);
                     var m_names = new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Augustus","September","Oktober","November","Desember");
                     var m_date = new Array("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
@@ -406,9 +405,7 @@
                     $('#diperintahModalView').text(data.pegawai.nama);
                     $('#diperintahNIPModalView').text('('+data.pegawai.nip+')');
                     data.looping.forEach((pegawailoop, index) => {
-                        // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
                         pegawailoop.forEach((dataloop, index) => { 
-                            // console.log('index: '+ (index + 1)  + ', Value: ' +pegawailoop.id);
                             $('#namaPegawaiModalViewTableLooping').append('<table class="table table-borderless nopadding"><tbody><tr><td style="width:5%;font-weight:600;text-align:center">' + (index + 1) + '.' +'</td><td style="width:30%;font-weight:600;">Nama</td><td style="width:1%;font-weight:600;">:</td><td>' + dataloop.nama + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Pangkat Golongan</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nama_pangol +'</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">NIP</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nip + '</td></tr><tr><td style="width:5%;font-weight:600;text-align:center"></td><td style="width:30%;font-weight:600;">Jabatan</td><td style="width: 1%;font-weight:600;">:</td><td>' + dataloop.nama_jabatan + '</td></tr></tbody></table>');
 
                         })

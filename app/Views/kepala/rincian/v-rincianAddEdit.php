@@ -360,7 +360,6 @@
                     success: function(data) {
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
                         if(data.success){
-                            // console.log(data);
                             $("#rincianBiayaSpdForm").val(data.isi.untuk);
                             var jumlah = data.rincian.jumlah_uang * data.isi.lama;
                             $("#jumlahTotalSpdForm").val(jumlah);
@@ -378,7 +377,6 @@
             event.preventDefault();
             if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Kepala/Rincian/Create') ?>";
             } else {var url_destination = "<?= base_url('Kepala/Rincian/Update') ?>";}
-            // console.log($(this).serialize());
             $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
                 beforeSend: function() {
                     $('#submit-rincian').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-rincian').prop('disabled', true);
@@ -390,14 +388,11 @@
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
                     if (data.error) {
                         Object.keys(data.error).forEach((key, index) => {
-                            // console.log(key);
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
                             element.closest('.select2-hidden-accessible') //access select2 class
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
-                            // console.log(element);
-                            // console.log(data.error[key].length);
                         });
                     }
                     if (data.success==true) {
@@ -443,7 +438,6 @@
                     url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
                     dataType: "JSON",
                     success: function(data) {
-                        // console.log(data);
                         $('#submit-rincian').removeClass("btn-success");
                         $('#submit-rincian').addClass("btn-warning text-white");
                         $('input[name=csrf_token_name]').val(data.csrf_token_name);
@@ -451,11 +445,8 @@
                         .val(data.kode_spd).text(data.kode_spd)).trigger('change');
                         var m_names = new Array("Satu","Dua","Tiga","Empat","Lima");
                         for (var urutan in data.json) { //json
-                            // console.log(urutan);
                             var obj = data.json[urutan];
                             for (var prop in obj) {
-                                // console.log(prop + " = " + obj[prop] + ' ++++++ ' );
-                                // console.log('#'+ prop + m_names[urutan] + 'Form');
                                 $('#'+ prop + m_names[urutan] +'Form').val(obj[prop]);
                             }
                         }
