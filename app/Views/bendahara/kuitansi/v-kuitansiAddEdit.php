@@ -42,7 +42,7 @@
                                             <label for="noSpdKuitansiForm" class="col-sm-3 col-form-label" style="text-align: right;">No SPD </label>
                                             <div class="col-sm-7">
                                                 <select name="noSpdAddEditForm" id="noSpdKuitansiForm" class="form-control " style="width: 100%;">
-                                                    <option value="">--- Cari No SPD ---</option>
+                                                    <option value="">--- Pilih No SPD ---</option>
                                                 </select>
                                                 <div class="invalid-feedback noSpdErrorForm"></div>
                                             </div>
@@ -127,7 +127,7 @@
                                         <div class="form-group">
                                             <label for="pejabatKuitansiForm" class="col-form-label">Pejabat Pelaksana Teknis</label>
                                             <select name="pejabatKuitansiAddEditForm" id="pejabatKuitansiForm" class="form-control " style="width: 100%;">
-                                                <option value="">--- Pilih Nama Pegawai ---</option>
+                                                <option value="">--- Pilih Pejabat Pelaksana Teknis ---</option>
                                             </select>
                                             <div class="invalid-feedback pejabatKuitansiErrorForm"></div>
                                         </div>
@@ -194,7 +194,7 @@
         var url_destination = '<?= base_url('Bendahara/Kuitansi/getNoSpd') ?>';
         $("#noSpdKuitansiForm").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari NO SPD ---',
+            placeholder: '--- Pilih NO SPD ---',
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -214,7 +214,7 @@
             $("#namaPegawaiKuitansiForm").select2({
                 minimumResultsForSearch: Infinity,
                 theme: 'bootstrap4',
-                placeholder: '--- Cari Data Pegawai ---',
+                placeholder: '--- Pilih Nama Pegawai ---',
                 ajax: {url: url_destination,spd :idSpd,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
                         return {searchTerm: params.term,spd: idSpd,csrf_token_name: $('input[name=csrf_token_name]').val()}
@@ -262,7 +262,7 @@
             var bendaharaNip =<?= session()->nip ?>; var url_destination = '<?= base_url('Bendahara/Kuitansi/getPelaksana') ?>';
             $("#pejabatKuitansiForm").select2({
                 theme: 'bootstrap4',
-                placeholder: '--- Cari Pejabat Pelaksana Teknis ---',
+                placeholder: '--- Pilih Pejabat Pelaksana Teknis ---',
                 ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                     data: function(params) {
                         return {searchTerm: params.term,bendahara: bendaharaNip,spd: nospd,csrf_token_name: $('input[name=csrf_token_name]').val()};
