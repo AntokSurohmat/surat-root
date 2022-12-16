@@ -92,27 +92,27 @@
             "columnDefs": [{"targets": 0,"orderable": false,"width": "3%"}, {"targets": -1,"orderable": false,"class": "text-center","width": "10%"}, ],
         });
 
-        function handleAjaxError(xhr, textStatus, error) {
+        function handleAjaxError(xhr, textStatus, error) { // handle error datatables
             if (textStatus === 'timeout') {
-                Swal.fire({
+                Swal.fire({ // show sweetalert2 if error timeout
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
-                Swal.fire({
+                Swal.fire({ // show sweetalert2 if error load data
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#seachInstan').keyup(function() {instan.search($(this).val()).draw();});
-        $("#refresh").on('click', function() {document.getElementById("seachInstan").value = "";instan.search("").draw();});
+        $('#seachInstan').keyup(function() {instan.search($(this).val()).draw();}); // because we make custom search we need Initialize it
+        $("#refresh").on('click', function() {document.getElementById("seachInstan").value = "";instan.search("").draw();}); // refresh the table
         /*-- /. DataTable To Load Data Instansi --*/
 
-        $(document).on('click', '.delete', function() {
-            swalWithBootstrapButtons.fire({
+        $(document).on('click', '.delete', function() { // ajax proccess delete
+            swalWithBootstrapButtons.fire({ // show order confirmation delete in sweetalert2
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -121,21 +121,21 @@
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed) { // process if we click delete or confirm == true
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Instansi/Delete') ?>";
                     $.ajax({
-                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                        url: url_destination,method: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()}, // send id & csrftoken
                         dataType: "JSON",
                         success: function(data) {
-                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                            if (data.success) {
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name) // new token controller send to us
+                            if (data.success) { // if success delete it
                                 swalWithBootstrapButtons.fire({
                                     icon: 'success',title: 'Deleted!',text: data.msg,
                                     showConfirmButton: true,timer: 4000
                                 });
                                 $('#instan_data').DataTable().ajax.reload(null, false);
-                            } else {
+                            } else { // if fail delete
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',title: 'Not Deleted!',text: data.msg,
                                     showConfirmButton: true,timer: 4000

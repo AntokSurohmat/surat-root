@@ -37,7 +37,7 @@ class Pangol extends BaseController
         return view('admin/pangol/v-pangol', $data);
     }
 
-    function load_data(){
+    function load_data(){ // loat data
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }

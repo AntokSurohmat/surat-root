@@ -64,7 +64,7 @@ class Jabatan extends BaseController
         echo json_encode($output);
     }
 
-    function single_data() {
+    function single_data() { // display single data from page show 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
          }
@@ -83,7 +83,7 @@ class Jabatan extends BaseController
         }
     }
 
-    function generator(){
+    function generator(){ // generate code for Jabatan
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -92,7 +92,7 @@ class Jabatan extends BaseController
         echo json_encode($data);
     }
 
-    function save()
+    function save() // because using modal better use one function
     {
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -100,7 +100,7 @@ class Jabatan extends BaseController
 
         $validation = \Config\Services::validation();
 
-        if ($this->request->getVar('method') == 'New') {
+        if ($this->request->getVar('method') == 'New') { // if data == insert / process new
 
             $valid = $this->validate([
                 'kodeAddEditForm' => [
@@ -144,7 +144,7 @@ class Jabatan extends BaseController
             }
         }
 
-        if ($this->request->getVar('method') == 'Edit') {
+        if ($this->request->getVar('method') == 'Edit') { // if data == update / process
 
             $jabatan_id = $this->jabatan->where('id', $this->request->getVar('hidden_id'))->where('deleted_at', null)->get();
             if($jabatan_id->getRow() == null){
@@ -200,7 +200,7 @@ class Jabatan extends BaseController
         echo json_encode($data);
     }
 
-    function delete(){
+    function delete(){ // process delete
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }

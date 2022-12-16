@@ -18,16 +18,16 @@ use CodeIgniter\RESTful\ResourcePresenter;
 
 class Instansi extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url', 'text'];
-    public function __construct()
+    protected $helpers = ['form', 'url', 'text']; // Helper
+    public function __construct() // function _construct is to call the model class or library that we will use in each function.
     {
-        if (session()->get('level') != "Admin") {
+        if (session()->get('level') != "Admin") { // checking if session level == admin, if not throw forbidden
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $this->provinsi = new ProvinsiModel();
-        $this->kabupaten = new KabupatenModel();
-        $this->kecamatan = new KecamatanModel();
-        $this->instansi = new InstansiModel();
+        $this->provinsi = new ProvinsiModel(); // get data from Model Provinsi
+        $this->kabupaten = new KabupatenModel(); // get data from Model Kabupaten
+        $this->kecamatan = new KecamatanModel(); // get data from Model Kecamatan
+        $this->instansi = new InstansiModel(); // get data from Model Instansi
         $this->csrfToken = csrf_token();
         $this->csrfHash = csrf_hash();
         $this->session = \Config\Services::session();
@@ -49,16 +49,16 @@ class Instansi extends ResourcePresenter
         return view('admin/instansi/v-instansi', $data);
     }
 
-    function load_data() {
-        if (!$this->request->isAJAX()) {
+    function load_data() { // fucntion for load data Instansi
+        if (!$this->request->isAJAX()) { // checking if ajax, else throw fobbidden
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $provinsi = $this->db->table('provinsi')->get();
-        $kabupaten = $this->db->table('kabupaten')->get();
-        $kecamatan = $this->db->table('kecamatan')->get();
-        $list = $this->instansi->get_datatables();
-        $count_all = $this->instansi->count_all();
-        $count_filter = $this->instansi->count_filter();
+        $provinsi = $this->db->table('provinsi')->get(); // get data from table pronvinsi using library database
+        $kabupaten = $this->db->table('kabupaten')->get(); // get data from table kabupaten using library database
+        $kecamatan = $this->db->table('kecamatan')->get(); // get data from table kecamatan using library database
+        $list = $this->instansi->get_datatables(); // get data from function "get_datables" in model instansi
+        $count_all = $this->instansi->count_all(); // get data from function "count_all" in model Instansi
+        $count_filter = $this->instansi->count_filter(); // get data from function "count_filer" in model Instansi
 
         $data = array();
         $no = $this->request->getPost('start');
@@ -86,8 +86,8 @@ class Instansi extends ResourcePresenter
             $row[] = '
             <a type="button" class="btn btn-xs btn-warning mr-1 mb-1" href="'. base_url('admin/Instansi/edit/'.$key->id).'"  data-rel="tooltip" data-placement="top" data-container=".content" title="[ Update Data ]"><i class="fas fa-edit text-white"></i></a>
             <a class="btn btn-xs btn-danger mr-1 mb-1 delete" href="javascript:void(0)" name="delete" data-id="' . $key->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Delete Data ]"><i class="fas fa-trash text-white"></i></a>
-            ';
-            $data[] = $row;
+            '; // button action 
+            $data[] = $row; // collect all data from $row
         }
 
         $output = array(
@@ -101,66 +101,66 @@ class Instansi extends ResourcePresenter
         echo json_encode($output);
     }
 
-    function generator(){
-        if (!$this->request->isAJAX()) {
+    function generator(){ // generate number for code instansi
+        if (!$this->request->isAJAX()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $data['kode'] = random_string('numeric');
-        $data[$this->csrfToken] = $this->csrfHash;
-        echo json_encode($data);
+        $data['kode'] = random_string('numeric'); // generate random number using libray text above
+        $data[$this->csrfToken] = $this->csrfHash; // generate new csrf token and send it to the page
+        echo json_encode($data); // encode it
     }
 
-    public function getProvinsi(){
-        if (!$this->request->isAjax()) {
+    public function getProvinsi(){ // store data provinsi inside select2 
+        if (!$this->request->isAjax()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if (($this->request->getPost('searchTerm') == NULL)) {
-            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
+        if (($this->request->getPost('searchTerm') == NULL)) { // if null 
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record from model provinsi
                 ->where('deleted_at', null)
                 ->orderBy('nama_provinsi')
-                ->findAll(10);
-        } else {
-            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record
+                ->findAll(10); // max result 10
+        } else { // if we search specifix data using query like
+            $provinsilist = $this->provinsi->select('kode,nama_provinsi') // Fetch record from model provinsi
                 ->where('deleted_at', null)
-                ->like('nama_provinsi', $this->request->getPost('searchTerm'))
+                ->like('nama_provinsi', $this->request->getPost('searchTerm')) // query like
                 ->orderBy('nama_provinsi')
-                ->findAll(10);
+                ->findAll(10); // max result 10
         }
 
         $data = array();
         foreach ($provinsilist as $provinsi) {
-            $data[] = array(
-                "id" => $provinsi['kode'],
-                "text" => $provinsi['nama_provinsi'],
+            $data[] = array( // inside select have multiple option, every option have id or you can call value and text == text will display it, etc id = 1 text = jawa barat
+                "id" => $provinsi['kode'], // option have id == kode
+                "text" => $provinsi['nama_provinsi'], // option have text == nama_provinsi 
             );
         }
 
-        $response['data'] = $data;
-        $response[$this->csrfToken] = $this->csrfHash;
-        return $this->response->setJSON($response);
+        $response['data'] = $data; 
+        $response[$this->csrfToken] = $this->csrfHash; // generate new crsftoken
+        return $this->response->setJSON($response); // return it to instansi index page 
     }
 
-    public function getKabupaten(){
-        if (!$this->request->isAjax()) {
+    public function getKabupaten(){ // store data kabupaten inside select2 
+        if (!$this->request->isAjax()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if ($this->request->getPost('searchTerm') == NULL) {
-            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+        if ($this->request->getPost('searchTerm') == NULL) { // if null 
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record from model kabupaten
                 ->where('deleted_at', null)
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->orderBy('nama_kabupaten')
-                ->findAll(10);
-        } else {
-            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record
+                ->findAll(10); // max result 10
+        } else { // if we search specifix data using query like
+            $kabupatenlist = $this->kabupaten->select('kode,nama_kabupaten') // Fetch record  from model kabupaten
                 ->where('deleted_at', null)
-                ->like('nama_kabupaten', $this->request->getPost('searchTerm'))
+                ->like('nama_kabupaten', $this->request->getPost('searchTerm')) // query like
                 ->where('kode_provinsi', $this->request->getPost('provinsi'))
                 ->orderBy('nama_kabupaten')
-                ->findAll(10);
+                ->findAll(10); // max result 10
         }
 
         $data = array();
@@ -175,7 +175,7 @@ class Instansi extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-    public function getKecamatan(){
+    public function getKecamatan(){ // detail same getProvinsi
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -225,7 +225,7 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function new()
+    public function new() // page new ot page for insert new data
     {
         $data = array(
             'title' => 'Tambah Instansi',
@@ -243,13 +243,13 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function create()
+    public function create() // process inside to database
     {
-        if (!$this->request->isAJAX()) {
+        if (!$this->request->isAJAX()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $validation = \Config\Services::validation();
+        $validation = \Config\Services::validation(); // validation
 
         $valid = $this->validate([
             'provinsiAddEditForm' => [
@@ -295,7 +295,7 @@ class Instansi extends ResourcePresenter
         ]);
 
         if (!$valid) {
-            $data = [
+            $data = [ // display erro here
                 'error' => [
                     'provinsi'  => $validation->getError('provinsiAddEditForm'),
                     'kabupaten' => $validation->getError('kabupatenAddEditForm'),
@@ -326,21 +326,21 @@ class Instansi extends ResourcePresenter
         echo json_encode($data);
     }
 
-    function single_data(){
+    function single_data(){ // display single data from page show 
 
-        if (!$this->request->isAJAX()) {
+        if (!$this->request->isAJAX()) { // must ajax
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $instansi_id = $this->instansi->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
-        if($instansi_id->getRow() == null){
+        $instansi_id = $this->instansi->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get(); // base id and deleted_at null, get id from ajax send 
+        if($instansi_id->getRow() == null){ // if result null because has been deleted_at true
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-        if (!$this->request->getVar('id')) {
+        if (!$this->request->getVar('id')) { // if id not found
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        if ($this->request->getVar('id')) {
-            $data = $this->instansi->where('id', $this->request->getVar('id'))->first();
+        if ($this->request->getVar('id')) { // id
+            $data = $this->instansi->where('id', $this->request->getVar('id'))->first(); // get data from table instansi where id first result
 
             $data['provinsi'] = $this->provinsi->where('kode', $data['kode_provinsi'])->first();
             $data['kabupaten'] = $this->kabupaten->where('kode', $data['kode_kabupaten'])->first();
@@ -358,10 +358,10 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function edit($id = null)
+    public function edit($id = null) // page edit data
     {
-        $instansi_id = $this->instansi->where('id', $id)->where('deleted_at', null)->get();
-        if($instansi_id->getRow() == null){
+        $instansi_id = $this->instansi->where('id', $id)->where('deleted_at', null)->get(); // get id from button edit in load_data function
+        if($instansi_id->getRow() == null){ 
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
         if (!$id) {
@@ -386,20 +386,20 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function update($id = null)
+    public function update($id = null) // process update 
     {
-        if (!$this->request->isAJAX()) {
+        if (!$this->request->isAJAX()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $instansi_id = $this->instansi->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get();
-        if($instansi_id->getRow() == null){
+        $instansi_id = $this->instansi->where('id', $this->request->getVar('hiddenID'))->where('deleted_at', null)->get(); // base id and deleted_at null, get id from ajax send 
+        if($instansi_id->getRow() == null){ // if result null because has been deleted_at true
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
-        if (!$this->request->getVar('hiddenID')) {
+        if (!$this->request->getVar('hiddenID')) { // if id not found
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $validation = \Config\Services::validation();
+        $validation = \Config\Services::validation(); // validation 
 
         $valid = $this->validate([
             'kodeAddEditForm' => [
@@ -444,7 +444,7 @@ class Instansi extends ResourcePresenter
         ]);
 
         if (!$valid) {
-            $data = [
+            $data = [ // error here
                 'error' => [
                     'provinsi' => $validation->getError('provinsiAddEditForm'),
                     'kabupaten' => $validation->getError('kabupatenAddEditForm'),
@@ -481,7 +481,7 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function remove($id = null)
+    public function remove($id = null) // page delete
     {
         throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
@@ -493,9 +493,9 @@ class Instansi extends ResourcePresenter
      *
      * @return mixed
      */
-    public function delete($id = null)
+    public function delete($id = null) // process delete or remove
     {
-        if (!$this->request->isAJAX()) {
+        if (!$this->request->isAJAX()) { // must ajax
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
         $instansi_id = $this->instansi->where('id', $this->request->getVar('id'))->where('deleted_at', null)->get();
@@ -506,7 +506,7 @@ class Instansi extends ResourcePresenter
             return redirect()->to(site_url('admin/instansi/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        if ($this->request->getVar('id')) {
+        if ($this->request->getVar('id')) { // get id form ajax
             $id = $this->request->getVar('id');
 
             if ($this->instansi->where('id', $id)->delete($id)) {

@@ -47,7 +47,7 @@ class Pegawai extends ResourcePresenter
         return view('admin/pegawai/v-pegawai', $data);
     }
 
-    function load_data() {
+    function load_data() { // load data
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -101,7 +101,7 @@ class Pegawai extends ResourcePresenter
         echo json_encode($output);
     }
 
-    public function getJabatan()
+    public function getJabatan() // display jabatan using select2
     {
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -133,7 +133,7 @@ class Pegawai extends ResourcePresenter
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-    public function getPangol()
+    public function getPangol() // display pangol using select2 
     {
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -285,7 +285,7 @@ class Pegawai extends ResourcePresenter
              * 'kodeAddEdit' -> name field that ajax send
              */
             $data = [
-                'error' => [
+                'error' => [ // error here
                     'nip' => $validation->getError('nipAddEditForm'),
                     'nama' => $validation->getError('namaAddEditForm'),
                     'lahir' => $validation->getError('lahirAddEditForm'),
@@ -300,7 +300,7 @@ class Pegawai extends ResourcePresenter
                 'msg' => '',
             ];
         } else {
-
+            // process save picture
             $file = $this->request->getFile('fotoAddEditForm');
             if($file->isValid() && !$file->hasMoved()){
                 $imageName = $file->getRandomName();
@@ -332,7 +332,7 @@ class Pegawai extends ResourcePresenter
         return $this->response->setJSON($data);
     }
 
-    function single_data(){
+    function single_data(){ // display data where id in page view
 
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -475,7 +475,7 @@ class Pegawai extends ResourcePresenter
              * 'kodeAddEdit' -> name field that ajax send
              */
             $data = [
-                'error' => [
+                'error' => [ // error here
                     'nip' => $validation->getError('nipAddEditForm'),
                     'nama' => $validation->getError('namaAddEditForm'),
                     'lahir' => $validation->getError('lahirAddEditForm'),
@@ -490,7 +490,7 @@ class Pegawai extends ResourcePresenter
                 'msg' => '',
             ];
         } else {
-
+            // process remove old picture if we update it
             $old_image = $prop_item['foto'];
             $file = $this->request->getFile('fotoAddEditForm');
             if($file->isValid() && !$file->hasMoved()){

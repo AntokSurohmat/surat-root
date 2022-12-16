@@ -110,17 +110,18 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // preventDefault to stay in modal when keycode 13
+        // (envent.code == 13) press enter
+        // preventDefault to stay in modal when keycode 13 / when we press enter default activity is submit so we remove it make it false
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#instansiForm').focus();}});
+        $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#instansiForm').focus();}}); // if we press enter after this we will redirect in instansi columns
         $('#instansiForm').keydown(function(event) {if (event.keyCode == 13) {$('#provinsiForm').select2('open');}});
         $('#provinsiForm').on('select2:select', function(e) {$('#kabupatenForm').select2('open');});
         $('#kabupatenForm').on('select2:select', function(e) {$('#kecamatanForm').select2('open');});
         $('#kecamatanForm').on('select2:select', function(e) {$('#submit-instansi').focus();});
-        update();
+        update(); 
 
-        function clearform() {
+        function clearform() { // clear form after success insert or update the data
             $('#form-addedit')[0].reset();
             $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
             $("#instansiForm").empty();$("#instansiForm").removeClass('is-valid');$("#instansiForm").removeClass('is-invalid');
@@ -181,21 +182,21 @@
             })
         });
 
-        $('#form-addedit').on('submit', function(event) {
+        $('#form-addedit').on('submit', function(event) { // insert and update submit here send to conttoller using ajax
             event.preventDefault();
-            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Instansi/Create') ?>";
-            } else {var url_destination = "<?= base_url('Admin/Instansi/Update') ?>";}
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Instansi/Create') ?>"; // url create
+            } else {var url_destination = "<?= base_url('Admin/Instansi/Update') ?>";} // url update
             $.ajax({url: url_destination,type: "POST",data: $(this).serialize(),dataType: "JSON",
-                beforeSend: function() {
+                beforeSend: function() { // function before send data
                     $('#submit-instansi').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-instansi').prop('disabled', true);
                 },
-                complete: function() {
+                complete: function() { // function run when data has been send and complete
                     $('#submit-instansi').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-instansi').prop('disabled', false);
                 },
-                success: function(data) {
+                success: function(data) { // function when send succesfully
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    if (data.error) {
-                        Object.keys(data.error).forEach((key, index) => {
+                    if (data.error) { // while error processing or data not complited yet
+                        Object.keys(data.error).forEach((key, index) => { // display error Form
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
@@ -204,9 +205,9 @@
                         });
                     } 
                     if (data.success==true) {
-                        clearform();
+                        clearform(); // clear form after data success inputed
                         let timerInterval
-                        swalWithBootstrapButtons.fire({
+                        swalWithBootstrapButtons.fire({ // show notication using sweetalert2
                             icon: 'success',title: 'Berhasil Memasukkan Data',
                             html: '<b>Otomatis Ke Table Insatansi!</b><br>' +
                                 'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
@@ -222,7 +223,7 @@
                                 window.location.href = data.redirect;
                             }
                         })
-                    } else {
+                    } else { // error while proccessing the data 
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("kode_", "");
                             var remove = key.replace("nama_", "");
@@ -238,12 +239,12 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);} // error ajax
             });
             return false;
         })
 
-        function update() {
+        function update() { // display single data
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
                 var id = $('#hiddenIDPage').val();
                 var url_destination = "<?= base_url('Admin/Instansi/single_data') ?>";
@@ -267,7 +268,7 @@
             }
         }
 
-        $('#generate-kode').click(function() {
+        $('#generate-kode').click(function() { // generate code
             var url_destination = "<?= base_url('Admin/Instansi/generator') ?>";
             $.ajax({
                 url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},

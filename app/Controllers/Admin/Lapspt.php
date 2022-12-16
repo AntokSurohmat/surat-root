@@ -43,7 +43,7 @@ class Lapspt extends BaseController
         );
         return view('admin/lapspt/v-lapspt', $data);
     }
-    public function load_data() {
+    public function load_data() { // load data
         if (!$this->request->isAJAX()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -54,23 +54,23 @@ class Lapspt extends BaseController
                   ->join('instansi', 'instansi.kode = spt.kode_instansi')
                   ->where('spt.deleted_at', null);
 
-        return DataTable::of($builder)
-            ->postQuery(function($builder){
+        return DataTable::of($builder) // load data using third library datatables from Hermawan
+            ->postQuery(function($builder){ // process after query before display it
                 $builder->orderBy('kode', 'desc');
                 $builder->where('spt.deleted_at', null);
             })
-            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-            ->format('pegawai_all', function($value){
+            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));}) //chane format
+            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));}) // change format
+            ->format('pegawai_all', function($value){ // change format pegawai all       
                 $namas = array();
-                foreach(json_decode($value) as $valu ) {
+                foreach(json_decode($value) as $valu ) { // convert from nip pegawai to nama pegawai 
                     $okay = $this->pegawai->where('nip', $valu)->get();
                     $result = $okay->getResult();
                     $namas[] = $result[0]->nama;
                 }
                 return $namas;
             })
-            ->filter(function ($builder, $request) {
+            ->filter(function ($builder, $request) { // for filter using select 2 
                 if ($request->noSpt)
                     $builder->where('spt.kode', $request->noSpt);
                 if ($request->pegawai)
@@ -96,8 +96,8 @@ class Lapspt extends BaseController
             ->addNumbering()
             ->toJson();
     }
-    public function getNoSptTable() {
-        if (!$this->request->isAjax()) {
+    public function getNoSptTable() { // display no spt using table
+        if (!$this->request->isAjax()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
@@ -127,7 +127,7 @@ class Lapspt extends BaseController
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-    public function getPegawaiTable() {
+    public function getPegawaiTable() { // display pegawai using select2
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -158,7 +158,7 @@ class Lapspt extends BaseController
         $response[$this->csrfToken] = $this->csrfHash;
         return $this->response->setJSON($response);
     }
-    public function getInstansiTable() {
+    public function getInstansiTable() { // display instanso using select2
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -190,8 +190,7 @@ class Lapspt extends BaseController
         return $this->response->setJSON($response);
     }
 
-    function view_data()
-    {
+    function view_data() { // view data using button view in load_data
         if (!$this->request->isAjax()) {
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -226,7 +225,7 @@ class Lapspt extends BaseController
         }
     }
 
-    public function print($id = null){
+    public function print($id = null){ // print data using button print in load_data
 
         $spt = $this->spt->where('id', $id)->where('deleted_at', null)->get();
         if($spt->getRow() == null){
@@ -236,9 +235,9 @@ class Lapspt extends BaseController
              return redirect()->to(site_url('admin/lapspt/'))->with('error', 'Data Yang Anda Inginkan Tidak Mempunyai ID');
         }
 
-        $data = $this->spt->where('id',$id)->first();
+        $data = $this->spt->where('id',$id)->first(); // get data from table spd using id
         $pegawai = array();
-        foreach(json_decode($data['pegawai_all']) as $value) {
+        foreach(json_decode($data['pegawai_all']) as $value) { // lopping for pegawai who come along
             $builder = $this->db->table('pegawai');
             $query = $builder->select('pegawai.*')
             ->select('pangol.nama_pangol')->select('jabatan.nama_jabatan')
@@ -260,7 +259,7 @@ class Lapspt extends BaseController
         $options = new Options();
         $dompdf = new Dompdf();
 
-        // change root 
+       // change root to get logo from public folder
         $dompdf->getOptions()->setChroot(ROOTPATH . 'public');
         $dompdf->getOptions()->getIsJavascriptEnabled(true);
         // $options->setIsHtml5ParserEnabled(true);
@@ -278,7 +277,7 @@ class Lapspt extends BaseController
         // output the generated pdf
         $dompdf->stream($filename, array("Attachment" => false));
     }
-    public function download($id = null){
+    public function download($id = null){ // proccess download
 
         $spt = $this->spt->where('id', $id)->where('deleted_at', null)->get();
         if($spt->getRow() == null){
@@ -330,7 +329,7 @@ class Lapspt extends BaseController
         $dompdf->stream($filename);
     }
 
-    public function print_all(){
+    public function print_all(){ // proccess print all
 
         $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
@@ -389,7 +388,7 @@ class Lapspt extends BaseController
         $dompdf->stream($filename, array("Attachment" => false));
     }
 
-    public function download_all(){
+    public function download_all(){ // process download all
 
         $spt = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $looping = array();$pejabat = array();
@@ -447,7 +446,7 @@ class Lapspt extends BaseController
         $dompdf->stream($filename);
     }
 
-    public function print_recap(){
+    public function print_recap(){ // print recap
 
         $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();
@@ -508,7 +507,7 @@ class Lapspt extends BaseController
 
     }
 
-    public function download_recap(){
+    public function download_recap(){ // download recap
 
         $spt_all = $this->spt->where(['status' => 'Disetujui','deleted_at' => null])->get();
         $pegawai_all = array();

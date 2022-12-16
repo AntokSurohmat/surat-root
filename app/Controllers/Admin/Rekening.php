@@ -39,8 +39,8 @@ class Rekening extends BaseController
         return view('admin/rekening/v-rekening', $data);
     }
 
-    function load_data()
-    {
+    function load_data() // load data
+    { 
 
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -82,7 +82,7 @@ class Rekening extends BaseController
         echo json_encode($output);
     }
 
-    function generator(){
+    function generator(){ // genearate code rekening
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
@@ -91,7 +91,7 @@ class Rekening extends BaseController
         echo json_encode($data);
     }
 
-    public function getJenis()
+    public function getJenis() // get jenis wilayah using select2
     {
         if (!$this->request->isAjax()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -124,7 +124,7 @@ class Rekening extends BaseController
         return $this->response->setJSON($response);
     }
 
-    function single_data()
+    function single_data() // display single data in page show
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -146,7 +146,7 @@ class Rekening extends BaseController
         }
     }
 
-    function save()
+    function save() // because using modal insert and update one function
     {
         if (!$this->request->isAJAX()) {
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
@@ -154,7 +154,7 @@ class Rekening extends BaseController
 
         $validation = \Config\Services::validation();
 
-        if ($this->request->getVar('method') == 'New') {
+        if ($this->request->getVar('method') == 'New') { // if insert
 
             $valid = $this->validate([
                 'kodeAddEditForm' => [
@@ -209,7 +209,7 @@ class Rekening extends BaseController
             }
         }
 
-        if ($this->request->getVar('method') == 'Edit') {
+        if ($this->request->getVar('method') == 'Edit') { // if edit
             if (!$this->request->isAJAX()) {
                 throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
              }

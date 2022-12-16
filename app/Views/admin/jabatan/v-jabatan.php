@@ -112,7 +112,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        // preventDefault to stay in modal when keycode 13
+        // (envent.code == 13) press enter
+        // preventDefault to stay in modal when keycode 13 / when we press enter default activity is submit so we remove it make it false
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
         /*-- DataTable To Load Data --*/
@@ -134,43 +135,43 @@
             "columnDefs": [{"targets": 0,"orderable": false, "width": "3%"}, {"targets": -1,"orderable": false,"class": "text-center","width": "13%"}, ],
         });
 
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
-                Swal.fire({
+        function handleAjaxError(xhr, textStatus, error) { // handle error datatables
+            if (textStatus === 'timeout') { 
+                Swal.fire({ // show sweetalert2 if error timeout
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
-                Swal.fire({
+                Swal.fire({ // show sweetalert2 if error load data
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $('#searchJbtan').keyup(function() {jbtan.search($(this).val()).draw();});
-        $("#refresh").on('click', function() {document.getElementById("searchJbtan").value = "";jbtan.search("").draw();});
+        $('#searchJbtan').keyup(function() {jbtan.search($(this).val()).draw();}); // because we make custom search we need Initialize it
+        $("#refresh").on('click', function() {document.getElementById("searchJbtan").value = "";jbtan.search("").draw();}); // refresh the table
         /*-- DataTable To Load Data --*/
 
-        $('#modal-newitem').on('hidden.bs.modal', function() {
+        $('#modal-newitem').on('hidden.bs.modal', function() { // function run when modal close
             $(this).find('form')[0].reset();
             $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
             $("#jabatanForm").empty();$("#jabatanForm").removeClass('is-valid');$("#jabatanForm").removeClass('is-invalid');
         });
-        $('#modal-newitem').on('shown.bs.modal', function() {
+        $('#modal-newitem').on('shown.bs.modal', function() { // function run when modal open
             $("#kodeForm").focus();
             $('#kodeForm').keydown(function(event) {if (event.keyCode == 13) {$('#jabatanForm').focus();}});
             $('#jabatanForm').keydown(function(event) {if (event.keyCode == 13) {$('#submit-btn').focus();}});
         });
-        $('#add-data').click(function() {
+        $('#add-data').click(function() { // button to trigger modal open new insert
             var option = {backdrop: 'static',keyboard: true,}
             $('#modal-newitem').modal(option);
             $('#form-addedit')[0].reset();$('#method').val('New');
             $('#submit-btn').html('<i class="fas fa-save"></i>&ensp;Submit');$('#modal-newitem').modal('show');
         })
 
-        $(document).on('click', '.edit', function() {
+        $(document).on('click', '.edit', function() { // function run when modal open update data
             var id = $(this).data('id');var url_destination = "<?= base_url('Admin/Jabatan/single_data') ?>";
             $.ajax({
                 url: url_destination,type: "POST",data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
@@ -186,8 +187,8 @@
             })
         })
 
-        $(document).on('click', '.delete', function() {
-            swalWithBootstrapButtons.fire({
+        $(document).on('click', '.delete', function() { // ajax proccess delete
+            swalWithBootstrapButtons.fire({ // show order confirmation delete in sweetalert2
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -196,22 +197,22 @@
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true,
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed) { // process if we click delete or confirm == true
                     var id = $(this).data('id');
                     var url_destination = "<?= base_url('Admin/Jabatan/Delete') ?>";
                     $.ajax({
                         url: url_destination,method: "POST",
-                        data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()},
+                        data: {id: id,csrf_token_name: $('input[name=csrf_token_name]').val()}, // send id & csrftoken
                         dataType: "JSON",
                         success: function(data) {
-                            $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                            $('#jbtan_data').DataTable().ajax.reload(null, false);
-                            if (data.success) {
+                            $('input[name=csrf_token_name]').val(data.csrf_token_name) // new token controller send to us
+                            $('#jbtan_data').DataTable().ajax.reload(null, false); // reload the table without reload the page
+                            if (data.success) { // if success delete it
                                 swalWithBootstrapButtons.fire({
                                     icon: 'success',title: 'Deleted!',text: data.msg,
                                     showConfirmButton: true,timer: 3000
                                 })
-                            } else {
+                            } else { // if fail delete
                                 $('#jbtan_data').DataTable().ajax.reload(null, false);
                                 swalWithBootstrapButtons.fire({
                                     icon: 'error',title: 'Not Deleted!',text: data.msg,
@@ -225,22 +226,22 @@
             })
         })
 
-        $('#form-addedit').on('submit', function(event) {
+        $('#form-addedit').on('submit', function(event) { // insert and update submit here send to conttoller using ajax
             event.preventDefault();
-            var url_destination = "<?= base_url('Admin/Jabatan/Save') ?>";
+            var url_destination = "<?= base_url('Admin/Jabatan/Save') ?>"; // url save
             $.ajax({
-                url: url_destination,type: "POST",data: $(this).serialize(),
+                url: url_destination,type: "POST",data: $(this).serialize(), // serialize the data
                 dataType: "JSON",
-                beforeSend: function() {
+                beforeSend: function() {  // function before send data
                     $('#submit-btn').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-btn').prop('disabled', true);
                 },
-                complete: function() {
+                complete: function() { // function run when data has been send and complete
                     $('#submit-btn').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-btn').prop('disabled', false);
                 },
-                success: function(data) {
+                success: function(data) { // function when send succesfully
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    if (data.error) {
-                        Object.keys(data.error).forEach((key, index) => {
+                    if (data.error) { // while error processing or data not complited yet
+                        Object.keys(data.error).forEach((key, index) => { // display error Form
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
@@ -248,14 +249,14 @@
                             element.removeClass(data.error[key].length > 0 ? ' is-valid' : ' is-invalid').addClass(data.error[key].length > 0 ? 'is-invalid' : 'is-valid');
                         });
                     }
-                    if (data.success == true) {
-                        $("#modal-newitem").modal('hide');
+                    if (data.success == true) { // show notication using sweetalert2
+                        $("#modal-newitem").modal('hide'); // hide the modal
                         Swal.fire({
                             icon: 'success',title: 'Berhasil..',text: data.msg,
                             showConfirmButton: false,timer: 2000
                         });
                         $('#jbtan_data').DataTable().ajax.reload(null, false);
-                    } else {
+                    } else { // error while proccessing the data 
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("nama_", "");
                             $("#" + remove + 'Form').addClass('is-invalid');
@@ -270,12 +271,12 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);} // error ajax
             });
             return false;
         })
 
-        $('#generate-kode').click(function() {
+        $('#generate-kode').click(function() { // generate code
             var url_destination = "<?= base_url('Admin/Jabatan/generator') ?>";
             $.ajax({
                 url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},

@@ -749,10 +749,11 @@
 <script type="text/javascript">
     $(function() {
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getNoSpdTable') ?>';
+        // Initialize select2
+        var url_destination = '<?= base_url('Admin/Lapspd/getNoSpdTable') ?>'; // display data no SPD, buddle it using select2, get data using ajax
         $("#noSpdTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari No SPD ---',
+            placeholder: '--- Cari No SPD ---', // select2 for NO SPD
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -764,10 +765,11 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        // Initialize select2
+        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';  // display data Pegawai, buddle it using select2, get data using ajax
         $("#namaPejabatTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pejabat ---',
+            placeholder: '--- Cari Nama Pejabat ---', // select2 for Nama Pejabat
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -779,10 +781,10 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>'; // display data Pegawai, buddle it using select2, get data using ajax
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pegawai ---',
+            placeholder: '--- Cari Nama Pegawai ---', // select2 for Nama Pegawai same as above funtion
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -794,10 +796,10 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Admin/Lapspd/getPegawaiTable') ?>'; // display data Pegawai, buddle it using select2, get data using ajax
         $("#pengikutTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pengikut ---',
+            placeholder: '--- Cari Nama Pengikut ---', // select2 for Nama Pegawai same as above funtion
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -809,10 +811,10 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspd/getInstansiTable') ?>';
+        var url_destination = '<?= base_url('Admin/Lapspd/getInstansiTable') ?>'; // display data Pegawai, buddle it using select2, get data using ajax
         $("#namaInstansiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Instansi ---',
+            placeholder: '--- Cari Nama Instansi ---', // select2 for Nama Instansi
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
