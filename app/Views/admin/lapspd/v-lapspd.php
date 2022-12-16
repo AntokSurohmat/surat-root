@@ -826,10 +826,10 @@
             }
         });
 
-        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); // datepicker 
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply format datepicker
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); // datepicker
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply format datepicker
 
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Lapspd/load_data') ?>";
@@ -842,7 +842,7 @@
             "serverSide": true,
             "ajax": {
                 "url": url_destination,
-                data: function (d) {
+                data: function (d) { // for filter select2
                     d.noSpd = $('#noSpdTable').val();d.pejabat = $('#namaPejabatTable').val();
                     d.pegawai = $('#namaPegawaiTable').val();d.pengikut = $('#pengikutTable').val();
                     d.instansi = $('#namaInstansiTable').val();d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();
@@ -870,6 +870,8 @@
 			],
             "columnDefs": [{ targets: 0, orderable: false,"width": "3%"},  { targets: -1, orderable: false, "class": "text-center","width": "10%"},],
         });
+
+        // if something change on select2 describe below table will reload
         $('#noSpdTable').change(function(event) {spd.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spd.ajax.reload();});
         $('#namaPejabatTable').change(function(event) {spd.ajax.reload();});
@@ -878,15 +880,15 @@
         $('#awalTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
         $('#akhirTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
 
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
+        function handleAjaxError(xhr, textStatus, error) { // handle error datatables
+            if (textStatus === 'timeout') { // show sweetalert2 if error timeout
                 Swal.fire({
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
-            } else {
-                Swal.fire({
+            } else { 
+                Swal.fire({ // show sweetalert2 if error load data
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
@@ -900,7 +902,7 @@
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
-        $('#modal-viewitem').on('hidden.bs.modal', function() {
+        $('#modal-viewitem').on('hidden.bs.modal', function() {  // function run when modal close
             $('#no_sptModalView').empty();$('#diperintahModalView').empty();
             $('#pegawaimodalView').empty();$('#pangolModelView').empty();
             $('#jabatan_instansiModalView').empty();$('#tinkatBiayaMovelView').empty();$('#jenisKendaraanModalView').empty();
@@ -930,7 +932,7 @@
             $('#tanggalberangkatslide2ModelViewfourth').empty();$('#kepalaberangkatslide2ModelViewfourth').empty();
         });
 
-        $(document).on('click', '.view', function() {
+        $(document).on('click', '.view', function() { // button to trigger modal open 
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Lapspd/view_data') ?>";
             $.ajax({

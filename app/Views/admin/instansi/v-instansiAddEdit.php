@@ -119,7 +119,7 @@
         $('#provinsiForm').on('select2:select', function(e) {$('#kabupatenForm').select2('open');});
         $('#kabupatenForm').on('select2:select', function(e) {$('#kecamatanForm').select2('open');});
         $('#kecamatanForm').on('select2:select', function(e) {$('#submit-instansi').focus();});
-        update(); 
+        update(); // running when method == uppdate
 
         function clearform() { // clear form after success insert or update the data
             $('#form-addedit')[0].reset();

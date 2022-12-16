@@ -99,15 +99,15 @@
             "columnDefs": [{"targets": 0,"orderable": false,"width": "3%"},{"targets": 3,"orderable": false,"class": "text-center",}, {"targets": -1,"orderable": false,"class": "text-center","width": "10%"}, ],
         });
 
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
+        function handleAjaxError(xhr, textStatus, error) { // handle error datatable
+            if (textStatus === 'timeout') {  // show sweetalert2 if error timeout
                 Swal.fire({
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
-                Swal.fire({
+                Swal.fire({ // show sweetalert2 if error load data
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
@@ -118,9 +118,9 @@
         $("#refresh").on('click', function() {document.getElementById("seachPgw").value = "";pgw.search("").draw();});
         /*-- /. DataTable To Load Data Wilayah --*/
 
-        $(document).on('click', '.delete', function() {
-            swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
+        $(document).on('click', '.delete', function() { // ajax proccess delete
+            swalWithBootstrapButtons.fire({ // show order confirmation delete in sweetalert2
+                title: 'Are you sure?', 
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,

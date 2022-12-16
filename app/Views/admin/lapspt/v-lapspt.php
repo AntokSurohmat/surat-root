@@ -317,11 +317,11 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(function() {
-
-        var url_destination = '<?= base_url('Admin/Lapspt/getNoSptTable') ?>';
+        // Initialize select2
+        var url_destination = '<?= base_url('Admin/Lapspt/getNoSptTable') ?>'; // display data no SPT, buddle it using select2, get data using ajax
         $("#noSptTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari No SPT ---',
+            placeholder: '--- Cari No SPT ---', // select2 for NO SPT
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -333,10 +333,10 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspt/getPegawaiTable') ?>';
+        var url_destination = '<?= base_url('Admin/Lapspt/getPegawaiTable') ?>'; // display data Pegawai, buddle it using select2, get data using ajax
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pegawai ---',
+            placeholder: '--- Cari Nama Pegawai ---', // select2 for Nama Pegawai
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -348,10 +348,10 @@
             }
         });
 
-        var url_destination = '<?= base_url('Admin/Lapspt/getInstansiTable') ?>';
+        var url_destination = '<?= base_url('Admin/Lapspt/getInstansiTable') ?>'; // display data Inatansi, buddle it using select2, get data using ajax
         $("#namaInstansiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Instansi ---',
+            placeholder: '--- Cari Nama Instansi ---', // select for Nama Instansi
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -363,10 +363,10 @@
             }
         });
 
-        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); //datepicker
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // change format datepicker
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); // datepicker
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // change format datepciker
 
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Lapspt/load_data') ?>";
@@ -379,7 +379,7 @@
             "serverSide": true,
             "ajax": {
                 "url": url_destination,
-                data: function (d) {
+                data: function (d) { // for filter select2
                     d.noSpt = $('#noSptTable').val();d.pegawai = $('#namaPegawaiTable').val();
                     d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();d.instansi = $('#namaInstansiTable').val();
                 },
@@ -387,35 +387,36 @@
             },
             "columnDefs": [{ targets: 0, orderable: false, "width": "3%"},  { targets: -1, orderable: false, "class": "text-center", "width": "10%"},],
         });
+        // if something change on select2 describe below table will reload
         $('#noSptTable').change(function(event) {spt.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spt.ajax.reload();});
         $('#awalTable').on('apply.daterangepicker', function(ev) {spt.ajax.reload();});
         $('#akhirTable').on('apply.daterangepicker', function(ev) {spt.ajax.reload();});
         $('#namaInstansiTable').change(function(event) {spt.ajax.reload();});
 
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
+        function handleAjaxError(xhr, textStatus, error) { // handle error datatables
+            if (textStatus === 'timeout') { // show sweetalert2 if error timeout
                 Swal.fire({
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             } else {
-                Swal.fire({
+                Swal.fire({ // show sweetalert2 if error load data
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $("#reset").on('click', function() {
+        $("#reset").on('click', function() { // reset button 
             $("#noSptTable").val('').trigger('change');$("#namaPegawaiTable").val('').trigger('change');
             document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";
             $("#namaInstansiTable").val('').trigger('change');spt.ajax.reload();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
-        $('#modal-viewitem').on('hidden.bs.modal', function() {
+        $('#modal-viewitem').on('hidden.bs.modal', function() { // function run when modal close
             $('#no_sptModalView').empty();$('#dasarModalView').empty();
             $('#namaPegawaiModalViewTableLooping').empty();
             $('#untukModalView').empty();
@@ -425,7 +426,7 @@
             $('#namaPegawaiModalViewTableLooping').empty();$('#tujuanModalView').empty();
         });
 
-        $(document).on('click', '.view', function() {
+        $(document).on('click', '.view', function() { // button to trigger modal open
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Lapspt/view_data') ?>";
             $.ajax({

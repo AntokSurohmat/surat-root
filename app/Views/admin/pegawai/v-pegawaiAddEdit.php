@@ -165,10 +165,12 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        // preventDefault to stay in modal when keycode 13
+
+        // (envent.code == 13) press enter
+        // preventDefault to stay in modal when keycode 13 / when we press enter default activity is submit so we remove it make it false
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
-        $('#nipForm').keydown(function(event){if(event.keyCode == 13){$('#namaForm').focus();}});
+        $('#nipForm').keydown(function(event){if(event.keyCode == 13){$('#namaForm').focus();}}); // if we press enter after this we will redirect in nama columns
         $('#namaForm').keydown(function(event){if(event.keyCode == 13){$('#lahirForm').focus();}});
         $('#lahirForm').keydown(function(event){if(event.keyCode == 13){$('#jabatanForm').select2('open');}});
 
@@ -179,10 +181,9 @@
         $('#usernameForm').keydown(function(event){if(event.keyCode == 13){$('#passwordForm').focus();}});
         $('#passwordForm').keydown(function(event) {if (event.keyCode == 13) {$('#levelForm').select2('open');}});
         $('#levelForm').on('select2:select', function(e) {$('#submit-pegawai').focus();});
+        update(); // running when method == uppdate
 
-        update();
-
-        function clearform() {
+        function clearform() { // clear form after success insert or update the data
             $('#form-addedit')[0].reset();
             $("#nipForm").empty();$("#nipForm").removeClass('is-valid');$("#nipForm").removeClass('is-invalid');
             $("#namaForm").empty();$("#namaForm").removeClass('is-valid');$("#namaForm").removeClass('is-invalid');
@@ -246,21 +247,21 @@
             }
         })
 
-        $('#form-addedit').on('submit', function(event) {
+        $('#form-addedit').on('submit', function(event) {  // insert and update submit here send to conttoller using ajax
             event.preventDefault();
-            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>";
-            } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";}
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Pegawai/Create') ?>"; // url create
+            } else {var url_destination = "<?= base_url('Admin/Pegawai/Update') ?>";} // url update
             $.ajax({url: url_destination,type: "POST",data: new FormData(this),processData:false,contentType:false,cache:false,async:false,
-                beforeSend: function() {
+                beforeSend: function() { // function before send data
                     $('#submit-pegawai').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-pegawai').prop('disabled', true);
                 },
-                complete: function() {
+                complete: function() { // function run when data has been send and complete
                     $('#submit-pegawai').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-pegawai').prop('disabled', false);
                 },
-                success: function(data) {
+                success: function(data) { // function when send succesfully
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    if (data.error) {
-                        Object.keys(data.error).forEach((key, index) => {
+                    if (data.error) { // while error processing or data not complited yet
+                        Object.keys(data.error).forEach((key, index) => { // display error Form
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control')
@@ -269,8 +270,9 @@
                         });
                     }
                     if (data.success==true) {
-                        clearform();let timerInterval
-                        swalWithBootstrapButtons.fire({
+                        clearform(); // clear form after data success inputed
+                        let timerInterval
+                        swalWithBootstrapButtons.fire({ // show notication using sweetalert2
                             icon: 'success',title: 'Berhasil Memasukkan Data',
                             html: '<b>Otomatis Ke Table Pegawai!</b><br>' +
                                 'Tekan No Jika Ingin Memasukkan Data Yang Lainnya',
@@ -285,7 +287,7 @@
                                 window.location.href = data.redirect;
                             }
                         })
-                    } else {
+                    } else { // error while proccessing the data 
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("kode_", "");
                             var remove = key.replace("tgl_", "");
@@ -301,11 +303,11 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);} // error ajax
             });
         })
 
-        function update() {
+        function update() { // display single data
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
                 var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Pegawai/single_data') ?>";
                 $.ajax({
