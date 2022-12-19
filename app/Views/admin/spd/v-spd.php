@@ -755,11 +755,11 @@
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
     $(function() {
-
+        // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getNoSpdTable') ?>';
         $("#noSpdTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari No SPD ---',
+            placeholder: '--- Cari No SPD ---', // Select2 Search NO SPD
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -770,11 +770,11 @@
                 cache: true
             }
         });
-
+        // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getPegawaiTable') ?>';
         $("#namaPejabatTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pejabat ---',
+            placeholder: '--- Cari Nama Pejabat ---', // Select2 Search Nama Pejabat
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -785,11 +785,11 @@
                 cache: true
             }
         });
-
+        // Initialize select2
         var url_destination = '<?= base_url('Admin/Spd/getPegawaiTable') ?>';
         $("#namaPegawaiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pegawai ---',
+            placeholder: '--- Cari Nama Pegawai ---', // select2 Nama Pegawai
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -804,7 +804,7 @@
         var url_destination = '<?= base_url('Admin/Spd/getPegawaiTable') ?>';
         $("#pengikutTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Pengikut ---',
+            placeholder: '--- Cari Nama Pengikut ---', // select2 Nama Pengikut
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -819,7 +819,7 @@
         var url_destination = '<?= base_url('Admin/Spd/getInstansiTable') ?>';
         $("#namaInstansiTable").select2({
             theme: 'bootstrap4',
-            placeholder: '--- Cari Nama Instansi ---',
+            placeholder: '--- Cari Nama Instansi ---', // Select2 Nama Instansi
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {
                     return {searchTerm: params.term,csrf_token_name: $('input[name=csrf_token_name]').val()};
@@ -831,10 +831,10 @@
             }
         });
 
-        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}});
-        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#awalTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,locale: { cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); // Change format datepicker
+        $('#awalTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change format
+        $('#akhirTable').daterangepicker({singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,startDate: moment().add(7, 'days'),locale: {cancelLabel: 'Clear',format: 'DD/MM/YYYY'}}); // change format
+        $('#akhirTable').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // aplly change format
 
         /*-- DataTable To Load Data Wilayah --*/
         var url_destination = "<?= base_url('Admin/Spd/load_data') ?>";
@@ -847,7 +847,7 @@
             "serverSide": true,
             "ajax": {
                 "url": url_destination,
-                data: function (d) {
+                data: function (d) { // for filter
                     d.noSpd = $('#noSpdTable').val();d.pejabat = $('#namaPejabatTable').val();
                     d.pegawai = $('#namaPegawaiTable').val();d.pengikut = $('#pengikutTable').val();
                     d.instansi = $('#namaInstansiTable').val();d.awal = $('#awalTable').val();d.akhir = $('#akhirTable').val();
@@ -860,7 +860,7 @@
 				{data: 'pegawai_diperintah'},
 				{
                     data: 'pegawai_all',
-                    render: function (data, type, row, meta) {
+                    render: function (data, type, row, meta) { // remove nama pengawai if pegawai == pegawai_all
                         var arr = row.pegawai_all
                         arr = arr.filter(item => item !== row.pegawai_diperintah)
                         return arr;
@@ -875,6 +875,7 @@
 			],
             "columnDefs": [{ targets: 0, orderable: false},  { targets: -1, orderable: false, "class": "text-center", "width": "13%"},],
         });
+        // reload table if we select data on select2
         $('#noSpdTable').change(function(event) {spd.ajax.reload();});
         $('#namaPegawaiTable').change(function(event) {spd.ajax.reload();});
         $('#namaPejabatTable').change(function(event) {spd.ajax.reload();});
@@ -883,14 +884,14 @@
         $('#awalTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
         $('#akhirTable').on('apply.daterangepicker', function(ev) {spd.ajax.reload();});
 
-        function handleAjaxError(xhr, textStatus, error) {
-            if (textStatus === 'timeout') {
+        function handleAjaxError(xhr, textStatus, error) { // handle error ajax
+            if (textStatus === 'timeout') { // show sweetalert2 if data timeout
                 Swal.fire({
                     icon: 'error',title: 'Oops...',
                     text: 'The server took too long to send the data.',showConfirmButton: true,
                     confirmButtonText: '<i class="fa fa-retweet" aria-hidden="true"></i>&ensp;Refresh',
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
-            } else {
+            } else { // show sweetalert2 if data error while display it
                 Swal.fire({
                     icon: 'error',title: 'Oops...',
                     text: 'Error while loading the table data. Please refresh',showConfirmButton: true,
@@ -898,14 +899,14 @@
                 }).then((result) => {if (result.isConfirmed) {location.reload();}});
             }
         }
-        $("#reset").on('click', function() {
+        $("#reset").on('click', function() { // button reset
             $("#noSpdTable").val('').trigger('change');$("#namaPejabatTable").val('').trigger('change');
             $("#namaPegawaiTable").val('').trigger('change');$("#pengikutTable").val('').trigger('change');$("#namaInstansiTable").val('').trigger('change');
             document.getElementById("awalTable").value = "";document.getElementById("akhirTable").value = "";spd.ajax.reload();
         });
         /*-- /. DataTable To Load Data Wilayah --*/
 
-        $('#modal-viewitem').on('hidden.bs.modal', function() {
+        $('#modal-viewitem').on('hidden.bs.modal', function() { // function run when modal on close
             $('#no_sptModalView').empty();$('#diperintahModalView').empty();
             $('#pegawaimodalView').empty();$('#pangolModelView').empty();
             $('#jabatan_instansiModalView').empty();$('#tinkatBiayaMovelView').empty();$('#jenisKendaraanModalView').empty();
@@ -935,7 +936,7 @@
             $('#tanggalberangkatslide2ModelViewfourth').empty();$('#kepalaberangkatslide2ModelViewfourth').empty();
         });
 
-        $(document).on('click', '.view', function() {
+        $(document).on('click', '.view', function() { // button trigger to open modal
             var id = $(this).data('id');
             var url_destination = "<?= base_url('Admin/Spd/view_data') ?>";
             $.ajax({
@@ -1007,7 +1008,7 @@
             })
         })
 
-        $(document).on('click', '.delete', function() {
+        $(document).on('click', '.delete', function() { // function delete
             swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",

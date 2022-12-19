@@ -128,7 +128,6 @@ class Instansi extends ResourcePresenter
                 ->orderBy('nama_provinsi')
                 ->findAll(10); // max result 10
         }
-
         $data = array();
         foreach ($provinsilist as $provinsi) {
             $data[] = array( // inside select have multiple option, every option have id or you can call value and text == text will display it, etc id = 1 text = jawa barat

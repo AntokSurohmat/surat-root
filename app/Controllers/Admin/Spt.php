@@ -20,68 +20,68 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class Spt extends ResourcePresenter
 {
-    protected $helpers = ['form', 'url', 'text', 'my_helper'];
-    public function __construct()
-    {
-        if (session()->get('level') != "Admin") {
+    protected $helpers = ['form', 'url', 'text', 'my_helper']; // Helper
+    public function __construct() { // function _construct is to call the model class or library that we will use in each function.
+        if (session()->get('level') != "Admin") { // checking if session level == admin, if not throw forbidden
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
-        $this->pegawai = new PegawaiModel();
-        $this->instansi = new instansiModel();
-        $this->provinsi = new ProvinsiModel();
-        $this->kabupaten = new KabupatenModel();
-        $this->kecamatan = new KecamatanModel();
-        $this->tujuan = new TujuanModel();
-        $this->spt = new SptModel();
-        $this->csrfToken = csrf_token();
-        $this->csrfHash = csrf_hash();
-        $this->session = \Config\Services::session();
-        $this->session->start();
-        $this->db = \Config\Database::connect();
+        // shorthand
+        $this->pegawai = new PegawaiModel();  // get data from Model Pegawai
+        $this->instansi = new instansiModel(); // get data from Model Instansi
+        $this->provinsi = new ProvinsiModel(); // get data from Model Provinsi
+        $this->kabupaten = new KabupatenModel(); // get data from Model Kabupaten
+        $this->kecamatan = new KecamatanModel(); // get data from Model Kecamatan
+        $this->tujuan = new TujuanModel(); // get data from Model Tujuan
+        $this->spt = new SptModel(); // get data from Model SPT
+        $this->csrfToken = csrf_token(); // generate csrf token
+        $this->csrfHash = csrf_hash(); // generate csrf Hash
+        $this->session = \Config\Services::session();  // use library session
+        $this->session->start(); // starting session
+        $this->db = \Config\Database::connect(); // use library database
     }
     /**
      * Present a view of resource objects
      *
      * @return mixed
      */
-    public function index()
+    public function index() // function index
     {
         $data = array(
-            'title' => 'Surat Perintah Tugas',
-            'parent' => 3,
-            'pmenu' => 3.1
+            'title' => 'Surat Perintah Tugas', // title
+            'parent' => 3, // parent for menu
+            'pmenu' => 3.1 // parent menu
         );
-        return view('admin/spt/v-spt', $data);
+        return view('admin/spt/v-spt', $data); // display page
     }
 
-    public function load_data() {
-        if (!$this->request->isAJAX()) {
+    public function load_data() { // function load data from database
+        if (!$this->request->isAJAX()) { // must be ajax
             throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
-        $builder = $this->db->table('spt')
-                  ->select('spt.id, spt.kode, spt.pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan')
+        $builder = $this->db->table('spt') // Use Library Datatables Hermawan // get data from table SPT
+                  ->select('spt.id, spt.kode, spt.pegawai_all, instansi.nama_instansi, awal, akhir, pegawai.nama, status, keterangan') // data will display in page
                   ->join('pegawai', 'pegawai.nip = spt.pejabat')
                   ->join('instansi', 'instansi.kode = spt.kode_instansi')
                   ->where('spt.deleted_at', null);
 
-        return DataTable::of($builder)
-            ->postQuery(function($builder){
+        return DataTable::of($builder) // return data to the page
+            ->postQuery(function($builder){ // fucntion will run before data display
                 $builder->orderBy('id', 'desc');
                 $builder->where('spt.deleted_at', null);
             })
-            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));})
-            ->format('pegawai_all', function($value){
-                $namas = array();
-                foreach(json_decode($value) as $valu ) {
+            ->format('awal', function($value){return date_indo(date('Y-m-d', strtotime($value)));}) // change the format field awal
+            ->format('akhir', function($value){return date_indo(date('Y-m-d', strtotime($value)));}) // change the format field akhir
+            ->format('pegawai_all', function($value){ //change the format data field all pegawai
+                $namas = array(); // data will display in array format
+                foreach(json_decode($value) as $valu ) { // decode data
                     $okay = $this->pegawai->where('nip', $valu)->get();
                     $result = $okay->getResult();
                     $namas[] = $result[0]->nama;
                 }
                 return $namas;
             })
-            ->filter(function ($builder, $request) {
+            ->filter(function ($builder, $request) { // for the filter data(select2) 
                 if ($request->noSpt)
                     $builder->where('spt.kode', $request->noSpt);
                 if ($request->pegawai)
@@ -93,7 +93,7 @@ class Spt extends ResourcePresenter
                 if ($request->instansi)
                     $builder->where('instansi.nama_instansi', $request->instansi);
             })
-            ->add(null, function($row){
+            ->add(null, function($row){ // one of fitur DataTables Hermwan to add another field
                 if($row->status == 'Disetujui'){
                     $button = '<a type="button" class="btn btn-xs btn-info mr-1 mb-1 view" href="javascript:void(0)" name="view" data-id="'. $row->id .'" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Detail Data ]"><i class="fas fa-eye text-white"></i></a>';
                     $button .= '<a class="btn btn-xs btn-success mr-1 mb-1 print" href="'. base_url('admin/Spt/print/'.$row->id).'" target="_blank" name="print" data-id="' . $row->id . '" data-rel="tooltip" data-placement="top" data-container=".content" title="[ Print Data ]"><i class="fas fa-print text-white"></i></a>';
@@ -105,72 +105,69 @@ class Spt extends ResourcePresenter
                 }
                 return $button;
             }, 'last')
-            ->hide('id')
+            ->hide('id') // hide id because we replace with "addNumbering"
             ->addNumbering()
-            ->toJson();
+            ->toJson(); // return it with format JSON
     }
-    public function getNoSptTable() {
-        if (!$this->request->isAjax()) {
+    public function getNoSptTable() { // get data NO SPT from Model SPT for select2
+        if (!$this->request->isAjax()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if (($this->request->getPost('searchTerm') == NULL)) {
-            $spdlist = $this->spt->select('id,kode') // Fetch record
+        if (($this->request->getPost('searchTerm') == NULL)) { // if null 
+            $spdlist = $this->spt->select('id,kode') // Fetch record from Model SPT
                 ->where('deleted_at', null)
                 ->orderBy('kode')
-                ->findAll(10);
+                ->findAll(10);  // max result 10
 
-        } else {
-            $spdlist = $this->spd->select('id,kode') // Fetch record
+        } else { // if we search specifix data using query like
+            $spdlist = $this->spd->select('id,kode') // Fetch record from Model SPT
                 ->where('deleted_at', null)
-                ->like('kode', $this->request->getPost('searchTerm'))
+                ->like('kode', $this->request->getPost('searchTerm')) // query like
                 ->orderBy('kode')
-                ->findAll(10);
+                ->findAll(10); // max result 10
         }
-
         $data = array();
         foreach ($spdlist as $pegawai) {
-            $data[] = array(
-                "id" => $pegawai['kode'],
-                "text" => $pegawai['kode'],
+            $data[] = array( // inside select have multiple option, every option have id or you can call value and text == text will display it, etc id = 1 text = kode pegawai
+                "id" => $pegawai['kode'], // option have id == kode pegawai
+                "text" => $pegawai['kode'], // option have text == kode pegawai 
             );
         }
 
-        $response['data'] = $data;
-        $response[$this->csrfToken] = $this->csrfHash;
-        return $this->response->setJSON($response);
+        $response['data'] = $data; // return it to $data
+        $response[$this->csrfToken] = $this->csrfHash; // send new Csrf Token to the page 
+        return $this->response->setJSON($response); // return it to JSON
     }
-    public function getPegawaiTable() {
-        if (!$this->request->isAjax()) {
+    public function getPegawaiTable() { // get data NO SPT from Model SPT for select2
+        if (!$this->request->isAjax()) { // must ajax
            throw new \CodeIgniter\Router\Exceptions\RedirectException(base_url('/forbidden'));
         }
 
         $response = array();
-        if (($this->request->getPost('searchTerm') == NULL)) {
-            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-
+        if (($this->request->getPost('searchTerm') == NULL)) { // if null 
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record from Model Pegawai
                 ->orderBy('nama')
-                ->findAll(10);
-        } else {
-            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record
-
+                ->findAll(10);  // max result 10
+        } else { // if we search specifix data using query like
+            $pegawailist = $this->pegawai->select('nip,nama') // Fetch record from Model Pegawai
                 ->like('nama', $this->request->getPost('searchTerm'))
                 ->orderBy('nama')
-                ->findAll(10);
+                ->findAll(10);  // max result 10
         }
 
         $data = array();
         foreach ($pegawailist as $pegawai) {
-            $data[] = array(
-                "id" => $pegawai['nip'],
-                "text" => $pegawai['nama'],
+            $data[] = array( // inside select have multiple option, every option have id or you can call value and text == text will display it, etc id = 1 text = nama pegawai
+                "id" => $pegawai['nip'], // option have id == nip pegawai
+                "text" => $pegawai['nama'], // option have text == nama_provinsi 
             );
         }
 
         $response['data'] = $data;
-        $response[$this->csrfToken] = $this->csrfHash;
-        return $this->response->setJSON($response);
+        $response[$this->csrfToken] = $this->csrfHash; // generate new crsftoken
+        return $this->response->setJSON($response); // return it to instansi index page 
     }
     public function getInstansiTable() {
         if (!$this->request->isAjax()) {

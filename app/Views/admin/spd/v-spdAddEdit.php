@@ -408,7 +408,8 @@
 
     $(document).ready(function() {
 
-        // preventDefault to stay in modal when keycode 13
+        // (envent.code == 13) press enter
+        // preventDefault to stay in modal when keycode 13 / when we press enter default activity is submit so we remove it make it false
         $('form input').keydown(function(event) {if (event.keyCode == 13) {event.preventDefault();return false;}});
 
         $('#pegawaiForm').select2();
@@ -452,7 +453,7 @@
 
         $('#kepalaberangkatFormfourth').keydown(function(event) {if (event.keyCode == 13) {$('#submit-spd').focus();}});
 
-        function clearform() {
+        function clearform() { // clear form after success input or update data so we can reuse it
             $('#form-addedit')[0].reset();
             $("#kodeForm").empty();$("#kodeForm").removeClass('is-valid');$("#kodeForm").removeClass('is-invalid');
             $("#diperintahForm").empty();$("#diperintahForm").removeClass('is-valid');$("#diperintahForm").removeClass('is-invalid');
@@ -501,27 +502,27 @@
 
         }
 
-        $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'});
+        $("#tingkatBiayaForm").select2({theme: 'bootstrap4'});$("#kendaraanForm").select2({theme: 'bootstrap4'}); // change theme select2
         //Form first
-        $('#tanggaltibaFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggaltibaFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#tanggalberangkatFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false,startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggalberangkatFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggaltibaFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
+        $('#tanggalberangkatFormfirst').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false,startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggalberangkatFormfirst').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
         //Form second
-        $('#tanggaltibaFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggaltibaFormsecond').on('apply.daterangepicker', function(ev, picker) { $(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#tanggalberangkatFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggalberangkatFormsecond').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker
+        $('#tanggaltibaFormsecond').on('apply.daterangepicker', function(ev, picker) { $(this).val(picker.startDate.format('DD/MM/YYYY'));}); // change format datepicker for match data send from ajax
+        $('#tanggalberangkatFormsecond').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggalberangkatFormsecond').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
         //Form third
-        $('#tanggaltibaFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggaltibaFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#tanggalberangkatFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggalberangkatFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggaltibaFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
+        $('#tanggalberangkatFormthird').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggalberangkatFormthird').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
         //Form fourth
-        $('#tanggaltibaFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggaltibaFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
-        $('#tanggalberangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}});
-        $('#tanggalberangkatFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));});
+        $('#tanggaltibaFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggaltibaFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
+        $('#tanggalberangkatFormfourth').daterangepicker({singleDatePicker: true, showDropdowns: true, autoUpdateInput: false, startDate: moment().add(1, 'days'), locale: {cancelLabel: 'Clear', format: 'DD/MM/YYYY'}}); // change format datepicker for match data send from ajax
+        $('#tanggalberangkatFormfourth').on('apply.daterangepicker', function(ev, picker) {$(this).val(picker.startDate.format('DD/MM/YYYY'));}); // apply change date
 
         
         // Initialize select2
@@ -530,7 +531,7 @@
         $("#pegawaiForm").select2({
             minimumResultsForSearch: Infinity,
             theme: 'bootstrap4',
-            placeholder: '--- Cari Data Pegawai ---',
+            placeholder: '--- Cari Data Pegawai ---', // display option Data Pegawai
             ajax: {url: url_destination,type: "POST",dataType: "JSON",delay: 250,
                 data: function(params) {return {searchTerm: params.term, id:id, csrf_token_name: $('input[name=csrf_token_name]').val()}},
                 processResults: function(response) {
@@ -542,24 +543,24 @@
             }
         });
 
-        realupdate();
+        realupdate(); // function will run on update
 
-        $('#form-addedit').on('submit', function(event) {
+        $('#form-addedit').on('submit', function(event) {  // insert and update submit here send to conttoller using ajax
             event.preventDefault();
-            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spd/Create') ?>";
-            } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";}
+            if ($('#methodPage').val() === 'New') {var url_destination = "<?= base_url('Admin/Spd/Create') ?>"; // url create
+            } else {var url_destination = "<?= base_url('Admin/Spd/Update') ?>";} // url update
             $.ajax({url: url_destination,type: "POST",dataType: "JSON",cache: false,data: $(this).serialize(),
-                beforeSend: function() {
+                beforeSend: function() { // function before send data
                     $('#submit-spd').html("<i class='fa fa-spinner fa-spin'></i>&ensp;Proses");$('#submit-spd').prop('disabled', true);
                 },
-                complete: function() {
+                complete: function() { // function run when data has been send and complete
                     $('#submit-spd').html("<i class='fa fa-save'></i>&ensp;Submit");$('#submit-spd').prop('disabled', false);
                 },
-                success: function(data) {
+                success: function(data) { // function when send succesfully
                     $('input[name=csrf_token_name]').val(data.csrf_token_name)
-                    if (data.error) {
+                    if (data.error) { // while error processing or data not complited yet
                         toastr.options = {"positionClass": "toast-top-right","closeButton": true,"showDuration": "500",};toastr["error"]("Silahkan Cek Kembali Data Yang diInputkan", "Informasi");
-                        Object.keys(data.error).forEach((key, index) => {
+                        Object.keys(data.error).forEach((key, index) => { // display error Form
                             $("#" + key + 'Form').addClass('is-invalid');$("." + key + "ErrorForm").html(data.error[key]);
                             var element = $('#' + key + 'Form');
                             element.closest('.form-control');element.closest('.select2-hidden-accessible') //access select2 class
@@ -567,9 +568,9 @@
                         });
                     }
                     if (data.success == true) {
-                        clearform();
+                        clearform();  // clear form after data success inputed
                         let timerInterval
-                        swalWithBootstrapButtons.fire({
+                        swalWithBootstrapButtons.fire({ // show notication using sweetalert2
                             icon: 'success',title: 'Berhasil Memasukkan Data',
                             html: 'Otomatis Kembali Ke Table SPD!',
                             showConfirmButton: false,
@@ -577,7 +578,7 @@
                         }).then((result) => {
                                 window.location.href = data.redirect;
                         })
-                    } else {
+                    } else { // error while proccessing the data 
                         Object.keys(data.msg).forEach((key, index) => {
                             var remove = key.replace("pejabat", "diperintah");
                             var remove = key.replace("pegawai_all", "pegawai");
@@ -596,11 +597,11 @@
                         }
                     }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
+                error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);} // error ajax
             });
             return false;
         })
-        if ($('#methodPage').val() == "New" && $('#hiddenIDPage').val() != "") {
+        if ($('#methodPage').val() == "New" && $('#hiddenIDPage').val() != "") { // function will run if #methodPage && #hiddenIDPage == false
             var url_destination = "<?= base_url('Admin/Spd/nomer') ?>";
             $.ajax({
                 url: url_destination,type: "POST",data: {csrf_token_name: $('input[name=csrf_token_name]').val()},
@@ -612,7 +613,7 @@
                 }
             })
         }
-        function newupdate(token) {
+        function newupdate(token) { // this function will run first time we insert the data 
             
             var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Spd/new_update') ?>";
             $.ajax({
@@ -639,7 +640,7 @@
             });
         }
 
-        function realupdate() {
+        function realupdate() { // this function will run when update the data
             if ($('#methodPage').val() === "Update" && $('#hiddenIDPage').val() != "") {
                 var id = $('#hiddenIDPage').val();var url_destination = "<?= base_url('Admin/Spd/real_update') ?>";
                 $.ajax({
@@ -673,10 +674,8 @@
                             var obj = data.json[urutan];
                             for (var prop in obj) {
                                 $('#'+ prop +'Form' + u_names[urutan]).val(obj[prop]);
-
                             }
                         }
-
                         $('#submit-spd').html('<i class="fas fa-save"></i>&ensp;Update');
                     },
                     error: function(xhr, ajaxOptions, thrownError) {alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);}
